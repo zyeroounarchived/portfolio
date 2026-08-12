@@ -1,514 +1,250 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<title>Nabhya Bawankar — Business Analytics</title>
-<meta name="description" content="Nabhya Bawankar — Business Analytics student at ITM Skills University. Turning raw data into structured, actionable decisions.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<style>
-  :root{
-    --ink:#161616;
-    --ink-soft:#1F1F1F;
-    --paper:#F4F3F1;
-    --paper-dim:#E9E8E5;
-    --line:rgba(244,243,241,0.13);
-    --line-strong:rgba(244,243,241,0.26);
-    --cobalt:#C9C7C1;
-    --cobalt-soft:#C9C7C1;
-    --gold:#9C9A94;
-    --text:#EDECE9;
-    --text-dim:#9C9B98;
-    --text-dimmer:#696865;
-    --pos:#9C9A94;
-    --radius:2px;
-    --maxw:1180px;
-  }
-  [data-theme="light"]{
-    --ink:#F4F3F1;
-    --ink-soft:#FFFFFF;
-    --paper:#161616;
-    --line:rgba(22,22,22,0.1);
-    --line-strong:rgba(22,22,22,0.22);
-    --cobalt:#4A4946;
-    --cobalt-soft:#4A4946;
-    --gold:#6B6A66;
-    --text:#181817;
-    --text-dim:#5A5955;
-    --text-dimmer:#8A8985;
-  }
-  *{box-sizing:border-box; margin:0; padding:0;}
-  html{scroll-behavior:smooth;}
-  body{
-    background:var(--ink);
-    color:var(--text);
-    font-family:'Inter',system-ui,sans-serif;
-    -webkit-font-smoothing:antialiased;
-    overflow-x:hidden;
-    transition:background .4s ease, color .4s ease;
-  }
-  ::selection{background:var(--cobalt); color:#fff;}
-  a{color:inherit; text-decoration:none;}
-  .mono{font-family:'JetBrains Mono',monospace;}
-  .wrap{max-width:var(--maxw); margin:0 auto; padding:0 32px;}
-  @media(max-width:640px){.wrap{padding:0 20px;}}
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Nabhya Bawankar — Gothic Portfolio</title>
+    <meta name="description" content="Gothic-romantic portfolio — dramatic editorial layout, parallax, and refined micro-interactions." />
 
-  /* ---------- NAV ---------- */
-  nav{
-    position:fixed; top:0; left:0; right:0; z-index:100;
-    background:color-mix(in srgb, var(--ink) 88%, transparent);
-    backdrop-filter:blur(10px);
-    border-bottom:1px solid var(--line);
-  }
-  .nav-inner{
-    max-width:var(--maxw); margin:0 auto; padding:18px 32px;
-    display:flex; align-items:center; justify-content:space-between;
-  }
-  .brand{font-family:'Fraunces',serif; font-size:17px; font-weight:600; letter-spacing:.01em;}
-  .brand .dot{color:var(--gold);}
-  .nav-links{display:flex; gap:36px; align-items:center;}
-  .nav-links a{
-    font-size:12.5px; text-transform:uppercase; letter-spacing:.12em;
-    color:var(--text-dim); transition:color .2s ease; font-weight:500;
-  }
-  .nav-links a:hover{color:var(--text);}
-  .theme-btn{
-    width:34px; height:34px; border:1px solid var(--line-strong); border-radius:50%;
-    display:flex; align-items:center; justify-content:center; cursor:pointer;
-    background:transparent; color:var(--text); transition:border-color .2s ease, transform .3s ease;
-  }
-  .theme-btn:hover{border-color:var(--cobalt-soft); transform:rotate(20deg);}
-  @media(max-width:760px){.nav-links a{display:none;} .nav-links{gap:14px;}}
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Inter:wght@400;600;700&family=Great+Vibes&display=swap" rel="stylesheet">
 
-  /* ---------- ROW MARKER UTIL ---------- */
-  .row-index{
-    font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--gold);
-    letter-spacing:.08em; display:flex; align-items:center; gap:10px; margin-bottom:18px;
-  }
-  .row-index::before{content:''; width:22px; height:1px; background:var(--gold); display:inline-block;}
+    <!-- Tailwind CDN (play) with custom theme -->
+    <script>
+      tailwind_config = {
+        theme: {
+          extend: {
+            colors: {
+              charcoal: '#0d0d0d',
+              parchment: '#d4cfc4',
+              ash: '#8c8c8c',
+              silver: '#dcdad6'
+            },
+            fontFamily: {
+              serif: ['Playfair Display', 'serif'],
+              sans: ['Inter', 'sans-serif'],
+              cursive: ['Great Vibes', 'cursive']
+            }
+          }
+        }
+      }
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
 
-  /* ---------- HERO ---------- */
-  header.hero{
-    padding:168px 0 100px; position:relative; border-bottom:1px solid var(--line);
-  }
-  .hero-grid{
-    display:grid; grid-template-columns:1fr auto; gap:40px; align-items:start;
-  }
-  .hero h1{
-    font-family:'Fraunces',serif; font-weight:500; font-size:clamp(42px,6.4vw,88px);
-    line-height:1.02; letter-spacing:-0.01em; max-width:920px;
-  }
-  .hero h1 em{font-style:italic; color:var(--cobalt-soft); font-weight:500;}
-  .hero .sub{
-    margin-top:28px; font-size:18px; color:var(--text-dim); max-width:560px; line-height:1.6; font-weight:400;
-  }
-  .meta-ledger{
-    margin-top:56px; display:grid; grid-template-columns:repeat(4,1fr); border-top:1px solid var(--line-strong);
-  }
-  .meta-cell{padding:18px 20px 0; border-right:1px solid var(--line);}
-  .meta-cell:last-child{border-right:none;}
-  .meta-cell .k{font-family:'JetBrains Mono',monospace; font-size:10.5px; color:var(--text-dimmer); letter-spacing:.1em; text-transform:uppercase; margin-bottom:8px;}
-  .meta-cell .v{font-size:14.5px; font-weight:500;}
-  @media(max-width:760px){.meta-ledger{grid-template-columns:1fr 1fr;} .meta-cell{padding-top:16px; padding-bottom:16px; border-bottom:1px solid var(--line);}}
+    <!-- GSAP for buttery animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 
-  .hero-actions{display:flex; gap:14px; margin-top:40px; flex-wrap:wrap;}
-  .btn{
-    padding:13px 24px; border-radius:var(--radius); font-size:13.5px; font-weight:600;
-    display:inline-flex; align-items:center; gap:8px; transition:all .2s ease; cursor:pointer; border:1px solid transparent;
-  }
-  .btn-primary{background:var(--text); color:var(--ink);}
-  .btn-primary:hover{opacity:.85; transform:translateY(-1px);}
-  .btn-ghost{border-color:var(--line-strong); color:var(--text);}
-  .btn-ghost:hover{border-color:var(--cobalt-soft); color:var(--cobalt-soft);}
+    <style>
+      :root{color-scheme: dark;}
+      html,body{height:100%;}
+      body{
+        font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;
+        background: radial-gradient(1200px 600px at 10% 10%, rgba(255,255,255,0.02), transparent),
+                    linear-gradient(180deg, #070707 0%, #0d0d0d 100%);
+        color: #e9e6e2;
+        -webkit-font-smoothing:antialiased;
+        -moz-osx-font-smoothing:grayscale;
+      }
 
-  /* ---------- SECTION LABELS ---------- */
-  section{padding:100px 0; border-bottom:1px solid var(--line);}
-  .sec-head{display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:56px; gap:24px; flex-wrap:wrap;}
-  .sec-head h2{font-family:'Fraunces',serif; font-weight:500; font-size:clamp(28px,3.4vw,42px); letter-spacing:-.01em;}
-  .sec-head p{color:var(--text-dim); font-size:15px; max-width:380px; line-height:1.6;}
+      /* Subtle paper grain using repeating-linear-gradient */
+      .paper-grain::before{
+        content:''; position:absolute; inset:0; pointer-events:none; mix-blend-mode:soft-light;
+        background-image: repeating-linear-gradient(0deg, rgba(212,207,196,0.02) 0 1px, transparent 1px 6px);
+        opacity:0.9; z-index:0;
+      }
 
-  /* ---------- ABOUT ---------- */
-  .about-grid{display:grid; grid-template-columns:1.1fr .9fr; gap:64px;}
-  .about-copy p{font-size:16.5px; line-height:1.8; color:var(--text-dim); margin-bottom:20px;}
-  .about-copy strong{color:var(--text); font-weight:600;}
-  .lang-list{list-style:none; margin-top:8px;}
-  .lang-list li{display:flex; justify-content:space-between; padding:14px 0; border-bottom:1px solid var(--line); font-size:14px;}
-  .lang-list li span:last-child{color:var(--text-dimmer); font-family:'JetBrains Mono',monospace; font-size:11.5px; letter-spacing:.06em;}
-  .side-block h3{font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--gold); margin-bottom:18px;}
-  @media(max-width:820px){.about-grid{grid-template-columns:1fr; gap:40px;}}
+      /* Decorative distressed border */
+      .distressed{
+        box-shadow: inset 0 0 0 1px rgba(220,215,200,0.06), 0 8px 40px rgba(0,0,0,0.6);
+        border-radius:12px;
+        background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.25));
+        border: 1px solid rgba(220,215,200,0.03);
+      }
 
-  /* ---------- LEDGER (experience) ---------- */
-  .ledger{border-top:1px solid var(--line-strong);}
-  .ledger-row{
-    display:grid; grid-template-columns:110px 1.4fr 2.4fr auto; gap:24px; align-items:start;
-    padding:28px 0; border-bottom:1px solid var(--line);
-    transition:background .2s ease;
-  }
-  .ledger-row:hover{background:color-mix(in srgb, var(--cobalt) 5%, transparent);}
-  .ledger-row .date{font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--text-dimmer); padding-top:2px;}
-  .ledger-row .org{font-weight:600; font-size:15.5px;}
-  .ledger-row .org span{display:block; font-weight:400; font-size:12.5px; color:var(--text-dim); margin-top:3px;}
-  .ledger-row .desc{color:var(--text-dim); font-size:14.5px; line-height:1.65;}
-  .ledger-row .tag{
-    font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:.08em; text-transform:uppercase;
-    color:var(--cobalt-soft); border:1px solid var(--line-strong); padding:5px 10px; border-radius:20px; white-space:nowrap; height:fit-content;
-  }
-  @media(max-width:820px){.ledger-row{grid-template-columns:1fr; gap:8px;} .ledger-row .tag{justify-self:start;}}
+      /* Rose SVG sizing */
+      .rose{width:360px; max-width:40vw; opacity:0.95; filter:drop-shadow(0 10px 30px rgba(0,0,0,0.7));}
 
-  /* ---------- PROJECTS ---------- */
-  .proj-list{display:flex; flex-direction:column; gap:1px; background:var(--line-strong); border:1px solid var(--line-strong);}
-  .proj-card{
-    background:var(--ink); padding:40px; display:grid; grid-template-columns:64px 1fr auto; gap:32px; align-items:start;
-    transition:background .25s ease; cursor:default;
-  }
-  .proj-card:hover{background:var(--ink-soft);}
-  .proj-num{font-family:'JetBrains Mono',monospace; font-size:13px; color:var(--gold); padding-top:4px;}
-  .proj-body h3{font-family:'Fraunces',serif; font-size:24px; font-weight:500; margin-bottom:10px;}
-  .proj-body .role{font-size:12px; color:var(--text-dimmer); font-family:'JetBrains Mono',monospace; letter-spacing:.06em; margin-bottom:16px; text-transform:uppercase;}
-  .proj-body p{color:var(--text-dim); font-size:15px; line-height:1.75; max-width:620px; margin-bottom:18px;}
-  .proj-stack{display:flex; gap:8px; flex-wrap:wrap;}
-  .chip{font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--text-dim); border:1px solid var(--line-strong); padding:4px 10px; border-radius:20px;}
-  .proj-links{display:flex; flex-direction:column; gap:10px; align-items:flex-end;}
-  .proj-links a{font-size:13px; font-weight:600; color:var(--cobalt-soft); display:flex; align-items:center; gap:6px; white-space:nowrap;}
-  .proj-links a:hover{text-decoration:underline;}
-  @media(max-width:760px){.proj-card{grid-template-columns:1fr; gap:16px;} .proj-links{align-items:flex-start;}}
+      /* Manuscript chapter style */
+      .chapter { font-family: serif; color: parchment; letter-spacing:0.02em }
+      .chapter .title { font-family: serif; font-size:clamp(36px,6.5vw,72px); line-height:0.92; }
+      .chapter .lead { font-size:1.05rem; color:#cfc6b9; max-width:70ch }
 
-  /* honesty note */
-  .honest-note{
-    margin-top:28px; padding:16px 20px; border-left:2px solid var(--gold); background:color-mix(in srgb, var(--gold) 6%, transparent);
-    font-size:13.5px; color:var(--text-dim); line-height:1.6; max-width:720px;
-  }
+      /* Letter/contact paper */
+      .letter-paper{ background: linear-gradient(180deg, rgba(212,207,196,0.02), rgba(212,207,196,0.01)); border-left:4px solid rgba(212,207,196,0.06); padding:2.2rem }
 
-  /* ---------- SKILLS ---------- */
-  .skills-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--line-strong); border:1px solid var(--line-strong);}
-  .skill-cell{background:var(--ink); padding:26px 22px; transition:background .2s ease;}
-  .skill-cell:hover{background:var(--ink-soft);}
-  .skill-cell .cat{font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:.1em; text-transform:uppercase; color:var(--gold); margin-bottom:10px;}
-  .skill-cell .name{font-size:15px; font-weight:600;}
-  .skill-cell .lvl{margin-top:10px; height:3px; background:var(--line-strong); border-radius:2px; overflow:hidden;}
-  .skill-cell .lvl i{display:block; height:100%; background:var(--cobalt);}
-  @media(max-width:820px){.skills-grid{grid-template-columns:repeat(2,1fr);}}
+      /* Hover reveals for project cards */
+      .proj-card{ transform:translateZ(0); backface-visibility:hidden }
+      .proj-overlay{ background: linear-gradient(180deg, rgba(13,13,13,0.6), rgba(13,13,13,0.85)); }
 
-  /* ---------- ASK ---------- */
-  .ask-wrap{border:1px solid var(--line-strong); border-radius:6px; overflow:hidden;}
-  .ask-head{padding:18px 22px; border-bottom:1px solid var(--line); display:flex; align-items:center; gap:10px; background:var(--ink-soft);}
-  .ask-head .pulse{width:7px; height:7px; border-radius:50%; background:var(--pos);}
-  .ask-head span{font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--text-dim); letter-spacing:.04em;}
-  .ask-body{padding:24px 22px; min-height:180px; display:flex; flex-direction:column; gap:14px;}
-  .msg{max-width:80%; padding:12px 16px; border-radius:8px; font-size:14px; line-height:1.6;}
-  .msg.bot{background:var(--ink-soft); border:1px solid var(--line); align-self:flex-start; border-bottom-left-radius:2px;}
-  .msg.user{background:var(--text); color:var(--ink); align-self:flex-end; border-bottom-right-radius:2px;}
-  .ask-suggest{display:flex; gap:8px; flex-wrap:wrap; padding:0 22px 20px;}
-  .suggest-chip{
-    font-size:12.5px; padding:8px 14px; border:1px solid var(--line-strong); border-radius:20px; cursor:pointer;
-    color:var(--text-dim); transition:all .2s ease; background:transparent; font-family:'Inter',sans-serif;
-  }
-  .suggest-chip:hover{border-color:var(--cobalt-soft); color:var(--cobalt-soft);}
-  .ask-input-row{display:flex; border-top:1px solid var(--line);}
-  .ask-input-row input{
-    flex:1; background:transparent; border:none; padding:16px 22px; color:var(--text); font-size:14px; font-family:'Inter',sans-serif;
-  }
-  .ask-input-row input:focus{outline:none;}
-  .ask-input-row button{
-    background:var(--text); color:var(--ink); border:none; padding:0 24px; font-weight:600; font-size:13px; cursor:pointer;
-  }
-  .ask-input-row button:hover{opacity:.85;}
+      /* Cursive accent */
+      .sig{ font-family:cursive; font-size:1.5rem; color:parchment }
 
-  /* ---------- CONTACT ---------- */
-  .contact-wrap{display:grid; grid-template-columns:1.1fr .9fr; gap:64px; align-items:center;}
-  .contact-wrap h2{font-family:'Fraunces',serif; font-size:clamp(30px,4vw,48px); font-weight:500; line-height:1.1; letter-spacing:-.01em;}
-  .contact-wrap .sub{color:var(--text-dim); margin-top:18px; font-size:16px; line-height:1.7; max-width:480px;}
-  .contact-list{list-style:none;}
-  .contact-list li{border-bottom:1px solid var(--line); padding:20px 0;}
-  .contact-list a{display:flex; justify-content:space-between; align-items:center; font-size:16px; font-weight:500;}
-  .contact-list .k{font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--text-dimmer); text-transform:uppercase; letter-spacing:.1em; display:block; margin-bottom:6px;}
-  .contact-list a:hover .arrow{transform:translateX(4px);}
-  .arrow{transition:transform .2s ease; color:var(--cobalt-soft);}
-  @media(max-width:820px){.contact-wrap{grid-template-columns:1fr; gap:36px;}}
-
-  footer{padding:40px 0; text-align:center;}
-  footer p{font-size:12px; color:var(--text-dimmer); font-family:'JetBrains Mono',monospace; letter-spacing:.04em;}
-
-  .reveal{opacity:0; transform:translateY(18px); transition:opacity .7s cubic-bezier(.2,.7,.2,1), transform .7s cubic-bezier(.2,.7,.2,1);}
-  .reveal.in{opacity:1; transform:translateY(0);}
-
-  @media (prefers-reduced-motion: reduce){
-    *{transition:none !important; animation:none !important; scroll-behavior:auto !important;}
-  }
-</style>
-</head>
-<body data-theme="dark">
-
-<nav>
-  <div class="nav-inner">
-    <div class="brand">NABHYA<span class="dot">.</span>B</div>
-    <div class="nav-links">
-      <a href="#about">About</a>
-      <a href="#experience">Experience</a>
-      <a href="#projects">Projects</a>
-      <a href="#skills">Skills</a>
-      <a href="#ask">Ask</a>
-      <a href="#contact">Contact</a>
-    </div>
-    <button class="theme-btn" id="themeToggle" aria-label="Toggle theme">
-      <svg id="iconMoon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-    </button>
-  </div>
-</nav>
-
-<header class="hero">
-  <div class="wrap">
-    <div class="row-index">ROW 001 — PROFILE</div>
-    <div class="hero-grid">
-      <div>
-        <h1>Hi, I'm Nabhya.<br>I work with <em>data.</em></h1>
-        <p class="sub">I'm a Business Analytics student in Mumbai. Still early in my career, but genuinely into figuring out how messy data turns into something useful.</p>
-        <div class="hero-actions">
-          <a href="#projects" class="btn btn-primary">See what I've built</a>
-          <a href="#contact" class="btn btn-ghost">Get in touch</a>
+      @media (max-width:768px){ .rose{display:none} }
+    </style>
+  </head>
+  <body class="paper-grain">
+    <header class="relative overflow-hidden">
+      <nav class="container mx-auto px-6 py-6 flex items-center justify-between z-30 relative">
+        <div class="flex items-center gap-3">
+          <div class="text-parchment font-serif text-xl tracking-wide">NABHYA <span class="text-silver">•</span></div>
         </div>
-      </div>
-    </div>
-    <div class="meta-ledger">
-      <div class="meta-cell"><div class="k">Based in</div><div class="v">Mumbai, Maharashtra</div></div>
-      <div class="meta-cell"><div class="k">Cohort</div><div class="v">BBA · 2025 – 2028</div></div>
-      <div class="meta-cell"><div class="k">Focus</div><div class="v">Business Analytics</div></div>
-      <div class="meta-cell"><div class="k">Toolkit</div><div class="v">Python · SQL · R</div></div>
-    </div>
-  </div>
-</header>
-
-<section id="about">
-  <div class="wrap">
-    <div class="row-index">ROW 002 — ABOUT</div>
-    <div class="sec-head">
-      <h2>A bit about me.</h2>
-    </div>
-    <div class="about-grid">
-      <div class="about-copy reveal">
-        <p>I'm a first-year <strong>Business Analytics</strong> student at ITM Skills University, Navi Mumbai. Most of what's on this page is coursework, one internship, and a couple of things I built on my own — not years of professional experience. I'd rather be upfront about that than pretend otherwise.</p>
-        <p>What I actually enjoy is the unglamorous part of data work: cleaning it up, organizing it properly, and explaining it in a way people can actually use. I got a taste of that during an NGO internship, through a club role auditing our school's BI work, and by building a presentation on writing clearer documents.</p>
-        <p>Right now I'm learning Python, SQL, and R, and going through Oracle's AI Foundations course. The goal is to end up working in BI or data analytics, and eventually AI-assisted tools — but that's a few years out. For now, I'm just trying to build real, solid basics.</p>
-      </div>
-      <div class="side-block reveal">
-        <h3>Languages</h3>
-        <ul class="lang-list">
-          <li><span>English</span><span>Fluent</span></li>
-          <li><span>Japanese</span><span>Studying</span></li>
-          <li><span>German</span><span>Studying</span></li>
+        <ul class="hidden md:flex gap-8 text-sm text-ash/80">
+          <li><a href="#about" class="hover:text-parchment">About</a></li>
+          <li><a href="#projects" class="hover:text-parchment">Projects</a></li>
+          <li><a href="#contact" class="hover:text-parchment">Contact</a></li>
         </ul>
-        <h3 style="margin-top:36px;">Outside the spreadsheet</h3>
-        <ul class="lang-list">
-          <li><span>Photography &amp; cinematography</span><span></span></li>
-          <li><span>Creative writing</span><span></span></li>
-          <li><span>Basketball</span><span></span></li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
+      </nav>
 
-<section id="experience">
-  <div class="wrap">
-    <div class="row-index">ROW 003 — EXPERIENCE &amp; ROLES</div>
-    <div class="sec-head">
-      <h2>What I've done so far.</h2>
-      <p>It's a short list. Everything on it is real.</p>
-    </div>
-    <div class="ledger reveal">
-      <div class="ledger-row">
-        <div class="date mono">FEB 2026</div>
-        <div class="org">NASEOH, Chembur<span>Student Intern</span></div>
-        <div class="desc">Collected and organized data on 350 applicants so the team could better understand the people with disabilities they work with. Mostly Excel, plus a lot of talking to people and helping run an event.</div>
-        <div class="tag">Data Collection</div>
-      </div>
-      <div class="ledger-row">
-        <div class="date mono">2025 —</div>
-        <div class="org">ITM Business School<span>Head of Audit, Business Intelligence &amp; Current Affairs Lab</span></div>
-        <div class="desc">I check the club's analysis work for accuracy before it goes out — basically making sure the numbers and the structure actually hold up.</div>
-        <div class="tag">Leadership</div>
-      </div>
-      <div class="ledger-row">
-        <div class="date mono">2025 —</div>
-        <div class="org">ITM Business School<span>Archivist, The Phantom Opera</span></div>
-        <div class="desc">Keep the records straight for the school's theatre society. Same organizing instinct, just outside a spreadsheet.</div>
-        <div class="tag">Organization</div>
-      </div>
-      <div class="ledger-row">
-        <div class="date mono">PRE-2025</div>
-        <div class="org">Academic Competitions<span>Abacus &amp; NSO Olympiad</span></div>
-        <div class="desc">Runner-up and 2nd runner-up at the National Abacus Competition, and 1st place at the NSO Science Olympiad, back in school.</div>
-        <div class="tag">Competition</div>
-      </div>
-    </div>
-  </div>
-</section>
+      <div class="container mx-auto px-6 py-20 lg:py-32 relative flex items-center">
+        <!-- Rose anchor (parallax) -->
+        <div class="absolute right-8 top-12 lg:top-24 transform-gpu rose-wrapper" style="z-index:5">
+          <!-- Inline dark rose SVG -->
+          <svg class="rose" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="g1" x1="0" x2="1" y1="0" y2="1">
+                <stop offset="0" stop-color="#0b0b0b" />
+                <stop offset="1" stop-color="#261b1b" />
+              </linearGradient>
+            </defs>
+            <g fill="url(#g1)">
+              <path d="M300 40c40 0 80 18 110 48 32 32 52 74 38 118-14 44-64 88-106 108-38 18-80 22-122 12-42-10-74-36-98-72-26-38-22-86 2-124C184 84 238 40 300 40z" />
+              <path opacity="0.9" d="M330 160c26 12 56 18 86 20 12 18 18 38 6 56-12 20-40 30-64 36-28 6-56 6-84 2-22-4-48-12-62-30-12-16-6-36 6-52 20-26 52-36 112-28z"/>
+            </g>
+          </svg>
+        </div>
 
-<section id="projects">
-  <div class="wrap">
-    <div class="row-index">ROW 004 — PROJECTS</div>
-    <div class="sec-head">
-      <h2>A couple of things I've made.</h2>
-      <p>Just two, so far. Both real, both linked.</p>
-    </div>
-    <div class="proj-list reveal">
-      <div class="proj-card">
-        <div class="proj-num mono">01</div>
-        <div class="proj-body">
-          <h3>Sorting out NGO applicant data</h3>
-          <div class="role">NASEOH · Data Collection &amp; Organization</div>
-          <p>During my internship, I organized and cleaned up application data for 350 people so NASEOH could better understand the community it works with. Not flashy work, but it's the part every actual analysis depends on.</p>
-          <div class="proj-stack">
-            <span class="chip">Excel</span>
-            <span class="chip">Data Cleaning</span>
-            <span class="chip">Fieldwork</span>
+        <div class="w-full grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
+          <div class="relative z-20">
+            <div class="chapter">
+              <div class="title text-parchment/95">Nabhya Bawankar</div>
+              <div class="mt-3 lead text-ash/80">A gothic‑romantic take on a modern portfolio — editorial, moody, and deliberately paced. I turn messy data into clear narratives and design with a sense of storied craft.</div>
+              <div class="mt-8 flex gap-4">
+                <a href="#projects" class="px-6 py-3 bg-parchment text-charcoal rounded-md font-medium shadow-sm">View work</a>
+                <a href="#contact" class="px-6 py-3 border border-parchment/20 rounded-md text-parchment">Say hello</a>
+              </div>
+            </div>
+            <div class="mt-12 flex items-center gap-6">
+              <div class="text-sm text-ash/70">
+                <div class="uppercase font-semibold tracking-wider">Based in</div>
+                <div class="mt-1 text-parchment">Mumbai, India</div>
+              </div>
+              <div class="text-sm text-ash/70">
+                <div class="uppercase font-semibold tracking-wider">Toolkit</div>
+                <div class="mt-1 text-parchment">Python · SQL · R · GSAP</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="relative z-10 flex justify-start lg:justify-end items-start">
+            <div class="w-full max-w-md distressed p-8">
+              <div class="text-sm text-ash/80 uppercase">Chapter I</div>
+              <h3 class="mt-2 font-serif text-2xl text-parchment">About — a short manuscript</h3>
+              <p class="mt-3 text-ash/80">First‑year Business Analytics student at ITM Skills University. I favour structure over flash — cleaning, validating, and telling the story behind the numbers.</p>
+              <div class="mt-4">
+                <div class="sig">— Nabhya</div>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="proj-links">
-          <span style="font-size:12px; color:var(--text-dimmer); font-family:'JetBrains Mono',monospace;">Feb 2026</span>
-        </div>
       </div>
-      <div class="proj-card">
-        <div class="proj-num mono">02</div>
-        <div class="proj-body">
-          <h3>Art of Effective Communication</h3>
-          <div class="role">Presentation &amp; Deployed Micro-site</div>
-          <p>A presentation I put together on writing clearer, better structured documents — things like writing for your audience, keeping a logical order, and a simple format to follow (Context → Objective → Analysis → Recommendation → Next Steps). I liked it enough to turn it into an actual deployed site instead of leaving it as slides.</p>
-          <div class="proj-stack">
-            <span class="chip">HTML</span>
-            <span class="chip">Technical Writing</span>
-            <span class="chip">Vercel</span>
+    </header>
+
+    <main class="container mx-auto px-6 pb-24">
+      <!-- Projects with hover reveal and parallax layers -->
+      <section id="projects" class="mt-8">
+        <div class="flex items-baseline justify-between">
+          <h2 class="font-serif text-3xl text-parchment">Selected Projects</h2>
+          <p class="text-ash/70">A tightly curated set of real work.</p>
+        </div>
+
+        <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-8">
+          <!-- Project card 1 -->
+          <article class="proj-card relative rounded-xl overflow-hidden group" aria-labelledby="p1">
+            <div class="absolute inset-0 proj-overlay opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            <div class="relative p-8 z-10 flex flex-col gap-4">
+              <div class="text-sm text-ash/60 uppercase">01 · Data Work</div>
+              <h3 id="p1" class="font-serif text-2xl text-parchment">NGO Applicant Data — NASEOH</h3>
+              <p class="text-ash/70">Organised, cleaned, and documented 350 applicant records to support field operations and reporting.</p>
+              <div class="mt-4 flex gap-3">
+                <span class="px-3 py-1 border border-ash/10 text-ash/80 rounded-full text-xs">Excel</span>
+                <span class="px-3 py-1 border border-ash/10 text-ash/80 rounded-full text-xs">Data Cleaning</span>
+              </div>
+            </div>
+            <div class="absolute right-4 bottom-4 opacity-40 group-hover:opacity-70 transition-all">
+              <svg width="120" height="120" viewBox="0 0 200 200"><circle cx="100" cy="100" r="90" stroke="#2b2b2b" stroke-width="2" fill="none"/></svg>
+            </div>
+          </article>
+
+          <!-- Project card 2 -->
+          <article class="proj-card relative rounded-xl overflow-hidden group" aria-labelledby="p2">
+            <div class="absolute inset-0 proj-overlay opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            <div class="relative p-8 z-10 flex flex-col gap-4">
+              <div class="text-sm text-ash/60 uppercase">02 · UX & Writing</div>
+              <h3 id="p2" class="font-serif text-2xl text-parchment">Art of Effective Communication</h3>
+              <p class="text-ash/70">A deployed micro-site and presentation on structured, audience-focused writing.</p>
+              <div class="mt-4 flex gap-3">
+                <a href="https://artofeffectivecomms.vercel.app" target="_blank" rel="noopener" class="px-3 py-1 bg-parchment text-charcoal rounded-full text-xs font-medium">Live</a>
+                <a href="https://github.com/zyeroounarchived/artofeffectivecomm" target="_blank" rel="noopener" class="px-3 py-1 border border-ash/10 text-ash/80 rounded-full text-xs">Source</a>
+              </div>
+            </div>
+            <div class="absolute left-4 top-4 opacity-30 group-hover:opacity-60 transition-all">
+              <svg width="80" height="80" viewBox="0 0 200 200"><rect x="10" y="10" width="180" height="180" stroke="#2b2b2b" stroke-width="2" fill="none"/></svg>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- Contact letter -->
+      <section id="contact" class="mt-16 grid md:grid-cols-2 gap-8 items-start">
+        <div class="distressed p-8 letter-paper">
+          <h3 class="font-serif text-2xl text-parchment">Write me a letter</h3>
+          <p class="mt-4 text-ash/80">Open to internships and analyst roles. Prefer real, hands-on datasets and thoughtful mentorship.</p>
+          <div class="mt-6">
+            <a href="mailto:2025.nabhyab@isu.ac.in" class="inline-block px-4 py-2 bg-parchment text-charcoal rounded-md">Email</a>
           </div>
         </div>
-        <div class="proj-links">
-          <a href="https://artofeffectivecomms.vercel.app" target="_blank" rel="noopener">Live site ↗</a>
-          <a href="https://github.com/zyeroounarchived/artofeffectivecomm" target="_blank" rel="noopener">GitHub ↗</a>
+
+        <div class="p-6 rounded-lg bg-gradient-to-b from-transparent to-black/30 border border-ash/6">
+          <div class="text-ash/70 uppercase text-sm">Social</div>
+          <ul class="mt-4 text-parchment">
+            <li class="mt-3"><a href="https://www.linkedin.com/in/nabhya52kar/" target="_blank" rel="noopener">/in/nabhya52kar</a></li>
+            <li class="mt-3"><a href="https://github.com/zyeroounarchived" target="_blank" rel="noopener">@zyeroounarchived</a></li>
+            <li class="mt-3">Mumbai, Maharashtra</li>
+          </ul>
         </div>
-      </div>
-    </div>
-    <div class="honest-note">
-      More coming as I finish coursework projects in Python, SQL, and R. Same rule for all of them: real data, real findings, real links — nothing staged.
-    </div>
-  </div>
-</section>
+      </section>
+    </main>
 
-<section id="skills">
-  <div class="wrap">
-    <div class="row-index">ROW 005 — TOOLKIT</div>
-    <div class="sec-head">
-      <h2>Tools I'm learning.</h2>
-      <p>These bars are roughly how deep my coursework has gone, not years of job experience — I don't have that yet.</p>
-    </div>
-    <div class="skills-grid reveal">
-      <div class="skill-cell"><div class="cat">Language</div><div class="name">Python</div><div class="lvl"><i style="width:52%"></i></div></div>
-      <div class="skill-cell"><div class="cat">Database</div><div class="name">MySQL</div><div class="lvl"><i style="width:48%"></i></div></div>
-      <div class="skill-cell"><div class="cat">Language</div><div class="name">R</div><div class="lvl"><i style="width:40%"></i></div></div>
-      <div class="skill-cell"><div class="cat">Applied</div><div class="name">MS Office</div><div class="lvl"><i style="width:80%"></i></div></div>
-      <div class="skill-cell"><div class="cat">Coursework</div><div class="name">Oracle AI Foundations</div><div class="lvl"><i style="width:45%"></i></div></div>
-      <div class="skill-cell"><div class="cat">Craft</div><div class="name">Data Structuring</div><div class="lvl"><i style="width:65%"></i></div></div>
-      <div class="skill-cell"><div class="cat">Craft</div><div class="name">Technical Writing</div><div class="lvl"><i style="width:70%"></i></div></div>
-      <div class="skill-cell"><div class="cat">Craft</div><div class="name">Presentation Design</div><div class="lvl"><i style="width:72%"></i></div></div>
-    </div>
-  </div>
-</section>
+    <footer class="py-12 text-center text-ash/70">
+      <div class="container mx-auto px-6">© Nabhya Bawankar — 2026</div>
+    </footer>
 
-<section id="ask">
-  <div class="wrap">
-    <div class="row-index">ROW 006 — ASK ME</div>
-    <div class="sec-head">
-      <h2>Ask me something.</h2>
-      <p>Just a simple FAQ, not a real AI chatbot pretending I've got 10 years of experience. Ask about coursework, projects, or where I'm headed.</p>
-    </div>
-    <div class="ask-wrap reveal">
-      <div class="ask-head"><div class="pulse"></div><span>quick FAQ · not a live AI</span></div>
-      <div class="ask-body" id="askBody">
-        <div class="msg bot">Hey — this is just a scripted FAQ, not a live AI. Ask something below, or tap a suggestion.</div>
-      </div>
-      <div class="ask-suggest">
-        <button class="suggest-chip" data-q="degree">What are you studying?</button>
-        <button class="suggest-chip" data-q="projects">What projects have you done?</button>
-        <button class="suggest-chip" data-q="tools">What tools do you know?</button>
-        <button class="suggest-chip" data-q="goals">What are your career goals?</button>
-      </div>
-      <div class="ask-input-row">
-        <input id="askInput" type="text" placeholder="Type a question…" />
-        <button id="askSend">Ask</button>
-      </div>
-    </div>
-  </div>
-</section>
+    <!-- GSAP animations -->
+    <script>
+      gsap.registerPlugin(ScrollTrigger);
 
-<section id="contact">
-  <div class="wrap contact-wrap">
-    <div>
-      <h2>Want to talk?<br>Reach out.</h2>
-      <p class="sub">Open to internships, analyst roles, or just a conversation about data and where I'm headed.</p>
-    </div>
-    <ul class="contact-list reveal">
-      <li><a href="mailto:2025.nabhyab@isu.ac.in"><span><span class="k">Email</span>2025.nabhyab@isu.ac.in</span><span class="arrow">↗</span></a></li>
-      <li><a href="https://www.linkedin.com/in/nabhya52kar/" target="_blank" rel="noopener"><span><span class="k">LinkedIn</span>/in/nabhya52kar</span><span class="arrow">↗</span></a></li>
-      <li><a href="https://github.com/zyeroounarchived" target="_blank" rel="noopener"><span><span class="k">GitHub</span>@zyeroounarchived</span><span class="arrow">↗</span></a></li>
-      <li><a href="#about"><span><span class="k">Location</span>Mumbai, Maharashtra, India</span><span class="arrow">↗</span></a></li>
-    </ul>
-  </div>
-</section>
+      // Hero entrance
+      gsap.from('.chapter .title', {y:30, opacity:0, duration:1.1, ease:'power3.out'});
+      gsap.from('.chapter .lead', {y:20, opacity:0, duration:1.1, delay:0.12, ease:'power3.out'});
 
-<footer>
-  <p>MADE BY NABHYA BAWANKAR, 2026</p>
-</footer>
+      // Rose parallax
+      gsap.to('.rose', {
+        yPercent: -18,
+        ease: 'none',
+        scrollTrigger: { trigger: document.body, start: 'top top', end: 'bottom bottom', scrub: 0.7 }
+      });
 
-<script>
-  // Theme toggle
-  const themeBtn = document.getElementById('themeToggle');
-  const body = document.body;
-  themeBtn.addEventListener('click', () => {
-    const cur = body.getAttribute('data-theme');
-    body.setAttribute('data-theme', cur === 'dark' ? 'light' : 'dark');
-  });
+      // Project cards subtle lift on scroll
+      gsap.utils.toArray('.proj-card').forEach((card, i) => {
+        gsap.from(card, { y: 30, opacity: 0, duration: 0.9, delay: i*0.12, ease: 'power3.out', scrollTrigger: { trigger: card, start: 'top 85%' } });
+      });
 
-  // Scroll reveal
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); } });
-  }, {threshold:0.12});
-  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-  // Ask widget — simple keyword-matched FAQ, explicitly not a real AI model
-  const answers = {
-    degree: "I'm a first-year BBA student, focusing on Business Analytics, at ITM Skills University in Navi Mumbai. Graduating in 2028.",
-    projects: "Two right now: I organized applicant data for an NGO called NASEOH during an internship, and I built and deployed a presentation called 'Art of Effective Communication' about writing clearer documents. More on the way once I finish a few coursework projects.",
-    tools: "Python, MySQL, and R from my coursework, plus MS Office and Oracle's AI Foundations program. I'm still early with all of this, but putting in the time.",
-    goals: "I want to end up in Business Intelligence or Data Analytics, and eventually work with AI-assisted tools. For now that means learning the fundamentals properly and only showing work that's actually real.",
-    default: "I don't have a set answer for that one. Try asking about my degree, projects, tools, or goals — or just email me directly."
-  };
-  function keyFor(text){
-    const t = text.toLowerCase();
-    if(t.includes('stud') || t.includes('degree') || t.includes('school') || t.includes('major')) return 'degree';
-    if(t.includes('project') || t.includes('work') || t.includes('built') || t.includes('done')) return 'projects';
-    if(t.includes('tool') || t.includes('skill') || t.includes('python') || t.includes('sql') || t.includes('language')) return 'tools';
-    if(t.includes('goal') || t.includes('career') || t.includes('future') || t.includes('plan')) return 'goals';
-    return 'default';
-  }
-  const askBody = document.getElementById('askBody');
-  const askInput = document.getElementById('askInput');
-  function pushMsg(text, cls){
-    const d = document.createElement('div');
-    d.className = 'msg ' + cls;
-    d.textContent = text;
-    askBody.appendChild(d);
-    askBody.scrollTop = askBody.scrollHeight;
-  }
-  function ask(text){
-    if(!text.trim()) return;
-    pushMsg(text, 'user');
-    setTimeout(() => pushMsg(answers[keyFor(text)], 'bot'), 350);
-    askInput.value = '';
-  }
-  document.getElementById('askSend').addEventListener('click', () => ask(askInput.value));
-  askInput.addEventListener('keydown', (e) => { if(e.key === 'Enter') ask(askInput.value); });
-  document.querySelectorAll('.suggest-chip').forEach(btn => {
-    btn.addEventListener('click', () => ask(btn.textContent));
-  });
-</script>
-</body>
+      // Hover micro-interactions
+      document.querySelectorAll('.proj-card').forEach(card => {
+        card.addEventListener('mouseenter', () => gsap.to(card, { scale: 1.02, duration: 0.36, ease: 'power2.out' }));
+        card.addEventListener('mouseleave', () => gsap.to(card, { scale: 1, duration: 0.36, ease: 'power2.out' }));
+      });
+    </script>
+  </body>
 </html>
