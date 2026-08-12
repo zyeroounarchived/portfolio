@@ -133,6 +133,37 @@
   }
   .btn-ghost:hover{ color:var(--ink); border-color:var(--gold); }
 
+  .sort-btn{
+    font-family:'Cinzel', serif;
+    font-size:0.85rem;
+    letter-spacing:0.05em;
+    text-transform:uppercase;
+    color:var(--dim);
+    border:1px solid var(--line);
+    background:transparent;
+    padding:0.65rem 0.95rem;
+    border-radius:999px;
+    cursor:pointer;
+    transition:color .25s ease, border-color .25s ease, background-color .25s ease, transform .2s ease;
+  }
+  .sort-btn:hover{
+    color:var(--ink);
+    border-color:var(--gold);
+    transform:translateY(-1px);
+  }
+  .sort-btn.active{
+    color:var(--void);
+    background:var(--gold);
+    border-color:var(--gold);
+  }
+  .sort-meta{
+    font-family:'Allura', cursive;
+    font-size:1.2rem;
+    color:var(--gold);
+    line-height:1;
+    opacity:0.9;
+  }
+
   .ui-card{
     position:relative; border:1px solid var(--line); padding:4rem;
     background:var(--card-bg); border-radius: 4px;
@@ -434,9 +465,10 @@
     <div class="ui-card anim-section">
       <div class="flex justify-between items-end mb-16">
         <p class="label text-[var(--ink)]">Analytical Instruments</p>
-        <div class="flex gap-4">
-          <span class="sort-btn active hover-trigger" data-sort="prof">Proficiency</span>
-          <span class="sort-btn hover-trigger" data-sort="freq">Frequency</span>
+        <div class="flex items-center gap-4">
+          <span class="sort-meta" aria-hidden="true">sort by</span>
+          <button type="button" class="sort-btn active hover-trigger" data-sort="prof">Proficiency</button>
+          <button type="button" class="sort-btn hover-trigger" data-sort="freq">Frequency</button>
         </div>
       </div>
       
