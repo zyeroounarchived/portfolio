@@ -44,4 +44,6 @@ Zero build steps. Zero dependencies.
 
     Clone the repository.
 
-    Execute index.html in a local browser.
+    Open [nabhya52kar.vercel.app](nabhya52kar.vercel.app)
+
+    ---------------------------------------------------------------------------------------------------
