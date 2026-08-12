@@ -8,7 +8,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Newsreader:ital,wght@0,300;0,400;1,400&family=Space+Mono:wght@400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Allura&family=Cinzel:wght@500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Newsreader:ital,wght@0,300;0,400;1,400&family=Space+Mono:wght@400&display=swap" rel="stylesheet">
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/3.4.1/tailwind.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
@@ -91,6 +91,17 @@
     outline: 2px solid var(--gold); outline-offset: 4px; border-radius: 4px;
   }
   .h-sub{ font-family:'Cormorant Garamond', serif; font-weight:400; font-style:italic; }
+
+  .font-gothic-accent{
+    font-family:'Cinzel', serif;
+    letter-spacing:0.01em;
+    font-weight:500;
+  }
+  .font-calligraphy-accent{
+    font-family:'Allura', cursive;
+    letter-spacing:0.01em;
+    font-weight:400;
+  }
 
   .katakana-swap { display: inline-block; position: relative; }
   .katakana-swap::after {
@@ -350,7 +361,7 @@
 <nav id="topnav" class="fixed top-0 inset-x-0 z-40 transition-colors duration-500">
   <div class="max-w-[1280px] mx-auto absolute-nav-wrapper">
     <div class="nav-logo-locked">
-      <a href="#top" class="label tracking-[0.25em] text-[var(--ink)] transition-colors katakana-swap hover-trigger" data-jp="N. バワンカル" aria-label="Nabhya Bawankar home">N. BAWANKAR</a>
+      <a href="#top" class="label tracking-[0.25em] text-[var(--ink)] transition-colors katakana-swap hover-trigger font-gothic-accent" data-jp="N. バワンカル" aria-label="Nabhya Bawankar home">N. BAWANKAR</a>
     </div>
     <div class="nav-links-locked">
       <a href="#work" class="label hover:text-[var(--ink)] transition-colors hover-trigger">Exhibits</a>
@@ -737,7 +748,7 @@
 <footer class="border-t border-[var(--line)] py-20 relative z-20">
   <div class="container-w flex flex-col md:flex-row items-center justify-between gap-8 text-center md:text-left">
     <div>
-      <p class="h-sub text-3xl text-[var(--ink)] mb-2">Nabhya Bawankar</p>
+      <p class="h-sub font-calligraphy-accent text-4xl text-[var(--ink)] mb-2">Nabhya Bawankar</p>
       <p class="label !text-[0.65rem] text-[var(--dim)]">Built with Vanilla JS, GSAP, Tailwind.</p>
     </div>
     <div class="flex flex-col items-end gap-3">
