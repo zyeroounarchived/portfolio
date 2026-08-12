@@ -8,7 +8,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=Newsreader:ital,wght@0,300;0,400;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=Newsreader:ital,wght@0,300;0,400;1,400&family=Space+Mono:wght@400&display=swap" rel="stylesheet">
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/3.4.1/tailwind.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
@@ -31,10 +31,23 @@
     font-family:'Newsreader', serif; font-weight:300;
     -webkit-font-smoothing:antialiased;
     overflow-x:hidden;
-    transition:background-color .4s ease, color .4s ease;
+    transition:background-color .6s cubic-bezier(0.4, 0, 0.2, 1), color .6s ease;
   }
   ::selection{ background:var(--ink); color:var(--void); }
   a{ color:inherit; text-decoration:none; }
+
+  @keyframes glitch-anim {
+    0% { clip-path: inset(10% 0 80% 0); transform: translate(-2px, 2px); }
+    20% { clip-path: inset(80% 0 5% 0); transform: translate(2px, -2px); }
+    40% { clip-path: inset(40% 0 40% 0); transform: translate(-2px, -2px); }
+    60% { clip-path: inset(5% 0 80% 0); transform: translate(2px, 2px); }
+    80% { clip-path: inset(60% 0 10% 0); transform: translate(-2px, 2px); }
+    100% { clip-path: inset(0 0 0 0); transform: translate(0); }
+  }
+  .glitching {
+    animation: glitch-anim 0.3s cubic-bezier(.2,.8,.2,1) forwards;
+    filter: invert(1) hue-rotate(180deg);
+  }
 
   #grain{
     position:fixed; inset:-60px; z-index:998; pointer-events:none; opacity:0.035; mix-blend-mode:overlay;
@@ -134,7 +147,7 @@
 
   .skills-list { display: flex; flex-direction: column; gap: 2.5rem; }
   .skill-row { transition: transform 0.5s ease, opacity 0.5s ease; }
-  .skill-track{ height:1px; background:var(--line); position:relative; margin-top: 0.8rem; }
+  .skill-track{ height:1px; background:var(--line); position:relative; margin-top: 0.2rem; }
   .skill-fill{ position:absolute; inset:0; width:0%; background:var(--gold); }
   .sort-btn { font-size: 0.65rem; color: var(--dim); cursor: pointer; transition: color 0.3s; }
   .sort-btn.active { color: var(--gold); border-bottom: 1px solid var(--gold); }
@@ -170,11 +183,6 @@
   #ink-cursor.hovering { font-size: 28px; color: var(--ink); text-shadow: 0 0 10px rgba(209,183,148,0.6); }
   @media (hover:none){ #ink-cursor{display:none;} }
   
-  #trail-canvas {
-    position: fixed; inset: 0; pointer-events: none; z-index: 9998; opacity: 0.4;
-  }
-  @media (hover:none){ #trail-canvas {display:none;} }
-
   #minimap {
     position: fixed; right: 1rem; top: 50%; transform: translateY(-50%);
     width: 4px; height: 30vh; background: var(--line); border-radius: 4px; z-index: 90;
@@ -188,7 +196,7 @@
 
   .marquee-container {
     width: 100%; overflow: hidden; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
-    padding: 0.4rem 0; background: color-mix(in srgb, var(--void) 95%, var(--gold));
+    padding: 0.6rem 0; background: color-mix(in srgb, var(--void) 95%, var(--gold));
     display: flex; white-space: nowrap; align-items: center;
   }
   .marquee-track {
@@ -239,9 +247,7 @@
     z-index: 10;
   }
 
-  /* -------------------------------------------------------------
-     PLAYABLE 4-KEY RHYTHM GAME STYLES (Konami Code Easter Egg)
-  ------------------------------------------------------------- */
+  /* Rhythm Game Styles */
   .rhythm-stage {
     width: 100%; max-width: 480px; background: #0c0a10; border: 2px solid var(--gold);
     border-radius: 8px; padding: 1.5rem; text-align: center; font-family: 'Space Mono', monospace;
@@ -290,7 +296,6 @@
 </head>
 
 <body>
-<canvas id="trail-canvas"></canvas>
 <div id="grain"></div>
 <div id="vignette"></div>
 <div id="ink-cursor">✠</div>
@@ -324,7 +329,7 @@
   </div>
 </nav>
 
-<header class="relative min-h-screen flex items-center justify-center pt-32 pb-24">
+<header class="relative min-h-[85vh] flex items-center justify-center pt-32 pb-12">
   <div class="container-w w-full relative z-10 text-center max-w-5xl">
     
     <div class="inline-flex items-center gap-3 border border-[var(--line)] rounded-full px-6 py-2.5 mb-12 bg-color-mix(in srgb, var(--void) 50%, transparent) anim-fade">
@@ -347,7 +352,7 @@
   </div>
 </header>
 
-<div class="marquee-container">
+<div class="marquee-container mt-12 md:mt-24 mb-16">
   <div class="marquee-track" id="marquee">
     <span>Data Hygiene</span> <span>·</span> <span>Optimization Models</span> <span>·</span> <span>Game Theory</span> <span>·</span> <span>SQL Architecture</span> <span>·</span> <span>Statistical Inference</span> <span>·</span> <span>Data Hygiene</span> <span>·</span> <span>Optimization Models</span> <span>·</span> <span>Game Theory</span> <span>·</span> <span>SQL Architecture</span> <span>·</span> <span>Statistical Inference</span> <span>·</span>
   </div>
@@ -389,26 +394,30 @@
       
       <div class="skills-list" id="skills-container">
         <div class="skill-row" data-prof="75" data-freq="90">
-          <div class="flex w-full justify-between items-end font-serif text-[1.25rem] text-[var(--ink)] tracking-wide mb-2">
-            <span>Python Environment</span><span class="label text-[var(--gold)]">Active</span>
+          <div class="flex w-full justify-between items-center font-serif text-[1.25rem] text-[var(--ink)] tracking-wide mb-3">
+            <span class="pr-4">Python Environment</span>
+            <span class="label text-[var(--gold)] shrink-0">Active</span>
           </div>
           <div class="skill-track"><div class="skill-fill"></div></div>
         </div>
         <div class="skill-row" data-prof="65" data-freq="80">
-          <div class="flex w-full justify-between items-end font-serif text-[1.25rem] text-[var(--ink)] tracking-wide mb-2">
-            <span>SQL Queries & Architecture</span><span class="label text-[var(--gold)]">Operational</span>
+          <div class="flex w-full justify-between items-center font-serif text-[1.25rem] text-[var(--ink)] tracking-wide mb-3">
+            <span class="pr-4">SQL Queries & Architecture</span>
+            <span class="label text-[var(--gold)] shrink-0">Operational</span>
           </div>
           <div class="skill-track"><div class="skill-fill"></div></div>
         </div>
         <div class="skill-row" data-prof="50" data-freq="40">
-          <div class="flex w-full justify-between items-end font-serif text-[1.25rem] text-[var(--ink)] tracking-wide mb-2">
-            <span>R Modeling & Stats</span><span class="label text-[var(--gold)]">Developing</span>
+          <div class="flex w-full justify-between items-center font-serif text-[1.25rem] text-[var(--ink)] tracking-wide mb-3">
+            <span class="pr-4">R Modeling & Stats</span>
+            <span class="label text-[var(--gold)] shrink-0">Developing</span>
           </div>
           <div class="skill-track"><div class="skill-fill"></div></div>
         </div>
         <div class="skill-row" data-prof="88" data-freq="95">
-          <div class="flex w-full justify-between items-end font-serif text-[1.25rem] text-[var(--ink)] tracking-wide mb-2">
-            <span>Spreadsheet Architecture</span><span class="label text-[var(--gold)]">Advanced</span>
+          <div class="flex w-full justify-between items-center font-serif text-[1.25rem] text-[var(--ink)] tracking-wide mb-3">
+            <span class="pr-4">Spreadsheet Architecture</span>
+            <span class="label text-[var(--gold)] shrink-0">Advanced</span>
           </div>
           <div class="skill-track"><div class="skill-fill"></div></div>
         </div>
@@ -429,6 +438,7 @@
   </div>
 
   <div class="grid md:grid-cols-2 gap-16">
+    <!-- Project 01: NGO -->
     <article class="ui-card anim-section flex flex-col proj-card hover-trigger" data-img="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop">
       <div class="flex items-center justify-between mb-8">
         <span class="proj-num">01</span><span class="label !text-[0.7rem] opacity-70">Data Cleaning</span>
@@ -456,6 +466,7 @@
       </div>
     </article>
 
+    <!-- Project 02: Quick Commerce -->
     <article class="ui-card anim-section flex flex-col proj-card hover-trigger" data-img="https://images.unsplash.com/photo-1601597111158-2fceff292cdc?q=80&w=800&auto=format&fit=crop">
       <div class="flex items-center justify-between mb-8">
         <span class="proj-num">02</span><span class="label !text-[0.7rem] opacity-70">Game Theory</span>
@@ -470,6 +481,9 @@
     </article>
   </div>
 </section>
+
+<!-- Hover Preview Container -->
+<div id="hover-preview"><img src="" alt="Preview"></div>
 
 <div class="container-w"><div class="rule"></div></div>
 
@@ -528,16 +542,11 @@
       </ul>
     </div>
   </div>
-  
-  <div class="mt-24 anim-section">
-    <p class="label mb-6 text-center">Repository Activity</p>
-    <div class="gh-graph justify-center" id="gh-grid"></div>
-  </div>
 </section>
 
 </main>
 
-<footer class="border-t border-[var(--line)] py-20 relative">
+<footer class="border-t border-[var(--line)] py-20 relative z-20">
   <div class="container-w flex flex-col md:flex-row items-center justify-between gap-8 text-center md:text-left">
     <div>
       <p class="h-sub text-3xl text-[var(--ink)] mb-2">Nabhya Bawankar</p>
@@ -545,13 +554,16 @@
     </div>
     <div class="flex flex-col items-end gap-3">
       <p class="label !text-[0.65rem] text-[var(--dim)]" id="footer-time">© 2026 · Maintained with precision</p>
-      <div class="flex items-center gap-4">
-        <span class="label !text-[0.6rem] text-[var(--dim)]">Lighting</span>
-        <input type="range" id="light-slider" min="0" max="1" step="0.1" value="0.7" class="w-24 hover-trigger cursor-pointer accent-[var(--gold)] bg-[var(--line)] h-1 rounded-full appearance-none">
-      </div>
     </div>
   </div>
 </footer>
+
+<div id="page-skeleton" class="fixed inset-0 z-[1000] bg-[var(--void)] flex items-center justify-center">
+  <div class="flex flex-col items-center gap-4">
+    <div class="label text-[var(--gold)] text-2xl animate-pulse">データ</div>
+    <div class="label text-[var(--dim)] opacity-60">Initializing Environment...</div>
+  </div>
+</div>
 
 <!-- Modals -->
 <div class="modal-overlay" id="modal-tips">
@@ -565,7 +577,7 @@
       <li><span class="label !text-[0.65rem] inline-block w-24">Time Shift</span> Click the clock to toggle Japanese standard time.</li>
       <li><span class="label !text-[0.65rem] inline-block w-24">Data Decay</span> Go completely idle for 60 seconds and watch the data corrupt.</li>
       <li><span class="label !text-[0.65rem] inline-block w-24">Terminal</span> Press <kbd class="font-mono text-[var(--gold)]">Cmd + K</kbd> to view raw JSON data.</li>
-      <li><span class="label !text-[0.65rem] inline-block w-24">Nodes</span> Press <kbd class="font-mono text-[var(--gold)]">T</kbd> to toggle TouchDesigner background nodes.</li>
+      <li><span class="label !text-[0.65rem] inline-block w-24">Nodes</span> Press <kbd class="font-mono text-[var(--gold)]">T</kbd> to simulate TouchDesigner background nodes.</li>
       <li><span class="label !text-[0.65rem] inline-block w-24">Coffee Break</span> Press <kbd class="font-mono text-[var(--gold)]">C</kbd> to brew a coffee theme.</li>
       <li><span class="label !text-[0.65rem] inline-block w-24">Matrix O/R</span> Press <kbd class="font-mono text-[var(--gold)]">M</kbd> to drop the veil.</li>
       <li><span class="label !text-[0.65rem] inline-block w-24">God Mode</span> Press <kbd class="font-mono text-[var(--gold)]">G</kbd> for system performance metrics.</li>
@@ -646,7 +658,7 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
   </div>
 </div>
 
-<!-- PLAYABLE 4-KEY RHYTHM GAME MODAL (Konami Code Easter Egg) -->
+<!-- PLAYABLE 4-KEY RHYTHM GAME MODAL -->
 <div class="modal-overlay" id="modal-rhythm">
   <div class="rhythm-stage">
     <div class="rhythm-header">
@@ -661,8 +673,8 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
     </div>
     <div class="rhythm-judgement" id="r-judgement">PRESS START</div>
     <div class="mt-4 flex justify-between items-center">
-      <button class="btn-ghost !text-[0.65rem]" id="btn-start-rhythm">START GAME</button>
-      <button class="close-modal btn-ghost !text-[0.65rem]">EXIT</button>
+      <button class="btn-ghost !text-[0.65rem] hover-trigger" id="btn-start-rhythm">START GAME</button>
+      <button class="close-modal btn-ghost !text-[0.65rem] hover-trigger">EXIT</button>
     </div>
   </div>
 </div>
@@ -728,38 +740,6 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
   let hue = 38; 
   if(hour < 8 || hour > 18) hue = 45; 
   document.documentElement.style.setProperty('--gold', `hsl(${hue}, 40%, 65%)`);
-
-  const trailCanvas = document.getElementById('trail-canvas');
-  const tCtx = trailCanvas.getContext('2d');
-  let trails = [];
-  
-  function resizeTrailCanvas() {
-    trailCanvas.width = window.innerWidth;
-    trailCanvas.height = window.innerHeight;
-  }
-  resizeTrailCanvas();
-  window.addEventListener('resize', resizeTrailCanvas);
-
-  function drawTrails() {
-    tCtx.clearRect(0, 0, trailCanvas.width, trailCanvas.height);
-    for (let i = 0; i < trails.length; i++) {
-      let p = trails[i];
-      tCtx.beginPath();
-      tCtx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-      tCtx.fillStyle = `rgba(209, 183, 148, ${p.opacity})`; 
-      tCtx.fill();
-      p.opacity -= 0.02; 
-      p.r += 0.2; 
-    }
-    trails = trails.filter(p => p.opacity > 0);
-    requestAnimationFrame(drawTrails);
-  }
-  if(!reduceMotion) {
-    window.addEventListener('mousemove', e => {
-      trails.push({ x: e.clientX, y: e.clientY, r: 2, opacity: 0.3 });
-    });
-    drawTrails();
-  }
 
   const minimapThumb = $('#minimap-thumb');
   function updateMinimap() {
@@ -837,17 +817,9 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
   let isScrollingDown = true;
   
   if(!reduceMotion) {
-    gsap.to(marquee, {
-      xPercent: -50,
-      ease: "none",
-      duration: 20,
-      repeat: -1
-    }).timeScale(1);
-
+    gsap.to(marquee, { xPercent: -50, ease: "none", duration: 20, repeat: -1 }).timeScale(1);
     ScrollTrigger.create({
-      trigger: "body",
-      start: "top top",
-      end: "bottom bottom",
+      trigger: "body", start: "top top", end: "bottom bottom",
       onUpdate: (self) => {
         isScrollingDown = self.direction === 1;
         gsap.to(marquee, { duration: 0.5, x: isScrollingDown ? "-=20" : "+=20" });
@@ -855,10 +827,13 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
     });
   }
 
-  // Smooth theme toggle without body filters
   $('#moon-widget').addEventListener('click', ()=>{
-    document.documentElement.classList.toggle('light-mode');
-    $('#theme-status').textContent = document.documentElement.classList.contains('light-mode') ? 'LIGHT' : 'DARK';
+    document.body.classList.add('glitching');
+    setTimeout(() => {
+      document.documentElement.classList.toggle('light-mode');
+      $('#theme-status').textContent = document.documentElement.classList.contains('light-mode') ? 'LIGHT' : 'DARK';
+      document.body.classList.remove('glitching');
+    }, 300); 
     gsap.fromTo('#moon-widget', {rotate:0}, {rotate:360, duration:0.7, ease:'back.out(1.5)'});
     playClick();
   });
@@ -897,10 +872,10 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
     if(e.key.toLowerCase() === 'c') {
       coffeeMode = !coffeeMode;
       if(coffeeMode) {
-        document.documentElement.style.setProperty('--void', '#2c1e16');
-        document.documentElement.style.setProperty('--ink', '#f5e6d3');
-        document.documentElement.style.setProperty('--line', 'rgba(245,230,211,0.15)');
-        document.documentElement.style.setProperty('--gold', '#d4a373');
+        document.documentElement.style.setProperty('--void', '#1a120c');
+        document.documentElement.style.setProperty('--ink', '#d4c5b4');
+        document.documentElement.style.setProperty('--line', 'rgba(212, 197, 180, 0.1)');
+        document.documentElement.style.setProperty('--gold', '#a68a6d');
       } else {
         document.documentElement.style.removeProperty('--void');
         document.documentElement.style.removeProperty('--ink');
@@ -1075,49 +1050,65 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
   }
   tick(); setInterval(tick,1000);
 
-  const ghGrid = $('#gh-grid');
-  for(let w=0; w<24; w++) {
-    const col = document.createElement('div');
-    col.className = 'gh-col';
-    for(let d=0; d<7; d++) {
-      const cell = document.createElement('div');
-      cell.className = 'gh-cell hover-trigger';
-      const level = Math.random() > 0.6 ? Math.floor(Math.random() * 5) : 0;
-      cell.dataset.level = level;
-      col.appendChild(cell);
-    }
-    ghGrid.appendChild(col);
-  }
-
   let nodesActive = false;
-  let nodeInterval;
+  let tdRaf;
+  let tdNodes = [];
+  
   window.addEventListener('keydown', e => {
     if(e.key.toLowerCase() === 't') {
       nodesActive = !nodesActive;
       if(nodesActive) {
         const c = document.createElement('canvas');
         c.id = 'td-nodes';
-        c.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;opacity:0.15;pointer-events:none;';
+        c.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;opacity:0.25;pointer-events:none;';
         document.body.appendChild(c);
         const ctx = c.getContext('2d');
-        c.width = window.innerWidth; c.height = window.innerHeight;
         
-        nodeInterval = setInterval(() => {
+        function resizeTD() {
+          c.width = window.innerWidth;
+          c.height = window.innerHeight;
+          tdNodes = Array.from({length: 25}, () => ({
+            x: Math.random() * c.width,
+            y: Math.random() * c.height,
+            vx: (Math.random() - 0.5) * 1.5,
+            vy: (Math.random() - 0.5) * 1.5
+          }));
+        }
+        resizeTD();
+        window.addEventListener('resize', resizeTD);
+        
+        function drawTD() {
           ctx.clearRect(0,0,c.width,c.height);
-          ctx.strokeStyle = '#d1b794'; ctx.lineWidth = 1;
-          for(let i=0; i<20; i++){
-            ctx.beginPath();
-            ctx.moveTo(Math.random()*c.width, Math.random()*c.height);
-            ctx.lineTo(Math.random()*c.width, Math.random()*c.height);
-            ctx.stroke();
+          ctx.strokeStyle = '#d1b794'; 
+          ctx.lineWidth = 1;
+          
+          tdNodes.forEach(n => {
+            n.x += n.vx; n.y += n.vy;
+            if(n.x <= 0 || n.x >= c.width) n.vx *= -1;
+            if(n.y <= 0 || n.y >= c.height) n.vy *= -1;
+            
             ctx.fillStyle = '#1a1918';
-            ctx.fillRect(Math.random()*c.width, Math.random()*c.height, 40, 20);
-            ctx.strokeRect(Math.random()*c.width, Math.random()*c.height, 40, 20);
-          }
-        }, 500);
+            ctx.fillRect(n.x - 20, n.y - 10, 40, 20);
+            ctx.strokeRect(n.x - 20, n.y - 10, 40, 20);
+            
+            tdNodes.forEach(n2 => {
+              const dist = Math.hypot(n.x - n2.x, n.y - n2.y);
+              if(dist < 150) {
+                ctx.globalAlpha = 1 - (dist/150);
+                ctx.beginPath();
+                ctx.moveTo(n.x, n.y);
+                ctx.lineTo(n2.x, n2.y);
+                ctx.stroke();
+                ctx.globalAlpha = 1;
+              }
+            });
+          });
+          tdRaf = requestAnimationFrame(drawTD);
+        }
+        drawTD();
         playSecretSound();
       } else {
-        clearInterval(nodeInterval);
+        cancelAnimationFrame(tdRaf);
         const c = document.getElementById('td-nodes');
         if(c) c.remove();
       }
@@ -1125,16 +1116,21 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
   });
 
   /* -------------------------------------------------------------
-     INTERACTIVE 4-KEY RHYTHM GAME LOGIC
+     TEMPO-SYNCED RHYTHM GAME LOGIC
   ------------------------------------------------------------- */
   const keyMap = { 'd': 0, 'f': 1, 'j': 2, 'k': 3, 'arrowleft': 0, 'arrowdown': 1, 'arrowup': 2, 'arrowright': 3 };
-  const freqs = [261.63, 329.63, 392.00, 523.25]; // C4, E4, G4, C5
+  const freqs = [261.63, 329.63, 392.00, 523.25]; 
   let rhythmActive = false;
   let rhythmScore = 0;
   let rhythmCombo = 0;
   let activeNotes = [];
-  let rhythmLoopId;
-  let noteSpawnTimer;
+  let rhythmRafId;
+  let lastTimeGame = 0;
+  let beatTimer = 0;
+  
+  const BPM = 140;
+  const beatInterval = 60000 / BPM; 
+  const noteSpeed = 0.4; 
 
   const trackArea = $('#rhythm-track-area');
   const scoreEl = $('#r-score');
@@ -1150,35 +1146,34 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
     comboEl.textContent = '0';
     judgeEl.textContent = 'READY...';
     judgeEl.className = 'rhythm-judgement';
+    lastTimeGame = performance.now();
+    beatTimer = 0;
 
-    // Spawn falling notes periodically
-    noteSpawnTimer = setInterval(() => {
+    function gameLoop(now) {
       if (!rhythmActive) return;
-      const lane = Math.floor(Math.random() * 4);
-      const noteEl = document.createElement('div');
-      noteEl.className = 'rhythm-note';
-      noteEl.style.left = `${lane * 25 + 3}%`;
-      noteEl.style.top = '0px';
-      trackArea.appendChild(noteEl);
+      const dt = now - lastTimeGame;
+      lastTimeGame = now;
+      beatTimer += dt;
 
-      activeNotes.push({
-        el: noteEl,
-        lane: lane,
-        top: 0,
-        speed: 3 + Math.random() * 2
-      });
-    }, 500);
+      if (beatTimer > beatInterval) {
+        beatTimer -= beatInterval;
+        const lane = Math.floor(Math.random() * 4);
+        const noteEl = document.createElement('div');
+        noteEl.className = 'rhythm-note';
+        noteEl.style.left = `${lane * 25 + 3}%`;
+        noteEl.style.top = '0px';
+        trackArea.appendChild(noteEl);
 
-    function gameLoop() {
-      if (!rhythmActive) return;
+        activeNotes.push({ el: noteEl, lane: lane, top: 0 });
+      }
+
       const trackHeight = trackArea.offsetHeight - 40;
 
       for (let i = activeNotes.length - 1; i >= 0; i--) {
         const n = activeNotes[i];
-        n.top += n.speed;
+        n.top += noteSpeed * dt;
         n.el.style.top = `${n.top}px`;
 
-        // Note missed (fell past target)
         if (n.top > trackHeight + 25) {
           n.el.remove();
           activeNotes.splice(i, 1);
@@ -1188,20 +1183,18 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
           judgeEl.className = 'rhythm-judgement judg-miss';
         }
       }
-      rhythmLoopId = requestAnimationFrame(gameLoop);
+      rhythmRafId = requestAnimationFrame(gameLoop);
     }
-    rhythmLoopId = requestAnimationFrame(gameLoop);
+    rhythmRafId = requestAnimationFrame(gameLoop);
   }
 
   function stopRhythmGame() {
     rhythmActive = false;
-    clearInterval(noteSpawnTimer);
-    cancelAnimationFrame(rhythmLoopId);
+    cancelAnimationFrame(rhythmRafId);
     activeNotes.forEach(n => n.el.remove());
     activeNotes = [];
   }
 
-  // Handle key hits
   window.addEventListener('keydown', e => {
     const k = e.key.toLowerCase();
     if (rhythmActive && keyMap.hasOwnProperty(k)) {
@@ -1209,7 +1202,6 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
       const targetKey = $(`#kt-${lane}`);
       if (targetKey) targetKey.classList.add('pressed');
 
-      // Check hit proximity to bottom hit zone (~260px)
       const trackHeight = trackArea.offsetHeight - 40;
       let hitIdx = -1;
 
@@ -1258,7 +1250,6 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
 
   $('#btn-start-rhythm').addEventListener('click', startRhythmGame);
 
-  // Konami Code Trigger -> Opens Rhythm Game
   const konami = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
   let kIdx = 0;
   window.addEventListener('keydown', e => {
