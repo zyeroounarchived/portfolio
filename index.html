@@ -213,15 +213,11 @@
   }
   .tool-icon.active-tilt { color: var(--gold); border-color: var(--gold); background: color-mix(in srgb, var(--gold) 5%, transparent); box-shadow: 0 15px 30px -10px rgba(0,0,0,0.5); }
 
-  .magnetic-card {
+  .magnetic-hover {
     perspective: 800px;
     transform-style: preserve-3d;
     will-change: transform;
     transition: box-shadow 0.3s ease, border-color 0.3s ease;
-  }
-  .magnetic-card .card-inner {
-    transform-style: preserve-3d;
-    will-change: transform;
   }
 
   .modal-overlay {
@@ -415,12 +411,12 @@
       
       <p class="label mb-6">Daily Drivers</p>
       <div class="tool-grid">
-        <div class="tool-icon hover-trigger" title="Mac OS">⌘</div>
-        <div class="tool-icon hover-trigger" title="Python">Py</div>
-        <div class="tool-icon hover-trigger" title="R Studio">R</div>
-        <div class="tool-icon hover-trigger" title="SQL">∑</div>
-        <div class="tool-icon hover-trigger" title="Spreadsheets">⊞</div>
-        <div class="tool-icon hover-trigger" title="TouchDesigner">TD</div>
+        <div class="tool-icon hover-trigger magnetic-hover" title="Mac OS">⌘</div>
+        <div class="tool-icon hover-trigger magnetic-hover" title="Python">Py</div>
+        <div class="tool-icon hover-trigger magnetic-hover" title="R Studio">R</div>
+        <div class="tool-icon hover-trigger magnetic-hover" title="SQL">∑</div>
+        <div class="tool-icon hover-trigger magnetic-hover" title="Spreadsheets">⊞</div>
+        <div class="tool-icon hover-trigger magnetic-hover" title="TouchDesigner">TD</div>
       </div>
     </div>
 
@@ -480,7 +476,7 @@
   </div>
 
   <div class="grid md:grid-cols-2 gap-16">
-    <article class="ui-card anim-section flex flex-col proj-card hover-trigger magnetic-card" data-img="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop">
+    <article class="ui-card anim-section flex flex-col proj-card hover-trigger magnetic-hover" data-img="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop">
       <div class="flex items-center justify-between mb-8">
         <span class="proj-num">01</span><span class="label !text-[0.7rem] opacity-70">Data Cleaning</span>
       </div>
@@ -502,7 +498,7 @@
       </div>
     </article>
 
-    <article class="ui-card anim-section flex flex-col proj-card hover-trigger magnetic-card" data-img="https://images.unsplash.com/photo-1601597111158-2fceff292cdc?q=80&w=800&auto=format&fit=crop">
+    <article class="ui-card anim-section flex flex-col proj-card hover-trigger magnetic-hover" data-img="https://images.unsplash.com/photo-1601597111158-2fceff292cdc?q=80&w=800&auto=format&fit=crop">
       <div class="flex items-center justify-between mb-8">
         <span class="proj-num">02</span><span class="label !text-[0.7rem] opacity-70">Game Theory</span>
       </div>
@@ -1126,8 +1122,8 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
     });
   }
 
-  // Magnetic 3D card tilt
-  $$('.magnetic-card').forEach(card => {
+  // Subtle magnetic hover for interactive portfolio elements only
+  $$('.magnetic-hover').forEach(card => {
     card.addEventListener('mousemove', (event) => {
       if (reduceMotion) return;
 
@@ -1137,18 +1133,18 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
       const x = (px - 0.5) * 2;
       const y = (py - 0.5) * 2;
 
-      const rotateY = x * 18;
-      const rotateX = -y * 18;
-      const moveX = x * 12;
-      const moveY = y * 12;
+      const rotateY = x * 10;
+      const rotateX = -y * 10;
+      const moveX = x * 8;
+      const moveY = y * 8;
 
       gsap.to(card, {
         x: moveX,
         y: moveY,
         rotateX,
         rotateY,
-        scale: 1.015,
-        duration: 0.25,
+        scale: 1.03,
+        duration: 0.22,
         ease: 'power2.out'
       });
     });
@@ -1160,8 +1156,8 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
         rotateX: 0,
         rotateY: 0,
         scale: 1,
-        duration: 0.9,
-        ease: 'elastic.out(1, 0.3)'
+        duration: 0.75,
+        ease: 'elastic.out(1, 0.35)'
       });
     });
   });
