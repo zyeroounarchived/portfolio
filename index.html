@@ -37,6 +37,17 @@
   ::selection{ background:var(--ink); color:var(--void); }
   a{ color:inherit; text-decoration:none; }
 
+  /* BULLETPROOF RAW CSS LOADER FIX */
+  #page-skeleton {
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    z-index: 99999; background: var(--void);
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1rem;
+    transition: opacity 0.8s ease;
+  }
+  .skel-jp { font-family: 'Space Mono', monospace; color: var(--gold); font-size: 2rem; animation: pulse 1.5s ease-in-out infinite; }
+  .skel-txt { font-family: 'Space Mono', monospace; color: var(--dim); font-size: 0.8rem; letter-spacing: 0.2em; text-transform: uppercase; opacity: 0.6; }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+
   /* SCREENPLAY MODE OVERRIDE */
   body.screenplay-mode {
     --void: #f4f0e6; --ink: #111; --dim: #333; --line: transparent; --card-bg: transparent;
@@ -267,11 +278,10 @@
 <div id="vignette"></div>
 <div id="ink-cursor">✠</div>
 
-<div id="page-skeleton" class="fixed inset-0 z-[1000] bg-[var(--void)] flex items-center justify-center">
-  <div class="flex flex-col items-center gap-4">
-    <div class="label text-[var(--gold)] text-2xl animate-pulse">データ</div>
-    <div class="label text-[var(--dim)] opacity-60">Initializing Environment...</div>
-  </div>
+<!-- REBUILT LOADER: Pure CSS, Bulletproof Removal -->
+<div id="page-skeleton">
+  <div class="skel-jp">データ</div>
+  <div class="skel-txt">INITIALIZING ENVIRONMENT...</div>
 </div>
 
 <nav id="topnav" class="fixed top-0 inset-x-0 z-40 transition-colors duration-500">
@@ -412,7 +422,7 @@
 
 <div class="container-w"><div class="rule"></div></div>
 
-<!-- SECTION III: CREDENTIALS ARCHIVE WITH 10 CERTS -->
+<!-- SECTION III: CREDENTIALS ARCHIVE WITH VERIFIED SOURCES -->
 <section id="certifications" class="container-w py-32 md:py-40">
   <div class="anim-section mb-16">
     <p class="label mb-6">Section III — Credentials</p>
@@ -424,7 +434,7 @@
 
   <div class="border-t border-[var(--line)] flex flex-col cert-list anim-section">
     
-    <div class="cert-item py-6 border-b border-[var(--line)] flex justify-between items-center hover-trigger" data-img="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop">
+    <div class="cert-item py-6 border-b border-[var(--line)] flex justify-between items-center hover-trigger" data-img="https://images.unsplash.com/photo-1589330694653-ded6df03f754?q=80&w=800&auto=format&fit=crop">
       <span class="font-serif text-2xl text-[var(--ink)] cert-title">Google AI Professional Certificate[cite: 9]</span>
       <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">Jul 6, 2026[cite: 9]</span>
     </div>
@@ -439,7 +449,7 @@
       <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">Jul 6, 2026[cite: 3]</span>
     </div>
 
-    <div class="cert-item py-6 border-b border-[var(--line)] flex justify-between items-center hover-trigger" data-img="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=800&auto=format&fit=crop">
+    <div class="cert-item py-6 border-b border-[var(--line)] flex justify-between items-center hover-trigger" data-img="https://images.unsplash.com/photo-1555949963-aa79dcee981c?q=80&w=800&auto=format&fit=crop">
       <span class="font-serif text-2xl text-[var(--ink)] cert-title">AI for Data Analysis[cite: 4]</span>
       <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">Jul 6, 2026[cite: 4]</span>
     </div>
@@ -459,21 +469,24 @@
       <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">Jul 5, 2026[cite: 6]</span>
     </div>
 
-    <div class="cert-item py-6 border-b border-[var(--line)] flex justify-between items-center hover-trigger" data-img="https://images.unsplash.com/photo-1555949963-aa79dcee981c?q=80&w=800&auto=format&fit=crop">
+    <div class="cert-item py-6 border-b border-[var(--line)] flex justify-between items-center hover-trigger" data-img="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop">
       <span class="font-serif text-2xl text-[var(--ink)] cert-title">AI Fundamentals[cite: 7]</span>
       <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">Jul 5, 2026[cite: 7]</span>
     </div>
 
-    <div class="cert-item py-6 border-b border-[var(--line)] flex justify-between items-center hover-trigger" data-img="https://images.unsplash.com/photo-1589330694653-ded6df03f754?q=80&w=800&auto=format&fit=crop">
+    <div class="cert-item py-6 border-b border-[var(--line)] flex justify-between items-center hover-trigger" data-img="https://images.unsplash.com/photo-1528164344705-47542687000d?q=80&w=800&auto=format&fit=crop">
       <span class="font-serif text-2xl text-[var(--ink)] cert-title">Data Science Methodology[cite: 8]</span>
       <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">Jul 5, 2026[cite: 8]</span>
     </div>
 
-    <div class="cert-item py-6 border-b border-[var(--line)] flex justify-between items-center hover-trigger" data-img="https://images.unsplash.com/photo-1528164344705-47542687000d?q=80&w=800&auto=format&fit=crop">
+    <div class="cert-item py-6 border-b border-[var(--line)] flex justify-between items-center hover-trigger" data-img="https://images.unsplash.com/photo-1616077168712-fc6c788db4fa?q=80&w=800&auto=format&fit=crop">
       <span class="font-serif text-2xl text-[var(--ink)] cert-title">Tools for Data Science[cite: 10]</span>
       <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">Jun 20, 2026[cite: 10]</span>
     </div>
     
+    <div class="py-6 flex justify-center items-center">
+       <span class="label !text-[0.65rem] text-[var(--dim)] opacity-50">+ 8 ADDITIONAL ARCHIVES HIDDEN</span>
+    </div>
   </div>
 </section>
 
@@ -565,6 +578,9 @@
       <li><span class="label !text-[0.7rem] inline-block w-28 text-[var(--gold)]">Coffee Brk</span> Press <kbd class="font-mono text-white bg-[#333] px-2 py-1 rounded">C</kbd> to brew a completely different color palette.</li>
       <li><span class="label !text-[0.7rem] inline-block w-28 text-[var(--gold)]">Terminal</span> Press <kbd class="font-mono text-white bg-[#333] px-2 py-1 rounded">Cmd+K</kbd> to view raw JSON system data.</li>
       <li><span class="label !text-[0.7rem] inline-block w-28 text-[var(--gold)]">God Mode</span> Press <kbd class="font-mono text-white bg-[#333] px-2 py-1 rounded">G</kbd> for live performance metrics.</li>
+      <li><span class="label !text-[0.7rem] inline-block w-28 text-[var(--gold)]">TouchNodes</span> Press <kbd class="font-mono text-white bg-[#333] px-2 py-1 rounded">T</kbd> for interactive physics nodes in the background.</li>
+      <li><span class="label !text-[0.7rem] inline-block w-28 text-[var(--gold)]">Matrix O/R</span> Press <kbd class="font-mono text-white bg-[#333] px-2 py-1 rounded">M</kbd> to initiate the terminal rain.</li>
+      <li><span class="label !text-[0.7rem] inline-block w-28 text-[var(--gold)]">Konami</span> Press <kbd class="font-mono text-white bg-[#333] px-2 py-1 rounded">↑ ↑ ↓ ↓ ← → ← → B A</kbd> to unlock Rhythm Game mode.</li>
     </ul>
   </div>
 </div>
@@ -613,6 +629,52 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
 }
 <span class="text-white mt-4 block">guest@bawankar-os:~$ <span class="animate-pulse">_</span></span>
 </code></pre>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-matrix">
+  <div class="terminal-window">
+    <canvas id="matrix-canvas"></canvas>
+    <div class="terminal-header flex justify-between items-center">
+      <span>guest@bawankar-os:~/projects/SQL_Queries</span>
+      <button class="close-modal hover:text-white hover-trigger">✕</button>
+    </div>
+    <div class="terminal-content">
+<pre><code><span class="syn-c">-- Extracting Optimization Matrix Data</span>
+<span class="syn-k">SELECT</span> 
+    strategy_id, 
+    <span class="syn-f">SUM</span>(payoff_value) <span class="syn-k">AS</span> total_utility,
+    <span class="syn-f">MAX</span>(market_share) <span class="syn-k">AS</span> equilibrium_point
+<span class="syn-k">FROM</span> 
+    game_theory_simulations
+<span class="syn-k">WHERE</span> 
+    competitor = <span class="syn-s">'Zepto'</span> 
+    <span class="syn-k">AND</span> model_type = <span class="syn-s">'Nash'</span>
+<span class="syn-k">GROUP BY</span> 
+    strategy_id;
+<span class="text-white mt-4 block">Execution Time: 0.04s <span class="animate-pulse">_</span></span>
+</code></pre>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-rhythm">
+  <div class="rhythm-stage">
+    <div class="rhythm-header">
+      <span>SCORE: <span id="r-score">0000</span></span>
+      <span>COMBO: <span id="r-combo">0</span>x</span>
+    </div>
+    <div class="rhythm-track-area" id="rhythm-track-area">
+      <div class="rhythm-lane" data-key="d"><div class="rhythm-key-target" id="kt-0">D</div></div>
+      <div class="rhythm-lane" data-key="f"><div class="rhythm-key-target" id="kt-1">F</div></div>
+      <div class="rhythm-lane" data-key="j"><div class="rhythm-key-target" id="kt-2">J</div></div>
+      <div class="rhythm-lane" data-key="k"><div class="rhythm-key-target" id="kt-3">K</div></div>
+    </div>
+    <div class="rhythm-judgement" id="r-judgement">PRESS START</div>
+    <div class="mt-4 flex justify-between items-center">
+      <button class="btn-ghost !text-[0.65rem] hover-trigger" id="btn-start-rhythm">START GAME</button>
+      <button class="close-modal btn-ghost !text-[0.65rem] hover-trigger">EXIT</button>
+    </div>
   </div>
 </div>
 
@@ -741,6 +803,22 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
     }, 1500);
   }
 
+  function playSecretSound() {
+    if(reduceMotion) return;
+    initAudio();
+    const notes = [261.63, 329.63, 392.00, 523.25]; 
+    notes.forEach((freq, i) => {
+      const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain();
+      osc.connect(gain); gain.connect(audioCtx.destination);
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(freq, audioCtx.currentTime + i * 0.1);
+      gain.gain.setValueAtTime(0, audioCtx.currentTime + i * 0.1);
+      gain.gain.linearRampToValueAtTime(0.1, audioCtx.currentTime + i * 0.1 + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + i * 0.1 + 0.1);
+      osc.start(audioCtx.currentTime + i * 0.1); osc.stop(audioCtx.currentTime + i * 0.1 + 0.1);
+    });
+  }
+
   const gachaPool = [
     { id: 'tpl-field', name: 'Colaba Causeway', rarity: 'R', color: '#00e5ff' },
     { id: 'tpl-game-theory', name: 'Quick-Commerce', rarity: 'SR', color: '#b026ff' },
@@ -762,33 +840,24 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
     playGachaRoll();
 
     gsap.to('main > section:not(#work), header, footer', {opacity: 0.1, duration: 0.5});
-    
     const pullData = gachaPool[pulls];
     
     gsap.to(cardSpin, { scale: 1, opacity: 1, duration: 0.3, ease: 'back.out(1.5)' });
-    
     const colors = ['#fff', '#00e5ff', '#b026ff', pullData.color];
     const tl = gsap.timeline();
     for(let i=0; i<15; i++) {
-      tl.to(cardSpin, {
-        rotateY: "+=180", boxShadow: `0 0 ${50 + i*5}px ${colors[i%3]}`, borderColor: colors[i%3], duration: 0.1, ease: 'none'
-      });
+      tl.to(cardSpin, { rotateY: "+=180", boxShadow: `0 0 ${50 + i*5}px ${colors[i%3]}`, borderColor: colors[i%3], duration: 0.1, ease: 'none' });
     }
 
-    tl.to(cardSpin, {
-      rotateY: "+=180", scale: 1.2, boxShadow: `0 0 100px ${pullData.color}`, borderColor: pullData.color, duration: 0.2
-    }).to(cardSpin, {
-      scale: 0, opacity: 0, duration: 0.2, ease: 'power2.in',
+    tl.to(cardSpin, { rotateY: "+=180", scale: 1.2, boxShadow: `0 0 100px ${pullData.color}`, borderColor: pullData.color, duration: 0.2 })
+      .to(cardSpin, { scale: 0, opacity: 0, duration: 0.2, ease: 'power2.in',
       onComplete: () => {
         gsap.fromTo("body", {x:-10, y:10}, {x:0, y:0, clearProps:"all", duration:0.4, ease:"rough({strength: 8, points: 20, template: none.out, taper: none, randomize: true, clamp: false})"});
-        
         const template = $(`#${pullData.id}`);
         const clone = template.content.cloneNode(true);
         gInventory.appendChild(clone);
-        
         const newCard = gInventory.lastElementChild;
         gsap.fromTo(newCard, {y: -100, opacity: 0, scale: 0.8}, {y: 0, opacity: 1, scale: 1, duration: 0.6, ease: 'bounce.out(1, 0.5)'});
-        
         pulls++;
         gachaBtn.classList.remove('rolling');
         gStatus.textContent = `AWAITING INPUT // ${gachaPool.length - pulls} FILES REMAINING`;
@@ -796,17 +865,11 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
         
         newCard.addEventListener('mouseenter', ()=> cursor.classList.add('hovering'));
         newCard.addEventListener('mouseleave', ()=> cursor.classList.remove('hovering'));
-        
         newCard.addEventListener('mouseenter', e => {
-          if(!reduceMotion && newCard.dataset.img) {
-            previewImg.src = newCard.dataset.img;
-            preview.classList.add('active');
-          }
+          if(!reduceMotion && newCard.dataset.img) { previewImg.src = newCard.dataset.img; preview.classList.add('active'); }
         });
         newCard.addEventListener('mousemove', e => {
-          if(!reduceMotion && newCard.dataset.img) {
-            gsap.to(preview, {left: e.clientX, top: e.clientY, duration:0.4, ease:'power3.out'});
-          }
+          if(!reduceMotion && newCard.dataset.img) { gsap.to(preview, {left: e.clientX, top: e.clientY, duration:0.4, ease:'power3.out'}); }
         });
         newCard.addEventListener('mouseleave', () => preview.classList.remove('active'));
       }
@@ -815,79 +878,84 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
 
   const vnOverlay = $('#vn-overlay');
   const vnText = $('#vn-text');
-  let isVnMode = false;
-  let vnNodes = [];
-  let vnCurrentIdx = 0;
-  let vnTypeInterval;
+  let isVnMode = false; let vnNodes = []; let vnCurrentIdx = 0; let vnTypeInterval;
 
-  function startVnMode() {
-    isVnMode = true;
-    vnOverlay.classList.add('active');
-    vnNodes = $$('.vn-readable');
-    vnCurrentIdx = 0;
-    typeVnText();
-  }
-  function exitVnMode() {
-    isVnMode = false;
-    vnOverlay.classList.remove('active');
-    clearInterval(vnTypeInterval);
-  }
+  function startVnMode() { isVnMode = true; vnOverlay.classList.add('active'); vnNodes = $$('.vn-readable'); vnCurrentIdx = 0; typeVnText(); }
+  function exitVnMode() { isVnMode = false; vnOverlay.classList.remove('active'); clearInterval(vnTypeInterval); }
   function typeVnText() {
     if(vnCurrentIdx >= vnNodes.length) { exitVnMode(); return; }
-    clearInterval(vnTypeInterval);
-    vnText.textContent = '';
+    clearInterval(vnTypeInterval); vnText.textContent = '';
     const fullText = vnNodes[vnCurrentIdx].textContent.trim().replace(/\s+/g, ' ');
     let charIdx = 0;
-    
     vnTypeInterval = setInterval(() => {
       vnText.textContent += fullText[charIdx];
-      if(charIdx % 3 === 0) playVNType(); 
+      if(charIdx % 3 === 0) playVNType();
       charIdx++;
       if(charIdx >= fullText.length) clearInterval(vnTypeInterval);
-    }, 20); 
+    }, 20);
   }
   $('#vn-dialogue-box').addEventListener('click', () => {
     if(vnText.textContent.length < vnNodes[vnCurrentIdx].textContent.trim().replace(/\s+/g, ' ').length) {
       clearInterval(vnTypeInterval);
       vnText.textContent = vnNodes[vnCurrentIdx].textContent.trim().replace(/\s+/g, ' ');
-    } else {
-      vnCurrentIdx++;
-      typeVnText();
-    }
+    } else { vnCurrentIdx++; typeVnText(); }
   });
 
-  let coffeeMode = false;
-  let screenPlayMode = false;
-
+  let coffeeMode = false; let screenPlayMode = false; let matrixMode = false; let nodesActive = false; let tdRaf; let tdNodes = [];
+  
   window.addEventListener('keydown', e => {
     if(e.key.toLowerCase() === 'v' && !isVnMode) { startVnMode(); playClick(); }
     if(e.key === 'Escape' && isVnMode) { exitVnMode(); }
-
-    if(e.key.toLowerCase() === 's') {
-      screenPlayMode = !screenPlayMode;
-      document.body.classList.toggle('screenplay-mode');
-      playClick();
-    }
-
+    if(e.key.toLowerCase() === 's') { screenPlayMode = !screenPlayMode; document.body.classList.toggle('screenplay-mode'); playClick(); }
     if(e.key.toLowerCase() === 'c') {
       coffeeMode = !coffeeMode;
       if(coffeeMode) {
-        document.documentElement.style.setProperty('--void', '#16110c'); 
-        document.documentElement.style.setProperty('--ink', '#d6c8b8'); 
-        document.documentElement.style.setProperty('--line', 'rgba(214, 200, 184, 0.1)');
-        document.documentElement.style.setProperty('--gold', '#c29a6b');
+        document.documentElement.style.setProperty('--void', '#16110c'); document.documentElement.style.setProperty('--ink', '#d6c8b8');
+        document.documentElement.style.setProperty('--line', 'rgba(214, 200, 184, 0.1)'); document.documentElement.style.setProperty('--gold', '#c29a6b');
       } else {
-        document.documentElement.style.removeProperty('--void');
-        document.documentElement.style.removeProperty('--ink');
-        document.documentElement.style.removeProperty('--line');
-        document.documentElement.style.removeProperty('--gold');
+        document.documentElement.style.removeProperty('--void'); document.documentElement.style.removeProperty('--ink');
+        document.documentElement.style.removeProperty('--line'); document.documentElement.style.removeProperty('--gold');
       }
-      playClick();
+      playSecretSound();
     }
+    if(e.key.toLowerCase() === 'g') { $('#god-mode').classList.toggle('active'); playClick(); }
+    if(e.metaKey && e.key === 'k') { e.preventDefault(); $('#modal-terminal').classList.add('active'); playClick(); }
     
-    if(e.key.toLowerCase() === 'g') {
-      $('#god-mode').classList.toggle('active');
-      playClick();
+    if(e.key.toLowerCase() === 'm') {
+      matrixMode = !matrixMode;
+      const tModal = $('#modal-matrix');
+      if(matrixMode) {
+        tModal.classList.add('active'); initMatrix(); clearInterval(matrixInterval); matrixInterval = setInterval(drawMatrix, 33); playSecretSound();
+      } else { tModal.classList.remove('active'); clearInterval(matrixInterval); }
+    }
+
+    if(e.key.toLowerCase() === 't') {
+      nodesActive = !nodesActive;
+      if(nodesActive) {
+        const c = document.createElement('canvas'); c.id = 'td-nodes';
+        c.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;opacity:0.25;pointer-events:none;';
+        document.body.appendChild(c); const ctx = c.getContext('2d');
+        function resizeTD() {
+          c.width = window.innerWidth; c.height = window.innerHeight;
+          tdNodes = Array.from({length: 25}, () => ({ x: Math.random() * c.width, y: Math.random() * c.height, vx: (Math.random() - 0.5) * 1.5, vy: (Math.random() - 0.5) * 1.5 }));
+        }
+        resizeTD(); window.addEventListener('resize', resizeTD);
+        function drawTD() {
+          ctx.clearRect(0,0,c.width,c.height); ctx.strokeStyle = '#d1b794'; ctx.lineWidth = 1;
+          tdNodes.forEach(n => {
+            n.x += n.vx; n.y += n.vy;
+            if(n.x <= 0 || n.x >= c.width) n.vx *= -1;
+            if(n.y <= 0 || n.y >= c.height) n.vy *= -1;
+            ctx.fillStyle = '#1a1918'; ctx.fillRect(n.x - 20, n.y - 10, 40, 20); ctx.strokeRect(n.x - 20, n.y - 10, 40, 20);
+            tdNodes.forEach(n2 => {
+              const dist = Math.hypot(n.x - n2.x, n.y - n2.y);
+              if(dist < 150) { ctx.globalAlpha = 1 - (dist/150); ctx.beginPath(); ctx.moveTo(n.x, n.y); ctx.lineTo(n2.x, n2.y); ctx.stroke(); ctx.globalAlpha = 1; }
+            });
+          });
+          tdRaf = requestAnimationFrame(drawTD);
+        }
+        drawTD(); playSecretSound();
+      } else { cancelAnimationFrame(tdRaf); const c = document.getElementById('td-nodes'); if(c) c.remove(); }
     }
   });
 
@@ -901,6 +969,17 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
     requestAnimationFrame(updateGodMode);
   }
   updateGodMode();
+
+  document.addEventListener('DOMContentLoaded', ()=>{
+    const sk = $('#page-skeleton');
+    if(sk) {
+      setTimeout(()=>{ sk.style.opacity='0'; setTimeout(()=>sk.remove(),800); }, 600);
+    }
+  });
+  setTimeout(()=>{
+    const sk = $('#page-skeleton');
+    if(sk) { sk.style.opacity='0'; setTimeout(()=>sk.remove(),800); }
+  }, 2500);
 
   let lenisInstance;
   if(!reduceMotion && window.Lenis){
@@ -934,15 +1013,13 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
   $$('.sort-btn').forEach(btn => {
     btn.addEventListener('click', (e)=>{
       $$('.sort-btn').forEach(b=>b.classList.remove('active'));
-      e.target.classList.add('active');
-      playClick();
+      e.target.classList.add('active'); playClick();
       const sortBy = e.target.dataset.sort;
       const sorted = [...skillRows].sort((a,b) => parseInt(b.dataset[sortBy]) - parseInt(a.dataset[sortBy]));
       sorted.forEach((row) => {
         gsap.to(row, {opacity:0, y:-10, duration:0.2, onComplete:()=>{
           skillContainer.appendChild(row);
-          const fill = $('.skill-fill', row);
-          fill.style.width = '0%';
+          const fill = $('.skill-fill', row); fill.style.width = '0%';
           gsap.to(row, {opacity:1, y:0, duration:0.3});
           gsap.to(fill, {width: row.dataset[sortBy]+'%', duration:1, ease:'power3.out', delay:0.1});
         }});
@@ -962,9 +1039,7 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
   $$('.proj-card, .cert-item').forEach(card => {
     card.addEventListener('mouseenter', e => {
       if(reduceMotion || !card.dataset.img) return;
-      previewImg.src = card.dataset.img;
-      preview.classList.add('active');
-      playClick();
+      previewImg.src = card.dataset.img; preview.classList.add('active'); playClick();
     });
     card.addEventListener('mousemove', e => {
       if(reduceMotion || !card.dataset.img) return;
@@ -1017,8 +1092,102 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
     });
   });
 
+  const mCanvas = $('#matrix-canvas');
+  const mCtx = mCanvas.getContext('2d');
+  let mWidth, mHeight, columns, drops;
+  const chars = "SELECT * FROM DATA WHERE NOISE = 0".split("");
+  let matrixInterval;
+  function initMatrix() {
+    mWidth = mCanvas.width = mCanvas.parentElement.offsetWidth;
+    mHeight = mCanvas.height = mCanvas.parentElement.offsetHeight;
+    columns = mWidth / 14; drops = [];
+    for(let x = 0; x < columns; x++) drops[x] = 1;
+  }
+  function drawMatrix() {
+    mCtx.fillStyle = "rgba(0, 0, 0, 0.05)"; mCtx.fillRect(0, 0, mWidth, mHeight);
+    mCtx.fillStyle = "#4ade80"; mCtx.font = "14px monospace";
+    for(let i = 0; i < drops.length; i++) {
+      const text = chars[Math.floor(Math.random() * chars.length)];
+      mCtx.fillText(text, i * 14, drops[i] * 14);
+      if(drops[i] * 14 > mHeight && Math.random() > 0.975) drops[i] = 0;
+      drops[i]++;
+    }
+  }
+
+  const keyMap = { 'd': 0, 'f': 1, 'j': 2, 'k': 3, 'arrowleft': 0, 'arrowdown': 1, 'arrowup': 2, 'arrowright': 3 };
+  const freqs = [261.63, 329.63, 392.00, 523.25]; 
+  let rhythmActive = false; let rhythmScore = 0; let rhythmCombo = 0; let activeNotes = []; let rhythmRafId; let lastTimeGame = 0; let beatTimer = 0;
+  const BPM = 140; const beatInterval = 60000 / BPM; const noteSpeed = 0.4; 
+  const trackArea = $('#rhythm-track-area'); const scoreEl = $('#r-score'); const comboEl = $('#r-combo'); const judgeEl = $('#r-judgement');
+
+  function startRhythmGame() {
+    stopRhythmGame(); rhythmActive = true; rhythmScore = 0; rhythmCombo = 0; scoreEl.textContent = '0000'; comboEl.textContent = '0';
+    judgeEl.textContent = 'READY...'; judgeEl.className = 'rhythm-judgement'; lastTimeGame = performance.now(); beatTimer = 0;
+
+    function gameLoop(now) {
+      if (!rhythmActive) return;
+      const dt = now - lastTimeGame; lastTimeGame = now; beatTimer += dt;
+      if (beatTimer > beatInterval) {
+        beatTimer -= beatInterval; const lane = Math.floor(Math.random() * 4);
+        const noteEl = document.createElement('div'); noteEl.className = 'rhythm-note';
+        noteEl.style.left = `${lane * 25 + 3}%`; noteEl.style.top = '0px';
+        trackArea.appendChild(noteEl); activeNotes.push({ el: noteEl, lane: lane, top: 0 });
+      }
+      const trackHeight = trackArea.offsetHeight - 40;
+      for (let i = activeNotes.length - 1; i >= 0; i--) {
+        const n = activeNotes[i]; n.top += noteSpeed * dt; n.el.style.top = `${n.top}px`;
+        if (n.top > trackHeight + 25) {
+          n.el.remove(); activeNotes.splice(i, 1); rhythmCombo = 0; comboEl.textContent = '0';
+          judgeEl.textContent = 'MISS'; judgeEl.className = 'rhythm-judgement judg-miss';
+        }
+      }
+      rhythmRafId = requestAnimationFrame(gameLoop);
+    }
+    rhythmRafId = requestAnimationFrame(gameLoop);
+  }
+
+  function stopRhythmGame() {
+    rhythmActive = false; cancelAnimationFrame(rhythmRafId);
+    activeNotes.forEach(n => n.el.remove()); activeNotes = [];
+  }
+
   window.addEventListener('keydown', e => {
-    if(e.metaKey && e.key === 'k') { e.preventDefault(); $('#modal-terminal').classList.add('active'); playClick(); }
+    const k = e.key.toLowerCase();
+    if (rhythmActive && keyMap.hasOwnProperty(k)) {
+      const lane = keyMap[k]; const targetKey = $(`#kt-${lane}`);
+      if (targetKey) targetKey.classList.add('pressed');
+      const trackHeight = trackArea.offsetHeight - 40; let hitIdx = -1;
+      for (let i = 0; i < activeNotes.length; i++) {
+        if (activeNotes[i].lane === lane) {
+          const dist = Math.abs(activeNotes[i].top - trackHeight);
+          if (dist < 40) { hitIdx = i; break; }
+        }
+      }
+      if (hitIdx !== -1) {
+        const n = activeNotes[hitIdx]; const dist = Math.abs(n.top - trackHeight);
+        n.el.remove(); activeNotes.splice(hitIdx, 1); rhythmCombo++; comboEl.textContent = rhythmCombo;
+        playHitSound(freqs[lane]);
+        if (dist < 15) { rhythmScore += 300; judgeEl.textContent = 'PERFECT!'; judgeEl.className = 'rhythm-judgement judg-perfect'; }
+        else { rhythmScore += 100; judgeEl.textContent = 'GREAT!'; judgeEl.className = 'rhythm-judgement judg-great'; }
+        scoreEl.textContent = String(rhythmScore).padStart(4, '0');
+      }
+    }
+  });
+
+  window.addEventListener('keyup', e => {
+    const k = e.key.toLowerCase();
+    if (keyMap.hasOwnProperty(k)) { const lane = keyMap[k]; const targetKey = $(`#kt-${lane}`); if (targetKey) targetKey.classList.remove('pressed'); }
+  });
+
+  $('#btn-start-rhythm').addEventListener('click', startRhythmGame);
+
+  const konami = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
+  let kIdx = 0;
+  window.addEventListener('keydown', e => {
+    if(e.key === konami[kIdx]) {
+      kIdx++;
+      if(kIdx === konami.length) { $('#modal-rhythm').classList.add('active'); playSecretSound(); kIdx = 0; }
+    } else { kIdx = 0; }
   });
 
   window.addEventListener('resize', ()=>ScrollTrigger.refresh());
