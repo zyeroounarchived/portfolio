@@ -84,15 +84,16 @@
     font-weight:500;
     letter-spacing:-0.045em;
   }
-  #typewriter{
+  .hero-initial{
+    font-family:'Allura', cursive;
+    font-size:1.18em;
+    letter-spacing:0;
+    margin-right:0.01em;
+    vertical-align:baseline;
+  }
+  #typewriter-rest{
     display:inline-block;
     letter-spacing:-0.055em;
-  }
-  #typewriter::first-letter{
-    font-family:'Allura', cursive;
-    font-size:1.2em;
-    letter-spacing:0;
-    margin-right:0.02em;
   }
   .text-mask-fluid {
     background: linear-gradient(120deg, var(--ink), var(--gold), var(--ink), var(--dim)); background-size: 300% 300%;
@@ -373,11 +374,23 @@
     flex-direction:column;
     align-items:center;
     text-align:center;
+    width:100%;
   }
   #gh-grid{
+    display:flex;
     justify-content:center;
+    width:fit-content;
+    max-width:100%;
     margin-left:auto;
     margin-right:auto;
+  }
+  .footer-stack{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:0.75rem;
+    text-align:center;
   }
 
   .sr-only {
@@ -460,7 +473,7 @@
     </div>
     
     <h1 class="h-display hero-title text-mask-fluid mb-8" style="font-size:clamp(3.2rem, 7vw, 7rem); line-height:0.9;">
-      <span id="typewriter"></span><span class="type-cursor" style="height:0.8em; vertical-align:middle; -webkit-text-fill-color: var(--gold);"></span>
+      <span class="hero-initial">N</span><span id="typewriter-rest"></span><span class="type-cursor" style="height:0.8em; vertical-align:middle; -webkit-text-fill-color: var(--gold);"></span>
     </h1>
 
     <p class="mx-auto max-w-2xl text-[1.15rem] leading-[1.8] text-[var(--dim)] font-serif italic anim-fade mb-12 vn-readable decay-target">
@@ -821,7 +834,7 @@
 </main>
 
 <footer class="border-t border-[var(--line)] py-20 relative z-20">
-  <div class="container-w flex flex-col md:flex-row items-center justify-center gap-8 text-center">
+  <div class="container-w footer-stack">
     <div>
       <p class="h-sub font-calligraphy-accent text-4xl text-[var(--ink)] mb-2">Nabhya Bawankar</p>
       <p class="label !text-[0.65rem] text-[var(--dim)]">Built with Vanilla JS, GSAP, Tailwind.</p>
@@ -1151,9 +1164,9 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
   // Initial Animations
   gsap.from('.anim-fade', { y:40, opacity:0, duration:1.4, ease:'power3.out', stagger:0.15, delay:0.4 });
 
-  const twEl = $('#typewriter');
+  const twEl = $('#typewriter-rest');
   if(twEl) {
-    const phrase = 'Nabhya Bawankar.'; let i=0;
+    const phrase = 'abhya Bawankar.'; let i=0;
     (function typeStep(){
       if(i<=phrase.length){ twEl.textContent = phrase.slice(0,i); i++; setTimeout(typeStep, 60+Math.random()*60); }
     })();
