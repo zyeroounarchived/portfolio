@@ -173,7 +173,7 @@
   .sort-controls{
     display:flex;
     align-items:center;
-    justify-content:flex-end;
+    justify-content:center;
     flex-wrap:wrap;
     gap:0.6rem;
   }
@@ -182,7 +182,7 @@
     transform:translateY(1px);
   }
   @media (max-width: 768px) {
-    .sort-controls{ justify-content:flex-start; }
+    .sort-controls{ justify-content:center; }
     .sort-btn{ min-width:8.5rem; }
   }
 
@@ -463,7 +463,7 @@
 
 <section id="about" class="container-w pb-40">
   <div class="grid md:grid-cols-[1.1fr,0.9fr] gap-24 items-start">
-    <div class="anim-section">
+    <div class="anim-section text-center">
       <p class="label mb-6">Section I — The Dossier</p>
       <h2 class="h-sub mb-10" style="font-size:clamp(3rem,5vw,4rem);">On working with real, unglamorous data.</h2>
       <p class="text-[var(--dim)] leading-[1.9] text-[1.3rem] mb-8 font-serif vn-readable decay-target">
@@ -485,7 +485,7 @@
     </div>
 
     <div class="ui-card anim-section">
-      <div class="flex justify-between items-end mb-16">
+      <div class="flex flex-col items-center gap-6 mb-16 text-center">
         <p class="label text-[var(--ink)]">Analytical Instruments</p>
         <div class="sort-controls">
           <span class="sort-meta" aria-hidden="true">sort by</span>
@@ -532,11 +532,11 @@
 
 <!-- RESTORED CLEAN EXHIBITS GRID -->
 <section id="work" class="container-w py-32 md:py-40">
-  <div class="anim-section mb-24 flex justify-between items-end">
-    <div>
+  <div class="anim-section mb-24 flex justify-center items-end text-center">
+    <div class="max-w-3xl mx-auto">
       <p class="label mb-6">Section II — Archives</p>
       <h2 class="h-sub mb-6" style="font-size:clamp(2.8rem,5vw,3.8rem);">Selected Finished Works.</h2>
-      <p class="text-[var(--dim)] max-w-lg font-serif text-[1.25rem] decay-target">A curated dossier of deployment-ready deliverables.</p>
+      <p class="text-[var(--dim)] max-w-lg mx-auto font-serif text-[1.25rem] decay-target">A curated dossier of deployment-ready deliverables.</p>
     </div>
   </div>
 
@@ -582,10 +582,10 @@
 
 <!-- REBUILT 2-COLUMN CREDENTIALS SECTION -->
 <section id="certifications" class="container-w py-32 md:py-40">
-  <div class="anim-section mb-20">
+  <div class="anim-section mb-20 text-center">
     <p class="label mb-6">Section III — Credentials</p>
     <h2 class="h-sub mb-6" style="font-size:clamp(2.8rem,5vw,3.8rem);">Verified Proficiencies.</h2>
-    <p class="text-[var(--dim)] max-w-3xl font-serif text-[1.3rem] mb-12 decay-target">
+    <p class="text-[var(--dim)] max-w-3xl mx-auto font-serif text-[1.3rem] mb-12 decay-target">
       A cryptographic ledger of academic and professional certifications acquired to date. Click to authenticate directly via Coursera.
     </p>
   </div>
@@ -736,7 +736,7 @@
 <div class="container-w"><div class="rule"></div></div>
 
 <section id="notes" class="container-w py-32 md:py-40">
-  <div class="anim-section mb-20">
+  <div class="anim-section mb-20 text-center">
     <p class="label mb-6">Section IV — Field Notes</p>
     <h2 class="h-sub mb-6" style="font-size:clamp(2.8rem,5vw,3.8rem);">Micro-Blog & Snippets.</h2>
   </div>
@@ -771,17 +771,17 @@
 
 <section id="contact" class="container-w py-32 md:py-48">
   <div class="ui-card p-14 md:p-24 grid md:grid-cols-[1.3fr,0.7fr] gap-20 items-center anim-section">
-    <div>
+    <div class="text-center">
       <p class="label mb-6">Section V — Correspondence</p>
       <h2 class="h-sub mb-8" style="font-size:clamp(2.8rem,5vw,3.8rem);">Initiate Communication.</h2>
-      <p class="text-[var(--dim)] leading-[1.9] text-[1.25rem] font-serif mb-14 vn-readable decay-target">
+      <p class="text-[var(--dim)] leading-[1.9] text-[1.25rem] font-serif mb-14 vn-readable decay-target max-w-2xl mx-auto">
         Open for internships, analytical consults, and structured data-processing contracts—specifically those featuring complex raw inputs and clear objectives.
       </p>
-      <div class="flex flex-wrap gap-x-10 gap-y-6 items-center">
+      <div class="flex flex-wrap gap-x-10 gap-y-6 items-center justify-center">
         <a href="mailto:2025.nabhyab@isu.ac.in" class="btn-primary mag-btn hover-trigger">2025.nabhyab@isu.ac.in</a>
       </div>
     </div>
-    <div class="border-t md:border-t-0 md:border-l border-[var(--line)] pt-14 md:pt-0 md:pl-20">
+    <div class="border-t md:border-t-0 md:border-l border-[var(--line)] pt-14 md:pt-0 md:pl-20 text-center">
       <p class="label mb-10">External Portals</p>
       <ul class="space-y-8 font-serif text-[1.25rem]">
         <li><a class="hover:text-[var(--gold)] transition-colors hover-trigger" href="https://www.linkedin.com/in/nabhya52kar/" target="_blank" rel="noopener">LinkedIn Profile ↗</a></li>
@@ -800,12 +800,12 @@
 </main>
 
 <footer class="border-t border-[var(--line)] py-20 relative z-20">
-  <div class="container-w flex flex-col md:flex-row items-center justify-between gap-8 text-center md:text-left">
+  <div class="container-w flex flex-col md:flex-row items-center justify-center gap-8 text-center">
     <div>
       <p class="h-sub font-calligraphy-accent text-4xl text-[var(--ink)] mb-2">Nabhya Bawankar</p>
       <p class="label !text-[0.65rem] text-[var(--dim)]">Built with Vanilla JS, GSAP, Tailwind.</p>
     </div>
-    <div class="flex flex-col items-end gap-3">
+    <div class="flex flex-col items-center gap-3">
       <p class="label !text-[0.65rem] text-[var(--dim)]" id="footer-time">© 2026 · Maintained with precision</p>
     </div>
   </div>
