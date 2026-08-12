@@ -82,7 +82,17 @@
   .hero-title{
     font-family:'Avenir Next','Avenir','Helvetica Neue',Helvetica,Arial,sans-serif;
     font-weight:500;
-    letter-spacing:-0.02em;
+    letter-spacing:-0.045em;
+  }
+  #typewriter{
+    display:inline-block;
+    letter-spacing:-0.055em;
+  }
+  #typewriter::first-letter{
+    font-family:'Allura', cursive;
+    font-size:1.2em;
+    letter-spacing:0;
+    margin-right:0.02em;
   }
   .text-mask-fluid {
     background: linear-gradient(120deg, var(--ink), var(--gold), var(--ink), var(--dim)); background-size: 300% 300%;
@@ -358,6 +368,17 @@
   .gh-cell[data-level="2"] { background: color-mix(in srgb, var(--gold) 50%, transparent); }
   .gh-cell[data-level="3"] { background: color-mix(in srgb, var(--gold) 75%, transparent); }
   .gh-cell[data-level="4"] { background: var(--gold); }
+  .repo-activity-wrap{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    text-align:center;
+  }
+  #gh-grid{
+    justify-content:center;
+    margin-left:auto;
+    margin-right:auto;
+  }
 
   .sr-only {
     position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
@@ -791,7 +812,7 @@
     </div>
   </div>
   
-  <div class="mt-24 anim-section">
+  <div class="mt-24 anim-section repo-activity-wrap">
     <p class="label mb-6 text-center">Repository Activity</p>
     <div class="gh-graph justify-center" id="gh-grid"></div> 
   </div>
