@@ -48,7 +48,7 @@
   #vignette{
     position:fixed; inset:0; z-index:997; pointer-events:none;
     background:radial-gradient(120% 85% at 50% 15%, transparent 35%, rgba(0,0,0,0.7) 100%);
-    mix-blend-mode:multiply; transition:opacity .6s ease;
+    mix-blend-mode:multiply; transition:opacity .3s ease;
   }
   html.light-mode #vignette{ opacity:0.08; }
 
@@ -61,71 +61,40 @@
   .h-display{ font-family:'Cormorant Garamond', serif; font-weight:300; line-height:0.95; letter-spacing:-0.03em; }
   .h-sub{ font-family:'Cormorant Garamond', serif; font-weight:400; font-style:italic; }
 
-  /* 
-   =============================================
-   BULLETPROOF ABSOLUTE NAVIGATION LAYOUT 
-   =============================================
-  */
+  /* Katakana Hover Swap */
+  .katakana-swap { display: inline-block; position: relative; }
+  .katakana-swap::after {
+    content: attr(data-jp); position: absolute; left: 0; top: 0; opacity: 0;
+    transition: opacity 0.3s ease; color: var(--gold);
+  }
+  .katakana-swap:hover { color: transparent; }
+  .katakana-swap:hover::after { opacity: 1; }
+
+  /* Navigation */
   #topnav{ 
-    backdrop-filter:blur(12px); 
-    background:color-mix(in srgb, var(--void) 85%, transparent); 
-    border-bottom:1px solid var(--line); 
-    z-index:50; 
+    backdrop-filter:blur(12px); background:color-mix(in srgb, var(--void) 85%, transparent); 
+    border-bottom:1px solid var(--line); z-index:50; 
   }
-  
-  .absolute-nav-wrapper {
-    position: relative;
-    width: 100%;
-    height: 6rem; /* 24 in tailwind */
-  }
+  .absolute-nav-wrapper { position: relative; width: 100%; height: 6rem; }
+  .nav-logo-locked { position: absolute; left: 2.5rem; top: 50%; transform: translateY(-50%); }
+  .nav-links-locked { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); display: flex; gap: 3.5rem; }
+  .nav-tools-locked { position: absolute; right: 2.5rem; top: 50%; transform: translateY(-50%); display: flex; align-items: center; gap: 2rem; }
+  @media (max-width: 768px) { .nav-links-locked { display: none; } }
 
-  /* Force Logo to Far Left */
-  .nav-logo-locked {
-    position: absolute;
-    left: 2.5rem; /* Matches container padding */
-    top: 50%;
-    transform: translateY(-50%);
-  }
-
-  /* Force Links to Dead Center */
-  .nav-links-locked {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    display: flex;
-    gap: 3.5rem;
-  }
-
-  /* Force Moon & Time to FAR RIGHT */
-  .nav-tools-locked {
-    position: absolute;
-    right: 2.5rem; /* Matches container padding */
-    top: 50%;
-    transform: translateY(-50%);
-    display: flex;
-    align-items: center;
-    gap: 2rem;
-  }
-
-  @media (max-width: 768px) {
-    .nav-links-locked { display: none; } /* Hide center links on mobile */
-  }
-  /* ============================================= */
-
-  /* Elegantly Styled Buttons */
+  /* Buttons */
   .btn-primary{
     font-family:'Space Mono', monospace; font-size:0.8rem; letter-spacing:0.12em; text-transform:uppercase;
     background:var(--ink); color:var(--void); padding:1rem 2.5rem; border-radius:100px;
     transition:transform .35s cubic-bezier(.2,.8,.2,1), background .35s ease, box-shadow .35s ease;
     display:inline-flex; align-items: center; justify-content: center; border:1px solid var(--ink); text-align:center;
+    position: relative;
   }
   .btn-primary:hover{ transform:translateY(-2px); background:var(--gold); border-color:var(--gold); box-shadow:0 12px 35px -8px rgba(209,183,148,0.35); }
   
   .btn-ghost{
     font-family:'Space Mono', monospace; font-size:0.8rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--dim);
-    border-bottom:1px solid var(--line); padding-bottom:6px; transition:color .3s ease, border-color .3s ease;
-    display:inline-flex; align-items: center; justify-content: center;
+    border-bottom:1px solid var(--line); padding-bottom:6px; transition:color .3s ease, border-color .3s ease, transform .3s ease;
+    display:inline-flex; align-items: center; justify-content: center; position: relative;
   }
   .btn-ghost:hover{ color:var(--ink); border-color:var(--gold); }
 
@@ -144,21 +113,35 @@
     box-shadow:0 24px 60px -20px rgba(0,0,0,0.4), 0 0 40px -15px rgba(209,183,148,0.1); 
     transform:translateY(-4px); 
   }
+  
+  /* Project Hover Previews */
+  .proj-card { cursor: none; }
+  #hover-preview {
+    position: fixed; top: 0; left: 0; width: 280px; height: 180px; pointer-events: none;
+    z-index: 100; opacity: 0; transform: scale(0.8) translate(-50%, -50%);
+    transition: opacity 0.3s ease, transform 0.4s cubic-bezier(.2,.8,.2,1);
+    border: 1px solid var(--gold); border-radius: 4px; overflow: hidden;
+    background: var(--void); box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+  }
+  #hover-preview img { width: 100%; height: 100%; object-fit: cover; opacity: 0.6; filter: grayscale(100%) contrast(1.2); }
+  .proj-card:hover ~ #hover-preview.active { opacity: 1; transform: scale(1) translate(-50%, -50%); }
 
   .proj-num{ font-family:'Space Mono',monospace; color:var(--gold); font-size:0.9rem; opacity: 0.8;}
 
-  /* Skill Tracks */
+  /* Sortable Skill Tracks */
+  .skills-list { display: flex; flex-direction: column; gap: 2.5rem; }
+  .skill-row { transition: transform 0.5s ease, opacity 0.5s ease; }
   .skill-track{ height:1px; background:var(--line); position:relative; margin-top: 0.8rem; }
   .skill-fill{ position:absolute; inset:0; width:0%; background:var(--gold); }
+  .sort-btn { font-size: 0.65rem; color: var(--dim); cursor: pointer; transition: color 0.3s; }
+  .sort-btn.active { color: var(--gold); border-bottom: 1px solid var(--gold); }
 
   /* Minimal Data Table */
   .data-preview-table {
     width: 100%; border-collapse: collapse; font-family: 'Space Mono', monospace; font-size: 0.8rem; margin-top: 2rem;
     background: color-mix(in srgb, var(--void) 30%, transparent); border: 1px solid var(--line); border-radius: 4px; overflow: hidden;
   }
-  .data-preview-table th, .data-preview-table td {
-    padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--line); text-align: left; color: var(--dim);
-  }
+  .data-preview-table th, .data-preview-table td { padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--line); text-align: left; color: var(--dim); }
   .data-preview-table th { color: var(--gold); font-weight: normal; background: color-mix(in srgb, var(--gold) 4%, transparent); }
   .data-preview-table tr:last-child td { border-bottom: none; }
 
@@ -179,16 +162,12 @@
 
   /* Gothic Cross Cursor */
   #ink-cursor{
-    position:fixed; top:0; left:0; 
-    color: var(--gold); font-size: 28px; line-height: 1; text-align: center;
-    pointer-events:none; z-index:999; 
-    text-shadow: 0 0 8px rgba(209,183,148,0.3);
+    position:fixed; top:0; left:0; color: var(--gold); font-size: 28px; line-height: 1; text-align: center;
+    pointer-events:none; z-index:9999; text-shadow: 0 0 8px rgba(209,183,148,0.3);
     transition: font-size .25s cubic-bezier(.2,.8,.2,1), color .25s ease, text-shadow .25s ease;
     transform:translate(-50%, -50%);
   }
-  #ink-cursor.hovering {
-    font-size: 46px; color: var(--ink); text-shadow: 0 0 12px rgba(247,244,237,0.5);
-  }
+  #ink-cursor.hovering { font-size: 46px; color: var(--ink); text-shadow: 0 0 12px rgba(247,244,237,0.5); }
   @media (hover:none){ #ink-cursor{display:none;} }
 
   .type-cursor{ display:inline-block; width:1.5px; background:var(--gold); animation:blink 1s step-end infinite; }
@@ -196,6 +175,51 @@
 
   #page-skeleton{ transition:opacity .8s ease; }
   
+  /* Tool Stack Grid */
+  .tool-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: 1rem; }
+  .tool-icon { 
+    aspect-ratio: 1; border: 1px solid var(--line); border-radius: 4px; display: flex; align-items: center; justify-content: center;
+    color: var(--dim); font-size: 1.5rem; transition: color 0.3s, border-color 0.3s, background 0.3s;
+  }
+  .tool-icon:hover { color: var(--gold); border-color: var(--gold); background: color-mix(in srgb, var(--gold) 5%, transparent); }
+
+  /* Personal GitHub Graph */
+  .gh-graph { display: flex; gap: 4px; overflow-x: auto; padding-bottom: 1rem; }
+  .gh-col { display: flex; flex-direction: column; gap: 4px; }
+  .gh-cell { width: 12px; height: 12px; border-radius: 2px; background: var(--line); transition: background 0.3s; }
+  .gh-cell[data-level="1"] { background: color-mix(in srgb, var(--gold) 25%, transparent); }
+  .gh-cell[data-level="2"] { background: color-mix(in srgb, var(--gold) 50%, transparent); }
+  .gh-cell[data-level="3"] { background: color-mix(in srgb, var(--gold) 75%, transparent); }
+  .gh-cell[data-level="4"] { background: var(--gold); }
+
+  /* Currently Learning Widget */
+  #learning-widget {
+    position: fixed; bottom: 2rem; left: 2.5rem; z-index: 40; border: 1px solid var(--line); padding: 1rem 1.5rem;
+    background: color-mix(in srgb, var(--void) 90%, transparent); backdrop-filter: blur(8px); border-radius: 4px;
+    transform: translateY(150%); transition: transform 0.6s cubic-bezier(.2,.8,.2,1);
+  }
+  #learning-widget.visible { transform: translateY(0); }
+
+  /* Modals (Terminal / Snippet / Reel) */
+  .modal-overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(10px); z-index: 9000;
+    display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.4s ease;
+  }
+  .modal-overlay.active { opacity: 1; pointer-events: auto; }
+  .terminal-window {
+    width: 90%; max-width: 800px; background: #050505; border: 1px solid #333; border-radius: 6px;
+    font-family: 'Space Mono', monospace; font-size: 0.85rem; color: #4ade80; padding: 2rem; box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+    transform: translateY(20px); transition: transform 0.4s ease; max-height: 80vh; overflow-y: auto;
+  }
+  .modal-overlay.active .terminal-window { transform: translateY(0); }
+  .terminal-header { border-bottom: 1px solid #333; padding-bottom: 1rem; margin-bottom: 1rem; color: #888; }
+  
+  /* Syntax Highlighting Fake */
+  .syn-k { color: #c678dd; } /* Keyword */
+  .syn-f { color: #61afef; } /* Function */
+  .syn-s { color: #98c379; } /* String */
+  .syn-c { color: #5c6370; font-style: italic; } /* Comment */
+
   ::-webkit-scrollbar{ width:6px; }
   ::-webkit-scrollbar-track{ background:var(--void); }
   ::-webkit-scrollbar-thumb{ background:var(--dim); border-radius:10px; }
@@ -208,31 +232,30 @@
 <div id="ink-cursor">✠</div>
 
 <div id="page-skeleton" class="fixed inset-0 z-[1000] bg-[var(--void)] flex items-center justify-center">
-  <div class="label text-[var(--gold)] animate-pulse">Loading Environment...</div>
+  <div class="flex flex-col items-center gap-4">
+    <div class="label text-[var(--gold)] text-2xl animate-pulse">データ</div>
+    <div class="label text-[var(--dim)] opacity-60">Initializing Environment...</div>
+  </div>
 </div>
 
 <nav id="topnav" class="fixed top-0 inset-x-0 z-40 transition-colors duration-500">
-  <!-- Replaced Tailwind Grid with Bulletproof Absolute Positioning -->
   <div class="max-w-[1280px] mx-auto absolute-nav-wrapper">
-    
     <!-- LEFT: Logo -->
     <div class="nav-logo-locked">
-      <a href="#" class="label tracking-[0.25em] text-[var(--ink)] hover:text-[var(--gold)] transition-colors">N. BAWANKAR</a>
+      <a href="#" class="label tracking-[0.25em] text-[var(--ink)] transition-colors katakana-swap hover-trigger" data-jp="N. バワンカル">N. BAWANKAR</a>
     </div>
-    
     <!-- CENTER: Navigation Links -->
     <div class="nav-links-locked">
-      <a href="#work" class="label hover:text-[var(--ink)] transition-colors">Exhibits</a>
-      <a href="#about" class="label hover:text-[var(--ink)] transition-colors">Dossier</a>
-      <a href="#contact" class="label hover:text-[var(--ink)] transition-colors">Dispatch</a>
+      <a href="#work" class="label hover:text-[var(--ink)] transition-colors hover-trigger">Exhibits</a>
+      <a href="#about" class="label hover:text-[var(--ink)] transition-colors hover-trigger">Dossier</a>
+      <a href="#notes" class="label hover:text-[var(--ink)] transition-colors hover-trigger">Notes</a>
+      <a href="#contact" class="label hover:text-[var(--ink)] transition-colors hover-trigger">Dispatch</a>
     </div>
-
     <!-- RIGHT: Time & Moon Widget -->
     <div class="nav-tools-locked">
       <span id="dispatch-time" class="label hidden sm:block text-[var(--dim)] opacity-70 whitespace-nowrap">--:--</span>
-      <div id="moon-widget" title="Toggle Light/Dark Theme" aria-label="Toggle Theme"></div>
+      <div id="moon-widget" class="hover-trigger" title="Toggle Light/Dark Theme" aria-label="Toggle Theme"></div>
     </div>
-
   </div>
 </nav>
 
@@ -253,8 +276,8 @@
     </p>
 
     <div class="flex flex-wrap items-center justify-center gap-x-10 gap-y-6 anim-fade">
-      <a href="#work" class="btn-primary">View Selected Exhibits</a>
-      <a href="mailto:2025.nabhyab@isu.ac.in" class="btn-ghost">Establish Contact</a>
+      <a href="#work" class="btn-primary mag-btn hover-trigger">View Selected Exhibits</a>
+      <a href="mailto:2025.nabhyab@isu.ac.in" class="btn-ghost mag-btn hover-trigger">Establish Contact</a>
     </div>
   </div>
 </header>
@@ -263,47 +286,65 @@
 
 <main class="relative z-10">
 
-<section id="about" class="container-w py-32 md:py-48">
-  <div class="grid md:grid-cols-[1.1fr,0.9fr] gap-24 items-center">
+<section id="about" class="container-w py-32 md:py-40">
+  <div class="grid md:grid-cols-[1.1fr,0.9fr] gap-24 items-start">
     <div class="anim-section">
       <p class="label mb-6">Section I — The Dossier</p>
       <h2 class="h-sub mb-10" style="font-size:clamp(2.8rem,5vw,3.8rem);">On working with real, unglamorous data.</h2>
       <p class="text-[var(--dim)] leading-[1.9] text-[1.25rem] mb-8 font-serif">
         Most of what I've built stems from real assignments—NGO applicant records, structured cost sheets, and analytical audits. I prefer the administrative mechanics closer to bookkeeping than storytelling: verifying columns, sanitizing erratic inputs, and distilling complex matrices into clear metrics.
       </p>
-      <p class="text-[var(--dim)] leading-[1.9] text-[1.25rem] font-serif">
+      <p class="text-[var(--dim)] leading-[1.9] text-[1.25rem] font-serif mb-12">
         Every deliverable is built upon a reproducible pipeline, transparent documentation, and absolute structural integrity.
       </p>
+      
+      <!-- Tool Stack Grid -->
+      <p class="label mb-6">Daily Drivers</p>
+      <div class="tool-grid">
+        <div class="tool-icon" title="Mac OS">⌘</div>
+        <div class="tool-icon" title="Python">Py</div>
+        <div class="tool-icon" title="R Studio">R</div>
+        <div class="tool-icon" title="SQL">∑</div>
+        <div class="tool-icon" title="Spreadsheets">⊞</div>
+        <div class="tool-icon" title="TouchDesigner">TD</div>
+      </div>
     </div>
 
     <div class="ui-card anim-section">
-      <p class="label mb-12 text-[var(--ink)]">Analytical Instruments</p>
-      <div class="space-y-10">
-        <div class="skill-row" data-level="75">
+      <div class="flex justify-between items-end mb-12">
+        <p class="label text-[var(--ink)]">Analytical Instruments</p>
+        <div class="flex gap-4">
+          <span class="sort-btn active hover-trigger" data-sort="prof">Proficiency</span>
+          <span class="sort-btn hover-trigger" data-sort="freq">Frequency</span>
+        </div>
+      </div>
+      
+      <div class="skills-list" id="skills-container">
+        <!-- Python -->
+        <div class="skill-row" data-prof="75" data-freq="90">
           <div class="flex w-full justify-between items-end font-serif text-[1.25rem] text-[var(--ink)] tracking-wide mb-2">
-            <span>Python Environment</span>
-            <span class="label text-[var(--gold)]">Active</span>
+            <span>Python Environment</span><span class="label text-[var(--gold)]">Active</span>
           </div>
           <div class="skill-track"><div class="skill-fill"></div></div>
         </div>
-        <div class="skill-row" data-level="65">
+        <!-- SQL -->
+        <div class="skill-row" data-prof="65" data-freq="80">
           <div class="flex w-full justify-between items-end font-serif text-[1.25rem] text-[var(--ink)] tracking-wide mb-2">
-            <span>SQL Queries & Architecture</span>
-            <span class="label text-[var(--gold)]">Operational</span>
+            <span>SQL Queries & Architecture</span><span class="label text-[var(--gold)]">Operational</span>
           </div>
           <div class="skill-track"><div class="skill-fill"></div></div>
         </div>
-        <div class="skill-row" data-level="50">
+        <!-- R -->
+        <div class="skill-row" data-prof="50" data-freq="40">
           <div class="flex w-full justify-between items-end font-serif text-[1.25rem] text-[var(--ink)] tracking-wide mb-2">
-            <span>R Modeling & Stats</span>
-            <span class="label text-[var(--gold)]">Developing</span>
+            <span>R Modeling & Stats</span><span class="label text-[var(--gold)]">Developing</span>
           </div>
           <div class="skill-track"><div class="skill-fill"></div></div>
         </div>
-        <div class="skill-row" data-level="88">
+        <!-- Spreadsheets -->
+        <div class="skill-row" data-prof="88" data-freq="95">
           <div class="flex w-full justify-between items-end font-serif text-[1.25rem] text-[var(--ink)] tracking-wide mb-2">
-            <span>Spreadsheet Architecture</span>
-            <span class="label text-[var(--gold)]">Advanced</span>
+            <span>Spreadsheet Architecture</span><span class="label text-[var(--gold)]">Advanced</span>
           </div>
           <div class="skill-track"><div class="skill-fill"></div></div>
         </div>
@@ -314,93 +355,211 @@
 
 <div class="container-w"><div class="rule"></div></div>
 
-<section id="work" class="container-w py-32 md:py-48">
-  <div class="anim-section mb-24">
-    <p class="label mb-6">Section II — Archives</p>
-    <h2 class="h-sub mb-6" style="font-size:clamp(2.8rem,5vw,3.8rem);">Selected Finished Works.</h2>
-    <p class="text-[var(--dim)] max-w-lg font-serif text-[1.25rem]">A curated dossier of deployment-ready deliverables.</p>
+<section id="work" class="container-w py-32 md:py-40">
+  <div class="anim-section mb-24 flex justify-between items-end">
+    <div>
+      <p class="label mb-6">Section II — Archives</p>
+      <h2 class="h-sub mb-6" style="font-size:clamp(2.8rem,5vw,3.8rem);">Selected Finished Works.</h2>
+      <p class="text-[var(--dim)] max-w-lg font-serif text-[1.25rem]">A curated dossier of deployment-ready deliverables.</p>
+    </div>
   </div>
 
   <div class="grid md:grid-cols-2 gap-16">
-    <!-- Project Card 01 -->
-    <article class="ui-card anim-section flex flex-col">
+    <!-- Project 01: NGO -->
+    <article class="ui-card anim-section flex flex-col proj-card hover-trigger" data-img="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop">
       <div class="flex items-center justify-between mb-8">
-        <span class="proj-num">01</span>
-        <span class="label !text-[0.7rem] opacity-70">Data Cleaning</span>
+        <span class="proj-num">01</span><span class="label !text-[0.7rem] opacity-70">Data Cleaning</span>
       </div>
-      <h3 class="h-display text-5xl text-[var(--ink)] mb-8">NGO Applicant Records</h3>
+      <h3 class="h-display text-4xl lg:text-5xl text-[var(--ink)] mb-8">NGO Applicant Records</h3>
       <p class="text-[var(--dim)] leading-[1.8] font-serif text-[1.2rem] mb-10 flex-grow">
         Standardized, validated, and scrubbed 350 applicant records during an intensive operational internship—normalizing formats and resolving encoding corruptions.
       </p>
-      <div class="mt-auto">
-        <div class="overflow-x-auto mb-10">
-          <table class="data-preview-table !mt-0">
-            <thead>
-              <tr><th>Record_ID</th><th>Status</th></tr>
-            </thead>
-            <tbody>
-              <tr><td>#NS-301</td><td>Verified</td></tr>
-              <tr><td>#NS-302</td><td>Normalized</td></tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="flex gap-4">
-          <span class="label !text-[0.75rem] border border-[var(--line)] px-5 py-2 rounded-sm">Codebook</span>
-          <span class="label !text-[0.75rem] border border-[var(--line)] px-5 py-2 rounded-sm">CSV</span>
-        </div>
+      <div class="mt-auto pt-8 border-t border-[var(--line)] flex gap-4">
+        <span class="label !text-[0.75rem] border border-[var(--line)] px-5 py-2 rounded-sm">Codebook</span>
+        <span class="label !text-[0.75rem] border border-[var(--line)] px-5 py-2 rounded-sm">CSV</span>
       </div>
     </article>
 
-    <!-- Project Card 02 -->
-    <article class="ui-card anim-section flex flex-col">
+    <!-- Project 02: Quick Commerce -->
+    <article class="ui-card anim-section flex flex-col proj-card hover-trigger" data-img="https://images.unsplash.com/photo-1601597111158-2fceff292cdc?q=80&w=800&auto=format&fit=crop">
       <div class="flex items-center justify-between mb-8">
-        <span class="proj-num">02</span>
-        <span class="label !text-[0.7rem] opacity-70">Architecture</span>
+        <span class="proj-num">02</span><span class="label !text-[0.7rem] opacity-70">Game Theory</span>
       </div>
-      <h3 class="h-display text-5xl text-[var(--ink)] mb-8">Effective Communication</h3>
+      <h3 class="h-display text-4xl lg:text-5xl text-[var(--ink)] mb-8">Quick-Commerce Strategy</h3>
       <p class="text-[var(--dim)] leading-[1.8] font-serif text-[1.2rem] mb-10 flex-grow">
-        Architected a dedicated digital micro-site translating workshop materials into an optimized format emphasizing clear document layouts and structured framing.
+        A comparative presentation applying game theory models to competitive dynamics within the quick-commerce industry, analyzing strategies of Blinkit, Zepto, and Swiggy Instamart.
       </p>
-      <div class="mt-auto pt-10 border-t border-[var(--line)] flex items-center justify-between">
-        <a href="https://artofeffectivecomms.vercel.app" target="_blank" rel="noopener" class="btn-ghost !text-[0.8rem]">View Live Site</a>
-        <a href="https://github.com/zyeroounarchived/artofeffectivecomm" target="_blank" rel="noopener" class="btn-ghost !text-[0.8rem]">Source Code</a>
+      <div class="mt-auto pt-8 border-t border-[var(--line)]">
+        <button class="btn-ghost !text-[0.8rem] modal-trigger" data-target="modal-deck">View Deck Preview</button>
+      </div>
+    </article>
+
+    <!-- Project 03: Banking Ops -->
+    <article class="ui-card anim-section flex flex-col proj-card hover-trigger" data-img="https://images.unsplash.com/photo-1616077168712-fc6c788db4fa?q=80&w=800&auto=format&fit=crop">
+      <div class="flex items-center justify-between mb-8">
+        <span class="proj-num">03</span><span class="label !text-[0.7rem] opacity-70">Research Audit</span>
+      </div>
+      <h3 class="h-display text-4xl lg:text-5xl text-[var(--ink)] mb-8">Banking Operations Audit</h3>
+      <p class="text-[var(--dim)] leading-[1.8] font-serif text-[1.2rem] mb-10 flex-grow">
+        Comprehensive HRM research covering talent management, ethical governance, and fraud prevention practices across multiple commercial banks in India based on secondary data analysis.
+      </p>
+      <div class="mt-auto pt-8 border-t border-[var(--line)]">
+        <span class="label !text-[0.75rem] border border-[var(--line)] px-5 py-2 rounded-sm">Infographic</span>
+      </div>
+    </article>
+
+    <!-- Project 04: Drama Reel -->
+    <article class="ui-card anim-section flex flex-col proj-card hover-trigger" data-img="https://images.unsplash.com/photo-1594892404090-e51c8907f981?q=80&w=800&auto=format&fit=crop">
+      <div class="flex items-center justify-between mb-8">
+        <span class="proj-num">04</span><span class="label !text-[0.7rem] opacity-70">Creative Media</span>
+      </div>
+      <h3 class="h-display text-4xl lg:text-5xl text-[var(--ink)] mb-8">Drama Club Reel & Scripts</h3>
+      <p class="text-[var(--dim)] leading-[1.8] font-serif text-[1.2rem] mb-10 flex-grow">
+        Active participation in student film and drama, outlining script structures, dialogue translations, and editing the official after-event video reel for the club.
+      </p>
+      <div class="mt-auto pt-8 border-t border-[var(--line)] flex gap-8 items-center">
+        <button class="btn-ghost !text-[0.8rem]" onclick="alert('Playing Video Reel...')">Play Video Reel ⏵</button>
       </div>
     </article>
   </div>
 </section>
 
+<!-- Hover Preview Container -->
+<div id="hover-preview"><img src="" alt="Preview"></div>
+
+<div class="container-w"><div class="rule"></div></div>
+
+<section id="notes" class="container-w py-32 md:py-40">
+  <div class="anim-section mb-20">
+    <p class="label mb-6">Section III — Field Notes</p>
+    <h2 class="h-sub mb-6" style="font-size:clamp(2.8rem,5vw,3.8rem);">Micro-Blog & Snippets.</h2>
+  </div>
+  
+  <div class="grid md:grid-cols-3 gap-12">
+    <div class="border-t border-[var(--line)] pt-8 anim-section">
+      <p class="label !text-[0.65rem] mb-4 text-[var(--dim)]">2026-04</p>
+      <h4 class="text-xl text-[var(--ink)] font-serif mb-3">On Pearson's Skewness</h4>
+      <p class="text-[var(--dim)] text-[1.05rem] leading-[1.7] font-serif">
+        Revisiting business statistics for distributions. Calculating medians and compound annual growth rates manually grounds the formulas before ever writing the SQL for them.
+      </p>
+    </div>
+    <div class="border-t border-[var(--line)] pt-8 anim-section">
+      <p class="label !text-[0.65rem] mb-4 text-[var(--dim)]">2026-02</p>
+      <h4 class="text-xl text-[var(--ink)] font-serif mb-3">Linear Optimization in R</h4>
+      <p class="text-[var(--dim)] text-[1.05rem] leading-[1.7] font-serif mb-4">
+        Utilizing optimization packages in R to solve linear programming matrices. The setup takes longer than the solve.
+      </p>
+      <button class="btn-ghost !text-[0.7rem] modal-trigger" data-target="modal-code">View R Snippet</button>
+    </div>
+    <div class="border-t border-[var(--line)] pt-8 anim-section">
+      <p class="label !text-[0.65rem] mb-4 text-[var(--dim)]">2026-01</p>
+      <h4 class="text-xl text-[var(--ink)] font-serif mb-3">Japanese Syntax</h4>
+      <p class="text-[var(--dim)] text-[1.05rem] leading-[1.7] font-serif">
+        Actively focusing on writing proficiency and character recognition for Hiragana, Katakana, and frequently used Kanji. Consistency beats intensity.
+      </p>
+    </div>
+  </div>
+</section>
+
+<div class="container-w"><div class="rule"></div></div>
+
 <section id="contact" class="container-w py-32 md:py-48">
   <div class="ui-card p-14 md:p-24 grid md:grid-cols-[1.3fr,0.7fr] gap-20 items-center anim-section">
     <div>
-      <p class="label mb-6">Section III — Correspondence</p>
+      <p class="label mb-6">Section IV — Correspondence</p>
       <h2 class="h-sub mb-8" style="font-size:clamp(2.8rem,5vw,3.8rem);">Initiate Communication.</h2>
       <p class="text-[var(--dim)] leading-[1.9] text-[1.25rem] font-serif mb-14">
         Open for internships, analytical consults, and structured data-processing contracts—specifically those featuring complex raw inputs and clear objectives.
       </p>
       <div class="flex flex-wrap gap-x-10 gap-y-6 items-center">
-        <a href="mailto:2025.nabhyab@isu.ac.in" class="btn-primary">2025.nabhyab@isu.ac.in</a>
-        <a href="#resume" onclick="alert('Please link your resume PDF file href here!'); return false;" class="btn-ghost">Download CV</a>
+        <a href="mailto:2025.nabhyab@isu.ac.in" class="btn-primary mag-btn hover-trigger">2025.nabhyab@isu.ac.in</a>
       </div>
     </div>
     <div class="border-t md:border-t-0 md:border-l border-[var(--line)] pt-14 md:pt-0 md:pl-20">
       <p class="label mb-10">External Portals</p>
       <ul class="space-y-8 font-serif text-[1.25rem]">
-        <li><a class="hover:text-[var(--gold)] transition-colors" href="https://www.linkedin.com/in/nabhya52kar/" target="_blank" rel="noopener">LinkedIn Profile ↗</a></li>
-        <li><a class="hover:text-[var(--gold)] transition-colors" href="https://github.com/zyeroounarchived" target="_blank" rel="noopener">GitHub Repositories ↗</a></li>
+        <li><a class="hover:text-[var(--gold)] transition-colors hover-trigger" href="https://www.linkedin.com/in/nabhya52kar/" target="_blank" rel="noopener">LinkedIn Profile ↗</a></li>
+        <li><a class="hover:text-[var(--gold)] transition-colors hover-trigger" href="https://github.com/zyeroounarchived" target="_blank" rel="noopener">GitHub Repositories ↗</a></li>
         <li class="label pt-8 text-[var(--dim)]">Stationed: Mumbai, Maharashtra</li>
       </ul>
     </div>
+  </div>
+  
+  <!-- GitHub Graph Simulation -->
+  <div class="mt-24 anim-section">
+    <p class="label mb-6 text-center">Repository Activity</p>
+    <div class="gh-graph justify-center" id="gh-grid"></div>
   </div>
 </section>
 
 </main>
 
-<footer class="border-t border-[var(--line)] py-20">
+<footer class="border-t border-[var(--line)] py-20 relative">
   <div class="container-w flex flex-col md:flex-row items-center justify-between gap-8 text-center md:text-left">
-    <p class="h-sub text-3xl text-[var(--ink)]">Nabhya Bawankar</p>
-    <p class="label !text-[0.75rem] text-[var(--dim)]">© 2026 · Maintained with precision</p>
+    <div>
+      <p class="h-sub text-3xl text-[var(--ink)] mb-2">Nabhya Bawankar</p>
+      <p class="label !text-[0.65rem] text-[var(--dim)]">Built with Vanilla JS, GSAP, Tailwind & Cormorant Garamond.</p>
+    </div>
+    <div class="flex flex-col items-end gap-3">
+      <p class="label !text-[0.65rem] text-[var(--dim)]">© 2026 · Maintained with precision</p>
+      <div class="flex items-center gap-4">
+        <span class="label !text-[0.6rem] text-[var(--dim)]">Lighting</span>
+        <input type="range" id="light-slider" min="0" max="1" step="0.1" value="0.7" class="w-24 hover-trigger cursor-pointer accent-[var(--gold)] bg-[var(--line)] h-1 rounded-full appearance-none">
+      </div>
+    </div>
   </div>
 </footer>
+
+<!-- Currently Learning Widget -->
+<div id="learning-widget">
+  <p class="label !text-[0.6rem] mb-1 opacity-70">Active Focus</p>
+  <p class="font-serif text-[0.95rem] text-[var(--ink)]">Linear Programming in R & Kanji Recognition</p>
+</div>
+
+<!-- Terminal Modals -->
+<div class="modal-overlay" id="modal-code">
+  <div class="terminal-window">
+    <div class="terminal-header flex justify-between items-center">
+      <span>~/projects/optimization/linear_prog.R</span>
+      <button class="close-modal hover:text-white hover-trigger">✕</button>
+    </div>
+<pre><code><span class="syn-c"># Objective: Maximize profit given resource constraints</span>
+<span class="syn-f">library</span>(lpSolve)
+
+<span class="syn-c"># Objective function coefficients (Profit per unit)</span>
+obj_coeff <span class="syn-k"><-</span> <span class="syn-f">c</span>(<span class="syn-s">40</span>, <span class="syn-s">30</span>) 
+
+<span class="syn-c"># Constraint matrix</span>
+const_mat <span class="syn-k"><-</span> <span class="syn-f">matrix</span>(<span class="syn-f">c</span>(<span class="syn-s">2</span>, <span class="syn-s">1</span>, 
+                      <span class="syn-s">1</span>, <span class="syn-s">2</span>,
+                      <span class="syn-s">1</span>, <span class="syn-s">1</span>), nrow=<span class="syn-s">3</span>, byrow=<span class="syn-k">TRUE</span>)
+
+<span class="syn-c"># Constraint directions and RHS values</span>
+const_dir <span class="syn-k"><-</span> <span class="syn-f">c</span>(<span class="syn-s">"<="</span>, <span class="syn-s">"<="</span>, <span class="syn-s">"<="</span>)
+const_rhs <span class="syn-k"><-</span> <span class="syn-f">c</span>(<span class="syn-s">100</span>, <span class="syn-s">80</span>, <span class="syn-s">50</span>)
+
+<span class="syn-c"># Solve</span>
+solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class="syn-s">"max"</span>, obj_coeff, const_mat, const_dir, const_rhs)
+<span class="syn-f">print</span>(solution$solution) <span class="syn-c"># Output optimal quantities</span>
+</code></pre>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-terminal">
+  <div class="terminal-window">
+    <div class="terminal-header">guest@bawankar-os:~$ cat resume.json</div>
+<pre><code>{
+  <span class="syn-s">"name"</span>: <span class="syn-s">"Nabhya Bawankar"</span>,
+  <span class="syn-s">"program"</span>: <span class="syn-s">"BBA Business Analytics & Data Science"</span>,
+  <span class="syn-s">"institution"</span>: <span class="syn-s">"ITM Skills University"</span>,
+  <span class="syn-s">"graduation"</span>: <span class="syn-s">2028</span>,
+  <span class="syn-s">"skills"</span>: [<span class="syn-s">"Python"</span>, <span class="syn-s">"SQL"</span>, <span class="syn-s">"R"</span>, <span class="syn-s">"Spreadsheets"</span>],
+  <span class="syn-s">"interests"</span>: [<span class="syn-s">"Japanese Language"</span>, <span class="syn-s">"Drama Club"</span>, <span class="syn-s">"TouchDesigner"</span>, <span class="syn-s">"Rhythm Games"</span>]
+}
+<span class="text-white mt-4 block">guest@bawankar-os:~$ <span class="animate-pulse">_</span></span>
+</code></pre>
+  </div>
+</div>
 
 <script>
 (function(){
@@ -408,11 +567,36 @@
   const $$ = (s,c=document)=>[...c.querySelectorAll(s)];
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  // Sound Synth setup
+  const AudioContext = window.AudioContext || window.webkitAudioContext;
+  let audioCtx;
+  function playClick() {
+    if(reduceMotion) return;
+    if (!audioCtx) audioCtx = new AudioContext();
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.connect(gain); gain.connect(audioCtx.destination);
+    osc.type = 'sine'; osc.frequency.setValueAtTime(200, audioCtx.currentTime);
+    gain.gain.setValueAtTime(0.015, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.05);
+    osc.start(); osc.stop(audioCtx.currentTime + 0.05);
+  }
+
+  // Dynamic Gold Hue
+  const hour = new Date().getHours();
+  let hue = 38; // base
+  if(hour < 8 || hour > 18) hue = 45; // cooler/darker gold at night
+  document.documentElement.style.setProperty('--gold', `hsl(${hue}, 40%, 65%)`);
+
+  // Loader
   window.addEventListener('load', ()=>{
     const sk = $('#page-skeleton');
-    setTimeout(()=>{ sk.style.opacity='0'; setTimeout(()=>sk.remove(),800); }, 300);
+    setTimeout(()=>{ sk.style.opacity='0'; setTimeout(()=>sk.remove(),800); }, 600);
+    setTimeout(()=> $('#learning-widget').classList.add('visible'), 2000);
   });
 
+  // Lenis Smooth Scroll
   let lenis;
   if(!reduceMotion && window.Lenis){
     lenis = new Lenis({ duration:1.2, easing:t=>Math.min(1, 1.001 - Math.pow(2, -10 * t)), smoothWheel:true });
@@ -422,12 +606,9 @@
   }
   gsap.registerPlugin(ScrollTrigger);
 
-  // Initial Hero Animations
-  gsap.from('.anim-fade', {
-    y:40, opacity:0, duration:1.4, ease:'power3.out', stagger:0.15, delay:0.4
-  });
+  // Animations
+  gsap.from('.anim-fade', { y:40, opacity:0, duration:1.4, ease:'power3.out', stagger:0.15, delay:0.6 });
 
-  // Typewriter Effect
   const twEl = $('#typewriter');
   const phrase = 'Nabhya Bawankar.';
   let i=0;
@@ -442,53 +623,155 @@
         scrollTrigger:{ trigger:el, start:'top 85%', toggleActions:'play none none reverse' }
       });
     });
-
     $$('.rule').forEach(rule=>{
-      gsap.fromTo(rule, {scaleX:0}, {
-        scaleX:1, duration:1.6, ease:'power4.inOut',
-        scrollTrigger:{ trigger:rule, start:'top 95%' }
-      });
+      gsap.fromTo(rule, {scaleX:0}, { scaleX:1, duration:1.6, ease:'power4.inOut', scrollTrigger:{ trigger:rule, start:'top 95%' } });
     });
-
-    $$('.skill-row').forEach(row=>{
-      const fill = $('.skill-fill', row);
-      gsap.fromTo(fill, {width:'0%'}, {
-        width:row.dataset.level+'%', duration:1.5, ease:'power3.out',
-        scrollTrigger:{ trigger:row, start:'top 90%' }
-      });
-    });
-  } else {
-    $$('.skill-row').forEach(row=> $('.skill-fill',row).style.width = row.dataset.level+'%');
   }
 
-  // Custom Gothic Cross Cursor
+  // Sorting Skills
+  const skillRows = $$('.skill-row');
+  const skillContainer = $('#skills-container');
+  $$('.sort-btn').forEach(btn => {
+    btn.addEventListener('click', (e)=>{
+      $$('.sort-btn').forEach(b=>b.classList.remove('active'));
+      e.target.classList.add('active');
+      playClick();
+      const sortBy = e.target.dataset.sort;
+      
+      const sorted = [...skillRows].sort((a,b) => parseInt(b.dataset[sortBy]) - parseInt(a.dataset[sortBy]));
+      
+      sorted.forEach((row, idx) => {
+        gsap.to(row, {opacity:0, y:-10, duration:0.2, onComplete:()=>{
+          skillContainer.appendChild(row); // Reorder DOM
+          const fill = $('.skill-fill', row);
+          fill.style.width = '0%';
+          gsap.to(row, {opacity:1, y:0, duration:0.3});
+          gsap.to(fill, {width: row.dataset[sortBy]+'%', duration:1, ease:'power3.out', delay:0.1});
+        }});
+      });
+    });
+  });
+
+  // Initial Skill Bar Fill
+  setTimeout(()=>{
+    $$('.skill-row').forEach(row=>{
+      const fill = $('.skill-fill', row);
+      gsap.to(fill, {width:row.dataset.prof+'%', duration:1.5, ease:'power3.out', scrollTrigger:{ trigger:row, start:'top 90%' } });
+    });
+  }, 1000);
+
+  // Magnetic Buttons
+  $$('.mag-btn').forEach(btn => {
+    btn.addEventListener('mousemove', e => {
+      const rect = btn.getBoundingClientRect();
+      const x = e.clientX - rect.left - rect.width/2;
+      const y = e.clientY - rect.top - rect.height/2;
+      gsap.to(btn, {x: x*0.2, y: y*0.2, duration:0.4, ease:'power2.out'});
+    });
+    btn.addEventListener('mouseleave', () => gsap.to(btn, {x:0, y:0, duration:0.6, ease:'elastic.out(1,0.3)'}));
+  });
+
+  // Project Hover Image Previews
+  const preview = $('#hover-preview');
+  const previewImg = preview.querySelector('img');
+  $$('.proj-card').forEach(card => {
+    card.addEventListener('mouseenter', e => {
+      if(reduceMotion) return;
+      previewImg.src = card.dataset.img;
+      preview.classList.add('active');
+      playClick();
+    });
+    card.addEventListener('mousemove', e => {
+      if(reduceMotion) return;
+      gsap.to(preview, {left: e.clientX, top: e.clientY, duration:0.4, ease:'power3.out'});
+    });
+    card.addEventListener('mouseleave', () => preview.classList.remove('active'));
+  });
+
+  // Custom Cursor
   const cursor = $('#ink-cursor');
   if(!reduceMotion && matchMedia('(hover:hover)').matches){
     let cx=innerWidth/2, cy=innerHeight/2, tx=cx, ty=cy;
     window.addEventListener('mousemove', e=>{ tx=e.clientX; ty=e.clientY; });
     (function loop(){
-      cx += (tx - cx) * 0.25;
-      cy += (ty - cy) * 0.25;
+      cx += (tx - cx) * 0.25; cy += (ty - cy) * 0.25;
       cursor.style.transform = `translate(${cx}px, ${cy}px) translate(-50%, -50%)`;
       requestAnimationFrame(loop);
     })();
-    $$('a, button, #moon-widget').forEach(el=>{
-      el.addEventListener('mouseenter', ()=> cursor.classList.add('hovering'));
-      el.addEventListener('mouseleave', ()=> cursor.classList.remove('hovering'));
+    document.addEventListener('mouseover', e => {
+      if(e.target.closest('.hover-trigger, a, button, input')) cursor.classList.add('hovering');
+      else cursor.classList.remove('hovering');
     });
+    document.addEventListener('mousedown', playClick);
   } else if(cursor){ cursor.style.display='none'; }
 
-  // Dark / Light Theme Toggle
+  // UI Interactions
   $('#moon-widget').addEventListener('click', ()=>{
     document.documentElement.classList.toggle('light-mode');
     gsap.fromTo('#moon-widget', {rotate:0}, {rotate:360, duration:0.7, ease:'back.out(1.5)'});
+    playClick();
   });
 
-  // Clock
-  function tick(){
-    $('#dispatch-time').textContent = new Date().toLocaleTimeString('en-GB',{hour12:false,timeZone:'Asia/Kolkata'});
-  }
+  $('#light-slider').addEventListener('input', (e)=>{
+    document.getElementById('vignette').style.opacity = e.target.value;
+  });
+
+  function tick(){ $('#dispatch-time').textContent = new Date().toLocaleTimeString('en-GB',{hour12:false,timeZone:'Asia/Kolkata'}); }
   tick(); setInterval(tick,1000);
+
+  // Modals
+  $$('.modal-trigger').forEach(btn => {
+    btn.addEventListener('click', e => {
+      const target = $('#' + e.target.dataset.target);
+      if(target) { target.classList.add('active'); playClick(); }
+    });
+  });
+  $$('.modal-overlay').forEach(overlay => {
+    overlay.addEventListener('click', e => {
+      if(e.target === overlay || e.target.classList.contains('close-modal')) {
+        overlay.classList.remove('active'); playClick();
+      }
+    });
+  });
+
+  // Generate Dummy GitHub Graph
+  const ghGrid = $('#gh-grid');
+  for(let w=0; w<24; w++) {
+    const col = document.createElement('div');
+    col.className = 'gh-col';
+    for(let d=0; d<7; d++) {
+      const cell = document.createElement('div');
+      cell.className = 'gh-cell hover-trigger';
+      // Random activity level favoring 0
+      const level = Math.random() > 0.6 ? Math.floor(Math.random() * 5) : 0;
+      cell.dataset.level = level;
+      col.appendChild(cell);
+    }
+    ghGrid.appendChild(col);
+  }
+
+  // Easter Eggs
+  // 1. Terminal (Cmd+K)
+  window.addEventListener('keydown', e => {
+    if(e.metaKey && e.key === 'k') {
+      e.preventDefault();
+      $('#modal-terminal').classList.add('active');
+      playClick();
+    }
+  });
+
+  // 2. Konami Code
+  const konami = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
+  let kIdx = 0;
+  window.addEventListener('keydown', e => {
+    if(e.key === konami[kIdx]) {
+      kIdx++;
+      if(kIdx === konami.length) {
+        alert('🎵 Rhythm Mode Unlocked! (Just kidding, but good memory!)');
+        kIdx = 0; playClick();
+      }
+    } else { kIdx = 0; }
+  });
 
   window.addEventListener('resize', ()=>ScrollTrigger.refresh());
 })();
