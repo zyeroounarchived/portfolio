@@ -1252,6 +1252,7 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
       if(e.target === overlay || e.target.classList.contains('close-modal')) {
         overlay.classList.remove('active'); 
         clearInterval(matrixInterval); matrixMode = false; playClick();
+        if(overlay.id === 'modal-rhythm') endRhythm(false);
       }
     });
   });
@@ -1319,17 +1320,218 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
 
   // Safe Rhythm Game Initialization
   const rhythmModal = $('#modal-rhythm');
+  const rhythmArea = $('#rhythm-track-area');
+  const rhythmScore = $('#r-score');
+  const rhythmCombo = $('#r-combo');
+  const rhythmJudgement = $('#r-judgement');
+  const rhythmStartBtn = $('#btn-start-rhythm');
+  const keyTargets = [$('#kt-0'), $('#kt-1'), $('#kt-2'), $('#kt-3')];
+  const laneKeys = ['d', 'f', 'j', 'k'];
+
   const konami = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
   let kIdx = 0;
-  
-  if(rhythmModal) {
-    window.addEventListener('keydown', e => {
-      if(e.key === konami[kIdx]) {
-        kIdx++;
-        if(kIdx === konami.length) { rhythmModal.classList.add('active'); playSecretSound(); kIdx = 0; }
-      } else { kIdx = 0; }
+  let rhythmRunning = false;
+  let rhythmScoreValue = 0;
+  let rhythmComboValue = 0;
+  let rhythmLastSpawn = 0;
+  let rhythmSpawnEvery = 520;
+  let rhythmNextEndAt = 0;
+  let rhythmRafId;
+  const rhythmNotes = [];
+
+  function setJudge(text, klass) {
+    if(!rhythmJudgement) return;
+    rhythmJudgement.className = 'rhythm-judgement';
+    rhythmJudgement.textContent = text;
+    if(klass) rhythmJudgement.classList.add(klass);
+  }
+
+  function updateRhythmHud() {
+    if(rhythmScore) rhythmScore.textContent = String(rhythmScoreValue).padStart(4, '0');
+    if(rhythmCombo) rhythmCombo.textContent = String(rhythmComboValue);
+  }
+
+  function clearRhythmNotes() {
+    rhythmNotes.forEach(note => note.el.remove());
+    rhythmNotes.length = 0;
+  }
+
+  function resetRhythmGame() {
+    rhythmScoreValue = 0;
+    rhythmComboValue = 0;
+    rhythmLastSpawn = 0;
+    updateRhythmHud();
+    clearRhythmNotes();
+    setJudge('PRESS START', '');
+  }
+
+  function spawnRhythmNote(now) {
+    if(!rhythmArea) return;
+    if(now - rhythmLastSpawn < rhythmSpawnEvery) return;
+    rhythmLastSpawn = now;
+
+    const lane = Math.floor(Math.random() * 4);
+    const laneEl = rhythmArea.children[lane];
+    if(!laneEl) return;
+
+    const noteEl = document.createElement('div');
+    noteEl.className = 'rhythm-note';
+    noteEl.style.top = '-18px';
+    laneEl.appendChild(noteEl);
+
+    rhythmNotes.push({
+      el: noteEl,
+      lane,
+      y: -18,
+      speed: 2.8 + Math.random() * 0.9,
+      active: true
     });
   }
+
+  function endRhythm(showResult = true) {
+    rhythmRunning = false;
+    cancelAnimationFrame(rhythmRafId);
+    clearRhythmNotes();
+    if(showResult) {
+      setJudge('END • SCORE ' + String(rhythmScoreValue).padStart(4, '0'), 'judg-great');
+    }
+  }
+
+  function updateRhythm(now) {
+    if(!rhythmRunning || !rhythmArea) return;
+
+    spawnRhythmNote(now);
+    const hitLine = rhythmArea.clientHeight - 56;
+
+    for(let i = rhythmNotes.length - 1; i >= 0; i--) {
+      const note = rhythmNotes[i];
+      if(!note.active) continue;
+
+      note.y += note.speed;
+      note.el.style.top = note.y + 'px';
+
+      if(note.y > hitLine + 34) {
+        note.active = false;
+        note.el.remove();
+        rhythmNotes.splice(i, 1);
+        rhythmComboValue = 0;
+        updateRhythmHud();
+        setJudge('MISS', 'judg-miss');
+      }
+    }
+
+    if(now >= rhythmNextEndAt) {
+      endRhythm(true);
+      return;
+    }
+
+    rhythmRafId = requestAnimationFrame(updateRhythm);
+  }
+
+  function judgeLanePress(lane) {
+    if(!rhythmRunning || !rhythmArea) return;
+
+    const hitLine = rhythmArea.clientHeight - 56;
+    let bestIndex = -1;
+    let bestDistance = Infinity;
+
+    for(let i = 0; i < rhythmNotes.length; i++) {
+      const note = rhythmNotes[i];
+      if(!note.active || note.lane !== lane) continue;
+      const dist = Math.abs(note.y - hitLine);
+      if(dist < bestDistance) {
+        bestDistance = dist;
+        bestIndex = i;
+      }
+    }
+
+    if(bestIndex === -1) {
+      rhythmComboValue = 0;
+      updateRhythmHud();
+      setJudge('MISS', 'judg-miss');
+      return;
+    }
+
+    const hitNote = rhythmNotes[bestIndex];
+    let gain = 0;
+    let judgeClass = '';
+    let judgeText = 'MISS';
+
+    if(bestDistance <= 14) {
+      gain = 300;
+      judgeClass = 'judg-perfect';
+      judgeText = 'PERFECT';
+    } else if(bestDistance <= 28) {
+      gain = 150;
+      judgeClass = 'judg-great';
+      judgeText = 'GREAT';
+    }
+
+    if(gain > 0) {
+      rhythmScoreValue += gain;
+      rhythmComboValue += 1;
+      hitNote.active = false;
+      hitNote.el.remove();
+      rhythmNotes.splice(bestIndex, 1);
+      updateRhythmHud();
+      setJudge(judgeText, judgeClass);
+      playClick();
+    } else {
+      rhythmComboValue = 0;
+      updateRhythmHud();
+      setJudge('MISS', 'judg-miss');
+    }
+  }
+
+  function startRhythm() {
+    if(!rhythmArea || rhythmRunning) return;
+    resetRhythmGame();
+    rhythmRunning = true;
+    rhythmSpawnEvery = 500;
+    rhythmNextEndAt = performance.now() + 25000;
+    setJudge('READY', 'judg-great');
+    rhythmRafId = requestAnimationFrame(updateRhythm);
+  }
+
+  if(rhythmStartBtn) {
+    rhythmStartBtn.addEventListener('click', () => {
+      if(rhythmModal) rhythmModal.classList.add('active');
+      startRhythm();
+    });
+  }
+
+  window.addEventListener('keydown', e => {
+    if(rhythmModal && rhythmModal.classList.contains('active')) {
+      const key = e.key.toLowerCase();
+      const lane = laneKeys.indexOf(key);
+      if(lane !== -1) {
+        e.preventDefault();
+        judgeLanePress(lane);
+        const target = keyTargets[lane];
+        if(target) target.classList.add('pressed');
+      }
+    }
+
+    if(e.key === konami[kIdx]) {
+      kIdx++;
+      if(kIdx === konami.length) {
+        if(rhythmModal) rhythmModal.classList.add('active');
+        resetRhythmGame();
+        playSecretSound();
+        kIdx = 0;
+      }
+    } else {
+      kIdx = 0;
+    }
+  });
+
+  window.addEventListener('keyup', e => {
+    const lane = laneKeys.indexOf(e.key.toLowerCase());
+    if(lane !== -1) {
+      const target = keyTargets[lane];
+      if(target) target.classList.remove('pressed');
+    }
+  });
 
   window.addEventListener('resize', ()=>ScrollTrigger.refresh());
 })();
