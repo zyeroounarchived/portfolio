@@ -8,7 +8,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=Newsreader:ital,wght@0,300;0,400;1,400&family=Space+Mono:wght@400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=Newsreader:ital,wght@0,300;0,400;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/3.4.1/tailwind.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
@@ -199,12 +199,13 @@
     margin-bottom: 3rem;
   }
 
-  /* Modals (Terminal / Snippet / Reel) */
+  /* Modals (Terminal / Snippet / Rhythm) */
   .modal-overlay {
     position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(10px); z-index: 9000;
     display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.4s ease;
   }
   .modal-overlay.active { opacity: 1; pointer-events: auto; }
+  
   .terminal-window {
     width: 90%; max-width: 800px; background: #050505; border: 1px solid #333; border-radius: 6px;
     font-family: 'Space Mono', monospace; font-size: 0.85rem; color: #4ade80; padding: 2rem; box-shadow: 0 20px 50px rgba(0,0,0,0.8);
@@ -213,6 +214,15 @@
   .modal-overlay.active .terminal-window { transform: translateY(0); }
   .terminal-header { border-bottom: 1px solid #333; padding-bottom: 1rem; margin-bottom: 1rem; color: #888; }
   
+  /* Rhythm Game Easter Egg Modal */
+  .rhythm-window {
+    text-align: center; font-family: 'Space Mono', monospace; color: #fff;
+    transform: scale(0.9); transition: transform 0.4s cubic-bezier(.2,.8,.2,1);
+  }
+  .modal-overlay.active .rhythm-window { transform: scale(1); }
+  .rhythm-title { font-size: 3rem; font-weight: bold; font-style: italic; color: #ff0055; text-shadow: 0 0 20px #ff0055, 0 0 40px #ff0055; letter-spacing: 0.2em; margin-bottom: 1rem; }
+  .rhythm-subtitle { color: #00e5ff; font-size: 1rem; letter-spacing: 0.1em; }
+
   /* Syntax Highlighting Fake */
   .syn-k { color: #c678dd; } /* Keyword */
   .syn-f { color: #61afef; } /* Function */
@@ -239,18 +249,15 @@
 
 <nav id="topnav" class="fixed top-0 inset-x-0 z-40 transition-colors duration-500">
   <div class="max-w-[1280px] mx-auto absolute-nav-wrapper">
-    <!-- LEFT: Logo -->
     <div class="nav-logo-locked">
       <a href="#" class="label tracking-[0.25em] text-[var(--ink)] transition-colors katakana-swap hover-trigger" data-jp="N. バワンカル">N. BAWANKAR</a>
     </div>
-    <!-- CENTER: Navigation Links -->
     <div class="nav-links-locked">
       <a href="#work" class="label hover:text-[var(--ink)] transition-colors hover-trigger">Exhibits</a>
       <a href="#about" class="label hover:text-[var(--ink)] transition-colors hover-trigger">Dossier</a>
       <a href="#notes" class="label hover:text-[var(--ink)] transition-colors hover-trigger">Notes</a>
       <a href="#contact" class="label hover:text-[var(--ink)] transition-colors hover-trigger">Dispatch</a>
     </div>
-    <!-- RIGHT: Time & Moon Widget -->
     <div class="nav-tools-locked">
       <span id="dispatch-time" class="label hidden sm:block text-[var(--dim)] opacity-70 whitespace-nowrap">--:--</span>
       <div id="moon-widget" class="hover-trigger" title="Toggle Light/Dark Theme" aria-label="Toggle Theme"></div>
@@ -297,7 +304,6 @@
         Every deliverable is built upon a reproducible pipeline, transparent documentation, and absolute structural integrity.
       </p>
       
-      <!-- Tool Stack Grid -->
       <p class="label mb-6">Daily Drivers</p>
       <div class="tool-grid">
         <div class="tool-icon" title="Mac OS">⌘</div>
@@ -319,28 +325,24 @@
       </div>
       
       <div class="skills-list" id="skills-container">
-        <!-- Python -->
         <div class="skill-row" data-prof="75" data-freq="90">
           <div class="flex w-full justify-between items-end font-serif text-[1.25rem] text-[var(--ink)] tracking-wide mb-2">
             <span>Python Environment</span><span class="label text-[var(--gold)]">Active</span>
           </div>
           <div class="skill-track"><div class="skill-fill"></div></div>
         </div>
-        <!-- SQL -->
         <div class="skill-row" data-prof="65" data-freq="80">
           <div class="flex w-full justify-between items-end font-serif text-[1.25rem] text-[var(--ink)] tracking-wide mb-2">
             <span>SQL Queries & Architecture</span><span class="label text-[var(--gold)]">Operational</span>
           </div>
           <div class="skill-track"><div class="skill-fill"></div></div>
         </div>
-        <!-- R -->
         <div class="skill-row" data-prof="50" data-freq="40">
           <div class="flex w-full justify-between items-end font-serif text-[1.25rem] text-[var(--ink)] tracking-wide mb-2">
             <span>R Modeling & Stats</span><span class="label text-[var(--gold)]">Developing</span>
           </div>
           <div class="skill-track"><div class="skill-fill"></div></div>
         </div>
-        <!-- Spreadsheets -->
         <div class="skill-row" data-prof="88" data-freq="95">
           <div class="flex w-full justify-between items-end font-serif text-[1.25rem] text-[var(--ink)] tracking-wide mb-2">
             <span>Spreadsheet Architecture</span><span class="label text-[var(--gold)]">Advanced</span>
@@ -389,7 +391,7 @@
         A comparative presentation applying game theory models to competitive dynamics within the quick-commerce industry, analyzing strategies of Blinkit, Zepto, and Swiggy Instamart.
       </p>
       <div class="mt-auto pt-8 border-t border-[var(--line)]">
-        <button class="btn-ghost !text-[0.8rem] modal-trigger" data-target="modal-deck">View Deck Preview</button>
+        <button class="btn-ghost !text-[0.8rem] modal-trigger hover-trigger" data-target="modal-deck">View Deck Preview</button>
       </div>
     </article>
 
@@ -434,7 +436,7 @@
       <p class="text-[var(--dim)] text-[1.05rem] leading-[1.7] font-serif mb-4">
         Utilizing optimization packages in R to solve linear programming matrices. The setup takes longer than the solve.
       </p>
-      <button class="btn-ghost !text-[0.7rem] modal-trigger" data-target="modal-code">View R Snippet</button>
+      <button class="btn-ghost !text-[0.7rem] modal-trigger hover-trigger" data-target="modal-code">View R Snippet</button>
     </div>
     <div class="border-t border-[var(--line)] pt-8 anim-section">
       <p class="label !text-[0.65rem] mb-4 text-[var(--dim)]">2026-01</p>
@@ -492,7 +494,7 @@
       <p class="label !text-[0.65rem] text-[var(--dim)]">Built with Vanilla JS, GSAP, Tailwind & Cormorant Garamond.</p>
     </div>
     <div class="flex flex-col items-end gap-3">
-      <p class="label !text-[0.65rem] text-[var(--dim)]">© 2026 · Maintained with precision</p>
+      <p class="label !text-[0.65rem] text-[var(--dim)]">© 2026 · life is not always black and white.</p>
       <div class="flex items-center gap-4">
         <span class="label !text-[0.6rem] text-[var(--dim)]">Lighting</span>
         <input type="range" id="light-slider" min="0" max="1" step="0.1" value="0.7" class="w-24 hover-trigger cursor-pointer accent-[var(--gold)] bg-[var(--line)] h-1 rounded-full appearance-none">
@@ -501,7 +503,7 @@
   </div>
 </footer>
 
-<!-- Terminal Modals -->
+<!-- Modals -->
 <div class="modal-overlay" id="modal-code">
   <div class="terminal-window">
     <div class="terminal-header flex justify-between items-center">
@@ -532,7 +534,10 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
 
 <div class="modal-overlay" id="modal-terminal">
   <div class="terminal-window">
-    <div class="terminal-header">guest@bawankar-os:~$ cat resume.json</div>
+    <div class="terminal-header flex justify-between items-center">
+      <span>guest@bawankar-os:~$ cat resume.json</span>
+      <button class="close-modal hover:text-white hover-trigger">✕</button>
+    </div>
 <pre><code>{
   <span class="syn-s">"name"</span>: <span class="syn-s">"Nabhya Bawankar"</span>,
   <span class="syn-s">"program"</span>: <span class="syn-s">"BBA Business Analytics & Data Science"</span>,
@@ -546,6 +551,16 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
   </div>
 </div>
 
+<!-- Custom Rhythm Game Easter Egg Modal -->
+<div class="modal-overlay" id="modal-rhythm">
+  <div class="rhythm-window">
+    <div class="rhythm-title">RHYTHM OVERDRIVE UNLOCKED</div>
+    <div class="rhythm-subtitle">Combo: MAX &nbsp;|&nbsp; Accuracy: 100%</div>
+    <p class="mt-8 text-sm opacity-60">Just kidding. But good memory.</p>
+    <button class="close-modal mt-8 px-6 py-2 border border-[#00e5ff] text-[#00e5ff] hover:bg-[#00e5ff] hover:text-black transition-colors rounded-full text-xs tracking-widest hover-trigger">DISMISS</button>
+  </div>
+</div>
+
 <script>
 (function(){
   const $ = (s,c=document)=>c.querySelector(s);
@@ -555,10 +570,15 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
   // Sound Synth setup
   const AudioContext = window.AudioContext || window.webkitAudioContext;
   let audioCtx;
-  function playClick() {
-    if(reduceMotion) return;
+
+  function initAudio() {
     if (!audioCtx) audioCtx = new AudioContext();
     if (audioCtx.state === 'suspended') audioCtx.resume();
+  }
+
+  function playClick() {
+    if(reduceMotion) return;
+    initAudio();
     const osc = audioCtx.createOscillator();
     const gain = audioCtx.createGain();
     osc.connect(gain); gain.connect(audioCtx.destination);
@@ -566,6 +586,24 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
     gain.gain.setValueAtTime(0.015, audioCtx.currentTime);
     gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.05);
     osc.start(); osc.stop(audioCtx.currentTime + 0.05);
+  }
+
+  function playSecretSound() {
+    if(reduceMotion) return;
+    initAudio();
+    const notes = [261.63, 329.63, 392.00, 523.25]; // C4, E4, G4, C5 (Arpeggio)
+    notes.forEach((freq, i) => {
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.connect(gain); gain.connect(audioCtx.destination);
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(freq, audioCtx.currentTime + i * 0.1);
+      gain.gain.setValueAtTime(0, audioCtx.currentTime + i * 0.1);
+      gain.gain.linearRampToValueAtTime(0.1, audioCtx.currentTime + i * 0.1 + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + i * 0.1 + 0.1);
+      osc.start(audioCtx.currentTime + i * 0.1);
+      osc.stop(audioCtx.currentTime + i * 0.1 + 0.1);
+    });
   }
 
   // Dynamic Gold Hue
@@ -744,15 +782,17 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
     }
   });
 
-  // 2. Konami Code
+  // 2. Konami Code (Custom Rhythm Overlay)
   const konami = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
   let kIdx = 0;
   window.addEventListener('keydown', e => {
     if(e.key === konami[kIdx]) {
       kIdx++;
       if(kIdx === konami.length) {
-        alert('🎵 Rhythm Mode Unlocked! (Just kidding, but good memory!)');
-        kIdx = 0; playClick();
+        // Trigger Rhythm Overlay & Sound
+        $('#modal-rhythm').classList.add('active');
+        playSecretSound();
+        kIdx = 0;
       }
     } else { kIdx = 0; }
   });
