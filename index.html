@@ -4,11 +4,11 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Nabhya Bawankar — Portfolio</title>
-<meta name="description" content="Data analyst & builder. A short, honest dossier of early work." />
+<meta name="description" content="Data analyst & student. A short, honest dossier of early work." />
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Newsreader:ital,wght@0,400;0,500;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=Newsreader:ital,wght@0,300;0,400;1,400&family=Space+Mono:wght@400&display=swap" rel="stylesheet">
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/3.4.1/tailwind.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
@@ -17,21 +17,21 @@
 
 <style>
   :root{
-    --void:#0c0b0a; --ink:#f4efe6; --dim:#9c9384; --line:rgba(244,239,230,0.12); --gold:#c5a880;
-    --card-bg:linear-gradient(180deg, rgba(244,239,230,0.015), rgba(244,239,230,0.003));
+    --void:#0a0908; --ink:#f7f4ed; --dim:#8c8577; --line:rgba(247,244,237,0.1); --gold:#d1b794;
+    --card-bg:linear-gradient(180deg, rgba(247,244,237,0.02), rgba(247,244,237,0.005));
   }
   html.light-mode{
-    --void:#f4efe6; --ink:#1c1b1a; --dim:#6b6458; --line:rgba(28,27,26,0.15); --gold:#96794b;
-    --card-bg:linear-gradient(180deg, rgba(28,27,26,0.015), rgba(28,27,26,0.003));
+    --void:#f7f4ed; --ink:#1a1918; --dim:#756f63; --line:rgba(26,25,24,0.12); --gold:#a3855a;
+    --card-bg:linear-gradient(180deg, rgba(26,25,24,0.02), rgba(26,25,24,0.005));
   }
   *{box-sizing:border-box;}
   html{scroll-behavior:auto;}
   body{
     background:var(--void); color:var(--ink);
-    font-family:'Newsreader', serif; font-weight:400;
+    font-family:'Newsreader', serif; font-weight:300;
     -webkit-font-smoothing:antialiased;
     overflow-x:hidden;
-    transition:background-color .4s ease, color .4s ease;
+    transition:background-color .6s cubic-bezier(0.4, 0, 0.2, 1), color .6s ease;
   }
   ::selection{ background:var(--ink); color:var(--void); }
   a{ color:inherit; text-decoration:none; }
@@ -40,130 +40,120 @@
     outline:none; box-shadow:0 0 0 2px var(--void), 0 0 0 4px var(--gold); border-radius:2px;
   }
 
-  /* Grain + vignette overlay */
+  /* Refined Grain + Vignette */
   #grain{
-    position:fixed; inset:-60px; z-index:998; pointer-events:none; opacity:0.04; mix-blend-mode:overlay;
-    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+    position:fixed; inset:-60px; z-index:998; pointer-events:none; opacity:0.035; mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
   }
   #vignette{
     position:fixed; inset:0; z-index:997; pointer-events:none;
-    background:radial-gradient(120% 85% at 50% 15%, transparent 35%, rgba(0,0,0,0.55) 100%);
-    mix-blend-mode:multiply;
+    background:radial-gradient(120% 85% at 50% 15%, transparent 35%, rgba(0,0,0,0.7) 100%);
+    mix-blend-mode:multiply; transition:opacity .6s ease;
   }
-  html.light-mode #vignette{ opacity:0.15; }
+  html.light-mode #vignette{ opacity:0.08; }
 
-  .container-w{ max-width:1160px; margin:0 auto; padding-left:2rem; padding-right:2rem; }
+  .container-w{ max-width:1120px; margin:0 auto; padding-left:2rem; padding-right:2rem; }
 
-  .label{ font-family:'Space Mono', monospace; letter-spacing:0.18em; text-transform:uppercase; font-size:0.68rem; color:var(--gold); }
+  /* Refined Typography */
+  .label{ font-family:'Space Mono', monospace; letter-spacing:0.15em; text-transform:uppercase; font-size:0.72rem; color:var(--gold); }
   .rule{ height:1px; background:var(--line); transform-origin:left; }
 
-  .h-display{ font-family:'Cormorant Garamond', serif; font-weight:300; line-height:0.92; letter-spacing:-0.02em; }
+  .h-display{ font-family:'Cormorant Garamond', serif; font-weight:300; line-height:0.95; letter-spacing:-0.03em; }
   .h-sub{ font-family:'Cormorant Garamond', serif; font-weight:400; font-style:italic; }
 
-  /* Navigation */
-  #topnav{ backdrop-filter:blur(10px); background:color-mix(in srgb, var(--void) 85%, transparent); border-bottom:1px solid var(--line); z-index:50; }
+  /* Strict 3-Column Navigation */
+  #topnav{ 
+    backdrop-filter:blur(12px); 
+    background:color-mix(in srgb, var(--void) 80%, transparent); 
+    border-bottom:1px solid var(--line); 
+    z-index:50; 
+  }
 
-  /* Buttons */
+  /* Elegantly Styled Buttons */
   .btn-primary{
-    font-family:'Space Mono', monospace; font-size:0.75rem; letter-spacing:0.1em; text-transform:uppercase;
-    background:var(--ink); color:var(--void); padding:0.9rem 1.8rem;
+    font-family:'Space Mono', monospace; font-size:0.75rem; letter-spacing:0.12em; text-transform:uppercase;
+    background:var(--ink); color:var(--void); padding:0.8rem 2rem; border-radius:100px;
     transition:transform .35s cubic-bezier(.2,.8,.2,1), background .35s ease, box-shadow .35s ease;
     display:inline-block; border:1px solid var(--ink); text-align:center;
   }
-  .btn-primary:hover{ transform:translateY(-2px); background:var(--gold); border-color:var(--gold); box-shadow:0 12px 35px -8px rgba(197,168,128,0.35); }
+  .btn-primary:hover{ transform:translateY(-2px); background:var(--gold); border-color:var(--gold); box-shadow:0 12px 35px -8px rgba(209,183,148,0.35); }
   
   .btn-ghost{
-    font-family:'Space Mono', monospace; font-size:0.75rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--dim);
-    border-bottom:1px solid var(--line); padding-bottom:3px; transition:color .3s ease, border-color .3s ease;
+    font-family:'Space Mono', monospace; font-size:0.75rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--dim);
+    border-bottom:1px solid var(--line); padding-bottom:4px; transition:color .3s ease, border-color .3s ease;
   }
   .btn-ghost:hover{ color:var(--ink); border-color:var(--gold); }
 
-  /* Museum Frames */
-  .museum-frame{
-    position:relative; border:1px solid var(--line); padding:2rem;
-    background:var(--card-bg);
-    transition:border-color .4s ease, transform .4s ease, box-shadow .4s ease;
+  /* UI Cards */
+  .ui-card{
+    position:relative; border:1px solid var(--line); padding:2.5rem;
+    background:var(--card-bg); border-radius: 4px;
+    transition:border-color .5s ease, transform .5s cubic-bezier(.2,.8,.2,1), box-shadow .5s ease;
   }
-  .museum-frame::before {
-    content:''; position:absolute; top:6px; left:6px; right:6px; bottom:6px;
-    border:1px solid var(--line); opacity:0.3; pointer-events:none;
-  }
-  .museum-frame:hover{ 
-    border-color:var(--gold); 
-    box-shadow:0 24px 60px -20px rgba(0,0,0,0.5), 0 0 30px -10px rgba(197,168,128,0.15); 
-    transform:translateY(-3px); 
+  .ui-card:hover{ 
+    border-color:rgba(209,183,148,0.4); 
+    box-shadow:0 24px 60px -20px rgba(0,0,0,0.4), 0 0 40px -15px rgba(209,183,148,0.1); 
+    transform:translateY(-4px); 
   }
 
-  /* Project row accordion */
-  .proj-row{ border-top:1px solid var(--line); transition:background-color .35s ease; }
-  .proj-row:hover{ background:rgba(197,168,128,0.02); }
-  .proj-num{ font-family:'Space Mono',monospace; color:var(--gold); font-size:0.78rem; }
+  /* Accordion Rows */
+  .proj-row{ border-top:1px solid var(--line); transition:background-color .4s ease; padding-left: 1rem; padding-right: 1rem; margin-left:-1rem; margin-right:-1rem; }
+  .proj-row:hover{ background:rgba(209,183,148,0.03); }
+  .proj-num{ font-family:'Space Mono',monospace; color:var(--gold); font-size:0.8rem; opacity: 0.8;}
 
-  .fold-panel{ overflow:hidden; max-height:0; opacity:0; transition:max-height .65s cubic-bezier(.4,0,.2,1), opacity .4s ease; }
-  .fold-item.open .fold-panel{ max-height:650px; opacity:1; }
-  .fold-chevron{ transition:transform .4s cubic-bezier(.4,0,.2,1); }
-  .fold-item.open .fold-chevron{ transform:rotate(45deg); stroke:var(--gold); }
+  .fold-panel{ overflow:hidden; max-height:0; opacity:0; transition:max-height .7s cubic-bezier(.4,0,.2,1), opacity .5s ease; }
+  .fold-item.open .fold-panel{ max-height:700px; opacity:1; }
+  .fold-chevron{ transition:transform .5s cubic-bezier(.4,0,.2,1); }
+  .fold-item.open .fold-chevron{ transform:rotate(90deg); stroke:var(--gold); }
 
-  /* Footnote tooltips */
-  .footnote{ position:relative; cursor:help; border-bottom:1px dotted var(--gold); color:var(--ink); }
-  .idx-card{
-    position:absolute; bottom:calc(100% + 12px); left:50%; transform:translateX(-50%) translateY(4px);
-    width:240px; background:var(--void); border:1px solid var(--gold); padding:0.9rem 1.1rem;
-    font-family:'Space Mono',monospace; font-size:0.68rem; line-height:1.5; color:var(--dim);
-    opacity:0; pointer-events:none; transition:opacity .25s ease, transform .25s ease; z-index:60;
-    box-shadow:0 10px 30px rgba(0,0,0,0.5);
-  }
-  .footnote:hover .idx-card, .footnote:focus .idx-card{ opacity:1; transform:translateX(-50%) translateY(0); }
-
-  /* Skill tracks */
-  .skill-track{ height:1px; background:var(--line); position:relative; }
+  /* Skill Tracks */
+  .skill-track{ height:1px; background:var(--line); position:relative; margin-top: 0.4rem; }
   .skill-fill{ position:absolute; inset:0; width:0%; background:var(--gold); }
 
-  /* Minimal Clean Data Preview Table */
+  /* Minimal Data Table */
   .data-preview-table {
-    width: 100%; border-collapse: collapse; font-family: 'Space Mono', monospace; font-size: 0.68rem; margin-top: 1rem;
-    background: color-mix(in srgb, var(--void) 50%, transparent); border: 1px solid var(--line);
+    width: 100%; border-collapse: collapse; font-family: 'Space Mono', monospace; font-size: 0.7rem; margin-top: 1.5rem;
+    background: color-mix(in srgb, var(--void) 30%, transparent); border: 1px solid var(--line); border-radius: 4px; overflow: hidden;
   }
   .data-preview-table th, .data-preview-table td {
-    padding: 0.6rem 0.8rem; border: 1px solid var(--line); text-align: left; color: var(--dim);
+    padding: 0.75rem 1rem; border-bottom: 1px solid var(--line); text-align: left; color: var(--dim);
   }
-  .data-preview-table th { color: var(--gold); background: color-mix(in srgb, var(--gold) 8%, transparent); }
+  .data-preview-table th { color: var(--gold); font-weight: normal; background: color-mix(in srgb, var(--gold) 4%, transparent); }
+  .data-preview-table tr:last-child td { border-bottom: none; }
 
-  /* 3D Realistic Moon Widget */
+  /* 3D Moon UI Element (Strictly aligned right) */
   #moon-widget{
-    width:36px; height:36px; border-radius:50%; cursor:pointer; position:relative;
-    background:radial-gradient(circle at 30% 30%, #e8e2d5 0%, #b5a894 50%, #4a443b 100%);
-    box-shadow:inset -6px -4px 10px rgba(0,0,0,0.7), 0 0 15px rgba(197,168,128,0.25);
-    transition:transform .4s cubic-bezier(.4,0,.2,1), box-shadow .4s ease;
-    border:1px solid rgba(197,168,128,0.3);
+    width:32px; height:32px; border-radius:50%; cursor:pointer; position:relative; flex-shrink: 0;
+    background:radial-gradient(circle at 30% 30%, #f0ebd8 0%, #c2b59b 50%, #5c5445 100%);
+    box-shadow:inset -5px -3px 8px rgba(0,0,0,0.6), 0 0 12px rgba(209,183,148,0.2);
+    transition:transform .5s cubic-bezier(.4,0,.2,1), box-shadow .5s ease;
+    border:1px solid rgba(209,183,148,0.4);
   }
-  #moon-widget:hover{ transform:scale(1.1) rotate(15deg); box-shadow:inset -6px -4px 10px rgba(0,0,0,0.8), 0 0 22px rgba(197,168,128,0.4); }
+  #moon-widget:hover{ transform:scale(1.15) rotate(20deg); box-shadow:inset -6px -4px 10px rgba(0,0,0,0.7), 0 0 20px rgba(209,183,148,0.4); }
+  html.light-mode #moon-widget {
+    background:radial-gradient(circle at 30% 30%, #3a3835 0%, #1a1918 50%, #000000 100%);
+    box-shadow:inset -5px -3px 8px rgba(255,255,255,0.2), 0 0 12px rgba(0,0,0,0.2);
+    border-color: rgba(26,25,24,0.4);
+  }
 
-  /* Sleek Custom Ring Cursor */
+  /* Super Smooth Custom Cursor */
   #ink-cursor{
-    position:fixed; top:0; left:0; width:22px; height:22px; border-radius:50%;
-    border:1px solid var(--gold); background:rgba(197,168,128,0.08);
-    pointer-events:none; z-index:999; transition:width .2s ease, height .2s ease, background .2s ease;
+    position:fixed; top:0; left:0; width:16px; height:16px; border-radius:50%;
+    background: var(--gold); mix-blend-mode: exclusion;
+    pointer-events:none; z-index:999; 
+    transition:width .3s cubic-bezier(.2,.8,.2,1), height .3s cubic-bezier(.2,.8,.2,1), background .3s ease, border .3s ease;
     transform:translate(-50%, -50%);
   }
   @media (hover:none){ #ink-cursor{display:none;} }
 
-  .type-cursor{ display:inline-block; width:2px; background:var(--gold); animation:blink 1s step-end infinite; }
+  .type-cursor{ display:inline-block; width:1px; background:var(--gold); animation:blink 1s step-end infinite; }
   @keyframes blink{ 50%{opacity:0;} }
 
-  #page-skeleton{ transition:opacity .6s ease; }
-  .ink-skeleton{
-    background:linear-gradient(100deg, rgba(197,168,128,0.05) 30%, rgba(197,168,128,0.18) 50%, rgba(197,168,128,0.05) 70%);
-    background-size:220% 100%; animation:sh 1.8s ease-in-out infinite;
-  }
-  @keyframes sh{ 0%{background-position:140% 0} 100%{background-position:-40% 0} }
-
-  @media (max-width:768px){
-    #ink-cursor{ display:none; }
-  }
-  ::-webkit-scrollbar{ width:8px; }
+  #page-skeleton{ transition:opacity .8s ease; }
+  
+  ::-webkit-scrollbar{ width:6px; }
   ::-webkit-scrollbar-track{ background:var(--void); }
-  ::-webkit-scrollbar-thumb{ background:var(--line); border-radius:4px; }
+  ::-webkit-scrollbar-thumb{ background:var(--dim); border-radius:10px; }
 </style>
 </head>
 
@@ -173,45 +163,51 @@
 <div id="ink-cursor"></div>
 
 <div id="page-skeleton" class="fixed inset-0 z-[1000] bg-[var(--void)] flex items-center justify-center">
-  <div class="w-64 space-y-3">
-    <div class="h-2 w-32 ink-skeleton"></div>
-    <div class="h-2 w-48 ink-skeleton"></div>
-  </div>
+  <div class="label text-[var(--gold)] animate-pulse">Loading Environment...</div>
 </div>
 
-<nav id="topnav" class="fixed top-0 inset-x-0 z-40">
-  <div class="container-w flex items-center justify-between h-20">
-    <a href="#" class="label tracking-[0.25em] text-[var(--ink)]">N. BAWANKAR <span class="text-[var(--gold)]">/ 2028</span></a>
+<nav id="topnav" class="fixed top-0 inset-x-0 z-40 transition-colors duration-500">
+  <!-- 3-Column Grid guarantees alignment -->
+  <div class="container-w grid grid-cols-2 md:grid-cols-3 items-center h-20">
     
-    <div class="hidden md:flex items-center gap-8">
+    <!-- Left: Logo -->
+    <div class="flex items-center justify-start">
+      <a href="#" class="label tracking-[0.25em] text-[var(--ink)] hover:text-[var(--gold)] transition-colors">N. BAWANKAR</a>
+    </div>
+    
+    <!-- Center: Navigation Links -->
+    <div class="hidden md:flex items-center justify-center gap-10">
       <a href="#work" class="label hover:text-[var(--ink)] transition-colors">Exhibits</a>
       <a href="#about" class="label hover:text-[var(--ink)] transition-colors">Dossier</a>
       <a href="#contact" class="label hover:text-[var(--ink)] transition-colors">Dispatch</a>
-      <a href="#resume" onclick="alert('Please link your resume PDF file href here!'); return false;" class="label text-[var(--gold)] hover:underline">CV ↓</a>
     </div>
 
-    <div class="flex items-center gap-6">
-      <span id="dispatch-time" class="label hidden sm:inline text-[var(--dim)]">--:--</span>
+    <!-- Right: Utilities (Time & Moon) -->
+    <div class="flex items-center justify-end gap-5">
+      <span id="dispatch-time" class="label hidden sm:block text-[var(--dim)] opacity-70 whitespace-nowrap">--:--</span>
       <div id="moon-widget" title="Toggle Light/Dark Theme" aria-label="Toggle Theme"></div>
     </div>
+
   </div>
 </nav>
 
-<header class="relative min-h-[92vh] flex items-center justify-center pt-32 pb-20">
+<header class="relative min-h-[95vh] flex items-center justify-center pt-32 pb-20">
   <div class="container-w w-full relative z-10 text-center max-w-4xl">
-    <div class="inline-block border border-[var(--line)] px-4 py-1.5 mb-8 bg-[var(--void)] anim-fade">
-      <p class="label">ITM Skills University — Business Analytics</p>
+    
+    <div class="inline-flex items-center gap-2 border border-[var(--line)] rounded-full px-5 py-2 mb-10 bg-color-mix(in srgb, var(--void) 50%, transparent) anim-fade">
+      <div class="w-1.5 h-1.5 rounded-full bg-[var(--gold)]"></div>
+      <p class="label !text-[0.65rem]">ITM Skills University — Business Analytics</p>
     </div>
     
-    <h1 class="h-display mb-8" style="font-size:clamp(3.5rem, 9.5vw, 8rem);">
-      <span id="typewriter"></span><span class="type-cursor" style="height:0.75em; vertical-align:middle;">&nbsp;</span>
+    <h1 class="h-display mb-8" style="font-size:clamp(3.5rem, 8.5vw, 7.5rem);">
+      <span id="typewriter"></span><span class="type-cursor" style="height:0.8em; vertical-align:middle;">&nbsp;</span>
     </h1>
 
-    <p class="mx-auto max-w-xl text-lg md:text-xl text-[var(--dim)] leading-relaxed font-serif italic anim-fade">
-      "I clean data, document it honestly, and build small tools with precision. No manufactured polish—just reproducible work and clean hand-offs."
+    <p class="mx-auto max-w-2xl text-[1.15rem] leading-[1.7] text-[var(--dim)] font-serif italic anim-fade">
+      "I clean data, document it honestly, and build analytical tools with precision. No manufactured polish—just reproducible work and seamless hand-offs."
     </p>
 
-    <div class="mt-12 flex flex-wrap items-center justify-center gap-6 anim-fade">
+    <div class="mt-14 flex flex-wrap items-center justify-center gap-8 anim-fade">
       <a href="#work" class="btn-primary">View Selected Exhibits</a>
       <a href="mailto:2025.nabhyab@isu.ac.in" class="btn-ghost">Establish Contact</a>
     </div>
@@ -223,37 +219,35 @@
 <main class="relative z-10">
 
 <section id="about" class="container-w py-28 md:py-36">
-  <div class="grid md:grid-cols-[1.2fr,0.8fr] gap-16 items-center">
+  <div class="grid md:grid-cols-[1.1fr,0.9fr] gap-16 items-center">
     <div class="anim-section">
-      <p class="label mb-4">Section I — The Dossier</p>
-      <h2 class="h-sub mb-6" style="font-size:clamp(2rem,3.5vw,2.8rem);">On working with real, unglamorous data.</h2>
-      <p class="text-[var(--dim)] leading-relaxed text-lg mb-5 font-serif">
+      <p class="label mb-5">Section I — The Dossier</p>
+      <h2 class="h-sub mb-8" style="font-size:clamp(2.2rem,4vw,3rem);">On working with real, unglamorous data.</h2>
+      <p class="text-[var(--dim)] leading-[1.8] text-[1.1rem] mb-6 font-serif">
         Most of what I've built stems from real assignments—NGO applicant records, structured cost sheets, and analytical audits. I prefer the administrative mechanics closer to bookkeeping than storytelling: verifying columns, sanitizing erratic inputs, and distilling complex matrices into clear metrics.
       </p>
-      <p class="text-[var(--dim)] leading-relaxed text-lg font-serif">
-        Every deliverable is built upon a 
-        <span class="footnote">reproducible pipeline<span class="idx-card">Consistent inputs and standardized execution steps yielding identical analytical outputs—free of manual corrections.</span></span>, 
-        transparent documentation, and structural integrity.
+      <p class="text-[var(--dim)] leading-[1.8] text-[1.1rem] font-serif">
+        Every deliverable is built upon a reproducible pipeline, transparent documentation, and absolute structural integrity.
       </p>
     </div>
 
-    <div class="museum-frame p-8 anim-section">
-      <p class="label mb-6">Analytical Instruments</p>
-      <div class="space-y-6">
+    <div class="ui-card anim-section">
+      <p class="label mb-8 text-[var(--ink)]">Analytical Instruments</p>
+      <div class="space-y-7">
         <div class="skill-row" data-level="75">
-          <div class="flex justify-between font-serif text-[1rem] mb-2 text-[var(--ink)]"><span>Python Environment</span><span class="label text-[var(--gold)]">Active</span></div>
+          <div class="flex justify-between font-serif text-[1.05rem] text-[var(--ink)] tracking-wide"><span>Python Environment</span><span class="label text-[var(--gold)]">Active</span></div>
           <div class="skill-track"><div class="skill-fill"></div></div>
         </div>
         <div class="skill-row" data-level="65">
-          <div class="flex justify-between font-serif text-[1rem] mb-2 text-[var(--ink)]"><span>SQL Queries & Architecture</span><span class="label text-[var(--gold)]">Operational</span></div>
+          <div class="flex justify-between font-serif text-[1.05rem] text-[var(--ink)] tracking-wide"><span>SQL Queries & Architecture</span><span class="label text-[var(--gold)]">Operational</span></div>
           <div class="skill-track"><div class="skill-fill"></div></div>
         </div>
         <div class="skill-row" data-level="50">
-          <div class="flex justify-between font-serif text-[1rem] mb-2 text-[var(--ink)]"><span>R Modeling & Stats</span><span class="label text-[var(--gold)]">Developing</span></div>
+          <div class="flex justify-between font-serif text-[1.05rem] text-[var(--ink)] tracking-wide"><span>R Modeling & Stats</span><span class="label text-[var(--gold)]">Developing</span></div>
           <div class="skill-track"><div class="skill-fill"></div></div>
         </div>
         <div class="skill-row" data-level="88">
-          <div class="flex justify-between font-serif text-[1rem] mb-2 text-[var(--ink)]"><span>Spreadsheet Architecture</span><span class="label text-[var(--gold)]">Advanced</span></div>
+          <div class="flex justify-between font-serif text-[1.05rem] text-[var(--ink)] tracking-wide"><span>Spreadsheet Architecture</span><span class="label text-[var(--gold)]">Advanced</span></div>
           <div class="skill-track"><div class="skill-fill"></div></div>
         </div>
       </div>
@@ -264,97 +258,70 @@
 <div class="container-w"><div class="rule"></div></div>
 
 <section id="work" class="container-w py-28 md:py-36">
-  <div class="anim-section">
+  <div class="anim-section mb-16">
     <p class="label mb-4">Section II — Archives</p>
-    <h2 class="h-sub mb-3" style="font-size:clamp(2rem,3.5vw,2.8rem);">Selected Finished Works.</h2>
-    <p class="text-[var(--dim)] max-w-lg mb-12 font-serif">A curated dossier of deployment-ready deliverables.</p>
+    <h2 class="h-sub mb-4" style="font-size:clamp(2.2rem,4vw,3rem);">Selected Finished Works.</h2>
+    <p class="text-[var(--dim)] max-w-lg font-serif text-[1.1rem]">A curated dossier of deployment-ready deliverables.</p>
   </div>
 
   <div id="fold-list" class="border-t border-[var(--line)]">
     <article class="fold-item proj-row anim-section">
-      <button class="fold-trigger w-full text-left py-8 flex items-center justify-between gap-8 cursor-pointer" aria-expanded="false">
-        <div class="flex items-baseline gap-6">
+      <button class="fold-trigger w-full text-left py-10 flex items-center justify-between gap-8 cursor-pointer" aria-expanded="false">
+        <div class="flex items-center gap-8">
           <span class="proj-num">01</span>
           <div>
-            <h3 class="h-sub text-2xl md:text-3xl text-[var(--ink)]">NGO Applicant Records — NASEOH</h3>
-            <p class="label mt-2 text-[var(--dim)]">Data cleaning · Codebook documentation · 350 records</p>
+            <h3 class="h-display text-3xl md:text-4xl text-[var(--ink)]">NGO Applicant Records</h3>
+            <p class="label mt-3 text-[var(--dim)] !text-[0.65rem]">Data cleaning · Codebook · 350 records</p>
           </div>
         </div>
-        <svg class="fold-chevron w-5 h-5 shrink-0 text-[var(--dim)]" viewBox="0 0 16 16" fill="none"><path d="M8 2v12M2 8h12" stroke="currentColor" stroke-width="1.3"/></svg>
+        <svg class="fold-chevron w-5 h-5 shrink-0 text-[var(--dim)]" viewBox="0 0 16 16" fill="none"><path d="M5 2l6 6-6 6" stroke="currentColor" stroke-width="1.5"/></svg>
       </button>
+      
       <div class="fold-panel">
-        <div class="pb-8 pl-0 md:pl-14 text-[var(--dim)] leading-relaxed max-w-2xl font-serif text-lg">
+        <div class="pb-10 pl-0 md:pl-[4.5rem] text-[var(--dim)] leading-[1.8] max-w-3xl font-serif text-[1.1rem]">
           <p>Standardized, validated, and scrubbed 350 applicant records during an intensive operational internship—normalizing formats, resolving encoding corruptions, and verifying field inputs.</p>
-          <ul class="mt-4 space-y-2 list-disc ml-5 text-base">
-            <li>Delivered an inspection-ready CSV alongside an explicit operational codebook.</li>
-            <li>Created automated pivot structures for instant administrative oversight.</li>
-          </ul>
-
-          <!-- Simplified Data Schema Preview -->
-          <div class="mt-6">
-            <p class="label text-[var(--gold)] mb-2">Schema Preview (Cleaned Sample)</p>
-            <table class="data-preview-table">
-              <thead>
-                <tr>
-                  <th>Record_ID</th>
-                  <th>Category</th>
-                  <th>Validation_Status</th>
-                  <th>Encoding</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>#NS-301</td>
-                  <td>Applicant-A</td>
-                  <td>Verified</td>
-                  <td>UTF-8 Clean</td>
-                </tr>
-                <tr>
-                  <td>#NS-302</td>
-                  <td>Applicant-B</td>
-                  <td>Normalized</td>
-                  <td>UTF-8 Clean</td>
-                </tr>
-                <tr>
-                  <td>#NS-303</td>
-                  <td>Applicant-C</td>
-                  <td>Verified</td>
-                  <td>UTF-8 Clean</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
-          <div class="mt-6 flex gap-3 flex-wrap">
-            <span class="label border border-[var(--line)] px-3 py-1 bg-[var(--void)] text-[var(--ink)]">Spreadsheets</span>
-            <span class="label border border-[var(--line)] px-3 py-1 bg-[var(--void)] text-[var(--ink)]">Data Hygiene</span>
-            <span class="label border border-[var(--line)] px-3 py-1 bg-[var(--void)] text-[var(--ink)]">Documentation</span>
+          
+          <div class="mt-8">
+            <p class="label text-[var(--gold)] mb-3">Schema Preview (Cleaned Sample)</p>
+            <div class="overflow-x-auto">
+              <table class="data-preview-table">
+                <thead>
+                  <tr>
+                    <th>Record_ID</th>
+                    <th>Category</th>
+                    <th>Validation_Status</th>
+                    <th>Encoding</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td>#NS-301</td><td>Applicant-A</td><td>Verified</td><td>UTF-8 Clean</td></tr>
+                  <tr><td>#NS-302</td><td>Applicant-B</td><td>Normalized</td><td>UTF-8 Clean</td></tr>
+                  <tr><td>#NS-303</td><td>Applicant-C</td><td>Verified</td><td>UTF-8 Clean</td></tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>
     </article>
 
     <article class="fold-item proj-row anim-section">
-      <button class="fold-trigger w-full text-left py-8 flex items-center justify-between gap-8 cursor-pointer" aria-expanded="false">
-        <div class="flex items-baseline gap-6">
+      <button class="fold-trigger w-full text-left py-10 flex items-center justify-between gap-8 cursor-pointer" aria-expanded="false">
+        <div class="flex items-center gap-8">
           <span class="proj-num">02</span>
           <div>
-            <h3 class="h-sub text-2xl md:text-3xl text-[var(--ink)]">Art of Effective Communication</h3>
-            <p class="label mt-2 text-[var(--dim)]">Micro-site architecture · Technical publishing · Deployed</p>
+            <h3 class="h-display text-3xl md:text-4xl text-[var(--ink)]">Effective Communication</h3>
+            <p class="label mt-3 text-[var(--dim)] !text-[0.65rem]">Micro-site architecture · Deployed</p>
           </div>
         </div>
-        <svg class="fold-chevron w-5 h-5 shrink-0 text-[var(--dim)]" viewBox="0 0 16 16" fill="none"><path d="M8 2v12M2 8h12" stroke="currentColor" stroke-width="1.3"/></svg>
+        <svg class="fold-chevron w-5 h-5 shrink-0 text-[var(--dim)]" viewBox="0 0 16 16" fill="none"><path d="M5 2l6 6-6 6" stroke="currentColor" stroke-width="1.5"/></svg>
       </button>
       <div class="fold-panel">
-        <div class="pb-8 pl-0 md:pl-14 text-[var(--dim)] leading-relaxed max-w-2xl font-serif text-lg">
-          <p>Architected a dedicated digital micro-site translating workshop materials into an optimized format emphasizing clear document layouts.</p>
-          <ul class="mt-4 space-y-2 list-disc ml-5 text-base">
-            <li>Framework applied: Context → Objective → Analysis → Recommendation → Next Steps.</li>
-            <li>Fully deployed and iteratively refined following peer-testing loops.</li>
-          </ul>
-          <div class="mt-6 flex gap-6 items-center">
-            <a href="https://artofeffectivecomms.vercel.app" target="_blank" rel="noopener" class="btn-ghost text-xs">View Live Site</a>
-            <a href="https://github.com/zyeroounarchived/artofeffectivecomm" target="_blank" rel="noopener" class="btn-ghost text-xs">Source Code</a>
+        <div class="pb-10 pl-0 md:pl-[4.5rem] text-[var(--dim)] leading-[1.8] max-w-3xl font-serif text-[1.1rem]">
+          <p>Architected a dedicated digital micro-site translating workshop materials into an optimized format emphasizing clear document layouts based on the Context → Objective → Analysis framework.</p>
+          <div class="mt-8 flex gap-8 items-center">
+            <a href="https://artofeffectivecomms.vercel.app" target="_blank" rel="noopener" class="btn-ghost !text-[0.7rem]">View Live Site</a>
+            <a href="https://github.com/zyeroounarchived/artofeffectivecomm" target="_blank" rel="noopener" class="btn-ghost !text-[0.7rem]">Source Code</a>
           </div>
         </div>
       </div>
@@ -364,24 +331,24 @@
 </section>
 
 <section id="contact" class="container-w py-28 md:py-36">
-  <div class="museum-frame p-10 md:p-16 grid md:grid-cols-[1.3fr,0.7fr] gap-12 items-center anim-section">
+  <div class="ui-card p-10 md:p-16 grid md:grid-cols-[1.3fr,0.7fr] gap-14 items-center anim-section">
     <div>
       <p class="label mb-4">Section III — Correspondence</p>
-      <h2 class="h-sub mb-6" style="font-size:clamp(2rem,3.5vw,2.8rem);">Initiate Communication.</h2>
-      <p class="text-[var(--dim)] leading-relaxed text-lg font-serif mb-8">
+      <h2 class="h-sub mb-6" style="font-size:clamp(2.2rem,4vw,3rem);">Initiate Communication.</h2>
+      <p class="text-[var(--dim)] leading-[1.8] text-[1.1rem] font-serif mb-10">
         Open for internships, analytical consults, and structured data-processing contracts—specifically those featuring complex raw inputs and clear objectives.
       </p>
-      <div class="flex flex-wrap gap-4 items-center">
+      <div class="flex flex-wrap gap-6 items-center">
         <a href="mailto:2025.nabhyab@isu.ac.in" class="btn-primary">2025.nabhyab@isu.ac.in</a>
-        <a href="#resume" onclick="alert('Please link your resume PDF file href here!'); return false;" class="btn-ghost text-xs">Download CV (PDF)</a>
+        <a href="#resume" onclick="alert('Please link your resume PDF file href here!'); return false;" class="btn-ghost">Download CV (PDF)</a>
       </div>
     </div>
-    <div class="border-t md:border-t-0 md:border-l border-[var(--line)] pt-8 md:pt-0 md:pl-10">
-      <p class="label mb-5">External Portals</p>
-      <ul class="space-y-4 font-serif">
-        <li><a class="btn-ghost" href="https://www.linkedin.com/in/nabhya52kar/" target="_blank" rel="noopener">LinkedIn Profile</a></li>
-        <li><a class="btn-ghost" href="https://github.com/zyeroounarchived" target="_blank" rel="noopener">GitHub Repositories</a></li>
-        <li class="label pt-3 text-[var(--dim)]">Stationed: Mumbai, Maharashtra</li>
+    <div class="border-t md:border-t-0 md:border-l border-[var(--line)] pt-10 md:pt-0 md:pl-12">
+      <p class="label mb-6">External Portals</p>
+      <ul class="space-y-5 font-serif text-[1.05rem]">
+        <li><a class="hover:text-[var(--gold)] transition-colors" href="https://www.linkedin.com/in/nabhya52kar/" target="_blank" rel="noopener">LinkedIn Profile ↗</a></li>
+        <li><a class="hover:text-[var(--gold)] transition-colors" href="https://github.com/zyeroounarchived" target="_blank" rel="noopener">GitHub Repositories ↗</a></li>
+        <li class="label pt-4 text-[var(--dim)]">Stationed: Mumbai, Maharashtra</li>
       </ul>
     </div>
   </div>
@@ -390,9 +357,9 @@
 </main>
 
 <footer class="border-t border-[var(--line)] py-14">
-  <div class="container-w flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left">
+  <div class="container-w flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
     <p class="h-sub text-2xl text-[var(--ink)]">Nabhya Bawankar</p>
-    <p class="label">© 2026 · Maintained with rigorous precision</p>
+    <p class="label !text-[0.65rem] text-[var(--dim)]">© 2026 · Maintained with precision</p>
   </div>
 </footer>
 
@@ -404,49 +371,50 @@
 
   window.addEventListener('load', ()=>{
     const sk = $('#page-skeleton');
-    setTimeout(()=>{ sk.style.opacity='0'; setTimeout(()=>sk.remove(),600); }, 250);
+    setTimeout(()=>{ sk.style.opacity='0'; setTimeout(()=>sk.remove(),800); }, 300);
   });
 
   let lenis;
   if(!reduceMotion && window.Lenis){
-    lenis = new Lenis({ duration:1.1, easing:t=>1-Math.pow(1-t,3), smoothWheel:true });
+    lenis = new Lenis({ duration:1.2, easing:t=>Math.min(1, 1.001 - Math.pow(2, -10 * t)), smoothWheel:true });
     function raf(t){ lenis.raf(t); requestAnimationFrame(raf); }
     requestAnimationFrame(raf);
     lenis.on('scroll', ()=>ScrollTrigger.update());
   }
   gsap.registerPlugin(ScrollTrigger);
 
-  // Initial header & hero fade-ins
+  // Initial Hero Animations
   gsap.from('.anim-fade', {
-    y:25, opacity:0, duration:1.0, ease:'power3.out', stagger:0.12, delay:0.35
+    y:30, opacity:0, duration:1.2, ease:'power3.out', stagger:0.15, delay:0.4
   });
 
+  // Typewriter Effect
   const twEl = $('#typewriter');
   const phrase = 'Nabhya Bawankar.';
   let i=0;
   (function typeStep(){
-    if(i<=phrase.length){ twEl.textContent = phrase.slice(0,i); i++; setTimeout(typeStep, 50+Math.random()*70); }
+    if(i<=phrase.length){ twEl.textContent = phrase.slice(0,i); i++; setTimeout(typeStep, 60+Math.random()*60); }
   })();
 
   if(!reduceMotion){
     $$('.anim-section').forEach(el=>{
       gsap.from(el, {
-        y:40, opacity:0, duration:0.9, ease:'power3.out',
-        scrollTrigger:{ trigger:el, start:'top 86%', toggleActions:'play none none reverse' }
+        y:50, opacity:0, duration:1, ease:'power3.out',
+        scrollTrigger:{ trigger:el, start:'top 88%', toggleActions:'play none none reverse' }
       });
     });
 
     $$('.rule').forEach(rule=>{
       gsap.fromTo(rule, {scaleX:0}, {
-        scaleX:1, duration:1.2, ease:'power3.inOut',
-        scrollTrigger:{ trigger:rule, start:'top 90%' }
+        scaleX:1, duration:1.4, ease:'power4.inOut',
+        scrollTrigger:{ trigger:rule, start:'top 95%' }
       });
     });
 
     $$('.skill-row').forEach(row=>{
       const fill = $('.skill-fill', row);
       gsap.fromTo(fill, {width:'0%'}, {
-        width:row.dataset.level+'%', duration:1.3, ease:'power3.out',
+        width:row.dataset.level+'%', duration:1.5, ease:'power3.out',
         scrollTrigger:{ trigger:row, start:'top 90%' }
       });
     });
@@ -454,6 +422,7 @@
     $$('.skill-row').forEach(row=> $('.skill-fill',row).style.width = row.dataset.level+'%');
   }
 
+  // Accordion Logic
   $$('.fold-item').forEach(item=>{
     const trigger = $('.fold-trigger', item);
     trigger.addEventListener('click', ()=>{
@@ -463,29 +432,36 @@
     });
   });
 
-  // Custom Ring Cursor tracking
+  // Custom Cursor (Magnetic/Invert)
   const cursor = $('#ink-cursor');
   if(!reduceMotion && matchMedia('(hover:hover)').matches){
     let cx=innerWidth/2, cy=innerHeight/2, tx=cx, ty=cy;
     window.addEventListener('mousemove', e=>{ tx=e.clientX; ty=e.clientY; });
     (function loop(){
-      cx += (tx - cx) * 0.18;
-      cy += (ty - cy) * 0.18;
+      cx += (tx - cx) * 0.2;
+      cy += (ty - cy) * 0.2;
       cursor.style.transform = `translate(${cx}px, ${cy}px) translate(-50%, -50%)`;
       requestAnimationFrame(loop);
     })();
-    $$('a,button,.fold-trigger,.footnote,#moon-widget').forEach(el=>{
-      el.addEventListener('mouseenter', ()=>{ cursor.style.width='36px'; cursor.style.height='36px'; cursor.style.background='rgba(197,168,128,0.2)'; });
-      el.addEventListener('mouseleave', ()=>{ cursor.style.width='22px'; cursor.style.height='22px'; cursor.style.background='rgba(197,168,128,0.08)'; });
+    $$('a, button, .fold-trigger, #moon-widget').forEach(el=>{
+      el.addEventListener('mouseenter', ()=>{ 
+        cursor.style.width='48px'; cursor.style.height='48px'; 
+        cursor.style.background='transparent'; cursor.style.border='1px solid var(--gold)'; 
+      });
+      el.addEventListener('mouseleave', ()=>{ 
+        cursor.style.width='16px'; cursor.style.height='16px'; 
+        cursor.style.background='var(--gold)'; cursor.style.border='none'; 
+      });
     });
   } else if(cursor){ cursor.style.display='none'; }
 
-  // Dark / Light Theme Toggle via 3D Moon
+  // Dark / Light Theme Toggle
   $('#moon-widget').addEventListener('click', ()=>{
     document.documentElement.classList.toggle('light-mode');
-    gsap.fromTo('#moon-widget', {rotate:0}, {rotate:360, duration:0.6, ease:'power2.out'});
+    gsap.fromTo('#moon-widget', {rotate:0}, {rotate:360, duration:0.7, ease:'back.out(1.5)'});
   });
 
+  // Clock
   function tick(){
     $('#dispatch-time').textContent = new Date().toLocaleTimeString('en-GB',{hour12:false,timeZone:'Asia/Kolkata'});
   }
