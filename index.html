@@ -52,11 +52,11 @@
   }
   html.light-mode #vignette{ opacity:0.08; }
 
-  .container-w{ max-width:1120px; margin:0 auto; padding-left:2rem; padding-right:2rem; }
+  .container-w{ max-width:1080px; margin:0 auto; padding-left:2rem; padding-right:2rem; }
 
   /* Refined Typography */
-  .label{ font-family:'Space Mono', monospace; letter-spacing:0.15em; text-transform:uppercase; font-size:0.72rem; color:var(--gold); }
-  .rule{ height:1px; background:var(--line); transform-origin:left; }
+  .label{ font-family:'Space Mono', monospace; letter-spacing:0.18em; text-transform:uppercase; font-size:0.7rem; color:var(--gold); }
+  .rule{ height:1px; background:var(--line); transform-origin:left; margin: 4rem 0; }
 
   .h-display{ font-family:'Cormorant Garamond', serif; font-weight:300; line-height:0.95; letter-spacing:-0.03em; }
   .h-sub{ font-family:'Cormorant Garamond', serif; font-weight:400; font-style:italic; }
@@ -64,7 +64,7 @@
   /* Navigation */
   #topnav{ 
     backdrop-filter:blur(12px); 
-    background:color-mix(in srgb, var(--void) 80%, transparent); 
+    background:color-mix(in srgb, var(--void) 85%, transparent); 
     border-bottom:1px solid var(--line); 
     z-index:50; 
   }
@@ -72,26 +72,27 @@
   /* Elegantly Styled Buttons */
   .btn-primary{
     font-family:'Space Mono', monospace; font-size:0.75rem; letter-spacing:0.12em; text-transform:uppercase;
-    background:var(--ink); color:var(--void); padding:0.8rem 2rem; border-radius:100px;
+    background:var(--ink); color:var(--void); padding:0.9rem 2.2rem; border-radius:100px;
     transition:transform .35s cubic-bezier(.2,.8,.2,1), background .35s ease, box-shadow .35s ease;
-    display:inline-block; border:1px solid var(--ink); text-align:center;
+    display:inline-flex; align-items: center; justify-content: center; border:1px solid var(--ink); text-align:center;
   }
   .btn-primary:hover{ transform:translateY(-2px); background:var(--gold); border-color:var(--gold); box-shadow:0 12px 35px -8px rgba(209,183,148,0.35); }
   
   .btn-ghost{
     font-family:'Space Mono', monospace; font-size:0.75rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--dim);
-    border-bottom:1px solid var(--line); padding-bottom:4px; transition:color .3s ease, border-color .3s ease;
+    border-bottom:1px solid var(--line); padding-bottom:6px; transition:color .3s ease, border-color .3s ease;
+    display:inline-flex; align-items: center; justify-content: center;
   }
   .btn-ghost:hover{ color:var(--ink); border-color:var(--gold); }
 
   /* UI Cards */
   .ui-card{
-    position:relative; border:1px solid var(--line); padding:2.5rem;
+    position:relative; border:1px solid var(--line); padding:3rem;
     background:var(--card-bg); border-radius: 4px;
     transition:border-color .5s ease, transform .5s cubic-bezier(.2,.8,.2,1), box-shadow .5s ease;
   }
   .ui-card::before {
-    content:''; position:absolute; top:6px; left:6px; right:6px; bottom:6px;
+    content:''; position:absolute; top:8px; left:8px; right:8px; bottom:8px;
     border:1px solid var(--line); opacity:0.3; pointer-events:none; border-radius: 2px;
   }
   .ui-card:hover{ 
@@ -102,35 +103,24 @@
 
   .proj-num{ font-family:'Space Mono',monospace; color:var(--gold); font-size:0.8rem; opacity: 0.8;}
 
-  /* Footnote tooltips */
-  .footnote{ position:relative; cursor:help; border-bottom:1px dotted var(--gold); color:var(--ink); }
-  .idx-card{
-    position:absolute; bottom:calc(100% + 12px); left:50%; transform:translateX(-50%) translateY(4px);
-    width:240px; background:var(--void); border:1px solid var(--gold); padding:0.9rem 1.1rem;
-    font-family:'Space Mono',monospace; font-size:0.68rem; line-height:1.5; color:var(--dim);
-    opacity:0; pointer-events:none; transition:opacity .25s ease, transform .25s ease; z-index:60;
-    box-shadow:0 10px 30px rgba(0,0,0,0.5);
-  }
-  .footnote:hover .idx-card, .footnote:focus .idx-card{ opacity:1; transform:translateX(-50%) translateY(0); }
-
   /* Skill Tracks */
-  .skill-track{ height:1px; background:var(--line); position:relative; margin-top: 0.4rem; }
+  .skill-track{ height:1px; background:var(--line); position:relative; margin-top: 0.6rem; }
   .skill-fill{ position:absolute; inset:0; width:0%; background:var(--gold); }
 
   /* Minimal Data Table */
   .data-preview-table {
-    width: 100%; border-collapse: collapse; font-family: 'Space Mono', monospace; font-size: 0.7rem; margin-top: 1.5rem;
+    width: 100%; border-collapse: collapse; font-family: 'Space Mono', monospace; font-size: 0.7rem; margin-top: 2rem;
     background: color-mix(in srgb, var(--void) 30%, transparent); border: 1px solid var(--line); border-radius: 4px; overflow: hidden;
   }
   .data-preview-table th, .data-preview-table td {
-    padding: 0.75rem 1rem; border-bottom: 1px solid var(--line); text-align: left; color: var(--dim);
+    padding: 1rem; border-bottom: 1px solid var(--line); text-align: left; color: var(--dim);
   }
   .data-preview-table th { color: var(--gold); font-weight: normal; background: color-mix(in srgb, var(--gold) 4%, transparent); }
   .data-preview-table tr:last-child td { border-bottom: none; }
 
-  /* 3D Moon UI Element */
+  /* 3D Moon UI Element (Strictly aligned right) */
   #moon-widget{
-    width:32px; height:32px; border-radius:50%; cursor:pointer; position:relative; flex-shrink: 0;
+    width:34px; height:34px; border-radius:50%; cursor:pointer; position:relative; flex-shrink: 0;
     background:radial-gradient(circle at 30% 30%, #f0ebd8 0%, #c2b59b 50%, #5c5445 100%);
     box-shadow:inset -5px -3px 8px rgba(0,0,0,0.6), 0 0 12px rgba(209,183,148,0.2);
     transition:transform .5s cubic-bezier(.4,0,.2,1), box-shadow .5s ease;
@@ -146,14 +136,14 @@
   /* Gothic Cross Cursor */
   #ink-cursor{
     position:fixed; top:0; left:0; 
-    color: var(--gold); font-size: 24px; line-height: 1; text-align: center;
+    color: var(--gold); font-size: 26px; line-height: 1; text-align: center;
     pointer-events:none; z-index:999; 
     text-shadow: 0 0 8px rgba(209,183,148,0.3);
     transition: font-size .25s cubic-bezier(.2,.8,.2,1), color .25s ease, text-shadow .25s ease;
     transform:translate(-50%, -50%);
   }
   #ink-cursor.hovering {
-    font-size: 38px; color: var(--ink); text-shadow: 0 0 12px rgba(247,244,237,0.5);
+    font-size: 42px; color: var(--ink); text-shadow: 0 0 12px rgba(247,244,237,0.5);
   }
   @media (hover:none){ #ink-cursor{display:none;} }
 
@@ -178,20 +168,20 @@
 </div>
 
 <nav id="topnav" class="fixed top-0 inset-x-0 z-40 transition-colors duration-500">
-  <div class="container-w h-20 relative flex items-center justify-between">
+  <div class="container-w h-24 relative flex items-center justify-between">
     
     <!-- Left: Logo -->
     <a href="#" class="label tracking-[0.25em] text-[var(--ink)] hover:text-[var(--gold)] transition-colors">N. BAWANKAR</a>
     
-    <!-- Center: Navigation Links (Absolutely centered) -->
-    <div class="hidden md:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 items-center gap-10">
+    <!-- Center: Navigation Links (Absolutely centered for desktop) -->
+    <div class="hidden md:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 items-center gap-12">
       <a href="#work" class="label hover:text-[var(--ink)] transition-colors">Exhibits</a>
       <a href="#about" class="label hover:text-[var(--ink)] transition-colors">Dossier</a>
       <a href="#contact" class="label hover:text-[var(--ink)] transition-colors">Dispatch</a>
     </div>
 
-    <!-- Right: Utilities (Forced Right) -->
-    <div class="ml-auto flex items-center gap-6">
+    <!-- Right: Utilities (Flex End) -->
+    <div class="flex items-center gap-6">
       <span id="dispatch-time" class="label hidden sm:block text-[var(--dim)] opacity-70 whitespace-nowrap">--:--</span>
       <div id="moon-widget" title="Toggle Light/Dark Theme" aria-label="Toggle Theme"></div>
     </div>
@@ -199,23 +189,24 @@
   </div>
 </nav>
 
-<header class="relative min-h-[95vh] flex items-center justify-center pt-32 pb-20">
+<header class="relative min-h-screen flex items-center justify-center pt-32 pb-24">
   <div class="container-w w-full relative z-10 text-center max-w-4xl">
     
-    <div class="inline-flex items-center gap-2 border border-[var(--line)] rounded-full px-5 py-2 mb-10 bg-color-mix(in srgb, var(--void) 50%, transparent) anim-fade">
+    <div class="inline-flex items-center gap-3 border border-[var(--line)] rounded-full px-6 py-2 mb-12 bg-color-mix(in srgb, var(--void) 50%, transparent) anim-fade">
       <div class="w-1.5 h-1.5 rounded-full bg-[var(--gold)]"></div>
       <p class="label !text-[0.65rem]">ITM Skills University — Business Analytics</p>
     </div>
     
-    <h1 class="h-display mb-8" style="font-size:clamp(3.5rem, 8.5vw, 7.5rem);">
+    <h1 class="h-display mb-10" style="font-size:clamp(3.8rem, 9vw, 8rem);">
       <span id="typewriter"></span><span class="type-cursor" style="height:0.8em; vertical-align:middle;">&nbsp;</span>
     </h1>
 
-    <p class="mx-auto max-w-2xl text-[1.15rem] leading-[1.7] text-[var(--dim)] font-serif italic anim-fade">
+    <p class="mx-auto max-w-2xl text-[1.2rem] leading-[1.8] text-[var(--dim)] font-serif italic anim-fade mb-16">
       "I clean data, document it honestly, and build analytical tools with precision. No manufactured polish—just reproducible work and seamless hand-offs."
     </p>
 
-    <div class="mt-14 flex flex-wrap items-center justify-center gap-8 anim-fade">
+    <!-- Fixed button wrapping and spacing -->
+    <div class="flex flex-wrap items-center justify-center gap-x-8 gap-y-6 anim-fade">
       <a href="#work" class="btn-primary">View Selected Exhibits</a>
       <a href="mailto:2025.nabhyab@isu.ac.in" class="btn-ghost">Establish Contact</a>
     </div>
@@ -226,36 +217,36 @@
 
 <main class="relative z-10">
 
-<section id="about" class="container-w py-28 md:py-36">
-  <div class="grid md:grid-cols-[1.1fr,0.9fr] gap-16 items-center">
+<section id="about" class="container-w py-32 md:py-48">
+  <div class="grid md:grid-cols-[1.1fr,0.9fr] gap-20 items-center">
     <div class="anim-section">
-      <p class="label mb-5">Section I — The Dossier</p>
-      <h2 class="h-sub mb-8" style="font-size:clamp(2.2rem,4vw,3rem);">On working with real, unglamorous data.</h2>
-      <p class="text-[var(--dim)] leading-[1.8] text-[1.1rem] mb-6 font-serif">
+      <p class="label mb-6">Section I — The Dossier</p>
+      <h2 class="h-sub mb-10" style="font-size:clamp(2.4rem,4.5vw,3.2rem);">On working with real, unglamorous data.</h2>
+      <p class="text-[var(--dim)] leading-[1.9] text-[1.15rem] mb-8 font-serif">
         Most of what I've built stems from real assignments—NGO applicant records, structured cost sheets, and analytical audits. I prefer the administrative mechanics closer to bookkeeping than storytelling: verifying columns, sanitizing erratic inputs, and distilling complex matrices into clear metrics.
       </p>
-      <p class="text-[var(--dim)] leading-[1.8] text-[1.1rem] font-serif">
+      <p class="text-[var(--dim)] leading-[1.9] text-[1.15rem] font-serif">
         Every deliverable is built upon a reproducible pipeline, transparent documentation, and absolute structural integrity.
       </p>
     </div>
 
     <div class="ui-card anim-section">
-      <p class="label mb-8 text-[var(--ink)]">Analytical Instruments</p>
-      <div class="space-y-7">
+      <p class="label mb-10 text-[var(--ink)]">Analytical Instruments</p>
+      <div class="space-y-9">
         <div class="skill-row" data-level="75">
-          <div class="flex justify-between font-serif text-[1.05rem] text-[var(--ink)] tracking-wide"><span>Python Environment</span><span class="label text-[var(--gold)]">Active</span></div>
+          <div class="flex justify-between font-serif text-[1.1rem] text-[var(--ink)] tracking-wide mb-1"><span>Python Environment</span><span class="label text-[var(--gold)]">Active</span></div>
           <div class="skill-track"><div class="skill-fill"></div></div>
         </div>
         <div class="skill-row" data-level="65">
-          <div class="flex justify-between font-serif text-[1.05rem] text-[var(--ink)] tracking-wide"><span>SQL Queries & Architecture</span><span class="label text-[var(--gold)]">Operational</span></div>
+          <div class="flex justify-between font-serif text-[1.1rem] text-[var(--ink)] tracking-wide mb-1"><span>SQL Queries & Architecture</span><span class="label text-[var(--gold)]">Operational</span></div>
           <div class="skill-track"><div class="skill-fill"></div></div>
         </div>
         <div class="skill-row" data-level="50">
-          <div class="flex justify-between font-serif text-[1.05rem] text-[var(--ink)] tracking-wide"><span>R Modeling & Stats</span><span class="label text-[var(--gold)]">Developing</span></div>
+          <div class="flex justify-between font-serif text-[1.1rem] text-[var(--ink)] tracking-wide mb-1"><span>R Modeling & Stats</span><span class="label text-[var(--gold)]">Developing</span></div>
           <div class="skill-track"><div class="skill-fill"></div></div>
         </div>
         <div class="skill-row" data-level="88">
-          <div class="flex justify-between font-serif text-[1.05rem] text-[var(--ink)] tracking-wide"><span>Spreadsheet Architecture</span><span class="label text-[var(--gold)]">Advanced</span></div>
+          <div class="flex justify-between font-serif text-[1.1rem] text-[var(--ink)] tracking-wide mb-1"><span>Spreadsheet Architecture</span><span class="label text-[var(--gold)]">Advanced</span></div>
           <div class="skill-track"><div class="skill-fill"></div></div>
         </div>
       </div>
@@ -265,26 +256,26 @@
 
 <div class="container-w"><div class="rule"></div></div>
 
-<section id="work" class="container-w py-28 md:py-36">
-  <div class="anim-section mb-16">
-    <p class="label mb-4">Section II — Archives</p>
-    <h2 class="h-sub mb-4" style="font-size:clamp(2.2rem,4vw,3rem);">Selected Finished Works.</h2>
-    <p class="text-[var(--dim)] max-w-lg font-serif text-[1.1rem]">A curated dossier of deployment-ready deliverables.</p>
+<section id="work" class="container-w py-32 md:py-48">
+  <div class="anim-section mb-20">
+    <p class="label mb-6">Section II — Archives</p>
+    <h2 class="h-sub mb-6" style="font-size:clamp(2.4rem,4.5vw,3.2rem);">Selected Finished Works.</h2>
+    <p class="text-[var(--dim)] max-w-lg font-serif text-[1.15rem]">A curated dossier of deployment-ready deliverables.</p>
   </div>
 
-  <div class="grid md:grid-cols-2 gap-10">
+  <div class="grid md:grid-cols-2 gap-12">
     <!-- Project Card 01 -->
     <article class="ui-card anim-section flex flex-col">
-      <div class="flex items-center justify-between mb-4">
+      <div class="flex items-center justify-between mb-8">
         <span class="proj-num">01</span>
         <span class="label !text-[0.6rem] opacity-70">Data Cleaning</span>
       </div>
-      <h3 class="h-display text-3xl text-[var(--ink)] mb-4">NGO Applicant Records</h3>
-      <p class="text-[var(--dim)] leading-[1.7] font-serif text-[1.05rem] mb-6 flex-grow">
+      <h3 class="h-display text-4xl text-[var(--ink)] mb-6">NGO Applicant Records</h3>
+      <p class="text-[var(--dim)] leading-[1.8] font-serif text-[1.1rem] mb-8 flex-grow">
         Standardized, validated, and scrubbed 350 applicant records during an intensive operational internship—normalizing formats and resolving encoding corruptions.
       </p>
       <div class="mt-auto">
-        <div class="overflow-x-auto mb-6">
+        <div class="overflow-x-auto mb-8">
           <table class="data-preview-table !mt-0">
             <thead>
               <tr><th>Record_ID</th><th>Status</th></tr>
@@ -296,23 +287,23 @@
           </table>
         </div>
         <div class="flex gap-4">
-          <span class="label !text-[0.65rem] border border-[var(--line)] px-3 py-1 rounded-sm">Codebook</span>
-          <span class="label !text-[0.65rem] border border-[var(--line)] px-3 py-1 rounded-sm">CSV</span>
+          <span class="label !text-[0.65rem] border border-[var(--line)] px-4 py-1.5 rounded-sm">Codebook</span>
+          <span class="label !text-[0.65rem] border border-[var(--line)] px-4 py-1.5 rounded-sm">CSV</span>
         </div>
       </div>
     </article>
 
     <!-- Project Card 02 -->
     <article class="ui-card anim-section flex flex-col">
-      <div class="flex items-center justify-between mb-4">
+      <div class="flex items-center justify-between mb-8">
         <span class="proj-num">02</span>
         <span class="label !text-[0.6rem] opacity-70">Architecture</span>
       </div>
-      <h3 class="h-display text-3xl text-[var(--ink)] mb-4">Effective Communication</h3>
-      <p class="text-[var(--dim)] leading-[1.7] font-serif text-[1.05rem] mb-6 flex-grow">
+      <h3 class="h-display text-4xl text-[var(--ink)] mb-6">Effective Communication</h3>
+      <p class="text-[var(--dim)] leading-[1.8] font-serif text-[1.1rem] mb-8 flex-grow">
         Architected a dedicated digital micro-site translating workshop materials into an optimized format emphasizing clear document layouts and structured framing.
       </p>
-      <div class="mt-auto pt-4 border-t border-[var(--line)] flex items-center justify-between">
+      <div class="mt-auto pt-8 border-t border-[var(--line)] flex items-center justify-between">
         <a href="https://artofeffectivecomms.vercel.app" target="_blank" rel="noopener" class="btn-ghost !text-[0.7rem]">View Live Site</a>
         <a href="https://github.com/zyeroounarchived/artofeffectivecomm" target="_blank" rel="noopener" class="btn-ghost !text-[0.7rem]">Source Code</a>
       </div>
@@ -320,25 +311,25 @@
   </div>
 </section>
 
-<section id="contact" class="container-w py-28 md:py-36">
-  <div class="ui-card p-10 md:p-16 grid md:grid-cols-[1.3fr,0.7fr] gap-14 items-center anim-section">
+<section id="contact" class="container-w py-32 md:py-48">
+  <div class="ui-card p-12 md:p-20 grid md:grid-cols-[1.3fr,0.7fr] gap-16 items-center anim-section">
     <div>
-      <p class="label mb-4">Section III — Correspondence</p>
-      <h2 class="h-sub mb-6" style="font-size:clamp(2.2rem,4vw,3rem);">Initiate Communication.</h2>
-      <p class="text-[var(--dim)] leading-[1.8] text-[1.1rem] font-serif mb-10">
+      <p class="label mb-6">Section III — Correspondence</p>
+      <h2 class="h-sub mb-8" style="font-size:clamp(2.4rem,4.5vw,3.2rem);">Initiate Communication.</h2>
+      <p class="text-[var(--dim)] leading-[1.9] text-[1.15rem] font-serif mb-12">
         Open for internships, analytical consults, and structured data-processing contracts—specifically those featuring complex raw inputs and clear objectives.
       </p>
-      <div class="flex flex-wrap gap-6 items-center">
+      <div class="flex flex-wrap gap-x-8 gap-y-6 items-center">
         <a href="mailto:2025.nabhyab@isu.ac.in" class="btn-primary">2025.nabhyab@isu.ac.in</a>
-        <a href="#resume" onclick="alert('Please link your resume PDF file href here!'); return false;" class="btn-ghost">Download CV (PDF)</a>
+        <a href="#resume" onclick="alert('Please link your resume PDF file href here!'); return false;" class="btn-ghost">Download CV</a>
       </div>
     </div>
-    <div class="border-t md:border-t-0 md:border-l border-[var(--line)] pt-10 md:pt-0 md:pl-12">
-      <p class="label mb-6">External Portals</p>
-      <ul class="space-y-5 font-serif text-[1.05rem]">
+    <div class="border-t md:border-t-0 md:border-l border-[var(--line)] pt-12 md:pt-0 md:pl-16">
+      <p class="label mb-8">External Portals</p>
+      <ul class="space-y-6 font-serif text-[1.1rem]">
         <li><a class="hover:text-[var(--gold)] transition-colors" href="https://www.linkedin.com/in/nabhya52kar/" target="_blank" rel="noopener">LinkedIn Profile ↗</a></li>
         <li><a class="hover:text-[var(--gold)] transition-colors" href="https://github.com/zyeroounarchived" target="_blank" rel="noopener">GitHub Repositories ↗</a></li>
-        <li class="label pt-4 text-[var(--dim)]">Stationed: Mumbai, Maharashtra</li>
+        <li class="label pt-6 text-[var(--dim)]">Stationed: Mumbai, Maharashtra</li>
       </ul>
     </div>
   </div>
@@ -346,7 +337,7 @@
 
 </main>
 
-<footer class="border-t border-[var(--line)] py-14">
+<footer class="border-t border-[var(--line)] py-16">
   <div class="container-w flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
     <p class="h-sub text-2xl text-[var(--ink)]">Nabhya Bawankar</p>
     <p class="label !text-[0.65rem] text-[var(--dim)]">© 2026 · Maintained with precision</p>
@@ -375,7 +366,7 @@
 
   // Initial Hero Animations
   gsap.from('.anim-fade', {
-    y:30, opacity:0, duration:1.2, ease:'power3.out', stagger:0.15, delay:0.4
+    y:40, opacity:0, duration:1.4, ease:'power3.out', stagger:0.15, delay:0.4
   });
 
   // Typewriter Effect
@@ -389,14 +380,14 @@
   if(!reduceMotion){
     $$('.anim-section').forEach(el=>{
       gsap.from(el, {
-        y:50, opacity:0, duration:1, ease:'power3.out',
-        scrollTrigger:{ trigger:el, start:'top 88%', toggleActions:'play none none reverse' }
+        y:60, opacity:0, duration:1.2, ease:'power3.out',
+        scrollTrigger:{ trigger:el, start:'top 85%', toggleActions:'play none none reverse' }
       });
     });
 
     $$('.rule').forEach(rule=>{
       gsap.fromTo(rule, {scaleX:0}, {
-        scaleX:1, duration:1.4, ease:'power4.inOut',
+        scaleX:1, duration:1.6, ease:'power4.inOut',
         scrollTrigger:{ trigger:rule, start:'top 95%' }
       });
     });
