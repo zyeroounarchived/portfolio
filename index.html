@@ -19,7 +19,6 @@
   :root{
     --void:#0a0908; --ink:#f7f4ed; --dim:#8c8577; --line:rgba(247,244,237,0.1); --gold:#d1b794;
     --card-bg:linear-gradient(180deg, rgba(247,244,237,0.02), rgba(247,244,237,0.005));
-    --ssr-glow: #ffd700; --sr-glow: #b026ff; --r-glow: #00e5ff;
   }
   html.light-mode{
     --void:#f7f4ed; --ink:#1a1918; --dim:#756f63; --line:rgba(26,25,24,0.12); --gold:#a3855a;
@@ -42,9 +41,13 @@
     position: fixed; top: 0; left: 0; right: 0; bottom: 0;
     z-index: 99999; background: var(--void);
     display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1rem;
-    transition: opacity 0.8s ease; pointer-events: none; /* Failsafe */
+    transition: opacity 0.8s ease; pointer-events: none;
   }
+  .skel-jp { font-family: 'Space Mono', monospace; color: var(--gold); font-size: 2rem; animation: pulse 1.5s ease-in-out infinite; }
+  .skel-txt { font-family: 'Space Mono', monospace; color: var(--dim); font-size: 0.8rem; letter-spacing: 0.2em; text-transform: uppercase; opacity: 0.6; }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
 
+  /* SCREENPLAY MODE OVERRIDE */
   body.screenplay-mode {
     --void: #f4f0e6; --ink: #111; --dim: #333; --line: transparent; --card-bg: transparent;
     font-family: 'Courier Prime', Courier, monospace !important;
@@ -78,10 +81,15 @@
   .h-display{ font-family:'Cormorant Garamond', serif; font-weight:300; line-height:0.95; letter-spacing:-0.03em; }
   .text-mask-fluid {
     background: linear-gradient(120deg, var(--ink), var(--gold), var(--ink), var(--dim)); background-size: 300% 300%;
-    background-clip: text;
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: fluidMask 12s ease infinite;
+    background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; color: transparent; animation: fluidMask 12s ease infinite;
   }
   @keyframes fluidMask { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+  }
+  a:focus-visible, button:focus-visible, [role="button"]:focus-visible {
+    outline: 2px solid var(--gold); outline-offset: 4px; border-radius: 4px;
+  }
   .h-sub{ font-family:'Cormorant Garamond', serif; font-weight:400; font-style:italic; }
 
   .katakana-swap { display: inline-block; position: relative; }
@@ -123,12 +131,11 @@
     content:''; position:absolute; top:8px; left:8px; right:8px; bottom:8px;
     border:1px solid var(--line); opacity:0.3; pointer-events:none; border-radius: 2px; transition: border-color 0.5s ease;
   }
-  
-  .rarity-ssr { border-color: var(--ssr-glow) !important; box-shadow: 0 0 40px rgba(255,215,0,0.15) !important; }
-  .rarity-ssr::before { border-color: var(--ssr-glow) !important; opacity: 0.8 !important; }
-  .rarity-sr { border-color: var(--sr-glow) !important; box-shadow: 0 0 40px rgba(176,38,255,0.1) !important; }
-  .rarity-sr::before { border-color: var(--sr-glow) !important; opacity: 0.6 !important; }
-  .rarity-r { border-color: var(--r-glow) !important; box-shadow: 0 0 30px rgba(0,229,255,0.1) !important; }
+  .ui-card:hover{ 
+    border-color:rgba(209,183,148,0.4); 
+    box-shadow:0 24px 60px -20px rgba(0,0,0,0.4), 0 0 40px -15px rgba(209,183,148,0.1); 
+    transform:translateY(-4px); 
+  }
   
   .proj-num{ font-family:'Space Mono',monospace; color:var(--gold); font-size:0.9rem; opacity: 0.8;}
 
@@ -148,11 +155,17 @@
   #hover-preview img { width: 100%; height: 100%; object-fit: cover; opacity: 0.8; filter: grayscale(80%) contrast(1.1); }
   .proj-card:hover ~ #hover-preview.active, .cert-item:hover ~ #hover-preview.active { opacity: 1; transform: scale(1) translate(-50%, -50%); }
 
-  .cert-list { display: flex; flex-direction: column; }
-  .cert-item { transition: background 0.3s ease, padding-left 0.4s cubic-bezier(.2,.8,.2,1); }
-  .cert-title { transition: color 0.3s ease, transform 0.4s cubic-bezier(.2,.8,.2,1); transform-origin: left; }
-  .cert-item:hover { background: rgba(209,183,148,0.03); padding-left: 1.5rem; }
-  .cert-item:hover .cert-title { color: var(--gold); transform: scale(1.02); text-shadow: 0 0 15px rgba(209,183,148,0.3); }
+  /* COMPACT CERTIFICATIONS GRID */
+  .cert-grid { display: grid; gap: 0rem 4rem; }
+  @media (min-width: 768px) { .cert-grid { grid-template-columns: 1fr 1fr; } }
+  .cert-item { 
+    display: flex; justify-content: space-between; align-items: center; 
+    padding: 1.5rem 0; border-bottom: 1px solid var(--line);
+    transition: background 0.3s ease, padding-left 0.4s cubic-bezier(.2,.8,.2,1), padding-right 0.4s cubic-bezier(.2,.8,.2,1); 
+  }
+  .cert-item:hover { background: rgba(209,183,148,0.03); padding-left: 1rem; padding-right: 1rem; border-bottom-color: var(--gold); }
+  .cert-title { transition: color 0.3s ease; }
+  .cert-item:hover .cert-title { color: var(--gold); text-shadow: 0 0 10px rgba(209,183,148,0.3); }
 
   .data-preview-table {
     width: 100%; border-collapse: collapse; font-family: 'Space Mono', monospace; font-size: 0.8rem; margin-top: 2rem;
@@ -214,81 +227,12 @@
   .modal-overlay.active .terminal-window { transform: translateY(0); }
   .terminal-header { border-bottom: 1px solid #333; padding-bottom: 1rem; margin-bottom: 1rem; color: #888; position: relative; z-index: 10; }
   .terminal-content { position: relative; z-index: 10; background: rgba(0,0,0,0.7); padding: 1rem; border-radius: 4px;}
+  #matrix-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; opacity: 0.4; }
   
   .magnify-text { transition: color 0.3s ease, text-shadow 0.3s ease; cursor: default; position: relative; z-index: 1; }
   .magnify-text:hover { color: var(--gold); text-shadow: 0 2px 10px rgba(209,183,148,0.4); z-index: 10; }
 
-  /* GACHA ROLL UI */
-  #gacha-terminal {
-    background: #050408; border: 1px solid var(--gold); border-radius: 6px; padding: 4rem 2rem; text-align: center;
-    position: relative; overflow: hidden; box-shadow: inset 0 0 40px rgba(0,0,0,0.8), 0 10px 30px rgba(0,0,0,0.5);
-    margin-bottom: 4rem;
-  }
-  #gacha-btn {
-    font-family: 'Space Mono', monospace; font-size: 1rem; letter-spacing: 0.1em; color: var(--void);
-    background: var(--gold); padding: 1.5rem 3rem; border-radius: 4px; border: none; cursor: pointer;
-    box-shadow: 0 0 20px rgba(209,183,148,0.4); transition: transform 0.1s, box-shadow 0.3s, background 0.3s;
-    text-transform: uppercase; font-weight: bold; position: relative; z-index: 10;
-  }
-  #gacha-btn:hover { transform: scale(1.02); box-shadow: 0 0 30px rgba(209,183,148,0.6); background: #e0c8aa; }
-  #gacha-btn.rolling { pointer-events: none; background: #555; color: #222; box-shadow: none; }
-  
-  .gacha-fx-layer {
-    position: fixed; inset: 0; background: transparent; z-index: 8000; pointer-events: none;
-    display: flex; align-items: center; justify-content: center;
-  }
-  #gacha-card-spin {
-    width: 240px; height: 340px; background: #fff; border-radius: 8px; opacity: 0; transform: scale(0);
-    box-shadow: 0 0 50px rgba(255,255,255,0.5); border: 4px solid #fff;
-  }
-  #gacha-inventory { display: grid; grid-template-columns: 1fr; gap: 3rem; }
-  @media(min-width: 768px) { #gacha-inventory { grid-template-columns: 1fr 1fr; } }
-  .gacha-item { opacity: 0; transform: translateY(40px); }
-
-  /* VISUAL NOVEL MODE */
-  #vn-overlay {
-    position: fixed; inset: 0; z-index: 9500; pointer-events: none; opacity: 0; transition: opacity 0.5s ease;
-    background: linear-gradient(180deg, rgba(10,9,8,0) 40%, rgba(10,9,8,0.95) 100%);
-  }
-  #vn-overlay.active { opacity: 1; pointer-events: auto; }
-  #vn-dialogue-box {
-    position: absolute; bottom: 3rem; left: 50%; transform: translateX(-50%);
-    width: 90%; max-width: 900px; background: rgba(15,13,18,0.85); border: 2px solid var(--gold); border-radius: 8px;
-    padding: 2.5rem; backdrop-filter: blur(10px); box-shadow: 0 20px 50px rgba(0,0,0,0.8); cursor: pointer;
-  }
-  #vn-name { font-family: 'Space Mono', monospace; color: var(--gold); font-size: 1.2rem; margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.1em; }
-  #vn-text { font-family: 'Newsreader', serif; font-size: 1.5rem; color: #fff; line-height: 1.6; min-height: 4.8rem; }
-  #vn-next { position: absolute; bottom: 1.5rem; right: 2rem; color: var(--gold); font-family: 'Space Mono'; animation: bounceX 1s infinite; }
-  @keyframes bounceX { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(5px); } }
-
-  /* GitHub Graph */
-  .gh-graph { display: flex; gap: 4px; overflow-x: auto; padding-bottom: 1rem; }
-  .gh-col { display: flex; flex-direction: column; gap: 4px; }
-  .gh-cell { width: 12px; height: 12px; border-radius: 2px; background: var(--line); transition: background 0.3s; }
-  .gh-cell[data-level="1"] { background: color-mix(in srgb, var(--gold) 25%, transparent); }
-  .gh-cell[data-level="2"] { background: color-mix(in srgb, var(--gold) 50%, transparent); }
-  .gh-cell[data-level="3"] { background: color-mix(in srgb, var(--gold) 75%, transparent); }
-  .gh-cell[data-level="4"] { background: var(--gold); }
-
-  /* GOD MODE & MINIMAP */
-  #minimap {
-    position: fixed; right: 1rem; top: 50%; transform: translateY(-50%);
-    width: 4px; height: 30vh; background: var(--line); border-radius: 4px; z-index: 90;
-    opacity: 0.3; transition: opacity 0.3s;
-  }
-  #minimap:hover { opacity: 1; }
-  #minimap-thumb {
-    width: 100%; background: var(--gold); border-radius: 4px;
-    position: absolute; top: 0; left: 0; height: 20px;
-  }
-  #god-mode {
-    position: fixed; bottom: 1rem; right: 1rem; background: rgba(0,0,0,0.85); border: 1px solid #4ade80;
-    color: #4ade80; font-family: 'Space Mono', monospace; font-size: 0.65rem; padding: 1rem;
-    z-index: 10000; border-radius: 4px; pointer-events: none; display: none; backdrop-filter: blur(5px);
-  }
-  #god-mode.active { display: block; }
-  
-  /* RHYTHM GAME */
+  /* Rhythm Game Styles */
   .rhythm-stage {
     width: 100%; max-width: 480px; background: #0c0a10; border: 2px solid var(--gold);
     border-radius: 8px; padding: 1.5rem; text-align: center; font-family: 'Space Mono', monospace;
@@ -319,20 +263,70 @@
   .judg-great { color: #4ade80; text-shadow: 0 0 8px #4ade80; }
   .judg-miss { color: #ff0055; text-shadow: 0 0 8px #ff0055; }
 
+  /* VISUAL NOVEL MODE */
+  #vn-overlay {
+    position: fixed; inset: 0; z-index: 9500; pointer-events: none; opacity: 0; transition: opacity 0.5s ease;
+    background: linear-gradient(180deg, rgba(10,9,8,0) 40%, rgba(10,9,8,0.95) 100%);
+  }
+  #vn-overlay.active { opacity: 1; pointer-events: auto; }
+  #vn-dialogue-box {
+    position: absolute; bottom: 3rem; left: 50%; transform: translateX(-50%);
+    width: 90%; max-width: 900px; background: rgba(15,13,18,0.85); border: 2px solid var(--gold); border-radius: 8px;
+    padding: 2.5rem; backdrop-filter: blur(10px); box-shadow: 0 20px 50px rgba(0,0,0,0.8); cursor: pointer;
+  }
+  #vn-name { font-family: 'Space Mono', monospace; color: var(--gold); font-size: 1.2rem; margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.1em; }
+  #vn-text { font-family: 'Newsreader', serif; font-size: 1.5rem; color: #fff; line-height: 1.6; min-height: 4.8rem; }
+  #vn-next { position: absolute; bottom: 1.5rem; right: 2rem; color: var(--gold); font-family: 'Space Mono'; animation: bounceX 1s infinite; }
+  @keyframes bounceX { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(5px); } }
+
+  /* GitHub Graph */
+  .gh-graph { display: flex; gap: 4px; overflow-x: auto; padding-bottom: 1rem; }
+  .gh-col { display: flex; flex-direction: column; gap: 4px; }
+  .gh-cell { width: 12px; height: 12px; border-radius: 2px; background: var(--line); transition: background 0.3s; }
+  .gh-cell[data-level="1"] { background: color-mix(in srgb, var(--gold) 25%, transparent); }
+  .gh-cell[data-level="2"] { background: color-mix(in srgb, var(--gold) 50%, transparent); }
+  .gh-cell[data-level="3"] { background: color-mix(in srgb, var(--gold) 75%, transparent); }
+  .gh-cell[data-level="4"] { background: var(--gold); }
+
+  .sr-only {
+    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+  }
+  .sr-only:focus,
+  .focus\:not-sr-only:focus {
+    position: fixed; left: 1rem; top: 1rem; width: auto; height: auto; padding: 0.75rem 1rem; margin: 0; clip: auto; white-space: normal; background: var(--void); color: var(--ink); border: 1px solid var(--gold); z-index: 20000; border-radius: 4px;
+  }
+  #minimap {
+    position: fixed; right: 1rem; top: 50%; transform: translateY(-50%);
+    width: 4px; height: 30vh; background: var(--line); border-radius: 4px; z-index: 90;
+    opacity: 0.3; transition: opacity 0.3s;
+  }
+  #minimap:hover { opacity: 1; }
+  #minimap-thumb {
+    width: 100%; background: var(--gold); border-radius: 4px;
+    position: absolute; top: 0; left: 0; height: 20px;
+  }
+  #god-mode {
+    position: fixed; bottom: 1rem; right: 1rem; background: rgba(0,0,0,0.85); border: 1px solid #4ade80;
+    color: #4ade80; font-family: 'Space Mono', monospace; font-size: 0.65rem; padding: 1rem;
+    z-index: 10000; border-radius: 4px; pointer-events: none; display: none; backdrop-filter: blur(5px);
+  }
+  #god-mode.active { display: block; }
+  
   ::-webkit-scrollbar{ width:6px; }
   ::-webkit-scrollbar-track{ background:var(--void); }
   ::-webkit-scrollbar-thumb{ background:var(--dim); border-radius:10px; }
 </style>
 </head>
 
-<body>
-<div id="grain"></div>
-<div id="vignette"></div>
-<div id="ink-cursor">✠</div>
+<body id="top">
+<div id="grain" aria-hidden="true"></div>
+<div id="vignette" aria-hidden="true"></div>
+<div id="ink-cursor" aria-hidden="true">✠</div>
 
-<div id="minimap"><div id="minimap-thumb"></div></div>
+<div id="minimap" aria-hidden="true"><div id="minimap-thumb"></div></div>
 
-<!-- 🚨 BULLETPROOF SKELETON 🚨 -->
+<a href="#main-content" class="sr-only focus:not-sr-only">Skip to content</a>
+
 <div id="page-skeleton">
   <div class="skel-jp">データ</div>
   <div class="skel-txt">INITIALIZING ENVIRONMENT...</div>
@@ -349,7 +343,7 @@
 <nav id="topnav" class="fixed top-0 inset-x-0 z-40 transition-colors duration-500">
   <div class="max-w-[1280px] mx-auto absolute-nav-wrapper">
     <div class="nav-logo-locked">
-      <a href="#" class="label tracking-[0.25em] text-[var(--ink)] transition-colors katakana-swap hover-trigger" data-jp="N. バワンカル">N. BAWANKAR</a>
+      <a href="#top" class="label tracking-[0.25em] text-[var(--ink)] transition-colors katakana-swap hover-trigger" data-jp="N. バワンカル" aria-label="Nabhya Bawankar home">N. BAWANKAR</a>
     </div>
     <div class="nav-links-locked">
       <a href="#work" class="label hover:text-[var(--ink)] transition-colors hover-trigger">Exhibits</a>
@@ -358,9 +352,9 @@
       <a href="#notes" class="label hover:text-[var(--ink)] transition-colors hover-trigger">Notes</a>
     </div>
     <div class="nav-tools-locked">
-      <button class="label hover:text-[var(--ink)] transition-colors hover-trigger modal-trigger" data-target="modal-tips">TIPS ?</button>
-      <span id="dispatch-time" class="label hidden sm:block text-[var(--dim)] opacity-70 whitespace-nowrap hover-trigger cursor-pointer">--:--</span>
-      <div id="moon-widget" class="hover-trigger" title="Toggle Light/Dark Theme" aria-label="Toggle Theme"></div>
+      <button type="button" class="label hover:text-[var(--ink)] transition-colors hover-trigger modal-trigger" data-target="modal-tips">TIPS ?</button>
+      <span id="dispatch-time" class="label hidden sm:block text-[var(--dim)] opacity-70 whitespace-nowrap hover-trigger cursor-pointer" aria-live="polite">--:--</span>
+      <button type="button" id="moon-widget" class="hover-trigger" title="Toggle Light/Dark Theme" aria-label="Toggle Theme"></button>
     </div>
   </div>
 </nav>
@@ -394,7 +388,7 @@
   </div>
 </div>
 
-<main class="relative z-10">
+<main id="main-content" class="relative z-10">
 
 <section id="about" class="container-w pb-40">
   <div class="grid md:grid-cols-[1.1fr,0.9fr] gap-24 items-start">
@@ -464,85 +458,204 @@
 
 <div class="container-w"><div class="rule"></div></div>
 
+<!-- RESTORED CLEAN EXHIBITS GRID -->
 <section id="work" class="container-w py-32 md:py-40">
-  <div class="anim-section mb-16">
-    <p class="label mb-6">Section II — The Vault</p>
-    <h2 class="h-sub mb-6" style="font-size:clamp(2.8rem,5vw,3.8rem);">Acquire Project Files.</h2>
-    <p class="text-[var(--dim)] max-w-2xl font-serif text-[1.3rem] mb-12">
-      Access to the dossier requires clearance. Expend data fragments to securely extract project manifest files from the archive.
-    </p>
+  <div class="anim-section mb-24 flex justify-between items-end">
+    <div>
+      <p class="label mb-6">Section II — Archives</p>
+      <h2 class="h-sub mb-6" style="font-size:clamp(2.8rem,5vw,3.8rem);">Selected Finished Works.</h2>
+      <p class="text-[var(--dim)] max-w-lg font-serif text-[1.25rem] decay-target">A curated dossier of deployment-ready deliverables.</p>
+    </div>
   </div>
 
-  <div id="gacha-terminal" class="anim-section">
-    <p class="label text-[var(--gold)] mb-4 tracking-[0.3em] opacity-50" id="g-status">AWAITING INPUT // 3 FILES DETECTED</p>
-    <h3 class="font-mono text-3xl text-[var(--ink)] mb-10 tracking-widest">ARCHIVE TERMINAL <span class="animate-pulse">_</span></h3>
-    <button id="gacha-btn" class="hover-trigger">[ SPEND 1x DATASYNC ] ➔ EXTRACT FILE</button>
-  </div>
+  <div class="grid md:grid-cols-2 gap-16">
+    <article class="ui-card anim-section flex flex-col proj-card hover-trigger" data-img="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop">
+      <div class="flex items-center justify-between mb-8">
+        <span class="proj-num">01</span><span class="label !text-[0.7rem] opacity-70">Data Cleaning</span>
+      </div>
+      <h3 class="h-display text-4xl lg:text-5xl text-[var(--ink)] mb-8">NGO Applicant Records</h3>
+      <p class="text-[var(--dim)] leading-[1.8] font-serif text-[1.2rem] mb-10 flex-grow vn-readable">
+        Standardized, validated, and scrubbed 350 applicant records during an intensive operational internship—normalizing formats and resolving encoding corruptions.
+      </p>
+      <div class="mt-auto">
+        <div class="overflow-x-auto mb-10">
+          <table class="data-preview-table !mt-0">
+            <thead><tr><th>Record_ID</th><th>Status</th></tr></thead>
+            <tbody><tr><td>#NS-301</td><td>Verified</td></tr><tr><td>#NS-302</td><td>Normalized</td></tr></tbody>
+          </table>
+        </div>
+        <div class="flex gap-4">
+          <span class="label !text-[0.75rem] border border-[var(--line)] px-5 py-2 rounded-sm">Codebook</span>
+          <span class="label !text-[0.75rem] border border-[var(--line)] px-5 py-2 rounded-sm">CSV</span>
+        </div>
+      </div>
+    </article>
 
-  <div id="gacha-inventory"></div>
+    <article class="ui-card anim-section flex flex-col proj-card hover-trigger" data-img="https://images.unsplash.com/photo-1601597111158-2fceff292cdc?q=80&w=800&auto=format&fit=crop">
+      <div class="flex items-center justify-between mb-8">
+        <span class="proj-num">02</span><span class="label !text-[0.7rem] opacity-70">Game Theory</span>
+      </div>
+      <h3 class="h-display text-4xl lg:text-5xl text-[var(--ink)] mb-8">Quick-Commerce Strategy</h3>
+      <p class="text-[var(--dim)] leading-[1.8] font-serif text-[1.2rem] mb-10 flex-grow vn-readable">
+        A comparative presentation applying game theory models to competitive dynamics within the quick-commerce industry, analyzing strategies of Blinkit, Zepto, and Swiggy Instamart.
+      </p>
+      <div class="mt-auto pt-8 border-t border-[var(--line)] flex gap-4">
+        <button class="btn-ghost !text-[0.8rem] modal-trigger hover-trigger" data-target="modal-matrix">View Matrix Logic</button>
+      </div>
+    </article>
+  </div>
 </section>
 
 <div class="container-w"><div class="rule"></div></div>
 
+<!-- REBUILT 2-COLUMN CREDENTIALS SECTION -->
 <section id="certifications" class="container-w py-32 md:py-40">
-  <div class="anim-section mb-16">
+  <div class="anim-section mb-20">
     <p class="label mb-6">Section III — Credentials</p>
     <h2 class="h-sub mb-6" style="font-size:clamp(2.8rem,5vw,3.8rem);">Verified Proficiencies.</h2>
-    <p class="text-[var(--dim)] max-w-2xl font-serif text-[1.3rem] mb-12">
-      A cryptographic ledger of academic and professional certifications acquired to date. Hover to inspect visual proof of completion.
+    <p class="text-[var(--dim)] max-w-3xl font-serif text-[1.3rem] mb-12 decay-target">
+      A cryptographic ledger of academic and professional certifications acquired to date. Click to authenticate directly via Coursera.
     </p>
   </div>
 
-  <div class="border-t border-[var(--line)] flex flex-col cert-list anim-section">
-    <div class="cert-item py-6 border-b border-[var(--line)] flex justify-between items-center hover-trigger" data-img="https://images.unsplash.com/photo-1589330694653-ded6df03f754?q=80&w=800&auto=format&fit=crop">
-      <span class="font-serif text-2xl text-[var(--ink)] cert-title">Google AI Professional Certificate</span>
-      <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">Jul 6, 2026</span>
-    </div>
+  <div class="cert-grid cert-list anim-section border-t border-[var(--line)]">
+    <!-- Google Certs[cite: 1, 2, 3, 4, 5, 6, 7, 9] -->
+    <a href="https://coursera.org/verify/professional-cert/D20TWD198382" target="_blank" rel="noopener" class="cert-item hover-trigger" data-img="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=800&auto=format&fit=crop">
+      <div>
+        <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">Google AI Professional Certificate[cite: 9]</span>
+        <span class="label !text-[0.6rem] text-[var(--dim)] mt-1">Google</span>
+      </div>
+      <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">Jul 6, 2026[cite: 9] ↗</span>
+    </a>
 
-    <div class="cert-item py-6 border-b border-[var(--line)] flex justify-between items-center hover-trigger" data-img="https://images.unsplash.com/photo-1601597111158-2fceff292cdc?q=80&w=800&auto=format&fit=crop">
-      <span class="font-serif text-2xl text-[var(--ink)] cert-title">AI for App Building</span>
-      <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">Jul 6, 2026</span>
-    </div>
-    
-    <div class="cert-item py-6 border-b border-[var(--line)] flex justify-between items-center hover-trigger" data-img="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=800&auto=format&fit=crop">
-      <span class="font-serif text-2xl text-[var(--ink)] cert-title">AI for Content Creation</span>
-      <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">Jul 6, 2026</span>
-    </div>
+    <a href="https://coursera.org/verify/2OIY80FRZGQN" target="_blank" rel="noopener" class="cert-item hover-trigger" data-img="https://images.unsplash.com/photo-1601597111158-2fceff292cdc?q=80&w=800&auto=format&fit=crop">
+      <div>
+        <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">AI for App Building[cite: 1]</span>
+        <span class="label !text-[0.6rem] text-[var(--dim)] mt-1">Google</span>
+      </div>
+      <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">Jul 6, 2026[cite: 1] ↗</span>
+    </a>
 
-    <div class="cert-item py-6 border-b border-[var(--line)] flex justify-between items-center hover-trigger" data-img="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=800&auto=format&fit=crop">
-      <span class="font-serif text-2xl text-[var(--ink)] cert-title">AI for Data Analysis</span>
-      <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">Jul 6, 2026</span>
-    </div>
+    <a href="https://coursera.org/verify/62JOVFOST4YO" target="_blank" rel="noopener" class="cert-item hover-trigger" data-img="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=800&auto=format&fit=crop">
+      <div>
+        <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">AI for Content Creation[cite: 3]</span>
+        <span class="label !text-[0.6rem] text-[var(--dim)] mt-1">Google</span>
+      </div>
+      <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">Jul 6, 2026[cite: 3] ↗</span>
+    </a>
 
-    <div class="cert-item py-6 border-b border-[var(--line)] flex justify-between items-center hover-trigger" data-img="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=800&auto=format&fit=crop">
-      <span class="font-serif text-2xl text-[var(--ink)] cert-title">AI for Brainstorming and Planning</span>
-      <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">Jul 5, 2026</span>
-    </div>
+    <a href="https://coursera.org/verify/6G3P6R907SMA" target="_blank" rel="noopener" class="cert-item hover-trigger" data-img="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop">
+      <div>
+        <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">AI for Data Analysis[cite: 4]</span>
+        <span class="label !text-[0.6rem] text-[var(--dim)] mt-1">Google</span>
+      </div>
+      <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">Jul 6, 2026[cite: 4] ↗</span>
+    </a>
 
-    <div class="cert-item py-6 border-b border-[var(--line)] flex justify-between items-center hover-trigger" data-img="https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=800&auto=format&fit=crop">
-      <span class="font-serif text-2xl text-[var(--ink)] cert-title">AI for Research and Insights</span>
-      <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">Jul 5, 2026</span>
-    </div>
+    <a href="https://coursera.org/verify/C8IDWFQ2B38C" target="_blank" rel="noopener" class="cert-item hover-trigger" data-img="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=800&auto=format&fit=crop">
+      <div>
+        <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">AI for Brainstorming and Planning[cite: 2]</span>
+        <span class="label !text-[0.6rem] text-[var(--dim)] mt-1">Google</span>
+      </div>
+      <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">Jul 5, 2026[cite: 2] ↗</span>
+    </a>
 
-    <div class="cert-item py-6 border-b border-[var(--line)] flex justify-between items-center hover-trigger" data-img="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=800&auto=format&fit=crop">
-      <span class="font-serif text-2xl text-[var(--ink)] cert-title">AI for Writing and Communicating</span>
-      <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">Jul 5, 2026</span>
-    </div>
+    <a href="https://coursera.org/verify/YBW2BYO2NGWC" target="_blank" rel="noopener" class="cert-item hover-trigger" data-img="https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=800&auto=format&fit=crop">
+      <div>
+        <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">AI for Research and Insights[cite: 5]</span>
+        <span class="label !text-[0.6rem] text-[var(--dim)] mt-1">Google</span>
+      </div>
+      <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">Jul 5, 2026[cite: 5] ↗</span>
+    </a>
 
-    <div class="cert-item py-6 border-b border-[var(--line)] flex justify-between items-center hover-trigger" data-img="https://images.unsplash.com/photo-1555949963-aa79dcee981c?q=80&w=800&auto=format&fit=crop">
-      <span class="font-serif text-2xl text-[var(--ink)] cert-title">AI Fundamentals</span>
-      <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">Jul 5, 2026</span>
-    </div>
+    <a href="https://coursera.org/verify/JUOLOYE3XL31" target="_blank" rel="noopener" class="cert-item hover-trigger" data-img="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=800&auto=format&fit=crop">
+      <div>
+        <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">AI for Writing and Communicating[cite: 6]</span>
+        <span class="label !text-[0.6rem] text-[var(--dim)] mt-1">Google</span>
+      </div>
+      <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">Jul 5, 2026[cite: 6] ↗</span>
+    </a>
 
-    <div class="cert-item py-6 border-b border-[var(--line)] flex justify-between items-center hover-trigger" data-img="https://images.unsplash.com/photo-1589330694653-ded6df03f754?q=80&w=800&auto=format&fit=crop">
-      <span class="font-serif text-2xl text-[var(--ink)] cert-title">Data Science Methodology</span>
-      <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">Jul 5, 2026</span>
-    </div>
+    <a href="https://coursera.org/verify/816ZSIY7JQ2Y" target="_blank" rel="noopener" class="cert-item hover-trigger" data-img="https://images.unsplash.com/photo-1555949963-aa79dcee981c?q=80&w=800&auto=format&fit=crop">
+      <div>
+        <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">AI Fundamentals[cite: 7]</span>
+        <span class="label !text-[0.6rem] text-[var(--dim)] mt-1">Google</span>
+      </div>
+      <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">Jul 5, 2026[cite: 7] ↗</span>
+    </a>
 
-    <div class="cert-item py-6 border-b border-[var(--line)] flex justify-between items-center hover-trigger" data-img="https://images.unsplash.com/photo-1528164344705-47542687000d?q=80&w=800&auto=format&fit=crop">
-      <span class="font-serif text-2xl text-[var(--ink)] cert-title">Tools for Data Science</span>
-      <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">Jun 20, 2026</span>
-    </div>
+    <!-- IBM & Others[cite: 8, 10, 12, 13, 14, 15, 16, 17, 18] -->
+    <a href="https://coursera.org/verify/1E1100ABDTDP" target="_blank" rel="noopener" class="cert-item hover-trigger" data-img="https://images.unsplash.com/photo-1589330694653-ded6df03f754?q=80&w=800&auto=format&fit=crop">
+      <div>
+        <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">Data Science Methodology[cite: 8]</span>
+        <span class="label !text-[0.6rem] text-[var(--dim)] mt-1">IBM</span>
+      </div>
+      <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">Jul 5, 2026[cite: 8] ↗</span>
+    </a>
+
+    <a href="https://coursera.org/verify/8LLOVUI816GV" target="_blank" rel="noopener" class="cert-item hover-trigger" data-img="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=800&auto=format&fit=crop">
+      <div>
+        <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">What is Data Science?[cite: 18]</span>
+        <span class="label !text-[0.6rem] text-[var(--dim)] mt-1">IBM</span>
+      </div>
+      <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">Jun 3, 2026[cite: 18] ↗</span>
+    </a>
+
+    <a href="https://coursera.org/verify/2LK3BMDH5L10" target="_blank" rel="noopener" class="cert-item hover-trigger" data-img="https://images.unsplash.com/photo-1528164344705-47542687000d?q=80&w=800&auto=format&fit=crop">
+      <div>
+        <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">Tools for Data Science[cite: 10]</span>
+        <span class="label !text-[0.6rem] text-[var(--dim)] mt-1">IBM</span>
+      </div>
+      <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">Jun 20, 2026[cite: 10] ↗</span>
+    </a>
+
+    <a href="https://coursera.org/verify/9FNW7ECSJOOD" target="_blank" rel="noopener" class="cert-item hover-trigger" data-img="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop">
+      <div>
+        <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">Python for Data Science, AI & Dev[cite: 17]</span>
+        <span class="label !text-[0.6rem] text-[var(--dim)] mt-1">IBM</span>
+      </div>
+      <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">May 22, 2026[cite: 17] ↗</span>
+    </a>
+
+    <a href="https://coursera.org/verify/4B176SBS1FUC" target="_blank" rel="noopener" class="cert-item hover-trigger" data-img="https://images.unsplash.com/photo-1616077168712-fc6c788db4fa?q=80&w=800&auto=format&fit=crop">
+      <div>
+        <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">Excel Basics for Data Analysis[cite: 12]</span>
+        <span class="label !text-[0.6rem] text-[var(--dim)] mt-1">IBM</span>
+      </div>
+      <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">May 22, 2026[cite: 12] ↗</span>
+    </a>
+
+    <a href="https://coursera.org/verify/35BF0N944583" target="_blank" rel="noopener" class="cert-item hover-trigger" data-img="https://images.unsplash.com/photo-1555949963-aa79dcee981c?q=80&w=800&auto=format&fit=crop">
+      <div>
+        <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">Programming for Everybody (Python)[cite: 16]</span>
+        <span class="label !text-[0.6rem] text-[var(--dim)] mt-1">Univ. of Michigan</span>
+      </div>
+      <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">May 20, 2026[cite: 16] ↗</span>
+    </a>
+
+    <a href="https://coursera.org/verify/2IMXO38ZVMVO" target="_blank" rel="noopener" class="cert-item hover-trigger" data-img="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=800&auto=format&fit=crop">
+      <div>
+        <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">Generative AI: Prompt Engineering[cite: 13]</span>
+        <span class="label !text-[0.6rem] text-[var(--dim)] mt-1">IBM</span>
+      </div>
+      <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">May 13, 2026[cite: 13] ↗</span>
+    </a>
+
+    <a href="https://coursera.org/verify/Z4F077T14PVG" target="_blank" rel="noopener" class="cert-item hover-trigger" data-img="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=800&auto=format&fit=crop">
+      <div>
+        <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">Leveraging AI for Content Creation[cite: 15]</span>
+        <span class="label !text-[0.6rem] text-[var(--dim)] mt-1">Coursera</span>
+      </div>
+      <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">May 3, 2026[cite: 15] ↗</span>
+    </a>
+
+    <a href="https://coursera.org/verify/GPRAZ1HU9HET" target="_blank" rel="noopener" class="cert-item hover-trigger" data-img="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=800&auto=format&fit=crop">
+      <div>
+        <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">How to Get Into AI[cite: 14]</span>
+        <span class="label !text-[0.6rem] text-[var(--dim)] mt-1">Univ. of Leeds</span>
+      </div>
+      <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">Apr 26, 2026[cite: 14] ↗</span>
+    </a>
   </div>
 </section>
 
@@ -593,7 +706,7 @@
         Open for internships, analytical consults, and structured data-processing contracts—specifically those featuring complex raw inputs and clear objectives.
       </p>
       <div class="flex flex-wrap gap-x-10 gap-y-6 items-center">
-        <a href="mailto:2025.nabhyab@isu.ac.in" class="btn-primary hover-trigger">2025.nabhyab@isu.ac.in</a>
+        <a href="mailto:2025.nabhyab@isu.ac.in" class="btn-primary mag-btn hover-trigger">2025.nabhyab@isu.ac.in</a>
       </div>
     </div>
     <div class="border-t md:border-t-0 md:border-l border-[var(--line)] pt-14 md:pt-0 md:pl-20">
@@ -608,7 +721,6 @@
   
   <div class="mt-24 anim-section">
     <p class="label mb-6 text-center">Repository Activity</p>
-    <!-- RESTORED: This missing div caused the crash! -->
     <div class="gh-graph justify-center" id="gh-grid"></div> 
   </div>
 </section>
@@ -635,14 +747,16 @@
       <button class="close-modal hover:text-[var(--gold)] hover-trigger text-2xl">✕</button>
     </div>
     <ul class="space-y-6 text-[1.25rem] leading-[1.6]">
+      <li><span class="label !text-[0.7rem] inline-block w-28 text-[var(--gold)]">Konami Code</span> Press <kbd class="font-mono text-white bg-[#333] px-2 py-1 rounded">↑ ↑ ↓ ↓ ← → ← → B A</kbd> to launch the Rhythm Minigame.</li>
       <li><span class="label !text-[0.7rem] inline-block w-28 text-[var(--gold)]">Screenplay</span> Press <kbd class="font-mono text-white bg-[#333] px-2 py-1 rounded">S</kbd> to strip the DOM into a raw script format.</li>
       <li><span class="label !text-[0.7rem] inline-block w-28 text-[var(--gold)]">Visual Nov</span> Press <kbd class="font-mono text-white bg-[#333] px-2 py-1 rounded">V</kbd> to convert the dossier into a Ren'Py interface.</li>
       <li><span class="label !text-[0.7rem] inline-block w-28 text-[var(--gold)]">Coffee Brk</span> Press <kbd class="font-mono text-white bg-[#333] px-2 py-1 rounded">C</kbd> to brew a coffee theme.</li>
       <li><span class="label !text-[0.7rem] inline-block w-28 text-[var(--gold)]">Terminal</span> Press <kbd class="font-mono text-white bg-[#333] px-2 py-1 rounded">Cmd+K</kbd> to view raw JSON system data.</li>
       <li><span class="label !text-[0.7rem] inline-block w-28 text-[var(--gold)]">TouchNodes</span> Press <kbd class="font-mono text-white bg-[#333] px-2 py-1 rounded">T</kbd> for interactive physics nodes in the background.</li>
       <li><span class="label !text-[0.7rem] inline-block w-28 text-[var(--gold)]">Matrix O/R</span> Press <kbd class="font-mono text-white bg-[#333] px-2 py-1 rounded">M</kbd> to initiate the terminal rain.</li>
-      <li><span class="label !text-[0.7rem] inline-block w-28 text-[var(--gold)]">Konami</span> Press <kbd class="font-mono text-white bg-[#333] px-2 py-1 rounded">↑ ↑ ↓ ↓ ← → ← → B A</kbd> to unlock Rhythm Game mode.</li>
       <li><span class="label !text-[0.7rem] inline-block w-28 text-[var(--gold)]">God Mode</span> Press <kbd class="font-mono text-white bg-[#333] px-2 py-1 rounded">G</kbd> for system performance metrics.</li>
+      <li><span class="label !text-[0.7rem] inline-block w-28 text-[var(--gold)]">Time Shift</span> Click the clock in the nav to toggle Japanese standard time.</li>
+      <li><span class="label !text-[0.7rem] inline-block w-28 text-[var(--gold)]">Data Decay</span> Go completely idle for 60 seconds and watch the data corrupt.</li>
     </ul>
   </div>
 </div>
@@ -748,72 +862,12 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
   </div>
 </div>
 
-<div class="gacha-fx-layer" id="gacha-fx">
-  <div id="gacha-card-spin"></div>
-</div>
-
-<template id="tpl-ngo">
-  <article class="ui-card flex flex-col gacha-item rarity-ssr hover-trigger proj-card" data-img="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop">
-    <div class="flex items-center justify-between mb-8">
-      <span class="proj-num">01</span><span class="label !text-[0.7rem] opacity-70">Data Cleaning</span>
-    </div>
-    <h3 class="h-display text-4xl lg:text-5xl text-[var(--ink)] mb-8">NGO Applicant Records</h3>
-    <p class="text-[var(--dim)] leading-[1.8] font-serif text-[1.2rem] mb-10 flex-grow vn-readable">
-      Standardized, validated, and scrubbed 350 applicant records during an intensive operational internship—normalizing formats and resolving encoding corruptions.
-    </p>
-    <div class="mt-auto">
-      <div class="overflow-x-auto mb-10">
-        <table class="data-preview-table !mt-0">
-          <thead><tr><th>Record_ID</th><th>Status</th></tr></thead>
-          <tbody><tr><td>#NS-301</td><td>Verified</td></tr><tr><td>#NS-302</td><td>Normalized</td></tr></tbody>
-        </table>
-      </div>
-      <div class="flex gap-4">
-        <span class="label !text-[0.75rem] border border-[var(--line)] px-5 py-2 rounded-sm">Codebook</span>
-        <span class="label !text-[0.75rem] border border-[var(--line)] px-5 py-2 rounded-sm">CSV</span>
-      </div>
-    </div>
-  </article>
-</template>
-
-<template id="tpl-game-theory">
-  <article class="ui-card flex flex-col gacha-item rarity-sr hover-trigger proj-card" data-img="https://images.unsplash.com/photo-1601597111158-2fceff292cdc?q=80&w=800&auto=format&fit=crop">
-    <div class="flex items-center justify-between mb-8">
-      <span class="proj-num">02</span><span class="label !text-[0.7rem] opacity-70">Game Theory</span>
-    </div>
-    <h3 class="h-display text-4xl lg:text-5xl text-[var(--ink)] mb-8">Quick-Commerce Strategy</h3>
-    <p class="text-[var(--dim)] leading-[1.8] font-serif text-[1.2rem] mb-10 flex-grow vn-readable">
-      A comparative presentation applying game theory models to competitive dynamics within the quick-commerce industry, analyzing strategies of Blinkit, Zepto, and Swiggy Instamart.
-    </p>
-    <div class="mt-auto pt-8 border-t border-[var(--line)] flex gap-4">
-      <span class="label !text-[0.75rem] border border-[var(--line)] px-5 py-2 rounded-sm">Presentation Deck</span>
-    </div>
-  </article>
-</template>
-
-<template id="tpl-field">
-  <article class="ui-card flex flex-col gacha-item rarity-r hover-trigger proj-card" data-img="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=800&auto=format&fit=crop">
-    <div class="flex items-center justify-between mb-8">
-      <span class="proj-num">03</span><span class="label !text-[0.7rem] opacity-70">Field Study</span>
-    </div>
-    <h3 class="h-display text-4xl lg:text-5xl text-[var(--ink)] mb-8">Colaba Causeway Mix</h3>
-    <p class="text-[var(--dim)] leading-[1.8] font-serif text-[1.2rem] mb-10 flex-grow vn-readable">
-      Field study report analyzing marketing mixes and consumer behavior patterns at BeCafe and the Colaba Causeway Market, detailing observational research on impulse buying.
-    </p>
-    <div class="mt-auto pt-8 border-t border-[var(--line)] flex gap-4">
-      <span class="label !text-[0.75rem] border border-[var(--line)] px-5 py-2 rounded-sm">Field Report</span>
-    </div>
-  </article>
-</template>
-
 <script>
 (function(){
-  // Utility & Fallbacks
   const $ = (s,c=document)=>c.querySelector(s);
   const $$ = (s,c=document)=>[...c.querySelectorAll(s)];
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  // Audio Context Setup
   const AudioContext = window.AudioContext || window.webkitAudioContext;
   let audioCtx;
 
@@ -844,29 +898,6 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
     osc.start(); osc.stop(audioCtx.currentTime + 0.02);
   }
 
-  function playGachaRoll() {
-    if(reduceMotion) return;
-    initAudio();
-    for(let i=0; i<15; i++){
-      const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain();
-      osc.connect(gain); gain.connect(audioCtx.destination);
-      osc.type = 'square'; osc.frequency.setValueAtTime(150 + (i*10), audioCtx.currentTime + (i*0.1));
-      gain.gain.setValueAtTime(0.02, audioCtx.currentTime + (i*0.1));
-      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + (i*0.1) + 0.05);
-      osc.start(audioCtx.currentTime + (i*0.1)); osc.stop(audioCtx.currentTime + (i*0.1) + 0.05);
-    }
-    setTimeout(()=>{
-      const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain();
-      osc.connect(gain); gain.connect(audioCtx.destination);
-      osc.type = 'sawtooth';
-      osc.frequency.setValueAtTime(100, audioCtx.currentTime);
-      osc.frequency.exponentialRampToValueAtTime(20, audioCtx.currentTime + 1);
-      gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 1);
-      osc.start(); osc.stop(audioCtx.currentTime + 1);
-    }, 1500);
-  }
-
   function playSecretSound() {
     if(reduceMotion) return;
     initAudio();
@@ -886,85 +917,9 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
   // Safely Remove Loader
   const sk = $('#page-skeleton');
   if(sk) {
-    // Immediate fallback
     setTimeout(() => { sk.style.opacity = '0'; setTimeout(()=>sk.remove(), 800); }, 1500);
-    // Load event trigger
     window.addEventListener('load', () => {
       sk.style.opacity = '0'; setTimeout(()=>sk.remove(), 800);
-    });
-  }
-
-  // Gacha Logic
-  const gachaPool = [
-    { id: 'tpl-field', name: 'Colaba Causeway', rarity: 'R', color: '#00e5ff' },
-    { id: 'tpl-game-theory', name: 'Quick-Commerce', rarity: 'SR', color: '#b026ff' },
-    { id: 'tpl-ngo', name: 'NGO Applicant Records', rarity: 'SSR', color: '#ffd700' }
-  ];
-  let pulls = 0;
-  const gachaBtn = $('#gacha-btn');
-  const gStatus = $('#g-status');
-  const gInventory = $('#gacha-inventory');
-  const cardSpin = $('#gacha-card-spin');
-
-  if(gachaBtn && gInventory) {
-    gachaBtn.addEventListener('click', () => {
-      if(pulls >= gachaPool.length) {
-        if(gStatus) gStatus.textContent = "ARCHIVE DEPLETED. ALL FILES EXTRACTED.";
-        return;
-      }
-      gachaBtn.classList.add('rolling');
-      if(gStatus) gStatus.textContent = "DECRYPTING ARCHIVE FILE...";
-      playGachaRoll();
-
-      gsap.to('main > section:not(#work), header, footer', {opacity: 0.1, duration: 0.5});
-      const pullData = gachaPool[pulls];
-      
-      if(cardSpin) {
-        gsap.to(cardSpin, { scale: 1, opacity: 1, duration: 0.3, ease: 'back.out(1.5)' });
-        const colors = ['#fff', '#00e5ff', '#b026ff', pullData.color];
-        const tl = gsap.timeline();
-        for(let i=0; i<15; i++) {
-          tl.to(cardSpin, { rotateY: "+=180", boxShadow: `0 0 ${50 + i*5}px ${colors[i%3]}`, borderColor: colors[i%3], duration: 0.1, ease: 'none' });
-        }
-
-        tl.to(cardSpin, { rotateY: "+=180", scale: 1.2, boxShadow: `0 0 100px ${pullData.color}`, borderColor: pullData.color, duration: 0.2 })
-          .to(cardSpin, { scale: 0, opacity: 0, duration: 0.2, ease: 'power2.in',
-          onComplete: () => {
-            gsap.fromTo("body", {x:-10, y:10}, {x:0, y:0, clearProps:"all", duration:0.4, ease:"rough({strength: 8, points: 20, template: none.out, taper: none, randomize: true, clamp: false})"});
-            const template = $(`#${pullData.id}`);
-            if(template) {
-              const clone = template.content.cloneNode(true);
-              gInventory.appendChild(clone);
-              const newCard = gInventory.lastElementChild;
-              if(newCard) {
-                gsap.fromTo(newCard, {y: -100, opacity: 0, scale: 0.8}, {y: 0, opacity: 1, scale: 1, duration: 0.6, ease: 'bounce.out(1, 0.5)'});
-                
-                const cursor = $('#ink-cursor');
-                if(cursor) {
-                  newCard.addEventListener('mouseenter', ()=> cursor.classList.add('hovering'));
-                  newCard.addEventListener('mouseleave', ()=> cursor.classList.remove('hovering'));
-                }
-                
-                const preview = $('#hover-preview');
-                const previewImg = preview ? preview.querySelector('img') : null;
-                if(preview && previewImg) {
-                  newCard.addEventListener('mouseenter', e => {
-                    if(!reduceMotion && newCard.dataset.img) { previewImg.src = newCard.dataset.img; preview.classList.add('active'); }
-                  });
-                  newCard.addEventListener('mousemove', e => {
-                    if(!reduceMotion && newCard.dataset.img) { gsap.to(preview, {left: e.clientX, top: e.clientY, duration:0.4, ease:'power3.out'}); }
-                  });
-                  newCard.addEventListener('mouseleave', () => preview.classList.remove('active'));
-                }
-              }
-            }
-            pulls++;
-            gachaBtn.classList.remove('rolling');
-            if(gStatus) gStatus.textContent = `AWAITING INPUT // ${gachaPool.length - pulls} FILES REMAINING`;
-            gsap.to('main > section:not(#work), header, footer', {opacity: 1, duration: 1});
-          }
-        });
-      }
     });
   }
 
@@ -1229,7 +1184,8 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
   // Modals
   $$('.modal-trigger').forEach(btn => {
     btn.addEventListener('click', e => {
-      const target = $('#' + e.target.dataset.target);
+      const targetId = e.currentTarget.dataset.target;
+      const target = targetId ? $('#' + targetId) : null;
       if(target) { target.classList.add('active'); playClick(); }
     });
   });
