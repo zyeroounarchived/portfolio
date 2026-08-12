@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Nabhya Bawankar — Portfolio</title>
-<meta name="description" content="Data analyst & student. A short, honest dossier of early work." />
+<meta name="description" content="Data analyst & builder. A short, honest dossier of early work." />
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -61,7 +61,7 @@
   .h-display{ font-family:'Cormorant Garamond', serif; font-weight:300; line-height:0.95; letter-spacing:-0.03em; }
   .h-sub{ font-family:'Cormorant Garamond', serif; font-weight:400; font-style:italic; }
 
-  /* Strict 3-Column Navigation */
+  /* Navigation */
   #topnav{ 
     backdrop-filter:blur(12px); 
     background:color-mix(in srgb, var(--void) 80%, transparent); 
@@ -90,21 +90,28 @@
     background:var(--card-bg); border-radius: 4px;
     transition:border-color .5s ease, transform .5s cubic-bezier(.2,.8,.2,1), box-shadow .5s ease;
   }
+  .ui-card::before {
+    content:''; position:absolute; top:6px; left:6px; right:6px; bottom:6px;
+    border:1px solid var(--line); opacity:0.3; pointer-events:none; border-radius: 2px;
+  }
   .ui-card:hover{ 
     border-color:rgba(209,183,148,0.4); 
     box-shadow:0 24px 60px -20px rgba(0,0,0,0.4), 0 0 40px -15px rgba(209,183,148,0.1); 
     transform:translateY(-4px); 
   }
 
-  /* Accordion Rows */
-  .proj-row{ border-top:1px solid var(--line); transition:background-color .4s ease; padding-left: 1rem; padding-right: 1rem; margin-left:-1rem; margin-right:-1rem; }
-  .proj-row:hover{ background:rgba(209,183,148,0.03); }
   .proj-num{ font-family:'Space Mono',monospace; color:var(--gold); font-size:0.8rem; opacity: 0.8;}
 
-  .fold-panel{ overflow:hidden; max-height:0; opacity:0; transition:max-height .7s cubic-bezier(.4,0,.2,1), opacity .5s ease; }
-  .fold-item.open .fold-panel{ max-height:700px; opacity:1; }
-  .fold-chevron{ transition:transform .5s cubic-bezier(.4,0,.2,1); }
-  .fold-item.open .fold-chevron{ transform:rotate(90deg); stroke:var(--gold); }
+  /* Footnote tooltips */
+  .footnote{ position:relative; cursor:help; border-bottom:1px dotted var(--gold); color:var(--ink); }
+  .idx-card{
+    position:absolute; bottom:calc(100% + 12px); left:50%; transform:translateX(-50%) translateY(4px);
+    width:240px; background:var(--void); border:1px solid var(--gold); padding:0.9rem 1.1rem;
+    font-family:'Space Mono',monospace; font-size:0.68rem; line-height:1.5; color:var(--dim);
+    opacity:0; pointer-events:none; transition:opacity .25s ease, transform .25s ease; z-index:60;
+    box-shadow:0 10px 30px rgba(0,0,0,0.5);
+  }
+  .footnote:hover .idx-card, .footnote:focus .idx-card{ opacity:1; transform:translateX(-50%) translateY(0); }
 
   /* Skill Tracks */
   .skill-track{ height:1px; background:var(--line); position:relative; margin-top: 0.4rem; }
@@ -121,7 +128,7 @@
   .data-preview-table th { color: var(--gold); font-weight: normal; background: color-mix(in srgb, var(--gold) 4%, transparent); }
   .data-preview-table tr:last-child td { border-bottom: none; }
 
-  /* 3D Moon UI Element (Strictly aligned right) */
+  /* 3D Moon UI Element */
   #moon-widget{
     width:32px; height:32px; border-radius:50%; cursor:pointer; position:relative; flex-shrink: 0;
     background:radial-gradient(circle at 30% 30%, #f0ebd8 0%, #c2b59b 50%, #5c5445 100%);
@@ -136,13 +143,17 @@
     border-color: rgba(26,25,24,0.4);
   }
 
-  /* Super Smooth Custom Cursor */
+  /* Gothic Cross Cursor */
   #ink-cursor{
-    position:fixed; top:0; left:0; width:16px; height:16px; border-radius:50%;
-    background: var(--gold); mix-blend-mode: exclusion;
+    position:fixed; top:0; left:0; 
+    color: var(--gold); font-size: 24px; line-height: 1; text-align: center;
     pointer-events:none; z-index:999; 
-    transition:width .3s cubic-bezier(.2,.8,.2,1), height .3s cubic-bezier(.2,.8,.2,1), background .3s ease, border .3s ease;
+    text-shadow: 0 0 8px rgba(209,183,148,0.3);
+    transition: font-size .25s cubic-bezier(.2,.8,.2,1), color .25s ease, text-shadow .25s ease;
     transform:translate(-50%, -50%);
+  }
+  #ink-cursor.hovering {
+    font-size: 38px; color: var(--ink); text-shadow: 0 0 12px rgba(247,244,237,0.5);
   }
   @media (hover:none){ #ink-cursor{display:none;} }
 
@@ -160,30 +171,27 @@
 <body>
 <div id="grain"></div>
 <div id="vignette"></div>
-<div id="ink-cursor"></div>
+<div id="ink-cursor">✠</div>
 
 <div id="page-skeleton" class="fixed inset-0 z-[1000] bg-[var(--void)] flex items-center justify-center">
   <div class="label text-[var(--gold)] animate-pulse">Loading Environment...</div>
 </div>
 
 <nav id="topnav" class="fixed top-0 inset-x-0 z-40 transition-colors duration-500">
-  <!-- 3-Column Grid guarantees alignment -->
-  <div class="container-w grid grid-cols-2 md:grid-cols-3 items-center h-20">
+  <div class="container-w h-20 relative flex items-center justify-between">
     
     <!-- Left: Logo -->
-    <div class="flex items-center justify-start">
-      <a href="#" class="label tracking-[0.25em] text-[var(--ink)] hover:text-[var(--gold)] transition-colors">N. BAWANKAR</a>
-    </div>
+    <a href="#" class="label tracking-[0.25em] text-[var(--ink)] hover:text-[var(--gold)] transition-colors">N. BAWANKAR</a>
     
-    <!-- Center: Navigation Links -->
-    <div class="hidden md:flex items-center justify-center gap-10">
+    <!-- Center: Navigation Links (Absolutely centered) -->
+    <div class="hidden md:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 items-center gap-10">
       <a href="#work" class="label hover:text-[var(--ink)] transition-colors">Exhibits</a>
       <a href="#about" class="label hover:text-[var(--ink)] transition-colors">Dossier</a>
       <a href="#contact" class="label hover:text-[var(--ink)] transition-colors">Dispatch</a>
     </div>
 
-    <!-- Right: Utilities (Time & Moon) -->
-    <div class="flex items-center justify-end gap-5">
+    <!-- Right: Utilities (Forced Right) -->
+    <div class="ml-auto flex items-center gap-6">
       <span id="dispatch-time" class="label hidden sm:block text-[var(--dim)] opacity-70 whitespace-nowrap">--:--</span>
       <div id="moon-widget" title="Toggle Light/Dark Theme" aria-label="Toggle Theme"></div>
     </div>
@@ -264,70 +272,52 @@
     <p class="text-[var(--dim)] max-w-lg font-serif text-[1.1rem]">A curated dossier of deployment-ready deliverables.</p>
   </div>
 
-  <div id="fold-list" class="border-t border-[var(--line)]">
-    <article class="fold-item proj-row anim-section">
-      <button class="fold-trigger w-full text-left py-10 flex items-center justify-between gap-8 cursor-pointer" aria-expanded="false">
-        <div class="flex items-center gap-8">
-          <span class="proj-num">01</span>
-          <div>
-            <h3 class="h-display text-3xl md:text-4xl text-[var(--ink)]">NGO Applicant Records</h3>
-            <p class="label mt-3 text-[var(--dim)] !text-[0.65rem]">Data cleaning · Codebook · 350 records</p>
-          </div>
+  <div class="grid md:grid-cols-2 gap-10">
+    <!-- Project Card 01 -->
+    <article class="ui-card anim-section flex flex-col">
+      <div class="flex items-center justify-between mb-4">
+        <span class="proj-num">01</span>
+        <span class="label !text-[0.6rem] opacity-70">Data Cleaning</span>
+      </div>
+      <h3 class="h-display text-3xl text-[var(--ink)] mb-4">NGO Applicant Records</h3>
+      <p class="text-[var(--dim)] leading-[1.7] font-serif text-[1.05rem] mb-6 flex-grow">
+        Standardized, validated, and scrubbed 350 applicant records during an intensive operational internship—normalizing formats and resolving encoding corruptions.
+      </p>
+      <div class="mt-auto">
+        <div class="overflow-x-auto mb-6">
+          <table class="data-preview-table !mt-0">
+            <thead>
+              <tr><th>Record_ID</th><th>Status</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>#NS-301</td><td>Verified</td></tr>
+              <tr><td>#NS-302</td><td>Normalized</td></tr>
+            </tbody>
+          </table>
         </div>
-        <svg class="fold-chevron w-5 h-5 shrink-0 text-[var(--dim)]" viewBox="0 0 16 16" fill="none"><path d="M5 2l6 6-6 6" stroke="currentColor" stroke-width="1.5"/></svg>
-      </button>
-      
-      <div class="fold-panel">
-        <div class="pb-10 pl-0 md:pl-[4.5rem] text-[var(--dim)] leading-[1.8] max-w-3xl font-serif text-[1.1rem]">
-          <p>Standardized, validated, and scrubbed 350 applicant records during an intensive operational internship—normalizing formats, resolving encoding corruptions, and verifying field inputs.</p>
-          
-          <div class="mt-8">
-            <p class="label text-[var(--gold)] mb-3">Schema Preview (Cleaned Sample)</p>
-            <div class="overflow-x-auto">
-              <table class="data-preview-table">
-                <thead>
-                  <tr>
-                    <th>Record_ID</th>
-                    <th>Category</th>
-                    <th>Validation_Status</th>
-                    <th>Encoding</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr><td>#NS-301</td><td>Applicant-A</td><td>Verified</td><td>UTF-8 Clean</td></tr>
-                  <tr><td>#NS-302</td><td>Applicant-B</td><td>Normalized</td><td>UTF-8 Clean</td></tr>
-                  <tr><td>#NS-303</td><td>Applicant-C</td><td>Verified</td><td>UTF-8 Clean</td></tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
+        <div class="flex gap-4">
+          <span class="label !text-[0.65rem] border border-[var(--line)] px-3 py-1 rounded-sm">Codebook</span>
+          <span class="label !text-[0.65rem] border border-[var(--line)] px-3 py-1 rounded-sm">CSV</span>
         </div>
       </div>
     </article>
 
-    <article class="fold-item proj-row anim-section">
-      <button class="fold-trigger w-full text-left py-10 flex items-center justify-between gap-8 cursor-pointer" aria-expanded="false">
-        <div class="flex items-center gap-8">
-          <span class="proj-num">02</span>
-          <div>
-            <h3 class="h-display text-3xl md:text-4xl text-[var(--ink)]">Effective Communication</h3>
-            <p class="label mt-3 text-[var(--dim)] !text-[0.65rem]">Micro-site architecture · Deployed</p>
-          </div>
-        </div>
-        <svg class="fold-chevron w-5 h-5 shrink-0 text-[var(--dim)]" viewBox="0 0 16 16" fill="none"><path d="M5 2l6 6-6 6" stroke="currentColor" stroke-width="1.5"/></svg>
-      </button>
-      <div class="fold-panel">
-        <div class="pb-10 pl-0 md:pl-[4.5rem] text-[var(--dim)] leading-[1.8] max-w-3xl font-serif text-[1.1rem]">
-          <p>Architected a dedicated digital micro-site translating workshop materials into an optimized format emphasizing clear document layouts based on the Context → Objective → Analysis framework.</p>
-          <div class="mt-8 flex gap-8 items-center">
-            <a href="https://artofeffectivecomms.vercel.app" target="_blank" rel="noopener" class="btn-ghost !text-[0.7rem]">View Live Site</a>
-            <a href="https://github.com/zyeroounarchived/artofeffectivecomm" target="_blank" rel="noopener" class="btn-ghost !text-[0.7rem]">Source Code</a>
-          </div>
-        </div>
+    <!-- Project Card 02 -->
+    <article class="ui-card anim-section flex flex-col">
+      <div class="flex items-center justify-between mb-4">
+        <span class="proj-num">02</span>
+        <span class="label !text-[0.6rem] opacity-70">Architecture</span>
+      </div>
+      <h3 class="h-display text-3xl text-[var(--ink)] mb-4">Effective Communication</h3>
+      <p class="text-[var(--dim)] leading-[1.7] font-serif text-[1.05rem] mb-6 flex-grow">
+        Architected a dedicated digital micro-site translating workshop materials into an optimized format emphasizing clear document layouts and structured framing.
+      </p>
+      <div class="mt-auto pt-4 border-t border-[var(--line)] flex items-center justify-between">
+        <a href="https://artofeffectivecomms.vercel.app" target="_blank" rel="noopener" class="btn-ghost !text-[0.7rem]">View Live Site</a>
+        <a href="https://github.com/zyeroounarchived/artofeffectivecomm" target="_blank" rel="noopener" class="btn-ghost !text-[0.7rem]">Source Code</a>
       </div>
     </article>
   </div>
-  <div class="rule mt-0"></div>
 </section>
 
 <section id="contact" class="container-w py-28 md:py-36">
@@ -422,36 +412,20 @@
     $$('.skill-row').forEach(row=> $('.skill-fill',row).style.width = row.dataset.level+'%');
   }
 
-  // Accordion Logic
-  $$('.fold-item').forEach(item=>{
-    const trigger = $('.fold-trigger', item);
-    trigger.addEventListener('click', ()=>{
-      const isOpen = item.classList.contains('open');
-      $$('.fold-item').forEach(o=>{ o.classList.remove('open'); $('.fold-trigger',o).setAttribute('aria-expanded','false'); });
-      if(!isOpen){ item.classList.add('open'); trigger.setAttribute('aria-expanded','true'); }
-    });
-  });
-
-  // Custom Cursor (Magnetic/Invert)
+  // Custom Gothic Cross Cursor
   const cursor = $('#ink-cursor');
   if(!reduceMotion && matchMedia('(hover:hover)').matches){
     let cx=innerWidth/2, cy=innerHeight/2, tx=cx, ty=cy;
     window.addEventListener('mousemove', e=>{ tx=e.clientX; ty=e.clientY; });
     (function loop(){
-      cx += (tx - cx) * 0.2;
-      cy += (ty - cy) * 0.2;
+      cx += (tx - cx) * 0.25;
+      cy += (ty - cy) * 0.25;
       cursor.style.transform = `translate(${cx}px, ${cy}px) translate(-50%, -50%)`;
       requestAnimationFrame(loop);
     })();
-    $$('a, button, .fold-trigger, #moon-widget').forEach(el=>{
-      el.addEventListener('mouseenter', ()=>{ 
-        cursor.style.width='48px'; cursor.style.height='48px'; 
-        cursor.style.background='transparent'; cursor.style.border='1px solid var(--gold)'; 
-      });
-      el.addEventListener('mouseleave', ()=>{ 
-        cursor.style.width='16px'; cursor.style.height='16px'; 
-        cursor.style.background='var(--gold)'; cursor.style.border='none'; 
-      });
+    $$('a, button, #moon-widget').forEach(el=>{
+      el.addEventListener('mouseenter', ()=> cursor.classList.add('hovering'));
+      el.addEventListener('mouseleave', ()=> cursor.classList.remove('hovering'));
     });
   } else if(cursor){ cursor.style.display='none'; }
 
