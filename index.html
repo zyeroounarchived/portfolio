@@ -36,49 +36,74 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 
     <style>
+      :root{
+        --charcoal:#0d0d0d;
+        --parchment:#cfc6b6; /* slightly muted */
+        --parchment-dim:#d4cdc0;
+        --ash:#9a9a9a;
+        --silver:#d0cbc4;
+        --muted-overlay: rgba(15,15,15,0.45);
+      }
+
       :root{color-scheme: dark;}
       html,body{height:100%;}
       body{
         font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;
-        background: radial-gradient(1200px 600px at 10% 10%, rgba(255,255,255,0.02), transparent),
-                    linear-gradient(180deg, #070707 0%, #0d0d0d 100%);
+        background: radial-gradient(1000px 500px at 8% 8%, rgba(255,255,255,0.02), transparent),
+                    linear-gradient(180deg, #070707 0%, var(--charcoal) 100%);
         color: #e9e6e2;
         -webkit-font-smoothing:antialiased;
         -moz-osx-font-smoothing:grayscale;
+        position:relative;
+        overflow-x:hidden;
       }
 
-      /* Subtle paper grain using repeating-linear-gradient */
+      /* Subtle paper grain */
       .paper-grain::before{
-        content:''; position:absolute; inset:0; pointer-events:none; mix-blend-mode:soft-light;
-        background-image: repeating-linear-gradient(0deg, rgba(212,207,196,0.02) 0 1px, transparent 1px 6px);
-        opacity:0.9; z-index:0;
+        content:''; position:absolute; inset:0; pointer-events:none; mix-blend-mode:overlay;
+        background-image: repeating-linear-gradient(0deg, rgba(200,190,170,0.02) 0 1px, transparent 1px 6px);
+        opacity:0.7; z-index:0;
       }
+
+      /* Damask watermark behind hero */
+      .damask{ position:absolute; inset:0; background-repeat:no-repeat; background-position:20% 10%; opacity:0.06; pointer-events:none; z-index:0; background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='800' height='800'><g fill='%23c6bfb2' fill-opacity='0.08'><path d='M400 60c40 0 80 20 110 50 30 30 52 74 38 118-14 44-64 88-106 108-38 18-80 22-122 12-42-10-74-36-98-72-26-38-22-86 2-124C284 104 338 60 400 60z'/></g></svg>"); }
 
       /* Decorative distressed border */
       .distressed{
-        box-shadow: inset 0 0 0 1px rgba(220,215,200,0.06), 0 8px 40px rgba(0,0,0,0.6);
+        box-shadow: inset 0 0 0 1px rgba(220,215,200,0.04), 0 12px 60px rgba(0,0,0,0.55);
         border-radius:12px;
-        background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.25));
+        background: linear-gradient(180deg, rgba(255,255,255,0.015), rgba(0,0,0,0.24));
         border: 1px solid rgba(220,215,200,0.03);
+        backdrop-filter: blur(6px) saturate(90%);
       }
 
       /* Rose SVG sizing */
       .rose{width:360px; max-width:40vw; opacity:0.95; filter:drop-shadow(0 10px 30px rgba(0,0,0,0.7));}
 
       /* Manuscript chapter style */
-      .chapter { font-family: serif; color: parchment; letter-spacing:0.02em }
-      .chapter .title { font-family: serif; font-size:clamp(36px,6.5vw,72px); line-height:0.92; }
-      .chapter .lead { font-size:1.05rem; color:#cfc6b9; max-width:70ch }
+      .chapter { font-family: 'Playfair Display', serif; color: var(--parchment); letter-spacing:0.02em; position:relative }
+      .chapter .title { font-family: 'Playfair Display', serif; font-size:clamp(36px,6.5vw,72px); line-height:0.92; }
+      .chapter .lead { font-size:1.05rem; color:var(--parchment-dim); max-width:70ch }
+
+      /* Watermark cursive */
+      .watermark{ position:absolute; right:6%; top:6%; font-family:'Great Vibes',cursive; font-size:6rem; color:var(--parchment); opacity:0.06; transform:rotate(-12deg); pointer-events:none; z-index:0 }
 
       /* Letter/contact paper */
       .letter-paper{ background: linear-gradient(180deg, rgba(212,207,196,0.02), rgba(212,207,196,0.01)); border-left:4px solid rgba(212,207,196,0.06); padding:2.2rem }
 
+      /* Glass cards */
+      .glass{ background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.18)); border:1px solid rgba(255,255,255,0.03); backdrop-filter: blur(6px) saturate(80%); }
+
       /* Hover reveals for project cards */
-      .proj-card{ transform:translateZ(0); backface-visibility:hidden }
-      .proj-overlay{ background: linear-gradient(180deg, rgba(13,13,13,0.6), rgba(13,13,13,0.85)); }
+      .proj-card{ transform:translateZ(0); backface-visibility:hidden; transition:box-shadow .28s ease, transform .28s ease; }
+      .proj-card:hover{ box-shadow: 0 18px 48px rgba(3,3,3,0.6); transform: translateY(-6px); }
+      .proj-overlay{ background: linear-gradient(180deg, rgba(22,18,16,0.45), rgba(10,8,7,0.7)); }
 
       /* Cursive accent */
-      .sig{ font-family:cursive; font-size:1.5rem; color:parchment }
+      .sig{ font-family:'Great Vibes',cursive; font-size:1.5rem; color:var(--parchment) }
+
+      /* Grain/fine dust */
+      .grain::after{ content:''; position: absolute; inset:0; background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200"><rect width="200" height="200" fill="rgba(0,0,0,0)"/><g fill="rgba(0,0,0,0.03)"><circle cx="10" cy="10" r="1"/><circle cx="50" cy="70" r="1"/><circle cx="130" cy="40" r="1"/></g></svg>'); opacity:0.06; pointer-events:none; z-index:20 }
 
       @media (max-width:768px){ .rose{display:none} }
     </style>
