@@ -116,7 +116,6 @@
     border:1px solid var(--line); opacity:0.3; pointer-events:none; border-radius: 2px; transition: border-color 0.5s ease;
   }
   
-  /* GACHA RARITY STYLES */
   .rarity-ssr { border-color: var(--ssr-glow) !important; box-shadow: 0 0 40px rgba(255,215,0,0.15) !important; }
   .rarity-ssr::before { border-color: var(--ssr-glow) !important; opacity: 0.8 !important; }
   .rarity-sr { border-color: var(--sr-glow) !important; box-shadow: 0 0 40px rgba(176,38,255,0.1) !important; }
@@ -130,7 +129,6 @@
   .skill-track{ height:1px; background:var(--line); position:relative; margin-top: 0.8rem; }
   .skill-fill{ position:absolute; inset:0; width:0%; background:var(--gold); }
 
-  /* HOVER PREVIEW */
   .proj-card, .cert-item { cursor: none; }
   #hover-preview {
     position: fixed; top: 0; left: 0; width: 300px; height: 200px; pointer-events: none;
@@ -142,7 +140,6 @@
   #hover-preview img { width: 100%; height: 100%; object-fit: cover; opacity: 0.8; filter: grayscale(80%) contrast(1.1); }
   .proj-card:hover ~ #hover-preview.active, .cert-item:hover ~ #hover-preview.active { opacity: 1; transform: scale(1) translate(-50%, -50%); }
 
-  /* CERTIFICATIONS LIST */
   .cert-list { display: flex; flex-direction: column; }
   .cert-item { transition: background 0.3s ease, padding-left 0.4s cubic-bezier(.2,.8,.2,1); }
   .cert-title { transition: color 0.3s ease, transform 0.4s cubic-bezier(.2,.8,.2,1); transform-origin: left; }
@@ -209,7 +206,26 @@
   .modal-overlay.active .terminal-window { transform: translateY(0); }
   .terminal-header { border-bottom: 1px solid #333; padding-bottom: 1rem; margin-bottom: 1rem; color: #888; position: relative; z-index: 10; }
   .terminal-content { position: relative; z-index: 10; background: rgba(0,0,0,0.7); padding: 1rem; border-radius: 4px;}
-  
+  #matrix-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; opacity: 0.4; }
+
+  /* GOD MODE & MINIMAP */
+  #minimap {
+    position: fixed; right: 1rem; top: 50%; transform: translateY(-50%);
+    width: 4px; height: 30vh; background: var(--line); border-radius: 4px; z-index: 90;
+    opacity: 0.3; transition: opacity 0.3s;
+  }
+  #minimap:hover { opacity: 1; }
+  #minimap-thumb {
+    width: 100%; background: var(--gold); border-radius: 4px;
+    position: absolute; top: 0; left: 0; height: 20px;
+  }
+  #god-mode {
+    position: fixed; bottom: 1rem; right: 1rem; background: rgba(0,0,0,0.85); border: 1px solid #4ade80;
+    color: #4ade80; font-family: 'Space Mono', monospace; font-size: 0.65rem; padding: 1rem;
+    z-index: 10000; border-radius: 4px; pointer-events: none; display: none; backdrop-filter: blur(5px);
+  }
+  #god-mode.active { display: block; }
+
   .magnify-text { transition: color 0.3s ease, text-shadow 0.3s ease; cursor: default; position: relative; z-index: 1; }
   .magnify-text:hover { color: var(--gold); text-shadow: 0 2px 10px rgba(209,183,148,0.4); z-index: 10; }
 
@@ -240,7 +256,37 @@
   @media(min-width: 768px) { #gacha-inventory { grid-template-columns: 1fr 1fr; } }
   .gacha-item { opacity: 0; transform: translateY(40px); }
 
-  /* VISUAL NOVEL MODE */
+  /* RHYTHM GAME & VN */
+  .rhythm-stage {
+    width: 100%; max-width: 480px; background: #0c0a10; border: 2px solid var(--gold);
+    border-radius: 8px; padding: 1.5rem; text-align: center; font-family: 'Space Mono', monospace;
+    box-shadow: 0 0 40px rgba(209,183,148,0.2), inset 0 0 20px rgba(0,0,0,0.8);
+  }
+  .rhythm-header { display: flex; justify-content: space-between; margin-bottom: 1rem; color: var(--gold); font-size: 0.8rem; }
+  .rhythm-track-area {
+    position: relative; width: 100%; height: 320px; background: #050408; border: 1px solid rgba(209,183,148,0.2);
+    border-radius: 4px; overflow: hidden; display: flex;
+  }
+  .rhythm-lane {
+    flex: 1; border-right: 1px solid rgba(255,255,255,0.05); position: relative;
+    display: flex; flex-direction: column; justify-content: flex-end; align-items: center; padding-bottom: 8px;
+  }
+  .rhythm-lane:last-child { border-right: none; }
+  .rhythm-key-target {
+    width: 42px; height: 42px; border: 2px solid var(--gold); border-radius: 6px;
+    display: flex; align-items: center; justify-content: center; font-weight: bold; color: var(--gold);
+    background: rgba(209,183,148,0.05); transition: background 0.1s, transform 0.1s; z-index: 5;
+  }
+  .rhythm-key-target.pressed { background: var(--gold); color: #000; transform: scale(0.92); }
+  .rhythm-note {
+    position: absolute; width: 40px; height: 16px; border-radius: 3px;
+    background: linear-gradient(180deg, #ff0055, #ff5500); box-shadow: 0 0 10px #ff0055; z-index: 10;
+  }
+  .rhythm-judgement { height: 24px; font-size: 1rem; font-weight: bold; margin-top: 0.8rem; letter-spacing: 0.1em; }
+  .judg-perfect { color: #00e5ff; text-shadow: 0 0 8px #00e5ff; }
+  .judg-great { color: #4ade80; text-shadow: 0 0 8px #4ade80; }
+  .judg-miss { color: #ff0055; text-shadow: 0 0 8px #ff0055; }
+
   #vn-overlay {
     position: fixed; inset: 0; z-index: 9500; pointer-events: none; opacity: 0; transition: opacity 0.5s ease;
     background: linear-gradient(180deg, rgba(10,9,8,0) 40%, rgba(10,9,8,0.95) 100%);
@@ -266,6 +312,16 @@
 <div id="grain"></div>
 <div id="vignette"></div>
 <div id="ink-cursor">✠</div>
+
+<div id="minimap"><div id="minimap-thumb"></div></div>
+
+<div id="god-mode">
+  <div>SYSTEM: ONLINE</div>
+  <div>FPS: <span id="fps-counter">60</span></div>
+  <div>MEM: <span id="mem-counter">N/A</span></div>
+  <div>SCR: Y=<span id="scroll-y">0</span></div>
+  <div>THEME: <span id="theme-status">DARK</span></div>
+</div>
 
 <nav id="topnav" class="fixed top-0 inset-x-0 z-40 transition-colors duration-500">
   <div class="container-w absolute-nav-wrapper">
@@ -516,7 +572,7 @@
   </div>
 </footer>
 
-<!-- Modals -->
+<!-- Modals & Easter Eggs -->
 <div class="modal-overlay" id="modal-tips">
   <div class="terminal-window !bg-[var(--void)] !border-[var(--gold)] !text-[var(--ink)] font-serif max-w-3xl">
     <div class="flex justify-between items-center mb-8 border-b border-[var(--line)] pb-6">
@@ -524,11 +580,13 @@
       <button class="close-modal hover:text-[var(--gold)] hover-trigger text-2xl">✕</button>
     </div>
     <ul class="space-y-6 text-[1.25rem] leading-[1.6]">
-      <li><span class="label !text-[0.7rem] inline-block w-28 text-[var(--gold)]">Screenplay</span> Press <kbd class="font-mono text-white bg-[#333] px-2 py-1 rounded">S</kbd> to strip the DOM into a raw script format.</li>
-      <li><span class="label !text-[0.7rem] inline-block w-28 text-[var(--gold)]">Visual Nov</span> Press <kbd class="font-mono text-white bg-[#333] px-2 py-1 rounded">V</kbd> to convert the dossier into a Ren'Py interface.</li>
-      <li><span class="label !text-[0.7rem] inline-block w-28 text-[var(--gold)]">Coffee Brk</span> Press <kbd class="font-mono text-white bg-[#333] px-2 py-1 rounded">C</kbd> to brew a coffee theme.</li>
-      <li><span class="label !text-[0.7rem] inline-block w-28 text-[var(--gold)]">Terminal</span> Press <kbd class="font-mono text-white bg-[#333] px-2 py-1 rounded">Cmd+K</kbd> to view raw JSON system data.</li>
-      <li><span class="label !text-[0.7rem] inline-block w-28 text-[var(--gold)]">God Mode</span> Press <kbd class="font-mono text-white bg-[#333] px-2 py-1 rounded">G</kbd> for live performance metrics.</li>
+      <li><span class="label !text-[0.7rem] inline-block w-28 text-[var(--gold)]">Konami Code</span> Press <kbd class="font-mono text-white bg-[#333] px-2 py-1 rounded">↑ ↑ ↓ ↓ ← → ← → B A</kbd> for Rhythm Minigame.</li>
+      <li><span class="label !text-[0.7rem] inline-block w-28 text-[var(--gold)]">Screenplay</span> Press <kbd class="font-mono text-white bg-[#333] px-2 py-1 rounded">S</kbd> to strip DOM into a raw script format.</li>
+      <li><span class="label !text-[0.7rem] inline-block w-28 text-[var(--gold)]">Visual Nov</span> Press <kbd class="font-mono text-white bg-[#333] px-2 py-1 rounded">V</kbd> for Ren'Py interface mode.</li>
+      <li><span class="label !text-[0.7rem] inline-block w-28 text-[var(--gold)]">TouchNodes</span> Press <kbd class="font-mono text-white bg-[#333] px-2 py-1 rounded">T</kbd> for TD background nodes.</li>
+      <li><span class="label !text-[0.7rem] inline-block w-28 text-[var(--gold)]">Coffee Brk</span> Press <kbd class="font-mono text-white bg-[#333] px-2 py-1 rounded">C</kbd> to brew coffee theme.</li>
+      <li><span class="label !text-[0.7rem] inline-block w-28 text-[var(--gold)]">Matrix O/R</span> Press <kbd class="font-mono text-white bg-[#333] px-2 py-1 rounded">M</kbd> for Matrix terminal overlay.</li>
+      <li><span class="label !text-[0.7rem] inline-block w-28 text-[var(--gold)]">God Mode</span> Press <kbd class="font-mono text-white bg-[#333] px-2 py-1 rounded">G</kbd> for system performance metrics.</li>
     </ul>
   </div>
 </div>
@@ -577,6 +635,52 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
 }
 <span class="text-white mt-4 block">guest@bawankar-os:~$ <span class="animate-pulse">_</span></span>
 </code></pre>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-matrix">
+  <div class="terminal-window">
+    <canvas id="matrix-canvas"></canvas>
+    <div class="terminal-header flex justify-between items-center">
+      <span>guest@bawankar-os:~/projects/SQL_Queries</span>
+      <button class="close-modal hover:text-white hover-trigger">✕</button>
+    </div>
+    <div class="terminal-content">
+<pre><code><span class="syn-c">-- Extracting Optimization Matrix Data</span>
+<span class="syn-k">SELECT</span> 
+    strategy_id, 
+    <span class="syn-f">SUM</span>(payoff_value) <span class="syn-k">AS</span> total_utility,
+    <span class="syn-f">MAX</span>(market_share) <span class="syn-k">AS</span> equilibrium_point
+<span class="syn-k">FROM</span> 
+    game_theory_simulations
+<span class="syn-k">WHERE</span> 
+    competitor = <span class="syn-s">'Zepto'</span> 
+    <span class="syn-k">AND</span> model_type = <span class="syn-s">'Nash'</span>
+<span class="syn-k">GROUP BY</span> 
+    strategy_id;
+<span class="text-white mt-4 block">Execution Time: 0.04s <span class="animate-pulse">_</span></span>
+</code></pre>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-rhythm">
+  <div class="rhythm-stage">
+    <div class="rhythm-header">
+      <span>SCORE: <span id="r-score">0000</span></span>
+      <span>COMBO: <span id="r-combo">0</span>x</span>
+    </div>
+    <div class="rhythm-track-area" id="rhythm-track-area">
+      <div class="rhythm-lane" data-key="d"><div class="rhythm-key-target" id="kt-0">D</div></div>
+      <div class="rhythm-lane" data-key="f"><div class="rhythm-key-target" id="kt-1">F</div></div>
+      <div class="rhythm-lane" data-key="j"><div class="rhythm-key-target" id="kt-2">J</div></div>
+      <div class="rhythm-lane" data-key="k"><div class="rhythm-key-target" id="kt-3">K</div></div>
+    </div>
+    <div class="rhythm-judgement" id="r-judgement">PRESS START</div>
+    <div class="mt-4 flex justify-between items-center">
+      <button class="btn-ghost !text-[0.65rem] hover-trigger" id="btn-start-rhythm">START GAME</button>
+      <button class="close-modal btn-ghost !text-[0.65rem] hover-trigger">EXIT</button>
+    </div>
   </div>
 </div>
 
@@ -705,6 +809,23 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
     }, 1500);
   }
 
+  function playSecretSound() {
+    if(reduceMotion) return;
+    initAudio();
+    const notes = [261.63, 329.63, 392.00, 523.25]; 
+    notes.forEach((freq, i) => {
+      const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain();
+      osc.connect(gain); gain.connect(audioCtx.destination);
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(freq, audioCtx.currentTime + i * 0.1);
+      gain.gain.setValueAtTime(0, audioCtx.currentTime + i * 0.1);
+      gain.gain.linearRampToValueAtTime(0.1, audioCtx.currentTime + i * 0.1 + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + i * 0.1 + 0.1);
+      osc.start(audioCtx.currentTime + i * 0.1); osc.stop(audioCtx.currentTime + i * 0.1 + 0.1);
+    });
+  }
+
+  // Gacha Logic
   const gachaPool = [
     { id: 'tpl-field', name: 'Colaba Causeway', rarity: 'R', color: '#00e5ff' },
     { id: 'tpl-game-theory', name: 'Quick-Commerce', rarity: 'SR', color: '#b026ff' },
@@ -726,33 +847,24 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
     playGachaRoll();
 
     gsap.to('main > section:not(#work), header, footer', {opacity: 0.1, duration: 0.5});
-    
     const pullData = gachaPool[pulls];
     
     gsap.to(cardSpin, { scale: 1, opacity: 1, duration: 0.3, ease: 'back.out(1.5)' });
-    
     const colors = ['#fff', '#00e5ff', '#b026ff', pullData.color];
     const tl = gsap.timeline();
     for(let i=0; i<15; i++) {
-      tl.to(cardSpin, {
-        rotateY: "+=180", boxShadow: `0 0 ${50 + i*5}px ${colors[i%3]}`, borderColor: colors[i%3], duration: 0.1, ease: 'none'
-      });
+      tl.to(cardSpin, { rotateY: "+=180", boxShadow: `0 0 ${50 + i*5}px ${colors[i%3]}`, borderColor: colors[i%3], duration: 0.1, ease: 'none' });
     }
 
-    tl.to(cardSpin, {
-      rotateY: "+=180", scale: 1.2, boxShadow: `0 0 100px ${pullData.color}`, borderColor: pullData.color, duration: 0.2
-    }).to(cardSpin, {
-      scale: 0, opacity: 0, duration: 0.2, ease: 'power2.in',
+    tl.to(cardSpin, { rotateY: "+=180", scale: 1.2, boxShadow: `0 0 100px ${pullData.color}`, borderColor: pullData.color, duration: 0.2 })
+      .to(cardSpin, { scale: 0, opacity: 0, duration: 0.2, ease: 'power2.in',
       onComplete: () => {
         gsap.fromTo("body", {x:-10, y:10}, {x:0, y:0, clearProps:"all", duration:0.4, ease:"rough({strength: 8, points: 20, template: none.out, taper: none, randomize: true, clamp: false})"});
-        
         const template = $(`#${pullData.id}`);
         const clone = template.content.cloneNode(true);
         gInventory.appendChild(clone);
-        
         const newCard = gInventory.lastElementChild;
         gsap.fromTo(newCard, {y: -100, opacity: 0, scale: 0.8}, {y: 0, opacity: 1, scale: 1, duration: 0.6, ease: 'bounce.out(1, 0.5)'});
-        
         pulls++;
         gachaBtn.classList.remove('rolling');
         gStatus.textContent = `AWAITING INPUT // ${gachaPool.length - pulls} FILES REMAINING`;
@@ -760,99 +872,119 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
         
         newCard.addEventListener('mouseenter', ()=> cursor.classList.add('hovering'));
         newCard.addEventListener('mouseleave', ()=> cursor.classList.remove('hovering'));
-        
         newCard.addEventListener('mouseenter', e => {
-          if(!reduceMotion && newCard.dataset.img) {
-            previewImg.src = newCard.dataset.img;
-            preview.classList.add('active');
-          }
+          if(!reduceMotion && newCard.dataset.img) { previewImg.src = newCard.dataset.img; preview.classList.add('active'); }
         });
         newCard.addEventListener('mousemove', e => {
-          if(!reduceMotion && newCard.dataset.img) {
-            gsap.to(preview, {left: e.clientX, top: e.clientY, duration:0.4, ease:'power3.out'});
-          }
+          if(!reduceMotion && newCard.dataset.img) { gsap.to(preview, {left: e.clientX, top: e.clientY, duration:0.4, ease:'power3.out'}); }
         });
         newCard.addEventListener('mouseleave', () => preview.classList.remove('active'));
       }
     });
   });
 
+  // Visual Novel Mode
   const vnOverlay = $('#vn-overlay');
   const vnText = $('#vn-text');
-  let isVnMode = false;
-  let vnNodes = [];
-  let vnCurrentIdx = 0;
-  let vnTypeInterval;
+  let isVnMode = false; let vnNodes = []; let vnCurrentIdx = 0; let vnTypeInterval;
 
-  function startVnMode() {
-    isVnMode = true;
-    vnOverlay.classList.add('active');
-    vnNodes = $$('.vn-readable');
-    vnCurrentIdx = 0;
-    typeVnText();
-  }
-  function exitVnMode() {
-    isVnMode = false;
-    vnOverlay.classList.remove('active');
-    clearInterval(vnTypeInterval);
-  }
+  function startVnMode() { isVnMode = true; vnOverlay.classList.add('active'); vnNodes = $$('.vn-readable'); vnCurrentIdx = 0; typeVnText(); }
+  function exitVnMode() { isVnMode = false; vnOverlay.classList.remove('active'); clearInterval(vnTypeInterval); }
   function typeVnText() {
     if(vnCurrentIdx >= vnNodes.length) { exitVnMode(); return; }
-    clearInterval(vnTypeInterval);
-    vnText.textContent = '';
+    clearInterval(vnTypeInterval); vnText.textContent = '';
     const fullText = vnNodes[vnCurrentIdx].textContent.trim().replace(/\s+/g, ' ');
     let charIdx = 0;
-    
     vnTypeInterval = setInterval(() => {
       vnText.textContent += fullText[charIdx];
-      if(charIdx % 3 === 0) playVNType(); 
+      if(charIdx % 3 === 0) playVNType();
       charIdx++;
       if(charIdx >= fullText.length) clearInterval(vnTypeInterval);
-    }, 20); 
+    }, 20);
   }
   $('#vn-dialogue-box').addEventListener('click', () => {
     if(vnText.textContent.length < vnNodes[vnCurrentIdx].textContent.trim().replace(/\s+/g, ' ').length) {
       clearInterval(vnTypeInterval);
       vnText.textContent = vnNodes[vnCurrentIdx].textContent.trim().replace(/\s+/g, ' ');
-    } else {
-      vnCurrentIdx++;
-      typeVnText();
-    }
+    } else { vnCurrentIdx++; typeVnText(); }
   });
 
-  let coffeeMode = false;
-  let screenPlayMode = false;
-
+  // Keyboard Easter Eggs (V, S, C, G, T, M, Cmd+K)
+  let coffeeMode = false; let screenPlayMode = false; let matrixMode = false; let nodesActive = false; let tdRaf; let tdNodes = [];
+  
   window.addEventListener('keydown', e => {
     if(e.key.toLowerCase() === 'v' && !isVnMode) { startVnMode(); playClick(); }
     if(e.key === 'Escape' && isVnMode) { exitVnMode(); }
-
-    if(e.key.toLowerCase() === 's') {
-      screenPlayMode = !screenPlayMode;
-      document.body.classList.toggle('screenplay-mode');
-      playClick();
-    }
-
+    if(e.key.toLowerCase() === 's') { screenplayMode = !screenplayMode; document.body.classList.toggle('screenplay-mode'); playClick(); }
     if(e.key.toLowerCase() === 'c') {
       coffeeMode = !coffeeMode;
       if(coffeeMode) {
-        document.documentElement.style.setProperty('--void', '#16110c'); 
-        document.documentElement.style.setProperty('--ink', '#d6c8b8'); 
-        document.documentElement.style.setProperty('--line', 'rgba(214, 200, 184, 0.1)');
-        document.documentElement.style.setProperty('--gold', '#c29a6b');
+        document.documentElement.style.setProperty('--void', '#16110c'); document.documentElement.style.setProperty('--ink', '#d6c8b8');
+        document.documentElement.style.setProperty('--line', 'rgba(214, 200, 184, 0.1)'); document.documentElement.style.setProperty('--gold', '#c29a6b');
       } else {
-        document.documentElement.style.removeProperty('--void');
-        document.documentElement.style.removeProperty('--ink');
-        document.documentElement.style.removeProperty('--line');
-        document.documentElement.style.removeProperty('--gold');
+        document.documentElement.style.removeProperty('--void'); document.documentElement.style.removeProperty('--ink');
+        document.documentElement.style.removeProperty('--line'); document.documentElement.style.removeProperty('--gold');
       }
-      playClick();
+      playSecretSound();
     }
+    if(e.key.toLowerCase() === 'g') { $('#god-mode').classList.toggle('active'); playClick(); }
+    if(e.metaKey && e.key === 'k') { e.preventDefault(); $('#modal-terminal').classList.add('active'); playClick(); }
     
-    if(e.key.toLowerCase() === 'g') {
-      $('#god-mode').classList.toggle('active');
-      playClick();
+    // Matrix Mode (M)
+    if(e.key.toLowerCase() === 'm') {
+      matrixMode = !matrixMode;
+      const tModal = $('#modal-matrix');
+      if(matrixMode) {
+        tModal.classList.add('active'); initMatrix(); clearInterval(matrixInterval); matrixInterval = setInterval(drawMatrix, 33); playSecretSound();
+      } else { tModal.classList.remove('active'); clearInterval(matrixInterval); }
     }
+
+    // TouchDesigner Nodes (T)
+    if(e.key.toLowerCase() === 't') {
+      nodesActive = !nodesActive;
+      if(nodesActive) {
+        const c = document.createElement('canvas'); c.id = 'td-nodes';
+        c.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;opacity:0.25;pointer-events:none;';
+        document.body.appendChild(c); const ctx = c.getContext('2d');
+        function resizeTD() {
+          c.width = window.innerWidth; c.height = window.innerHeight;
+          tdNodes = Array.from({length: 25}, () => ({ x: Math.random() * c.width, y: Math.random() * c.height, vx: (Math.random() - 0.5) * 1.5, vy: (Math.random() - 0.5) * 1.5 }));
+        }
+        resizeTD(); window.addEventListener('resize', resizeTD);
+        function drawTD() {
+          ctx.clearRect(0,0,c.width,c.height); ctx.strokeStyle = '#d1b794'; ctx.lineWidth = 1;
+          tdNodes.forEach(n => {
+            n.x += n.vx; n.y += n.vy;
+            if(n.x <= 0 || n.x >= c.width) n.vx *= -1;
+            if(n.y <= 0 || n.y >= c.height) n.vy *= -1;
+            ctx.fillStyle = '#1a1918'; ctx.fillRect(n.x - 20, n.y - 10, 40, 20); ctx.strokeRect(n.x - 20, n.y - 10, 40, 20);
+            tdNodes.forEach(n2 => {
+              const dist = Math.hypot(n.x - n2.x, n.y - n2.y);
+              if(dist < 150) { ctx.globalAlpha = 1 - (dist/150); ctx.beginPath(); ctx.moveTo(n.x, n.y); ctx.lineTo(n2.x, n2.y); ctx.stroke(); ctx.globalAlpha = 1; }
+            });
+          });
+          tdRaf = requestAnimationFrame(drawTD);
+        }
+        drawTD(); playSecretSound();
+      } else { cancelAnimationFrame(tdRaf); const c = document.getElementById('td-nodes'); if(c) c.remove(); }
+    }
+  });
+
+  // God mode loop
+  let frameCount = 0; let lastTime = performance.now();
+  function updateGodMode() {
+    if($('#god-mode').classList.contains('active')) {
+      frameCount++; const now = performance.now();
+      if(now - lastTime >= 1000) { $('#fps-counter').textContent = frameCount; frameCount = 0; lastTime = now; }
+      $('#scroll-y').textContent = Math.floor(window.scrollY);
+    }
+    requestAnimationFrame(updateGodMode);
+  }
+  updateGodMode();
+
+  window.addEventListener('load', ()=>{
+    const sk = $('#page-skeleton');
+    if(sk) setTimeout(()=>{ sk.style.opacity='0'; setTimeout(()=>sk.remove(),800); }, 400);
   });
 
   let lenisInstance;
@@ -864,7 +996,7 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
   }
   gsap.registerPlugin(ScrollTrigger);
 
-  gsap.from('.anim-fade', { y:40, opacity:0, duration:1.4, ease:'power3.out', stagger:0.15, delay:0.6 });
+  gsap.from('.anim-fade', { y:40, opacity:0, duration:1.4, ease:'power3.out', stagger:0.15, delay:0.4 });
 
   const twEl = $('#typewriter');
   const phrase = 'Nabhya Bawankar.';
@@ -887,15 +1019,13 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
   $$('.sort-btn').forEach(btn => {
     btn.addEventListener('click', (e)=>{
       $$('.sort-btn').forEach(b=>b.classList.remove('active'));
-      e.target.classList.add('active');
-      playClick();
+      e.target.classList.add('active'); playClick();
       const sortBy = e.target.dataset.sort;
       const sorted = [...skillRows].sort((a,b) => parseInt(b.dataset[sortBy]) - parseInt(a.dataset[sortBy]));
       sorted.forEach((row) => {
         gsap.to(row, {opacity:0, y:-10, duration:0.2, onComplete:()=>{
           skillContainer.appendChild(row);
-          const fill = $('.skill-fill', row);
-          fill.style.width = '0%';
+          const fill = $('.skill-fill', row); fill.style.width = '0%';
           gsap.to(row, {opacity:1, y:0, duration:0.3});
           gsap.to(fill, {width: row.dataset[sortBy]+'%', duration:1, ease:'power3.out', delay:0.1});
         }});
@@ -915,9 +1045,7 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
   $$('.proj-card, .cert-item').forEach(card => {
     card.addEventListener('mouseenter', e => {
       if(reduceMotion || !card.dataset.img) return;
-      previewImg.src = card.dataset.img;
-      preview.classList.add('active');
-      playClick();
+      previewImg.src = card.dataset.img; preview.classList.add('active'); playClick();
     });
     card.addEventListener('mousemove', e => {
       if(reduceMotion || !card.dataset.img) return;
@@ -970,8 +1098,38 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
     });
   });
 
+  // Matrix canvas handler
+  const mCanvas = $('#matrix-canvas');
+  const mCtx = mCanvas.getContext('2d');
+  let mWidth, mHeight, columns, drops;
+  const chars = "SELECT * FROM DATA WHERE NOISE = 0".split("");
+  function initMatrix() {
+    mWidth = mCanvas.width = mCanvas.parentElement.offsetWidth;
+    mHeight = mCanvas.height = mCanvas.parentElement.offsetHeight;
+    columns = mWidth / 14; drops = [];
+    for(let x = 0; x < columns; x++) drops[x] = 1;
+  }
+  function drawMatrix() {
+    mCtx.fillStyle = "rgba(0, 0, 0, 0.05)"; mCtx.fillRect(0, 0, mWidth, mHeight);
+    mCtx.fillStyle = "#4ade80"; mCtx.font = "14px monospace";
+    for(let i = 0; i < drops.length; i++) {
+      const text = chars[Math.floor(Math.random() * chars.length)];
+      mCtx.fillText(text, i * 14, drops[i] * 14);
+      if(drops[i] * 14 > mHeight && Math.random() > 0.975) drops[i] = 0;
+      drops[i]++;
+    }
+  }
+
+  // Konami Code Rhythm Minigame
+  const konami = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
+  let kIdx = 0;
   window.addEventListener('keydown', e => {
-    if(e.metaKey && e.key === 'k') { e.preventDefault(); $('#modal-terminal').classList.add('active'); playClick(); }
+    if(e.key === konami[kIdx]) {
+      kIdx++;
+      if(kIdx === konami.length) {
+        $('#modal-rhythm').classList.add('active'); playSecretSound(); kIdx = 0;
+      }
+    } else { kIdx = 0; }
   });
 
   window.addEventListener('resize', ()=>ScrollTrigger.refresh());
