@@ -8,7 +8,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=Newsreader:ital,wght@0,300;0,400;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=Newsreader:ital,wght@0,300;0,400;1,400&family=Space+Mono:wght@400&display=swap" rel="stylesheet">
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/3.4.1/tailwind.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
@@ -31,13 +31,24 @@
     font-family:'Newsreader', serif; font-weight:300;
     -webkit-font-smoothing:antialiased;
     overflow-x:hidden;
+    /* IDEA 23: GLITCH TRANSITION - Base transition altered by JS during toggle */
     transition:background-color .6s cubic-bezier(0.4, 0, 0.2, 1), color .6s ease;
   }
   ::selection{ background:var(--ink); color:var(--void); }
   a{ color:inherit; text-decoration:none; }
 
-  a:focus-visible, button:focus-visible, [tabindex]:focus-visible{
-    outline:none; box-shadow:0 0 0 2px var(--void), 0 0 0 4px var(--gold); border-radius:2px;
+  /* IDEA 23: CSS Glitch Animation applied on theme toggle */
+  @keyframes glitch-anim {
+    0% { clip-path: inset(10% 0 80% 0); transform: translate(-2px, 2px); }
+    20% { clip-path: inset(80% 0 5% 0); transform: translate(2px, -2px); }
+    40% { clip-path: inset(40% 0 40% 0); transform: translate(-2px, -2px); }
+    60% { clip-path: inset(5% 0 80% 0); transform: translate(2px, 2px); }
+    80% { clip-path: inset(60% 0 10% 0); transform: translate(-2px, 2px); }
+    100% { clip-path: inset(0 0 0 0); transform: translate(0); }
+  }
+  .glitching {
+    animation: glitch-anim 0.3s cubic-bezier(.2,.8,.2,1) forwards;
+    filter: invert(1) hue-rotate(180deg);
   }
 
   /* Refined Grain + Vignette */
@@ -58,7 +69,23 @@
   .label{ font-family:'Space Mono', monospace; letter-spacing:0.18em; text-transform:uppercase; font-size:0.75rem; color:var(--gold); }
   .rule{ height:1px; background:var(--line); transform-origin:left; margin: 5rem 0; }
 
-  .h-display{ font-family:'Cormorant Garamond', serif; font-weight:300; line-height:0.95; letter-spacing:-0.03em; }
+  /* IDEA 8: TEXT MASKING - A dynamic, slow-moving fluid gradient clipped inside the hero text */
+  .h-display{ 
+    font-family:'Cormorant Garamond', serif; font-weight:300; line-height:0.95; letter-spacing:-0.03em; 
+  }
+  .text-mask-fluid {
+    background: linear-gradient(120deg, var(--ink), var(--gold), var(--ink), var(--dim));
+    background-size: 300% 300%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: fluidMask 12s ease infinite;
+  }
+  @keyframes fluidMask {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
   .h-sub{ font-family:'Cormorant Garamond', serif; font-weight:400; font-style:italic; }
 
   /* Katakana Hover Swap */
@@ -87,7 +114,7 @@
     background:var(--ink); color:var(--void); padding:1rem 2.5rem; border-radius:100px;
     transition:transform .35s cubic-bezier(.2,.8,.2,1), background .35s ease, box-shadow .35s ease;
     display:inline-flex; align-items: center; justify-content: center; border:1px solid var(--ink); text-align:center;
-    position: relative;
+    position: relative; overflow: hidden;
   }
   .btn-primary:hover{ transform:translateY(-2px); background:var(--gold); border-color:var(--gold); box-shadow:0 12px 35px -8px rgba(209,183,148,0.35); }
   
@@ -114,18 +141,6 @@
     transform:translateY(-4px); 
   }
   
-  /* Project Hover Previews */
-  .proj-card { cursor: none; }
-  #hover-preview {
-    position: fixed; top: 0; left: 0; width: 280px; height: 180px; pointer-events: none;
-    z-index: 100; opacity: 0; transform: scale(0.8) translate(-50%, -50%);
-    transition: opacity 0.3s ease, transform 0.4s cubic-bezier(.2,.8,.2,1);
-    border: 1px solid var(--gold); border-radius: 4px; overflow: hidden;
-    background: var(--void); box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-  }
-  #hover-preview img { width: 100%; height: 100%; object-fit: cover; opacity: 0.6; filter: grayscale(100%) contrast(1.2); }
-  .proj-card:hover ~ #hover-preview.active { opacity: 1; transform: scale(1) translate(-50%, -50%); }
-
   .proj-num{ font-family:'Space Mono',monospace; color:var(--gold); font-size:0.9rem; opacity: 0.8;}
 
   /* Sortable Skill Tracks */
@@ -160,74 +175,99 @@
     border-color: rgba(26,25,24,0.4);
   }
 
-  /* Gothic Cross Cursor */
+  /* 
+   =============================================
+   IDEA 15 & 14: INVERTING CURSOR + SUBTLE TRAIL
+   =============================================
+  */
+  /* The main cursor (Gothic Cross) uses difference to invert colors */
   #ink-cursor{
-    position:fixed; top:0; left:0; color: var(--gold); font-size: 28px; line-height: 1; text-align: center;
-    pointer-events:none; z-index:9999; text-shadow: 0 0 8px rgba(209,183,148,0.3);
-    transition: font-size .25s cubic-bezier(.2,.8,.2,1), color .25s ease, text-shadow .25s ease;
+    position:fixed; top:0; left:0; color: #ffffff; font-size: 28px; line-height: 1; text-align: center;
+    pointer-events:none; z-index:9999; mix-blend-mode: difference;
+    transition: font-size .25s cubic-bezier(.2,.8,.2,1), transform 0.1s linear;
     transform:translate(-50%, -50%);
   }
-  #ink-cursor.hovering { font-size: 46px; color: var(--ink); text-shadow: 0 0 12px rgba(247,244,237,0.5); }
-  @media (hover:none){ #ink-cursor{display:none;} }
-
-  .type-cursor{ display:inline-block; width:1.5px; background:var(--gold); animation:blink 1s step-end infinite; }
-  @keyframes blink{ 50%{opacity:0;} }
-
-  #page-skeleton{ transition:opacity .8s ease; }
+  #ink-cursor.hovering { font-size: 46px; }
   
-  /* Tool Stack Grid */
-  .tool-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: 1rem; }
+  /* The subtle trails are canvas elements drawn via JS below */
+  #trail-canvas {
+    position: fixed; inset: 0; pointer-events: none; z-index: 9998; opacity: 0.4;
+  }
+  @media (hover:none){ #ink-cursor, #trail-canvas {display:none;} }
+
+  /* IDEA 26: LIVE FLOATING MINIMAP */
+  #minimap {
+    position: fixed; right: 1rem; top: 50%; transform: translateY(-50%);
+    width: 4px; height: 30vh; background: var(--line); border-radius: 4px; z-index: 90;
+    opacity: 0.3; transition: opacity 0.3s;
+  }
+  #minimap:hover { opacity: 1; }
+  #minimap-thumb {
+    width: 100%; background: var(--gold); border-radius: 4px;
+    position: absolute; top: 0; left: 0; height: 20px; /* updated via JS */
+  }
+
+  /* IDEA 7: KINETIC TYPOGRAPHY MARQUEE */
+  .marquee-container {
+    width: 100%; overflow: hidden; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+    padding: 1rem 0; background: color-mix(in srgb, var(--void) 95%, var(--gold));
+    display: flex; white-space: nowrap; align-items: center;
+  }
+  .marquee-track {
+    display: flex; gap: 4rem; font-family: 'Space Mono', monospace; text-transform: uppercase;
+    font-size: 2rem; color: transparent; -webkit-text-stroke: 1px var(--gold); opacity: 0.5;
+  }
+
+  /* IDEA 30: GOD MODE DASHBOARD (Hidden until 'G' is pressed) */
+  #god-mode {
+    position: fixed; bottom: 1rem; right: 1rem; background: rgba(0,0,0,0.85); border: 1px solid #4ade80;
+    color: #4ade80; font-family: 'Space Mono', monospace; font-size: 0.65rem; padding: 1rem;
+    z-index: 10000; border-radius: 4px; pointer-events: none; display: none; backdrop-filter: blur(5px);
+  }
+  #god-mode.active { display: block; }
+
+  /* IDEA 28: DATA DECAY (Applied via JS to target elements) */
+  .decayed { font-family: 'Space Mono', monospace !important; color: #ff0055 !important; opacity: 0.7; }
+
+  /* Tool Stack Grid - Now fully interactive 3D */
+  .tool-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: 1rem; perspective: 800px; }
   .tool-icon { 
     aspect-ratio: 1; border: 1px solid var(--line); border-radius: 4px; display: flex; align-items: center; justify-content: center;
     color: var(--dim); font-size: 1.5rem; transition: color 0.3s, border-color 0.3s, background 0.3s;
+    transform-style: preserve-3d; will-change: transform; cursor: pointer;
   }
-  .tool-icon:hover { color: var(--gold); border-color: var(--gold); background: color-mix(in srgb, var(--gold) 5%, transparent); }
+  .tool-icon.active-tilt { color: var(--gold); border-color: var(--gold); background: color-mix(in srgb, var(--gold) 5%, transparent); box-shadow: 0 15px 30px -10px rgba(0,0,0,0.5); }
 
-  /* Personal GitHub Graph */
-  .gh-graph { display: flex; gap: 4px; overflow-x: auto; padding-bottom: 1rem; }
-  .gh-col { display: flex; flex-direction: column; gap: 4px; }
-  .gh-cell { width: 12px; height: 12px; border-radius: 2px; background: var(--line); transition: background 0.3s; }
-  .gh-cell[data-level="1"] { background: color-mix(in srgb, var(--gold) 25%, transparent); }
-  .gh-cell[data-level="2"] { background: color-mix(in srgb, var(--gold) 50%, transparent); }
-  .gh-cell[data-level="3"] { background: color-mix(in srgb, var(--gold) 75%, transparent); }
-  .gh-cell[data-level="4"] { background: var(--gold); }
-
-  /* Currently Learning Widget (Unpinned) */
+  /* Currently Learning Widget */
   #learning-widget {
     border: 1px solid var(--line); padding: 1.5rem 2rem;
-    background: color-mix(in srgb, var(--void) 90%, transparent); border-radius: 4px;
-    margin-bottom: 3rem;
+    background: color-mix(in srgb, var(--void) 90%, transparent); border-radius: 4px; margin-bottom: 3rem;
   }
 
-  /* Modals (Terminal / Snippet / Rhythm) */
+  /* IDEA 29: MATRIX RAIN IN TERMINAL MODAL */
   .modal-overlay {
-    position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(10px); z-index: 9000;
+    position: fixed; inset: 0; background: rgba(0,0,0,0.9); backdrop-filter: blur(10px); z-index: 9000;
     display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.4s ease;
   }
   .modal-overlay.active { opacity: 1; pointer-events: auto; }
   
   .terminal-window {
-    width: 90%; max-width: 800px; background: #050505; border: 1px solid #333; border-radius: 6px;
+    width: 90%; max-width: 800px; background: transparent; border: 1px solid #333; border-radius: 6px;
     font-family: 'Space Mono', monospace; font-size: 0.85rem; color: #4ade80; padding: 2rem; box-shadow: 0 20px 50px rgba(0,0,0,0.8);
-    transform: translateY(20px); transition: transform 0.4s ease; max-height: 80vh; overflow-y: auto;
+    transform: translateY(20px); transition: transform 0.4s ease; max-height: 80vh; overflow-y: auto; position: relative; overflow: hidden;
   }
   .modal-overlay.active .terminal-window { transform: translateY(0); }
-  .terminal-header { border-bottom: 1px solid #333; padding-bottom: 1rem; margin-bottom: 1rem; color: #888; }
+  .terminal-header { border-bottom: 1px solid #333; padding-bottom: 1rem; margin-bottom: 1rem; color: #888; position: relative; z-index: 10; }
+  .terminal-content { position: relative; z-index: 10; background: rgba(0,0,0,0.7); padding: 1rem; border-radius: 4px;}
+  #matrix-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; opacity: 0.4; }
   
-  /* Rhythm Game Easter Egg Modal */
-  .rhythm-window {
-    text-align: center; font-family: 'Space Mono', monospace; color: #fff;
-    transform: scale(0.9); transition: transform 0.4s cubic-bezier(.2,.8,.2,1);
-  }
-  .modal-overlay.active .rhythm-window { transform: scale(1); }
-  .rhythm-title { font-size: 3rem; font-weight: bold; font-style: italic; color: #ff0055; text-shadow: 0 0 20px #ff0055, 0 0 40px #ff0055; letter-spacing: 0.2em; margin-bottom: 1rem; }
-  .rhythm-subtitle { color: #00e5ff; font-size: 1rem; letter-spacing: 0.1em; }
+  /* IDEA 16: MAGNIFYING GLASS EFFECT (Applied to specific paragraphs) */
+  .magnify-text { display: inline-block; transition: transform 0.2s cubic-bezier(.2,.8,.2,1), text-shadow 0.2s ease; transform-origin: center; cursor: none; }
+  .magnify-text:hover { transform: scale(1.15); color: var(--gold); text-shadow: 0 5px 15px rgba(0,0,0,0.5); z-index: 10;}
 
-  /* Syntax Highlighting Fake */
-  .syn-k { color: #c678dd; } /* Keyword */
-  .syn-f { color: #61afef; } /* Function */
-  .syn-s { color: #98c379; } /* String */
-  .syn-c { color: #5c6370; font-style: italic; } /* Comment */
+  /* Audio Toggle Button */
+  #audio-toggle { position: fixed; bottom: 2rem; left: 2.5rem; z-index: 100; opacity: 0.5; transition: opacity 0.3s; }
+  #audio-toggle:hover { opacity: 1; }
 
   ::-webkit-scrollbar{ width:6px; }
   ::-webkit-scrollbar-track{ background:var(--void); }
@@ -236,15 +276,21 @@
 </head>
 
 <body>
+<canvas id="trail-canvas"></canvas>
 <div id="grain"></div>
 <div id="vignette"></div>
 <div id="ink-cursor">✠</div>
 
-<div id="page-skeleton" class="fixed inset-0 z-[1000] bg-[var(--void)] flex items-center justify-center">
-  <div class="flex flex-col items-center gap-4">
-    <div class="label text-[var(--gold)] text-2xl animate-pulse">データ</div>
-    <div class="label text-[var(--dim)] opacity-60">Initializing Environment...</div>
-  </div>
+<!-- IDEA 26: LIVE FLOATING MINIMAP -->
+<div id="minimap"><div id="minimap-thumb"></div></div>
+
+<!-- IDEA 30: GOD MODE DASHBOARD -->
+<div id="god-mode">
+  <div>SYSTEM: ONLINE</div>
+  <div>FPS: <span id="fps-counter">60</span></div>
+  <div>MEM: <span id="mem-counter">N/A</span></div>
+  <div>SCR: Y=<span id="scroll-y">0</span></div>
+  <div>THEME: <span id="theme-status">DARK</span></div>
 </div>
 
 <nav id="topnav" class="fixed top-0 inset-x-0 z-40 transition-colors duration-500">
@@ -273,12 +319,14 @@
       <p class="label !text-[0.7rem]">ITM Skills University — Business Analytics</p>
     </div>
     
-    <h1 class="h-display mb-10" style="font-size:clamp(4rem, 9.5vw, 9rem);">
-      <span id="typewriter"></span><span class="type-cursor" style="height:0.8em; vertical-align:middle;">&nbsp;</span>
+    <!-- IDEA 8: TEXT MASKING APPLIED HERE -->
+    <h1 class="h-display text-mask-fluid mb-10" style="font-size:clamp(4rem, 9.5vw, 9rem);">
+      <span id="typewriter"></span><span class="type-cursor" style="height:0.8em; vertical-align:middle; -webkit-text-fill-color: var(--gold);"></span>
     </h1>
 
-    <p class="mx-auto max-w-3xl text-[1.35rem] leading-[1.8] text-[var(--dim)] font-serif italic anim-fade mb-16">
-      "I clean data, document it honestly, and build analytical tools with precision. No manufactured polish—just reproducible work and seamless hand-offs."
+    <!-- IDEA 16: MAGNIFYING TEXT EFFECT -->
+    <p class="mx-auto max-w-3xl text-[1.35rem] leading-[1.8] text-[var(--dim)] font-serif italic anim-fade mb-16 decay-target">
+      "<span class="magnify-text">I clean data,</span> <span class="magnify-text">document it honestly,</span> <span class="magnify-text">and build analytical tools with precision.</span> <span class="magnify-text">No manufactured polish—</span><span class="magnify-text">just reproducible work and seamless hand-offs.</span>"
     </p>
 
     <div class="flex flex-wrap items-center justify-center gap-x-10 gap-y-6 anim-fade">
@@ -288,7 +336,12 @@
   </div>
 </header>
 
-<div class="container-w"><div class="rule"></div></div>
+<!-- IDEA 7: KINETIC TYPOGRAPHY MARQUEE -->
+<div class="marquee-container">
+  <div class="marquee-track" id="marquee">
+    <span>Data Hygiene</span> <span>·</span> <span>Optimization Models</span> <span>·</span> <span>Game Theory</span> <span>·</span> <span>SQL Architecture</span> <span>·</span> <span>Statistical Inference</span> <span>·</span> <span>Data Hygiene</span> <span>·</span> <span>Optimization Models</span> <span>·</span> <span>Game Theory</span> <span>·</span> <span>SQL Architecture</span> <span>·</span> <span>Statistical Inference</span> <span>·</span>
+  </div>
+</div>
 
 <main class="relative z-10">
 
@@ -297,21 +350,21 @@
     <div class="anim-section">
       <p class="label mb-6">Section I — The Dossier</p>
       <h2 class="h-sub mb-10" style="font-size:clamp(2.8rem,5vw,3.8rem);">On working with real, unglamorous data.</h2>
-      <p class="text-[var(--dim)] leading-[1.9] text-[1.25rem] mb-8 font-serif">
+      <p class="text-[var(--dim)] leading-[1.9] text-[1.25rem] mb-8 font-serif decay-target">
         Most of what I've built stems from real assignments—NGO applicant records, structured cost sheets, and analytical audits. I prefer the administrative mechanics closer to bookkeeping than storytelling: verifying columns, sanitizing erratic inputs, and distilling complex matrices into clear metrics.
       </p>
-      <p class="text-[var(--dim)] leading-[1.9] text-[1.25rem] font-serif mb-12">
+      <p class="text-[var(--dim)] leading-[1.9] text-[1.25rem] font-serif mb-12 decay-target">
         Every deliverable is built upon a reproducible pipeline, transparent documentation, and absolute structural integrity.
       </p>
       
       <p class="label mb-6">Daily Drivers</p>
       <div class="tool-grid">
-        <div class="tool-icon" title="Mac OS">⌘</div>
-        <div class="tool-icon" title="Python">Py</div>
-        <div class="tool-icon" title="R Studio">R</div>
-        <div class="tool-icon" title="SQL">∑</div>
-        <div class="tool-icon" title="Spreadsheets">⊞</div>
-        <div class="tool-icon" title="TouchDesigner">TD</div>
+        <div class="tool-icon hover-trigger" title="Mac OS">⌘</div>
+        <div class="tool-icon hover-trigger" title="Python">Py</div>
+        <div class="tool-icon hover-trigger" title="R Studio">R</div>
+        <div class="tool-icon hover-trigger" title="SQL">∑</div>
+        <div class="tool-icon hover-trigger" title="Spreadsheets">⊞</div>
+        <div class="tool-icon hover-trigger" title="TouchDesigner">TD</div>
       </div>
     </div>
 
@@ -361,58 +414,54 @@
     <div>
       <p class="label mb-6">Section II — Archives</p>
       <h2 class="h-sub mb-6" style="font-size:clamp(2.8rem,5vw,3.8rem);">Selected Finished Works.</h2>
-      <p class="text-[var(--dim)] max-w-lg font-serif text-[1.25rem]">A curated dossier of deployment-ready deliverables.</p>
+      <p class="text-[var(--dim)] max-w-lg font-serif text-[1.25rem] decay-target">A curated dossier of deployment-ready deliverables.</p>
     </div>
   </div>
 
   <div class="grid md:grid-cols-2 gap-16">
     <!-- Project 01: NGO -->
-    <article class="ui-card anim-section flex flex-col proj-card hover-trigger" data-img="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop">
+    <article class="ui-card anim-section flex flex-col">
       <div class="flex items-center justify-between mb-8">
         <span class="proj-num">01</span><span class="label !text-[0.7rem] opacity-70">Data Cleaning</span>
       </div>
       <h3 class="h-display text-4xl lg:text-5xl text-[var(--ink)] mb-8">NGO Applicant Records</h3>
-      <p class="text-[var(--dim)] leading-[1.8] font-serif text-[1.2rem] mb-10 flex-grow">
+      <p class="text-[var(--dim)] leading-[1.8] font-serif text-[1.2rem] mb-10 flex-grow decay-target">
         Standardized, validated, and scrubbed 350 applicant records during an intensive operational internship—normalizing formats and resolving encoding corruptions.
       </p>
-      <div class="mt-auto pt-8 border-t border-[var(--line)] flex gap-4">
-        <span class="label !text-[0.75rem] border border-[var(--line)] px-5 py-2 rounded-sm">Codebook</span>
-        <span class="label !text-[0.75rem] border border-[var(--line)] px-5 py-2 rounded-sm">CSV</span>
+      <div class="mt-auto">
+        <div class="overflow-x-auto mb-10">
+          <table class="data-preview-table !mt-0">
+            <thead>
+              <tr><th>Record_ID</th><th>Status</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>#NS-301</td><td>Verified</td></tr>
+              <tr><td>#NS-302</td><td>Normalized</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="flex gap-4">
+          <span class="label !text-[0.75rem] border border-[var(--line)] px-5 py-2 rounded-sm">Codebook</span>
+          <span class="label !text-[0.75rem] border border-[var(--line)] px-5 py-2 rounded-sm">CSV</span>
+        </div>
       </div>
     </article>
 
     <!-- Project 02: Quick Commerce -->
-    <article class="ui-card anim-section flex flex-col proj-card hover-trigger" data-img="https://images.unsplash.com/photo-1601597111158-2fceff292cdc?q=80&w=800&auto=format&fit=crop">
+    <article class="ui-card anim-section flex flex-col">
       <div class="flex items-center justify-between mb-8">
         <span class="proj-num">02</span><span class="label !text-[0.7rem] opacity-70">Game Theory</span>
       </div>
       <h3 class="h-display text-4xl lg:text-5xl text-[var(--ink)] mb-8">Quick-Commerce Strategy</h3>
-      <p class="text-[var(--dim)] leading-[1.8] font-serif text-[1.2rem] mb-10 flex-grow">
+      <p class="text-[var(--dim)] leading-[1.8] font-serif text-[1.2rem] mb-10 flex-grow decay-target">
         A comparative presentation applying game theory models to competitive dynamics within the quick-commerce industry, analyzing strategies of Blinkit, Zepto, and Swiggy Instamart.
       </p>
       <div class="mt-auto pt-8 border-t border-[var(--line)]">
-        <button class="btn-ghost !text-[0.8rem] modal-trigger hover-trigger" data-target="modal-deck">View Deck Preview</button>
-      </div>
-    </article>
-
-    <!-- Project 03: Banking Ops -->
-    <article class="ui-card anim-section flex flex-col proj-card hover-trigger" data-img="https://images.unsplash.com/photo-1616077168712-fc6c788db4fa?q=80&w=800&auto=format&fit=crop">
-      <div class="flex items-center justify-between mb-8">
-        <span class="proj-num">03</span><span class="label !text-[0.7rem] opacity-70">Research Audit</span>
-      </div>
-      <h3 class="h-display text-4xl lg:text-5xl text-[var(--ink)] mb-8">Banking Operations Audit</h3>
-      <p class="text-[var(--dim)] leading-[1.8] font-serif text-[1.2rem] mb-10 flex-grow">
-        Comprehensive HRM research covering talent management, ethical governance, and fraud prevention practices across multiple commercial banks in India based on secondary data analysis.
-      </p>
-      <div class="mt-auto pt-8 border-t border-[var(--line)]">
-        <span class="label !text-[0.75rem] border border-[var(--line)] px-5 py-2 rounded-sm">Infographic</span>
+        <button class="btn-ghost !text-[0.8rem] modal-trigger hover-trigger" data-target="modal-terminal">View Matrix Logic</button>
       </div>
     </article>
   </div>
 </section>
-
-<!-- Hover Preview Container -->
-<div id="hover-preview"><img src="" alt="Preview"></div>
 
 <div class="container-w"><div class="rule"></div></div>
 
@@ -426,22 +475,21 @@
     <div class="border-t border-[var(--line)] pt-8 anim-section">
       <p class="label !text-[0.65rem] mb-4 text-[var(--dim)]">2026-04</p>
       <h4 class="text-xl text-[var(--ink)] font-serif mb-3">On Pearson's Skewness</h4>
-      <p class="text-[var(--dim)] text-[1.05rem] leading-[1.7] font-serif">
+      <p class="text-[var(--dim)] text-[1.05rem] leading-[1.7] font-serif decay-target">
         Revisiting business statistics for distributions. Calculating medians and compound annual growth rates manually grounds the formulas before ever writing the SQL for them.
       </p>
     </div>
     <div class="border-t border-[var(--line)] pt-8 anim-section">
       <p class="label !text-[0.65rem] mb-4 text-[var(--dim)]">2026-02</p>
       <h4 class="text-xl text-[var(--ink)] font-serif mb-3">Linear Optimization in R</h4>
-      <p class="text-[var(--dim)] text-[1.05rem] leading-[1.7] font-serif mb-4">
+      <p class="text-[var(--dim)] text-[1.05rem] leading-[1.7] font-serif mb-4 decay-target">
         Utilizing optimization packages in R to solve linear programming matrices. The setup takes longer than the solve.
       </p>
-      <button class="btn-ghost !text-[0.7rem] modal-trigger hover-trigger" data-target="modal-code">View R Snippet</button>
     </div>
     <div class="border-t border-[var(--line)] pt-8 anim-section">
       <p class="label !text-[0.65rem] mb-4 text-[var(--dim)]">2026-01</p>
       <h4 class="text-xl text-[var(--ink)] font-serif mb-3">Japanese Syntax</h4>
-      <p class="text-[var(--dim)] text-[1.05rem] leading-[1.7] font-serif">
+      <p class="text-[var(--dim)] text-[1.05rem] leading-[1.7] font-serif decay-target">
         Actively focusing on writing proficiency and character recognition for Hiragana, Katakana, and frequently used Kanji. Consistency beats intensity.
       </p>
     </div>
@@ -455,7 +503,7 @@
     <div>
       <p class="label mb-6">Section IV — Correspondence</p>
       <h2 class="h-sub mb-8" style="font-size:clamp(2.8rem,5vw,3.8rem);">Initiate Communication.</h2>
-      <p class="text-[var(--dim)] leading-[1.9] text-[1.25rem] font-serif mb-14">
+      <p class="text-[var(--dim)] leading-[1.9] text-[1.25rem] font-serif mb-14 decay-target">
         Open for internships, analytical consults, and structured data-processing contracts—specifically those featuring complex raw inputs and clear objectives.
       </p>
       <div class="flex flex-wrap gap-x-10 gap-y-6 items-center">
@@ -471,18 +519,6 @@
       </ul>
     </div>
   </div>
-  
-  <!-- Currently Learning Widget (Unpinned) -->
-  <div id="learning-widget" class="mt-24 anim-section">
-    <p class="label !text-[0.7rem] mb-2 opacity-70">Active Focus</p>
-    <p class="font-serif text-[1.1rem] text-[var(--ink)]">Linear Programming in R & Kanji Recognition</p>
-  </div>
-
-  <!-- GitHub Graph Simulation -->
-  <div class="mt-24 anim-section">
-    <p class="label mb-6 text-center">Repository Activity</p>
-    <div class="gh-graph justify-center" id="gh-grid"></div>
-  </div>
 </section>
 
 </main>
@@ -491,73 +527,41 @@
   <div class="container-w flex flex-col md:flex-row items-center justify-between gap-8 text-center md:text-left">
     <div>
       <p class="h-sub text-3xl text-[var(--ink)] mb-2">Nabhya Bawankar</p>
-      <p class="label !text-[0.65rem] text-[var(--dim)]">Built with Vanilla JS, GSAP, Tailwind & Cormorant Garamond.</p>
+      <p class="label !text-[0.65rem] text-[var(--dim)]">Built with Vanilla JS, GSAP, Tailwind & Web Audio API.</p>
     </div>
     <div class="flex flex-col items-end gap-3">
-      <p class="label !text-[0.65rem] text-[var(--dim)]">© 2026 · life is not always black and white.</p>
-      <div class="flex items-center gap-4">
-        <span class="label !text-[0.6rem] text-[var(--dim)]">Lighting</span>
-        <input type="range" id="light-slider" min="0" max="1" step="0.1" value="0.7" class="w-24 hover-trigger cursor-pointer accent-[var(--gold)] bg-[var(--line)] h-1 rounded-full appearance-none">
-      </div>
+      <p class="label !text-[0.65rem] text-[var(--dim)]">© 2026 · Maintained with precision</p>
     </div>
   </div>
 </footer>
 
-<!-- Modals -->
-<div class="modal-overlay" id="modal-code">
-  <div class="terminal-window">
-    <div class="terminal-header flex justify-between items-center">
-      <span>~/projects/optimization/linear_prog.R</span>
-      <button class="close-modal hover:text-white hover-trigger">✕</button>
-    </div>
-<pre><code><span class="syn-c"># Objective: Maximize profit given resource constraints</span>
-<span class="syn-f">library</span>(lpSolve)
+<!-- Audio Toggle (Needed for browser autoplay policy) -->
+<button id="audio-toggle" class="btn-ghost !text-[0.6rem] !py-1 !px-3 hover-trigger">Enable Ambient Audio</button>
 
-<span class="syn-c"># Objective function coefficients (Profit per unit)</span>
-obj_coeff <span class="syn-k"><-</span> <span class="syn-f">c</span>(<span class="syn-s">40</span>, <span class="syn-s">30</span>) 
-
-<span class="syn-c"># Constraint matrix</span>
-const_mat <span class="syn-k"><-</span> <span class="syn-f">matrix</span>(<span class="syn-f">c</span>(<span class="syn-s">2</span>, <span class="syn-s">1</span>, 
-                      <span class="syn-s">1</span>, <span class="syn-s">2</span>,
-                      <span class="syn-s">1</span>, <span class="syn-s">1</span>), nrow=<span class="syn-s">3</span>, byrow=<span class="syn-k">TRUE</span>)
-
-<span class="syn-c"># Constraint directions and RHS values</span>
-const_dir <span class="syn-k"><-</span> <span class="syn-f">c</span>(<span class="syn-s">"<="</span>, <span class="syn-s">"<="</span>, <span class="syn-s">"<="</span>)
-const_rhs <span class="syn-k"><-</span> <span class="syn-f">c</span>(<span class="syn-s">100</span>, <span class="syn-s">80</span>, <span class="syn-s">50</span>)
-
-<span class="syn-c"># Solve</span>
-solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class="syn-s">"max"</span>, obj_coeff, const_mat, const_dir, const_rhs)
-<span class="syn-f">print</span>(solution$solution) <span class="syn-c"># Output optimal quantities</span>
-</code></pre>
-  </div>
-</div>
-
+<!-- IDEA 29: Matrix Terminal Modal -->
 <div class="modal-overlay" id="modal-terminal">
   <div class="terminal-window">
+    <canvas id="matrix-canvas"></canvas>
     <div class="terminal-header flex justify-between items-center">
-      <span>guest@bawankar-os:~$ cat resume.json</span>
+      <span>guest@bawankar-os:~/projects/SQL_Queries</span>
       <button class="close-modal hover:text-white hover-trigger">✕</button>
     </div>
-<pre><code>{
-  <span class="syn-s">"name"</span>: <span class="syn-s">"Nabhya Bawankar"</span>,
-  <span class="syn-s">"program"</span>: <span class="syn-s">"BBA Business Analytics & Data Science"</span>,
-  <span class="syn-s">"institution"</span>: <span class="syn-s">"ITM Skills University"</span>,
-  <span class="syn-s">"graduation"</span>: <span class="syn-s">2028</span>,
-  <span class="syn-s">"skills"</span>: [<span class="syn-s">"Python"</span>, <span class="syn-s">"SQL"</span>, <span class="syn-s">"R"</span>, <span class="syn-s">"Spreadsheets"</span>],
-  <span class="syn-s">"interests"</span>: [<span class="syn-s">"Japanese Language"</span>, <span class="syn-s">"Drama Club"</span>, <span class="syn-s">"TouchDesigner"</span>, <span class="syn-s">"Rhythm Games"</span>]
-}
-<span class="text-white mt-4 block">guest@bawankar-os:~$ <span class="animate-pulse">_</span></span>
+    <div class="terminal-content">
+<pre><code><span class="syn-c">-- Extracting Optimization Matrix Data</span>
+<span class="syn-k">SELECT</span> 
+    strategy_id, 
+    <span class="syn-f">SUM</span>(payoff_value) <span class="syn-k">AS</span> total_utility,
+    <span class="syn-f">MAX</span>(market_share) <span class="syn-k">AS</span> equilibrium_point
+<span class="syn-k">FROM</span> 
+    game_theory_simulations
+<span class="syn-k">WHERE</span> 
+    competitor = <span class="syn-s">'Zepto'</span> 
+    <span class="syn-k">AND</span> model_type = <span class="syn-s">'Nash'</span>
+<span class="syn-k">GROUP BY</span> 
+    strategy_id;
+<span class="text-white mt-4 block">Execution Time: 0.04s <span class="animate-pulse">_</span></span>
 </code></pre>
-  </div>
-</div>
-
-<!-- Custom Rhythm Game Easter Egg Modal -->
-<div class="modal-overlay" id="modal-rhythm">
-  <div class="rhythm-window">
-    <div class="rhythm-title">RHYTHM OVERDRIVE UNLOCKED</div>
-    <div class="rhythm-subtitle">Combo: MAX &nbsp;|&nbsp; Accuracy: 100%</div>
-    <p class="mt-8 text-sm opacity-60">Just kidding. But good memory.</p>
-    <button class="close-modal mt-8 px-6 py-2 border border-[#00e5ff] text-[#00e5ff] hover:bg-[#00e5ff] hover:text-black transition-colors rounded-full text-xs tracking-widest hover-trigger">DISMISS</button>
+    </div>
   </div>
 </div>
 
@@ -567,68 +571,279 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
   const $$ = (s,c=document)=>[...c.querySelectorAll(s)];
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  // Sound Synth setup
+  // ==========================================
+  // IDEA 18, 19, 20: WEB AUDIO API (Ambient Drone + Spatial Panner)
+  // ==========================================
   const AudioContext = window.AudioContext || window.webkitAudioContext;
-  let audioCtx;
+  let audioCtx, droneOsc, droneGain, panner;
+  let audioEnabled = false;
 
-  function initAudio() {
-    if (!audioCtx) audioCtx = new AudioContext();
-    if (audioCtx.state === 'suspended') audioCtx.resume();
+  $('#audio-toggle').addEventListener('click', (e) => {
+    if(!audioCtx) {
+      audioCtx = new AudioContext();
+      
+      // Ambient Drone Oscillator
+      droneOsc = audioCtx.createOscillator();
+      droneOsc.type = 'sine';
+      droneOsc.frequency.value = 55; // Deep bass note (A1)
+      
+      // Gain (Volume) Control
+      droneGain = audioCtx.createGain();
+      droneGain.gain.value = 0.05; // Very quiet
+      
+      // Spatial Panner (IDEA 20)
+      panner = audioCtx.createStereoPanner();
+      
+      droneOsc.connect(panner);
+      panner.connect(droneGain);
+      droneGain.connect(audioCtx.destination);
+      droneOsc.start();
+      
+      e.target.textContent = "Audio Enabled";
+      e.target.style.color = "var(--gold)";
+      audioEnabled = true;
+    } else {
+      if(audioCtx.state === 'running') { audioCtx.suspend(); e.target.textContent = "Audio Paused"; e.target.style.color = ""; }
+      else { audioCtx.resume(); e.target.textContent = "Audio Enabled"; e.target.style.color = "var(--gold)"; }
+    }
+  });
+
+  // Link Drone Pitch to Scroll Y (IDEA 18) & Panner to Mouse X (IDEA 20)
+  window.addEventListener('scroll', () => {
+    if(audioEnabled && droneOsc) {
+      const scrollPercent = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
+      // Shift pitch slightly from 55hz to 75hz based on scroll depth
+      droneOsc.frequency.setTargetAtTime(55 + (scrollPercent * 20), audioCtx.currentTime + 0.1);
+    }
+  });
+  window.addEventListener('mousemove', (e) => {
+    if(audioEnabled && panner) {
+      // Map mouse X to -1 (left) to 1 (right)
+      const panValue = (e.clientX / window.innerWidth) * 2 - 1;
+      panner.pan.setTargetAtTime(panValue, audioCtx.currentTime + 0.1);
+    }
+  });
+
+  // ==========================================
+  // IDEA 14: SUBTLE CANVAS TRAILS
+  // ==========================================
+  const trailCanvas = document.getElementById('trail-canvas');
+  const tCtx = trailCanvas.getContext('2d');
+  let trails = [];
+  
+  function resizeTrailCanvas() {
+    trailCanvas.width = window.innerWidth;
+    trailCanvas.height = window.innerHeight;
+  }
+  resizeTrailCanvas();
+  window.addEventListener('resize', resizeTrailCanvas);
+
+  function drawTrails() {
+    tCtx.clearRect(0, 0, trailCanvas.width, trailCanvas.height);
+    for (let i = 0; i < trails.length; i++) {
+      let p = trails[i];
+      tCtx.beginPath();
+      tCtx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      tCtx.fillStyle = `rgba(209, 183, 148, ${p.opacity})`; // var(--gold)
+      tCtx.fill();
+      p.opacity -= 0.02; // Fast fade
+      p.r += 0.2; // Slight spread
+    }
+    trails = trails.filter(p => p.opacity > 0);
+    requestAnimationFrame(drawTrails);
+  }
+  if(!reduceMotion) {
+    window.addEventListener('mousemove', e => {
+      trails.push({ x: e.clientX, y: e.clientY, r: 2, opacity: 0.3 });
+    });
+    drawTrails();
   }
 
-  function playClick() {
-    if(reduceMotion) return;
-    initAudio();
-    const osc = audioCtx.createOscillator();
-    const gain = audioCtx.createGain();
-    osc.connect(gain); gain.connect(audioCtx.destination);
-    osc.type = 'sine'; osc.frequency.setValueAtTime(200, audioCtx.currentTime);
-    gain.gain.setValueAtTime(0.015, audioCtx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.05);
-    osc.start(); osc.stop(audioCtx.currentTime + 0.05);
+  // ==========================================
+  // IDEA 26: LIVE FLOATING MINIMAP
+  // ==========================================
+  const minimapThumb = $('#minimap-thumb');
+  function updateMinimap() {
+    const scrollPercent = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
+    minimapThumb.style.top = `${scrollPercent * (30 * window.innerHeight / 100 - 20)}px`;
   }
+  window.addEventListener('scroll', updateMinimap);
 
-  function playSecretSound() {
-    if(reduceMotion) return;
-    initAudio();
-    const notes = [261.63, 329.63, 392.00, 523.25]; // C4, E4, G4, C5 (Arpeggio)
-    notes.forEach((freq, i) => {
-      const osc = audioCtx.createOscillator();
-      const gain = audioCtx.createGain();
-      osc.connect(gain); gain.connect(audioCtx.destination);
-      osc.type = 'triangle';
-      osc.frequency.setValueAtTime(freq, audioCtx.currentTime + i * 0.1);
-      gain.gain.setValueAtTime(0, audioCtx.currentTime + i * 0.1);
-      gain.gain.linearRampToValueAtTime(0.1, audioCtx.currentTime + i * 0.1 + 0.02);
-      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + i * 0.1 + 0.1);
-      osc.start(audioCtx.currentTime + i * 0.1);
-      osc.stop(audioCtx.currentTime + i * 0.1 + 0.1);
+  // ==========================================
+  // IDEA 30: GOD MODE DASHBOARD (Press 'G')
+  // ==========================================
+  const godMode = $('#god-mode');
+  const fpsEl = $('#fps-counter');
+  const scrollYEl = $('#scroll-y');
+  let frameCount = 0;
+  let lastTime = performance.now();
+  let godModeActive = false;
+
+  window.addEventListener('keydown', e => {
+    if(e.key.toLowerCase() === 'g') {
+      godModeActive = !godModeActive;
+      godMode.classList.toggle('active');
+    }
+  });
+
+  function updateGodMode() {
+    if(godModeActive) {
+      frameCount++;
+      const now = performance.now();
+      if(now - lastTime >= 1000) {
+        fpsEl.textContent = frameCount;
+        frameCount = 0;
+        lastTime = now;
+      }
+      scrollYEl.textContent = Math.floor(window.scrollY);
+    }
+    requestAnimationFrame(updateGodMode);
+  }
+  updateGodMode();
+
+  // ==========================================
+  // IDEA 28: DATA DECAY (Idle timer turns text to binary)
+  // ==========================================
+  let idleTime = 0;
+  const decayTargets = $$('.decay-target');
+  const originalText = new Map();
+  
+  // Store original text
+  decayTargets.forEach((el, i) => originalText.set(i, el.innerHTML));
+
+  function resetIdle() {
+    idleTime = 0;
+    // Restore text if it was decayed
+    decayTargets.forEach((el, i) => {
+      if(el.classList.contains('decayed')) {
+        el.classList.remove('decayed');
+        el.innerHTML = originalText.get(i);
+      }
     });
   }
 
-  // Dynamic Gold Hue
-  const hour = new Date().getHours();
-  let hue = 38; // base
-  if(hour < 8 || hour > 18) hue = 45; // cooler/darker gold at night
-  document.documentElement.style.setProperty('--gold', `hsl(${hue}, 40%, 65%)`);
+  window.addEventListener('mousemove', resetIdle);
+  window.addEventListener('scroll', resetIdle);
+  window.addEventListener('keydown', resetIdle);
 
-  // Loader
-  window.addEventListener('load', ()=>{
-    const sk = $('#page-skeleton');
-    setTimeout(()=>{ sk.style.opacity='0'; setTimeout(()=>sk.remove(),800); }, 600);
+  setInterval(() => {
+    idleTime++;
+    if(idleTime > 60) { // 60 seconds of idle
+      decayTargets.forEach(el => {
+        if(!el.classList.contains('decayed')) {
+          el.classList.add('decayed');
+          // Replace text content with random 0s and 1s, preserving length
+          const len = el.textContent.length;
+          let bin = '';
+          for(let j=0; j<len; j++) bin += Math.random() > 0.5 ? '1' : '0';
+          el.textContent = bin;
+        }
+      });
+    }
+  }, 1000);
+
+  // ==========================================
+  // IDEA 7: KINETIC TYPOGRAPHY MARQUEE
+  // ==========================================
+  const marquee = $('#marquee');
+  let currentScroll = 0;
+  let isScrollingDown = true;
+  
+  if(!reduceMotion) {
+    gsap.to(marquee, {
+      xPercent: -50,
+      ease: "none",
+      duration: 20,
+      repeat: -1
+    }).timeScale(1);
+
+    ScrollTrigger.create({
+      trigger: "body",
+      start: "top top",
+      end: "bottom bottom",
+      onUpdate: (self) => {
+        // Change direction based on scroll velocity
+        isScrollingDown = self.direction === 1;
+        gsap.to(marquee, { duration: 0.5, x: isScrollingDown ? "-=20" : "+=20" });
+      }
+    });
+  }
+
+  // ==========================================
+  // IDEA 23: CSS GLITCH ON THEME TOGGLE
+  // ==========================================
+  $('#moon-widget').addEventListener('click', ()=>{
+    document.body.classList.add('glitching');
+    setTimeout(() => {
+      document.documentElement.classList.toggle('light-mode');
+      $('#theme-status').textContent = document.documentElement.classList.contains('light-mode') ? 'LIGHT' : 'DARK';
+      document.body.classList.remove('glitching');
+    }, 300); // Wait for glitch animation halfway point to swap colors
+    gsap.fromTo('#moon-widget', {rotate:0}, {rotate:360, duration:0.7, ease:'back.out(1.5)'});
   });
 
-  // Lenis Smooth Scroll
-  let lenis;
-  if(!reduceMotion && window.Lenis){
-    lenis = new Lenis({ duration:1.2, easing:t=>Math.min(1, 1.001 - Math.pow(2, -10 * t)), smoothWheel:true });
-    function raf(t){ lenis.raf(t); requestAnimationFrame(raf); }
-    requestAnimationFrame(raf);
-    lenis.on('scroll', ()=>ScrollTrigger.update());
-  }
-  gsap.registerPlugin(ScrollTrigger);
+  // ==========================================
+  // IDEA 29: MATRIX RAIN IN MODAL
+  // ==========================================
+  const mCanvas = $('#matrix-canvas');
+  const mCtx = mCanvas.getContext('2d');
+  let mWidth, mHeight, columns, drops;
+  const chars = "SELECT * FROM DATA WHERE NOISE = 0".split("");
 
-  // Animations
+  function initMatrix() {
+    mWidth = mCanvas.width = mCanvas.parentElement.offsetWidth;
+    mHeight = mCanvas.height = mCanvas.parentElement.offsetHeight;
+    columns = mWidth / 14;
+    drops = [];
+    for(let x = 0; x < columns; x++) drops[x] = 1;
+  }
+
+  function drawMatrix() {
+    mCtx.fillStyle = "rgba(0, 0, 0, 0.05)";
+    mCtx.fillRect(0, 0, mWidth, mHeight);
+    mCtx.fillStyle = "#4ade80"; // Matrix Green
+    mCtx.font = "14px monospace";
+    for(let i = 0; i < drops.length; i++) {
+      const text = chars[Math.floor(Math.random() * chars.length)];
+      mCtx.fillText(text, i * 14, drops[i] * 14);
+      if(drops[i] * 14 > mHeight && Math.random() > 0.975) drops[i] = 0;
+      drops[i]++;
+    }
+  }
+  let matrixInterval;
+
+  // Modal Triggers
+  $$('.modal-trigger').forEach(btn => {
+    btn.addEventListener('click', e => {
+      const target = $('#' + e.target.dataset.target);
+      if(target) { 
+        target.classList.add('active'); 
+        if(e.target.dataset.target === 'modal-terminal') {
+          initMatrix();
+          clearInterval(matrixInterval);
+          matrixInterval = setInterval(drawMatrix, 33);
+        }
+      }
+    });
+  });
+  $$('.modal-overlay').forEach(overlay => {
+    overlay.addEventListener('click', e => {
+      if(e.target === overlay || e.target.classList.contains('close-modal')) {
+        overlay.classList.remove('active'); 
+        clearInterval(matrixInterval);
+      }
+    });
+  });
+
+  // Standard Site Init Logic
+  let lenisInstance;
+  if(!reduceMotion && window.Lenis){
+    lenisInstance = new Lenis({ duration:1.2, easing:t=>Math.min(1, 1.001 - Math.pow(2, -10 * t)), smoothWheel:true });
+    function raf(t){ lenisInstance.raf(t); requestAnimationFrame(raf); }
+    requestAnimationFrame(raf);
+    lenisInstance.on('scroll', ()=>ScrollTrigger.update());
+  }
+
   gsap.from('.anim-fade', { y:40, opacity:0, duration:1.4, ease:'power3.out', stagger:0.15, delay:0.6 });
 
   const twEl = $('#typewriter');
@@ -640,31 +855,48 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
 
   if(!reduceMotion){
     $$('.anim-section').forEach(el=>{
-      gsap.from(el, {
-        y:60, opacity:0, duration:1.2, ease:'power3.out',
-        scrollTrigger:{ trigger:el, start:'top 85%', toggleActions:'play none none reverse' }
-      });
+      gsap.from(el, { y:60, opacity:0, duration:1.2, ease:'power3.out', scrollTrigger:{ trigger:el, start:'top 85%', toggleActions:'play none none reverse' } });
     });
     $$('.rule').forEach(rule=>{
       gsap.fromTo(rule, {scaleX:0}, { scaleX:1, duration:1.6, ease:'power4.inOut', scrollTrigger:{ trigger:rule, start:'top 95%' } });
     });
   }
 
-  // Sorting Skills
+  // 3D Tool Grid
+  $$('.tool-icon').forEach(icon => {
+    icon.addEventListener('mousemove', e => {
+      if(reduceMotion) return;
+      const rect = icon.getBoundingClientRect();
+      const x = e.clientX - rect.left; 
+      const y = e.clientY - rect.top;  
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+      icon.classList.add('active-tilt');
+      gsap.to(icon, {
+        x: (x - centerX) * 0.3, y: (y - centerY) * 0.3,
+        rotateX: ((y - centerY) / centerY) * -20, rotateY: ((x - centerX) / centerX) * 20,
+        scale: 1.15, duration: 0.4, ease: 'power2.out', transformPerspective: 500
+      });
+    });
+    icon.addEventListener('mouseleave', () => {
+      if(reduceMotion) return;
+      icon.classList.remove('active-tilt');
+      gsap.to(icon, { x: 0, y: 0, rotateX: 0, rotateY: 0, scale: 1, duration: 0.6, ease: 'elastic.out(1, 0.3)' });
+    });
+  });
+
+  // Sorting
   const skillRows = $$('.skill-row');
   const skillContainer = $('#skills-container');
   $$('.sort-btn').forEach(btn => {
     btn.addEventListener('click', (e)=>{
       $$('.sort-btn').forEach(b=>b.classList.remove('active'));
       e.target.classList.add('active');
-      playClick();
       const sortBy = e.target.dataset.sort;
-      
       const sorted = [...skillRows].sort((a,b) => parseInt(b.dataset[sortBy]) - parseInt(a.dataset[sortBy]));
-      
-      sorted.forEach((row, idx) => {
+      sorted.forEach((row) => {
         gsap.to(row, {opacity:0, y:-10, duration:0.2, onComplete:()=>{
-          skillContainer.appendChild(row); // Reorder DOM
+          skillContainer.appendChild(row);
           const fill = $('.skill-fill', row);
           fill.style.width = '0%';
           gsap.to(row, {opacity:1, y:0, duration:0.3});
@@ -674,7 +906,6 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
     });
   });
 
-  // Initial Skill Bar Fill
   setTimeout(()=>{
     $$('.skill-row').forEach(row=>{
       const fill = $('.skill-fill', row);
@@ -693,111 +924,29 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
     btn.addEventListener('mouseleave', () => gsap.to(btn, {x:0, y:0, duration:0.6, ease:'elastic.out(1,0.3)'}));
   });
 
-  // Project Hover Image Previews
-  const preview = $('#hover-preview');
-  const previewImg = preview.querySelector('img');
-  $$('.proj-card').forEach(card => {
-    card.addEventListener('mouseenter', e => {
-      if(reduceMotion) return;
-      previewImg.src = card.dataset.img;
-      preview.classList.add('active');
-      playClick();
-    });
-    card.addEventListener('mousemove', e => {
-      if(reduceMotion) return;
-      gsap.to(preview, {left: e.clientX, top: e.clientY, duration:0.4, ease:'power3.out'});
-    });
-    card.addEventListener('mouseleave', () => preview.classList.remove('active'));
-  });
-
-  // Custom Cursor
+  // Custom Inverting Cursor
   const cursor = $('#ink-cursor');
   if(!reduceMotion && matchMedia('(hover:hover)').matches){
     let cx=innerWidth/2, cy=innerHeight/2, tx=cx, ty=cy;
     window.addEventListener('mousemove', e=>{ tx=e.clientX; ty=e.clientY; });
-    (function loop(){
+    (function cursorLoop(){
       cx += (tx - cx) * 0.25; cy += (ty - cy) * 0.25;
       cursor.style.transform = `translate(${cx}px, ${cy}px) translate(-50%, -50%)`;
-      requestAnimationFrame(loop);
+      requestAnimationFrame(cursorLoop);
     })();
     document.addEventListener('mouseover', e => {
       if(e.target.closest('.hover-trigger, a, button, input')) cursor.classList.add('hovering');
       else cursor.classList.remove('hovering');
     });
-    document.addEventListener('mousedown', playClick);
   } else if(cursor){ cursor.style.display='none'; }
-
-  // UI Interactions
-  $('#moon-widget').addEventListener('click', ()=>{
-    document.documentElement.classList.toggle('light-mode');
-    gsap.fromTo('#moon-widget', {rotate:0}, {rotate:360, duration:0.7, ease:'back.out(1.5)'});
-    playClick();
-  });
-
-  $('#light-slider').addEventListener('input', (e)=>{
-    document.getElementById('vignette').style.opacity = e.target.value;
-  });
 
   function tick(){ $('#dispatch-time').textContent = new Date().toLocaleTimeString('en-GB',{hour12:false,timeZone:'Asia/Kolkata'}); }
   tick(); setInterval(tick,1000);
-
-  // Modals
-  $$('.modal-trigger').forEach(btn => {
-    btn.addEventListener('click', e => {
-      const target = $('#' + e.target.dataset.target);
-      if(target) { target.classList.add('active'); playClick(); }
-    });
+  
+  window.addEventListener('load', ()=>{
+    const sk = $('#page-skeleton');
+    setTimeout(()=>{ sk.style.opacity='0'; setTimeout(()=>sk.remove(),800); }, 600);
   });
-  $$('.modal-overlay').forEach(overlay => {
-    overlay.addEventListener('click', e => {
-      if(e.target === overlay || e.target.classList.contains('close-modal')) {
-        overlay.classList.remove('active'); playClick();
-      }
-    });
-  });
-
-  // Generate Dummy GitHub Graph
-  const ghGrid = $('#gh-grid');
-  for(let w=0; w<24; w++) {
-    const col = document.createElement('div');
-    col.className = 'gh-col';
-    for(let d=0; d<7; d++) {
-      const cell = document.createElement('div');
-      cell.className = 'gh-cell hover-trigger';
-      // Random activity level favoring 0
-      const level = Math.random() > 0.6 ? Math.floor(Math.random() * 5) : 0;
-      cell.dataset.level = level;
-      col.appendChild(cell);
-    }
-    ghGrid.appendChild(col);
-  }
-
-  // Easter Eggs
-  // 1. Terminal (Cmd+K)
-  window.addEventListener('keydown', e => {
-    if(e.metaKey && e.key === 'k') {
-      e.preventDefault();
-      $('#modal-terminal').classList.add('active');
-      playClick();
-    }
-  });
-
-  // 2. Konami Code (Custom Rhythm Overlay)
-  const konami = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
-  let kIdx = 0;
-  window.addEventListener('keydown', e => {
-    if(e.key === konami[kIdx]) {
-      kIdx++;
-      if(kIdx === konami.length) {
-        // Trigger Rhythm Overlay & Sound
-        $('#modal-rhythm').classList.add('active');
-        playSecretSound();
-        kIdx = 0;
-      }
-    } else { kIdx = 0; }
-  });
-
-  window.addEventListener('resize', ()=>ScrollTrigger.refresh());
 })();
 </script>
 </body>
