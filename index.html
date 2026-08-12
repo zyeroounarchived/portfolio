@@ -192,13 +192,12 @@
   .gh-cell[data-level="3"] { background: color-mix(in srgb, var(--gold) 75%, transparent); }
   .gh-cell[data-level="4"] { background: var(--gold); }
 
-  /* Currently Learning Widget */
+  /* Currently Learning Widget (Unpinned) */
   #learning-widget {
-    position: fixed; bottom: 2rem; left: 2.5rem; z-index: 40; border: 1px solid var(--line); padding: 1rem 1.5rem;
-    background: color-mix(in srgb, var(--void) 90%, transparent); backdrop-filter: blur(8px); border-radius: 4px;
-    transform: translateY(150%); transition: transform 0.6s cubic-bezier(.2,.8,.2,1);
+    border: 1px solid var(--line); padding: 1.5rem 2rem;
+    background: color-mix(in srgb, var(--void) 90%, transparent); border-radius: 4px;
+    margin-bottom: 3rem;
   }
-  #learning-widget.visible { transform: translateY(0); }
 
   /* Modals (Terminal / Snippet / Reel) */
   .modal-overlay {
@@ -407,20 +406,6 @@
         <span class="label !text-[0.75rem] border border-[var(--line)] px-5 py-2 rounded-sm">Infographic</span>
       </div>
     </article>
-
-    <!-- Project 04: Drama Reel -->
-    <article class="ui-card anim-section flex flex-col proj-card hover-trigger" data-img="https://images.unsplash.com/photo-1594892404090-e51c8907f981?q=80&w=800&auto=format&fit=crop">
-      <div class="flex items-center justify-between mb-8">
-        <span class="proj-num">04</span><span class="label !text-[0.7rem] opacity-70">Creative Media</span>
-      </div>
-      <h3 class="h-display text-4xl lg:text-5xl text-[var(--ink)] mb-8">Drama Club Reel & Scripts</h3>
-      <p class="text-[var(--dim)] leading-[1.8] font-serif text-[1.2rem] mb-10 flex-grow">
-        Active participation in student film and drama, outlining script structures, dialogue translations, and editing the official after-event video reel for the club.
-      </p>
-      <div class="mt-auto pt-8 border-t border-[var(--line)] flex gap-8 items-center">
-        <button class="btn-ghost !text-[0.8rem]" onclick="alert('Playing Video Reel...')">Play Video Reel ⏵</button>
-      </div>
-    </article>
   </div>
 </section>
 
@@ -485,6 +470,12 @@
     </div>
   </div>
   
+  <!-- Currently Learning Widget (Unpinned) -->
+  <div id="learning-widget" class="mt-24 anim-section">
+    <p class="label !text-[0.7rem] mb-2 opacity-70">Active Focus</p>
+    <p class="font-serif text-[1.1rem] text-[var(--ink)]">Linear Programming in R & Kanji Recognition</p>
+  </div>
+
   <!-- GitHub Graph Simulation -->
   <div class="mt-24 anim-section">
     <p class="label mb-6 text-center">Repository Activity</p>
@@ -509,12 +500,6 @@
     </div>
   </div>
 </footer>
-
-<!-- Currently Learning Widget -->
-<div id="learning-widget">
-  <p class="label !text-[0.6rem] mb-1 opacity-70">Active Focus</p>
-  <p class="font-serif text-[0.95rem] text-[var(--ink)]">Linear Programming in R & Kanji Recognition</p>
-</div>
 
 <!-- Terminal Modals -->
 <div class="modal-overlay" id="modal-code">
@@ -593,7 +578,6 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
   window.addEventListener('load', ()=>{
     const sk = $('#page-skeleton');
     setTimeout(()=>{ sk.style.opacity='0'; setTimeout(()=>sk.remove(),800); }, 600);
-    setTimeout(()=> $('#learning-widget').classList.add('visible'), 2000);
   });
 
   // Lenis Smooth Scroll
