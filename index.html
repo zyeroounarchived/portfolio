@@ -8,7 +8,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Newsreader:ital,wght@0,300;0,400;1,400&family=Space+Mono:wght@400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=Newsreader:ital,wght@0,300;0,400;1,400&family=Space+Mono:wght@400&display=swap" rel="stylesheet">
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/3.4.1/tailwind.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
@@ -19,7 +19,6 @@
   :root{
     --void:#0a0908; --ink:#f7f4ed; --dim:#8c8577; --line:rgba(247,244,237,0.1); --gold:#d1b794;
     --card-bg:linear-gradient(180deg, rgba(247,244,237,0.02), rgba(247,244,237,0.005));
-    --ssr-glow: #ffd700; --sr-glow: #b026ff; --r-glow: #00e5ff;
   }
   html.light-mode{
     --void:#f7f4ed; --ink:#1a1918; --dim:#756f63; --line:rgba(26,25,24,0.12); --gold:#a3855a;
@@ -32,26 +31,23 @@
     font-family:'Newsreader', serif; font-weight:300;
     -webkit-font-smoothing:antialiased;
     overflow-x:hidden;
-    transition:background-color .4s ease, color .4s ease;
+    transition:background-color .6s cubic-bezier(0.4, 0, 0.2, 1), color .6s ease;
   }
   ::selection{ background:var(--ink); color:var(--void); }
   a{ color:inherit; text-decoration:none; }
 
-  /* SCREENPLAY MODE OVERRIDE */
-  body.screenplay-mode {
-    --void: #f4f0e6; --ink: #111; --dim: #333; --line: transparent; --card-bg: transparent;
-    font-family: 'Courier Prime', Courier, monospace !important;
+  @keyframes glitch-anim {
+    0% { clip-path: inset(10% 0 80% 0); transform: translate(-2px, 2px); }
+    20% { clip-path: inset(80% 0 5% 0); transform: translate(2px, -2px); }
+    40% { clip-path: inset(40% 0 40% 0); transform: translate(-2px, -2px); }
+    60% { clip-path: inset(5% 0 80% 0); transform: translate(2px, 2px); }
+    80% { clip-path: inset(60% 0 10% 0); transform: translate(-2px, 2px); }
+    100% { clip-path: inset(0 0 0 0); transform: translate(0); }
   }
-  body.screenplay-mode .ui-card { border: none; padding: 0; box-shadow: none !important; margin-bottom: 2rem; }
-  body.screenplay-mode .ui-card::before { display: none; }
-  body.screenplay-mode .h-display, body.screenplay-mode .h-sub { 
-    font-family: 'Courier Prime', Courier, monospace !important; 
-    text-transform: uppercase; text-align: center; font-size: 1.2rem !important; letter-spacing: 0; font-weight: bold;
+  .glitching {
+    animation: glitch-anim 0.3s cubic-bezier(.2,.8,.2,1) forwards;
+    filter: invert(1) hue-rotate(180deg);
   }
-  body.screenplay-mode p { width: 60%; margin: 0 auto 1rem auto; text-align: left; font-size: 1rem !important; }
-  body.screenplay-mode .label { text-align: center; display: block; margin-bottom: 0.5rem; color: #111; }
-  body.screenplay-mode .marquee-container { display: none; }
-  body.screenplay-mode #grain, body.screenplay-mode #vignette { display: none; }
 
   #grain{
     position:fixed; inset:-60px; z-index:998; pointer-events:none; opacity:0.035; mix-blend-mode:overlay;
@@ -65,15 +61,26 @@
   html.light-mode #vignette{ opacity:0.08; }
 
   .container-w{ max-width:1280px; margin:0 auto; padding-left:2.5rem; padding-right:2.5rem; }
+
   .label{ font-family:'Space Mono', monospace; letter-spacing:0.18em; text-transform:uppercase; font-size:0.75rem; color:var(--gold); }
   .rule{ height:1px; background:var(--line); transform-origin:left; margin: 5rem 0; }
 
-  .h-display{ font-family:'Cormorant Garamond', serif; font-weight:300; line-height:0.95; letter-spacing:-0.03em; }
-  .text-mask-fluid {
-    background: linear-gradient(120deg, var(--ink), var(--gold), var(--ink), var(--dim)); background-size: 300% 300%;
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: fluidMask 12s ease infinite;
+  .h-display{ 
+    font-family:'Cormorant Garamond', serif; font-weight:300; line-height:0.95; letter-spacing:-0.03em; 
   }
-  @keyframes fluidMask { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+  .text-mask-fluid {
+    background: linear-gradient(120deg, var(--ink), var(--gold), var(--ink), var(--dim));
+    background-size: 300% 300%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: fluidMask 12s ease infinite;
+  }
+  @keyframes fluidMask {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
   .h-sub{ font-family:'Cormorant Garamond', serif; font-weight:400; font-style:italic; }
 
   .katakana-swap { display: inline-block; position: relative; }
@@ -84,25 +91,29 @@
   .katakana-swap:hover { color: transparent; }
   .katakana-swap:hover::after { opacity: 1; }
 
-  #topnav{ backdrop-filter:blur(12px); background:color-mix(in srgb, var(--void) 85%, transparent); border-bottom:1px solid var(--line); z-index:50; }
-  .absolute-nav-wrapper { position: relative; width: 100%; height: 6rem; display: flex; align-items: center; justify-content: space-between; }
-  .nav-logo-locked { position: relative; }
-  .nav-links-locked { display: flex; gap: 3.5rem; }
-  .nav-tools-locked { display: flex; align-items: center; gap: 2rem; }
+  #topnav{ 
+    backdrop-filter:blur(12px); background:color-mix(in srgb, var(--void) 85%, transparent); 
+    border-bottom:1px solid var(--line); z-index:50; 
+  }
+  .absolute-nav-wrapper { position: relative; width: 100%; height: 6rem; }
+  .nav-logo-locked { position: absolute; left: 2.5rem; top: 50%; transform: translateY(-50%); }
+  .nav-links-locked { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); display: flex; gap: 3.5rem; }
+  .nav-tools-locked { position: absolute; right: 2.5rem; top: 50%; transform: translateY(-50%); display: flex; align-items: center; gap: 2rem; }
   @media (max-width: 768px) { .nav-links-locked { display: none; } }
 
   .btn-primary{
     font-family:'Space Mono', monospace; font-size:0.8rem; letter-spacing:0.12em; text-transform:uppercase;
-    background:var(--ink); color:var(--void); padding:1.2rem 3rem; border-radius:100px;
+    background:var(--ink); color:var(--void); padding:1rem 2.5rem; border-radius:100px;
     transition:transform .35s cubic-bezier(.2,.8,.2,1), background .35s ease, box-shadow .35s ease;
     display:inline-flex; align-items: center; justify-content: center; border:1px solid var(--ink); text-align:center;
+    position: relative; overflow: hidden;
   }
   .btn-primary:hover{ transform:translateY(-2px); background:var(--gold); border-color:var(--gold); box-shadow:0 12px 35px -8px rgba(209,183,148,0.35); }
   
   .btn-ghost{
     font-family:'Space Mono', monospace; font-size:0.8rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--dim);
     border-bottom:1px solid var(--line); padding-bottom:6px; transition:color .3s ease, border-color .3s ease, transform .3s ease;
-    display:inline-flex; align-items: center; justify-content: center;
+    display:inline-flex; align-items: center; justify-content: center; position: relative;
   }
   .btn-ghost:hover{ color:var(--ink); border-color:var(--gold); }
 
@@ -113,38 +124,33 @@
   }
   .ui-card::before {
     content:''; position:absolute; top:8px; left:8px; right:8px; bottom:8px;
-    border:1px solid var(--line); opacity:0.3; pointer-events:none; border-radius: 2px; transition: border-color 0.5s ease;
+    border:1px solid var(--line); opacity:0.3; pointer-events:none; border-radius: 2px;
+  }
+  .ui-card:hover{ 
+    border-color:rgba(209,183,148,0.4); 
+    box-shadow:0 24px 60px -20px rgba(0,0,0,0.4), 0 0 40px -15px rgba(209,183,148,0.1); 
+    transform:translateY(-4px); 
   }
   
-  .rarity-ssr { border-color: var(--ssr-glow) !important; box-shadow: 0 0 40px rgba(255,215,0,0.15) !important; }
-  .rarity-ssr::before { border-color: var(--ssr-glow) !important; opacity: 0.8 !important; }
-  .rarity-sr { border-color: var(--sr-glow) !important; box-shadow: 0 0 40px rgba(176,38,255,0.1) !important; }
-  .rarity-sr::before { border-color: var(--sr-glow) !important; opacity: 0.6 !important; }
-  .rarity-r { border-color: var(--r-glow) !important; box-shadow: 0 0 30px rgba(0,229,255,0.1) !important; }
-  
-  .proj-num{ font-family:'Space Mono',monospace; color:var(--gold); font-size:0.9rem; opacity: 0.8;}
-
-  .skills-list { display: flex; flex-direction: column; gap: 2.5rem; }
-  .skill-row { transition: transform 0.5s ease, opacity 0.5s ease; }
-  .skill-track{ height:1px; background:var(--line); position:relative; margin-top: 0.8rem; }
-  .skill-fill{ position:absolute; inset:0; width:0%; background:var(--gold); }
-
-  .proj-card, .cert-item { cursor: none; }
+  .proj-card { cursor: none; }
   #hover-preview {
-    position: fixed; top: 0; left: 0; width: 300px; height: 200px; pointer-events: none;
+    position: fixed; top: 0; left: 0; width: 280px; height: 180px; pointer-events: none;
     z-index: 100; opacity: 0; transform: scale(0.8) translate(-50%, -50%);
     transition: opacity 0.3s ease, transform 0.4s cubic-bezier(.2,.8,.2,1);
     border: 1px solid var(--gold); border-radius: 4px; overflow: hidden;
     background: var(--void); box-shadow: 0 20px 40px rgba(0,0,0,0.5);
   }
-  #hover-preview img { width: 100%; height: 100%; object-fit: cover; opacity: 0.8; filter: grayscale(80%) contrast(1.1); }
-  .proj-card:hover ~ #hover-preview.active, .cert-item:hover ~ #hover-preview.active { opacity: 1; transform: scale(1) translate(-50%, -50%); }
+  #hover-preview img { width: 100%; height: 100%; object-fit: cover; opacity: 0.6; filter: grayscale(100%) contrast(1.2); }
+  .proj-card:hover ~ #hover-preview.active { opacity: 1; transform: scale(1) translate(-50%, -50%); }
 
-  .cert-list { display: flex; flex-direction: column; }
-  .cert-item { transition: background 0.3s ease, padding-left 0.4s cubic-bezier(.2,.8,.2,1); }
-  .cert-title { transition: color 0.3s ease, transform 0.4s cubic-bezier(.2,.8,.2,1); transform-origin: left; }
-  .cert-item:hover { background: rgba(209,183,148,0.03); padding-left: 1.5rem; }
-  .cert-item:hover .cert-title { color: var(--gold); transform: scale(1.02); text-shadow: 0 0 15px rgba(209,183,148,0.3); }
+  .proj-num{ font-family:'Space Mono',monospace; color:var(--gold); font-size:0.9rem; opacity: 0.8;}
+
+  .skills-list { display: flex; flex-direction: column; gap: 2.5rem; }
+  .skill-row { transition: transform 0.5s ease, opacity 0.5s ease; }
+  .skill-track{ height:1px; background:var(--line); position:relative; margin-top: 0.2rem; }
+  .skill-fill{ position:absolute; inset:0; width:0%; background:var(--gold); }
+  .sort-btn { font-size: 0.65rem; color: var(--dim); cursor: pointer; transition: color 0.3s; }
+  .sort-btn.active { color: var(--gold); border-bottom: 1px solid var(--gold); }
 
   .data-preview-table {
     width: 100%; border-collapse: collapse; font-family: 'Space Mono', monospace; font-size: 0.8rem; margin-top: 2rem;
@@ -152,6 +158,7 @@
   }
   .data-preview-table th, .data-preview-table td { padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--line); text-align: left; color: var(--dim); }
   .data-preview-table th { color: var(--gold); font-weight: normal; background: color-mix(in srgb, var(--gold) 4%, transparent); }
+  .data-preview-table tr:last-child td { border-bottom: none; }
 
   #moon-widget{
     width:36px; height:36px; border-radius:50%; cursor:pointer; position:relative; flex-shrink: 0;
@@ -169,20 +176,42 @@
 
   #ink-cursor{
     position:fixed; top:0; left:0; color: var(--gold); font-size: 18px; line-height: 1; text-align: center;
-    pointer-events:none; z-index:9999; transition: font-size .2s cubic-bezier(.2,.8,.2,1), color .2s ease; transform:translate(-50%, -50%);
+    pointer-events:none; z-index:9999; 
+    transition: font-size .2s cubic-bezier(.2,.8,.2,1), color .2s ease;
+    transform:translate(-50%, -50%);
   }
   #ink-cursor.hovering { font-size: 28px; color: var(--ink); text-shadow: 0 0 10px rgba(209,183,148,0.6); }
   @media (hover:none){ #ink-cursor{display:none;} }
+  
+  #minimap {
+    position: fixed; right: 1rem; top: 50%; transform: translateY(-50%);
+    width: 4px; height: 30vh; background: var(--line); border-radius: 4px; z-index: 90;
+    opacity: 0.3; transition: opacity 0.3s;
+  }
+  #minimap:hover { opacity: 1; }
+  #minimap-thumb {
+    width: 100%; background: var(--gold); border-radius: 4px;
+    position: absolute; top: 0; left: 0; height: 20px;
+  }
 
   .marquee-container {
     width: 100%; overflow: hidden; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
-    padding: 1rem 0; background: color-mix(in srgb, var(--void) 95%, var(--gold));
-    display: flex; white-space: nowrap; align-items: center; margin-top: 6rem; margin-bottom: 8rem;
+    padding: 0.6rem 0; background: color-mix(in srgb, var(--void) 95%, var(--gold));
+    display: flex; white-space: nowrap; align-items: center;
   }
   .marquee-track {
-    display: flex; gap: 4rem; font-family: 'Space Mono', monospace; text-transform: uppercase;
-    font-size: 1rem; color: transparent; -webkit-text-stroke: 1px var(--gold); opacity: 0.6;
+    display: flex; gap: 2rem; font-family: 'Space Mono', monospace; text-transform: uppercase;
+    font-size: 0.85rem; color: transparent; -webkit-text-stroke: 1px var(--gold); opacity: 0.6;
   }
+
+  #god-mode {
+    position: fixed; bottom: 1rem; right: 1rem; background: rgba(0,0,0,0.85); border: 1px solid #4ade80;
+    color: #4ade80; font-family: 'Space Mono', monospace; font-size: 0.65rem; padding: 1rem;
+    z-index: 10000; border-radius: 4px; pointer-events: none; display: none; backdrop-filter: blur(5px);
+  }
+  #god-mode.active { display: block; }
+
+  .decayed { font-family: 'Space Mono', monospace !important; color: #ff0055 !important; opacity: 0.7; }
 
   .tool-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: 1rem; perspective: 800px; }
   .tool-icon { 
@@ -207,56 +236,18 @@
   .terminal-header { border-bottom: 1px solid #333; padding-bottom: 1rem; margin-bottom: 1rem; color: #888; position: relative; z-index: 10; }
   .terminal-content { position: relative; z-index: 10; background: rgba(0,0,0,0.7); padding: 1rem; border-radius: 4px;}
   #matrix-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; opacity: 0.4; }
-
-  /* GOD MODE & MINIMAP */
-  #minimap {
-    position: fixed; right: 1rem; top: 50%; transform: translateY(-50%);
-    width: 4px; height: 30vh; background: var(--line); border-radius: 4px; z-index: 90;
-    opacity: 0.3; transition: opacity 0.3s;
-  }
-  #minimap:hover { opacity: 1; }
-  #minimap-thumb {
-    width: 100%; background: var(--gold); border-radius: 4px;
-    position: absolute; top: 0; left: 0; height: 20px;
-  }
-  #god-mode {
-    position: fixed; bottom: 1rem; right: 1rem; background: rgba(0,0,0,0.85); border: 1px solid #4ade80;
-    color: #4ade80; font-family: 'Space Mono', monospace; font-size: 0.65rem; padding: 1rem;
-    z-index: 10000; border-radius: 4px; pointer-events: none; display: none; backdrop-filter: blur(5px);
-  }
-  #god-mode.active { display: block; }
-
-  .magnify-text { transition: color 0.3s ease, text-shadow 0.3s ease; cursor: default; position: relative; z-index: 1; }
-  .magnify-text:hover { color: var(--gold); text-shadow: 0 2px 10px rgba(209,183,148,0.4); z-index: 10; }
-
-  /* GACHA ROLL UI */
-  #gacha-terminal {
-    background: #050408; border: 1px solid var(--gold); border-radius: 6px; padding: 4rem 2rem; text-align: center;
-    position: relative; overflow: hidden; box-shadow: inset 0 0 40px rgba(0,0,0,0.8), 0 10px 30px rgba(0,0,0,0.5);
-    margin-bottom: 4rem;
-  }
-  #gacha-btn {
-    font-family: 'Space Mono', monospace; font-size: 1rem; letter-spacing: 0.1em; color: var(--void);
-    background: var(--gold); padding: 1.5rem 3rem; border-radius: 4px; border: none; cursor: pointer;
-    box-shadow: 0 0 20px rgba(209,183,148,0.4); transition: transform 0.1s, box-shadow 0.3s, background 0.3s;
-    text-transform: uppercase; font-weight: bold; position: relative; z-index: 10;
-  }
-  #gacha-btn:hover { transform: scale(1.02); box-shadow: 0 0 30px rgba(209,183,148,0.6); background: #e0c8aa; }
-  #gacha-btn.rolling { pointer-events: none; background: #555; color: #222; box-shadow: none; }
   
-  .gacha-fx-layer {
-    position: fixed; inset: 0; background: transparent; z-index: 8000; pointer-events: none;
-    display: flex; align-items: center; justify-content: center;
+  .magnify-text { 
+    transition: color 0.3s ease, text-shadow 0.3s ease; 
+    cursor: default; position: relative; z-index: 1;
   }
-  #gacha-card-spin {
-    width: 240px; height: 340px; background: #fff; border-radius: 8px; opacity: 0; transform: scale(0);
-    box-shadow: 0 0 50px rgba(255,255,255,0.5); border: 4px solid #fff;
+  .magnify-text:hover { 
+    color: var(--gold); 
+    text-shadow: 0 2px 10px rgba(209,183,148,0.4); 
+    z-index: 10;
   }
-  #gacha-inventory { display: grid; grid-template-columns: 1fr; gap: 3rem; }
-  @media(min-width: 768px) { #gacha-inventory { grid-template-columns: 1fr 1fr; } }
-  .gacha-item { opacity: 0; transform: translateY(40px); }
 
-  /* RHYTHM GAME & VN */
+  /* Rhythm Game Styles */
   .rhythm-stage {
     width: 100%; max-width: 480px; background: #0c0a10; border: 2px solid var(--gold);
     border-radius: 8px; padding: 1.5rem; text-align: center; font-family: 'Space Mono', monospace;
@@ -282,26 +273,22 @@
     position: absolute; width: 40px; height: 16px; border-radius: 3px;
     background: linear-gradient(180deg, #ff0055, #ff5500); box-shadow: 0 0 10px #ff0055; z-index: 10;
   }
-  .rhythm-judgement { height: 24px; font-size: 1rem; font-weight: bold; margin-top: 0.8rem; letter-spacing: 0.1em; }
+  .rhythm-judgement {
+    height: 24px; font-size: 1rem; font-weight: bold; margin-top: 0.8rem; letter-spacing: 0.1em;
+  }
   .judg-perfect { color: #00e5ff; text-shadow: 0 0 8px #00e5ff; }
   .judg-great { color: #4ade80; text-shadow: 0 0 8px #4ade80; }
   .judg-miss { color: #ff0055; text-shadow: 0 0 8px #ff0055; }
 
-  #vn-overlay {
-    position: fixed; inset: 0; z-index: 9500; pointer-events: none; opacity: 0; transition: opacity 0.5s ease;
-    background: linear-gradient(180deg, rgba(10,9,8,0) 40%, rgba(10,9,8,0.95) 100%);
-  }
-  #vn-overlay.active { opacity: 1; pointer-events: auto; }
-  #vn-dialogue-box {
-    position: absolute; bottom: 3rem; left: 50%; transform: translateX(-50%);
-    width: 90%; max-width: 900px; background: rgba(15,13,18,0.85); border: 2px solid var(--gold); border-radius: 8px;
-    padding: 2.5rem; backdrop-filter: blur(10px); box-shadow: 0 20px 50px rgba(0,0,0,0.8); cursor: pointer;
-  }
-  #vn-name { font-family: 'Space Mono', monospace; color: var(--gold); font-size: 1.2rem; margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.1em; }
-  #vn-text { font-family: 'Newsreader', serif; font-size: 1.5rem; color: #fff; line-height: 1.6; min-height: 4.8rem; }
-  #vn-next { position: absolute; bottom: 1.5rem; right: 2rem; color: var(--gold); font-family: 'Space Mono'; animation: bounceX 1s infinite; }
-  @keyframes bounceX { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(5px); } }
+  .syn-k { color: #c678dd; } 
+  .syn-f { color: #61afef; } 
+  .syn-s { color: #98c379; } 
+  .syn-c { color: #5c6370; font-style: italic; } 
 
+  .type-cursor{ display:inline-block; width:1.5px; background:var(--gold); animation:blink 1s step-end infinite; }
+  @keyframes blink{ 50%{opacity:0;} }
+
+  #page-skeleton{ transition:opacity .8s ease; }
   ::-webkit-scrollbar{ width:6px; }
   ::-webkit-scrollbar-track{ background:var(--void); }
   ::-webkit-scrollbar-thumb{ background:var(--dim); border-radius:10px; }
@@ -324,15 +311,15 @@
 </div>
 
 <nav id="topnav" class="fixed top-0 inset-x-0 z-40 transition-colors duration-500">
-  <div class="container-w absolute-nav-wrapper">
+  <div class="max-w-[1280px] mx-auto absolute-nav-wrapper">
     <div class="nav-logo-locked">
       <a href="#" class="label tracking-[0.25em] text-[var(--ink)] transition-colors katakana-swap hover-trigger" data-jp="N. バワンカル">N. BAWANKAR</a>
     </div>
     <div class="nav-links-locked">
       <a href="#work" class="label hover:text-[var(--ink)] transition-colors hover-trigger">Exhibits</a>
       <a href="#about" class="label hover:text-[var(--ink)] transition-colors hover-trigger">Dossier</a>
-      <a href="#certifications" class="label hover:text-[var(--ink)] transition-colors hover-trigger">Credentials</a>
       <a href="#notes" class="label hover:text-[var(--ink)] transition-colors hover-trigger">Notes</a>
+      <a href="#contact" class="label hover:text-[var(--ink)] transition-colors hover-trigger">Dispatch</a>
     </div>
     <div class="nav-tools-locked">
       <button class="label hover:text-[var(--ink)] transition-colors hover-trigger modal-trigger" data-target="modal-tips">TIPS ?</button>
@@ -342,30 +329,30 @@
   </div>
 </nav>
 
-<header class="relative min-h-[85vh] flex flex-col justify-center items-center pt-48 pb-32">
+<header class="relative min-h-[85vh] flex items-center justify-center pt-32 pb-12">
   <div class="container-w w-full relative z-10 text-center max-w-5xl">
     
-    <div class="inline-flex items-center gap-3 border border-[var(--line)] rounded-full px-6 py-2.5 mb-14 bg-color-mix(in srgb, var(--void) 50%, transparent) anim-fade">
+    <div class="inline-flex items-center gap-3 border border-[var(--line)] rounded-full px-6 py-2.5 mb-12 bg-color-mix(in srgb, var(--void) 50%, transparent) anim-fade">
       <div class="w-2 h-2 rounded-full bg-[var(--gold)]"></div>
       <p class="label !text-[0.7rem]">ITM Skills University — Business Analytics</p>
     </div>
     
-    <h1 class="h-display text-mask-fluid mb-12" style="font-size:clamp(4.5rem, 10vw, 10rem);">
+    <h1 class="h-display text-mask-fluid mb-10" style="font-size:clamp(4rem, 9.5vw, 9rem);">
       <span id="typewriter"></span><span class="type-cursor" style="height:0.8em; vertical-align:middle; -webkit-text-fill-color: var(--gold);"></span>
     </h1>
 
-    <p class="mx-auto max-w-3xl text-[1.4rem] leading-[1.9] text-[var(--dim)] font-serif italic anim-fade mb-16 vn-readable">
+    <p class="mx-auto max-w-3xl text-[1.35rem] leading-[1.8] text-[var(--dim)] font-serif italic anim-fade mb-16 decay-target">
       "<span class="magnify-text">I clean data,</span> <span class="magnify-text">document it honestly,</span> <span class="magnify-text">and build analytical tools with precision.</span> <span class="magnify-text">No manufactured polish—</span><span class="magnify-text">just reproducible work and seamless hand-offs.</span>"
     </p>
 
-    <div class="flex flex-wrap items-center justify-center gap-x-8 gap-y-6 anim-fade">
-      <a href="#work" class="btn-primary hover-trigger">View Selected Exhibits</a>
-      <a href="mailto:2025.nabhyab@isu.ac.in" class="btn-ghost hover-trigger">Establish Contact</a>
+    <div class="flex flex-wrap items-center justify-center gap-x-10 gap-y-6 anim-fade">
+      <a href="#work" class="btn-primary mag-btn hover-trigger">View Selected Exhibits</a>
+      <a href="mailto:2025.nabhyab@isu.ac.in" class="btn-ghost mag-btn hover-trigger">Establish Contact</a>
     </div>
   </div>
 </header>
 
-<div class="marquee-container my-32">
+<div class="marquee-container mt-12 md:mt-24 mb-16">
   <div class="marquee-track" id="marquee">
     <span>Data Hygiene</span> <span>·</span> <span>Optimization Models</span> <span>·</span> <span>Game Theory</span> <span>·</span> <span>SQL Architecture</span> <span>·</span> <span>Statistical Inference</span> <span>·</span> <span>Data Hygiene</span> <span>·</span> <span>Optimization Models</span> <span>·</span> <span>Game Theory</span> <span>·</span> <span>SQL Architecture</span> <span>·</span> <span>Statistical Inference</span> <span>·</span>
   </div>
@@ -373,15 +360,15 @@
 
 <main class="relative z-10">
 
-<section id="about" class="container-w pb-40">
+<section id="about" class="container-w py-32 md:py-40">
   <div class="grid md:grid-cols-[1.1fr,0.9fr] gap-24 items-start">
     <div class="anim-section">
       <p class="label mb-6">Section I — The Dossier</p>
-      <h2 class="h-sub mb-10" style="font-size:clamp(3rem,5vw,4rem);">On working with real, unglamorous data.</h2>
-      <p class="text-[var(--dim)] leading-[1.9] text-[1.3rem] mb-8 font-serif vn-readable">
+      <h2 class="h-sub mb-10" style="font-size:clamp(2.8rem,5vw,3.8rem);">On working with real, unglamorous data.</h2>
+      <p class="text-[var(--dim)] leading-[1.9] text-[1.25rem] mb-8 font-serif decay-target">
         Most of what I've built stems from real assignments—NGO applicant records, structured cost sheets, and analytical audits. I prefer the administrative mechanics closer to bookkeeping than storytelling: verifying columns, sanitizing erratic inputs, and distilling complex matrices into clear metrics.
       </p>
-      <p class="text-[var(--dim)] leading-[1.9] text-[1.3rem] font-serif mb-12 vn-readable">
+      <p class="text-[var(--dim)] leading-[1.9] text-[1.25rem] font-serif mb-12 decay-target">
         Every deliverable is built upon a reproducible pipeline, transparent documentation, and absolute structural integrity.
       </p>
       
@@ -397,7 +384,7 @@
     </div>
 
     <div class="ui-card anim-section">
-      <div class="flex justify-between items-end mb-16">
+      <div class="flex justify-between items-end mb-12">
         <p class="label text-[var(--ink)]">Analytical Instruments</p>
         <div class="flex gap-4">
           <span class="sort-btn active hover-trigger" data-sort="prof">Proficiency</span>
@@ -407,30 +394,30 @@
       
       <div class="skills-list" id="skills-container">
         <div class="skill-row" data-prof="75" data-freq="90">
-          <div class="flex w-full justify-between items-center font-serif text-[1.3rem] text-[var(--ink)] mb-4">
+          <div class="flex w-full justify-between items-center font-serif text-[1.25rem] text-[var(--ink)] tracking-wide mb-3">
             <span class="pr-4">Python Environment</span>
-            <span class="label text-[var(--gold)] shrink-0 !text-[0.7rem]">Active</span>
+            <span class="label text-[var(--gold)] shrink-0">Active</span>
           </div>
           <div class="skill-track"><div class="skill-fill"></div></div>
         </div>
         <div class="skill-row" data-prof="65" data-freq="80">
-          <div class="flex w-full justify-between items-center font-serif text-[1.3rem] text-[var(--ink)] mb-4">
+          <div class="flex w-full justify-between items-center font-serif text-[1.25rem] text-[var(--ink)] tracking-wide mb-3">
             <span class="pr-4">SQL Queries & Architecture</span>
-            <span class="label text-[var(--gold)] shrink-0 !text-[0.7rem]">Operational</span>
+            <span class="label text-[var(--gold)] shrink-0">Operational</span>
           </div>
           <div class="skill-track"><div class="skill-fill"></div></div>
         </div>
         <div class="skill-row" data-prof="50" data-freq="40">
-          <div class="flex w-full justify-between items-center font-serif text-[1.3rem] text-[var(--ink)] mb-4">
+          <div class="flex w-full justify-between items-center font-serif text-[1.25rem] text-[var(--ink)] tracking-wide mb-3">
             <span class="pr-4">R Modeling & Stats</span>
-            <span class="label text-[var(--gold)] shrink-0 !text-[0.7rem]">Developing</span>
+            <span class="label text-[var(--gold)] shrink-0">Developing</span>
           </div>
           <div class="skill-track"><div class="skill-fill"></div></div>
         </div>
         <div class="skill-row" data-prof="88" data-freq="95">
-          <div class="flex w-full justify-between items-center font-serif text-[1.3rem] text-[var(--ink)] mb-4">
+          <div class="flex w-full justify-between items-center font-serif text-[1.25rem] text-[var(--ink)] tracking-wide mb-3">
             <span class="pr-4">Spreadsheet Architecture</span>
-            <span class="label text-[var(--gold)] shrink-0 !text-[0.7rem]">Advanced</span>
+            <span class="label text-[var(--gold)] shrink-0">Advanced</span>
           </div>
           <div class="skill-track"><div class="skill-fill"></div></div>
         </div>
@@ -442,91 +429,90 @@
 <div class="container-w"><div class="rule"></div></div>
 
 <section id="work" class="container-w py-32 md:py-40">
-  <div class="anim-section mb-16">
-    <p class="label mb-6">Section II — The Vault</p>
-    <h2 class="h-sub mb-6" style="font-size:clamp(2.8rem,5vw,3.8rem);">Acquire Project Files.</h2>
-    <p class="text-[var(--dim)] max-w-2xl font-serif text-[1.3rem] mb-12">
-      Access to the dossier requires clearance. Expend data fragments to securely extract project manifest files from the archive.
-    </p>
+  <div class="anim-section mb-24 flex justify-between items-end">
+    <div>
+      <p class="label mb-6">Section II — Archives</p>
+      <h2 class="h-sub mb-6" style="font-size:clamp(2.8rem,5vw,3.8rem);">Selected Finished Works.</h2>
+      <p class="text-[var(--dim)] max-w-lg font-serif text-[1.25rem] decay-target">A curated dossier of deployment-ready deliverables.</p>
+    </div>
   </div>
 
-  <div id="gacha-terminal" class="anim-section">
-    <p class="label text-[var(--gold)] mb-4 tracking-[0.3em] opacity-50" id="g-status">AWAITING INPUT // 3 FILES DETECTED</p>
-    <h3 class="font-mono text-3xl text-[var(--ink)] mb-10 tracking-widest">ARCHIVE TERMINAL <span class="animate-pulse">_</span></h3>
-    <button id="gacha-btn" class="hover-trigger">[ SPEND 1x DATASYNC ] ➔ EXTRACT FILE</button>
-  </div>
+  <div class="grid md:grid-cols-2 gap-16">
+    <!-- Project 01: NGO -->
+    <article class="ui-card anim-section flex flex-col proj-card hover-trigger" data-img="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop">
+      <div class="flex items-center justify-between mb-8">
+        <span class="proj-num">01</span><span class="label !text-[0.7rem] opacity-70">Data Cleaning</span>
+      </div>
+      <h3 class="h-display text-4xl lg:text-5xl text-[var(--ink)] mb-8">NGO Applicant Records</h3>
+      <p class="text-[var(--dim)] leading-[1.8] font-serif text-[1.2rem] mb-10 flex-grow decay-target">
+        Standardized, validated, and scrubbed 350 applicant records during an intensive operational internship—normalizing formats and resolving encoding corruptions.
+      </p>
+      <div class="mt-auto">
+        <div class="overflow-x-auto mb-10">
+          <table class="data-preview-table !mt-0">
+            <thead>
+              <tr><th>Record_ID</th><th>Status</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>#NS-301</td><td>Verified</td></tr>
+              <tr><td>#NS-302</td><td>Normalized</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="flex gap-4">
+          <span class="label !text-[0.75rem] border border-[var(--line)] px-5 py-2 rounded-sm">Codebook</span>
+          <span class="label !text-[0.75rem] border border-[var(--line)] px-5 py-2 rounded-sm">CSV</span>
+        </div>
+      </div>
+    </article>
 
-  <div id="gacha-inventory"></div>
-</section>
-
-<div class="container-w"><div class="rule"></div></div>
-
-<section id="certifications" class="container-w py-32 md:py-40">
-  <div class="anim-section mb-16">
-    <p class="label mb-6">Section III — Credentials</p>
-    <h2 class="h-sub mb-6" style="font-size:clamp(2.8rem,5vw,3.8rem);">Verified Proficiencies.</h2>
-    <p class="text-[var(--dim)] max-w-2xl font-serif text-[1.3rem] mb-12">
-      A cryptographic ledger of academic and professional certifications acquired to date. Hover to inspect visual proof of completion.
-    </p>
-  </div>
-
-  <div class="border-t border-[var(--line)] flex flex-col cert-list anim-section">
-    <div class="cert-item py-6 border-b border-[var(--line)] flex justify-between items-center hover-trigger" data-img="https://images.unsplash.com/photo-1589330694653-ded6df03f754?q=80&w=800&auto=format&fit=crop">
-      <span class="font-serif text-2xl text-[var(--ink)] cert-title">Google Data Analytics Professional Certificate</span>
-      <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">2026</span>
-    </div>
-    
-    <div class="cert-item py-6 border-b border-[var(--line)] flex justify-between items-center hover-trigger" data-img="https://images.unsplash.com/photo-1555949963-aa79dcee981c?q=80&w=800&auto=format&fit=crop">
-      <span class="font-serif text-2xl text-[var(--ink)] cert-title">Advanced SQL & Relational Databases</span>
-      <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">2026</span>
-    </div>
-
-    <div class="cert-item py-6 border-b border-[var(--line)] flex justify-between items-center hover-trigger" data-img="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop">
-      <span class="font-serif text-2xl text-[var(--ink)] cert-title">Linear Optimization Models in R</span>
-      <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">2026</span>
-    </div>
-
-    <div class="cert-item py-6 border-b border-[var(--line)] flex justify-between items-center hover-trigger" data-img="https://images.unsplash.com/photo-1528164344705-47542687000d?q=80&w=800&auto=format&fit=crop">
-      <span class="font-serif text-2xl text-[var(--ink)] cert-title">Japanese Language Proficiency (JLPT N4)</span>
-      <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">2025</span>
-    </div>
-    
-    <div class="py-6 flex justify-center items-center">
-       <span class="label !text-[0.65rem] text-[var(--dim)] opacity-50">+ 14 ADDITIONAL ARCHIVES HIDDEN</span>
-    </div>
+    <!-- Project 02: Quick Commerce -->
+    <article class="ui-card anim-section flex flex-col proj-card hover-trigger" data-img="https://images.unsplash.com/photo-1601597111158-2fceff292cdc?q=80&w=800&auto=format&fit=crop">
+      <div class="flex items-center justify-between mb-8">
+        <span class="proj-num">02</span><span class="label !text-[0.7rem] opacity-70">Game Theory</span>
+      </div>
+      <h3 class="h-display text-4xl lg:text-5xl text-[var(--ink)] mb-8">Quick-Commerce Strategy</h3>
+      <p class="text-[var(--dim)] leading-[1.8] font-serif text-[1.2rem] mb-10 flex-grow decay-target">
+        A comparative presentation applying game theory models to competitive dynamics within the quick-commerce industry, analyzing strategies of Blinkit, Zepto, and Swiggy Instamart.
+      </p>
+      <div class="mt-auto pt-8 border-t border-[var(--line)]">
+        <button class="btn-ghost !text-[0.8rem] modal-trigger hover-trigger" data-target="modal-matrix">View Matrix Logic</button>
+      </div>
+    </article>
   </div>
 </section>
 
+<!-- Hover Preview Container -->
 <div id="hover-preview"><img src="" alt="Preview"></div>
 
 <div class="container-w"><div class="rule"></div></div>
 
 <section id="notes" class="container-w py-32 md:py-40">
   <div class="anim-section mb-20">
-    <p class="label mb-6">Section IV — Field Notes</p>
+    <p class="label mb-6">Section III — Field Notes</p>
     <h2 class="h-sub mb-6" style="font-size:clamp(2.8rem,5vw,3.8rem);">Micro-Blog & Snippets.</h2>
   </div>
   
-  <div class="grid md:grid-cols-3 gap-16">
-    <div class="border-t border-[var(--line)] pt-10 anim-section">
+  <div class="grid md:grid-cols-3 gap-12">
+    <div class="border-t border-[var(--line)] pt-8 anim-section">
       <p class="label !text-[0.65rem] mb-4 text-[var(--dim)]">2026-04</p>
-      <h4 class="text-2xl text-[var(--ink)] font-serif mb-4">On Pearson's Skewness</h4>
-      <p class="text-[var(--dim)] text-[1.15rem] leading-[1.8] font-serif vn-readable">
+      <h4 class="text-xl text-[var(--ink)] font-serif mb-3">On Pearson's Skewness</h4>
+      <p class="text-[var(--dim)] text-[1.05rem] leading-[1.7] font-serif decay-target">
         Revisiting business statistics for distributions. Calculating medians and compound annual growth rates manually grounds the formulas before ever writing the SQL for them.
       </p>
     </div>
-    <div class="border-t border-[var(--line)] pt-10 anim-section">
+    <div class="border-t border-[var(--line)] pt-8 anim-section">
       <p class="label !text-[0.65rem] mb-4 text-[var(--dim)]">2026-02</p>
-      <h4 class="text-2xl text-[var(--ink)] font-serif mb-4">Linear Optimization in R</h4>
-      <p class="text-[var(--dim)] text-[1.15rem] leading-[1.8] font-serif mb-6 vn-readable">
+      <h4 class="text-xl text-[var(--ink)] font-serif mb-3">Linear Optimization in R</h4>
+      <p class="text-[var(--dim)] text-[1.05rem] leading-[1.7] font-serif mb-4 decay-target">
         Utilizing optimization packages in R to solve linear programming matrices. The setup takes longer than the solve.
       </p>
       <button class="btn-ghost !text-[0.7rem] modal-trigger hover-trigger" data-target="modal-code">View R Snippet</button>
     </div>
-    <div class="border-t border-[var(--line)] pt-10 anim-section">
+    <div class="border-t border-[var(--line)] pt-8 anim-section">
       <p class="label !text-[0.65rem] mb-4 text-[var(--dim)]">2026-01</p>
-      <h4 class="text-2xl text-[var(--ink)] font-serif mb-4">Japanese Syntax</h4>
-      <p class="text-[var(--dim)] text-[1.15rem] leading-[1.8] font-serif vn-readable">
+      <h4 class="text-xl text-[var(--ink)] font-serif mb-3">Japanese Syntax</h4>
+      <p class="text-[var(--dim)] text-[1.05rem] leading-[1.7] font-serif decay-target">
         Actively focusing on writing proficiency and character recognition for Hiragana, Katakana, and frequently used Kanji. Consistency beats intensity.
       </p>
     </div>
@@ -538,13 +524,13 @@
 <section id="contact" class="container-w py-32 md:py-48">
   <div class="ui-card p-14 md:p-24 grid md:grid-cols-[1.3fr,0.7fr] gap-20 items-center anim-section">
     <div>
-      <p class="label mb-6">Section V — Correspondence</p>
+      <p class="label mb-6">Section IV — Correspondence</p>
       <h2 class="h-sub mb-8" style="font-size:clamp(2.8rem,5vw,3.8rem);">Initiate Communication.</h2>
-      <p class="text-[var(--dim)] leading-[1.9] text-[1.25rem] font-serif mb-14 vn-readable">
+      <p class="text-[var(--dim)] leading-[1.9] text-[1.25rem] font-serif mb-14 decay-target">
         Open for internships, analytical consults, and structured data-processing contracts—specifically those featuring complex raw inputs and clear objectives.
       </p>
       <div class="flex flex-wrap gap-x-10 gap-y-6 items-center">
-        <a href="mailto:2025.nabhyab@isu.ac.in" class="btn-primary hover-trigger">2025.nabhyab@isu.ac.in</a>
+        <a href="mailto:2025.nabhyab@isu.ac.in" class="btn-primary mag-btn hover-trigger">2025.nabhyab@isu.ac.in</a>
       </div>
     </div>
     <div class="border-t md:border-t-0 md:border-l border-[var(--line)] pt-14 md:pt-0 md:pl-20">
@@ -572,21 +558,29 @@
   </div>
 </footer>
 
-<!-- Modals & Easter Eggs -->
+<div id="page-skeleton" class="fixed inset-0 z-[1000] bg-[var(--void)] flex items-center justify-center">
+  <div class="flex flex-col items-center gap-4">
+    <div class="label text-[var(--gold)] text-2xl animate-pulse">データ</div>
+    <div class="label text-[var(--dim)] opacity-60">Initializing Environment...</div>
+  </div>
+</div>
+
+<!-- Modals -->
 <div class="modal-overlay" id="modal-tips">
-  <div class="terminal-window !bg-[var(--void)] !border-[var(--gold)] !text-[var(--ink)] font-serif max-w-3xl">
-    <div class="flex justify-between items-center mb-8 border-b border-[var(--line)] pb-6">
-      <h3 class="text-4xl text-[var(--gold)] italic">Dossier Secrets</h3>
-      <button class="close-modal hover:text-[var(--gold)] hover-trigger text-2xl">✕</button>
+  <div class="terminal-window !bg-[var(--void)] !border-[var(--gold)] !text-[var(--ink)] font-serif max-w-2xl">
+    <div class="flex justify-between items-center mb-6 border-b border-[var(--line)] pb-4">
+      <h3 class="text-3xl text-[var(--gold)] italic">Dossier Secrets</h3>
+      <button class="close-modal hover:text-[var(--gold)] hover-trigger text-xl">✕</button>
     </div>
-    <ul class="space-y-6 text-[1.25rem] leading-[1.6]">
-      <li><span class="label !text-[0.7rem] inline-block w-28 text-[var(--gold)]">Konami Code</span> Press <kbd class="font-mono text-white bg-[#333] px-2 py-1 rounded">↑ ↑ ↓ ↓ ← → ← → B A</kbd> for Rhythm Minigame.</li>
-      <li><span class="label !text-[0.7rem] inline-block w-28 text-[var(--gold)]">Screenplay</span> Press <kbd class="font-mono text-white bg-[#333] px-2 py-1 rounded">S</kbd> to strip DOM into a raw script format.</li>
-      <li><span class="label !text-[0.7rem] inline-block w-28 text-[var(--gold)]">Visual Nov</span> Press <kbd class="font-mono text-white bg-[#333] px-2 py-1 rounded">V</kbd> for Ren'Py interface mode.</li>
-      <li><span class="label !text-[0.7rem] inline-block w-28 text-[var(--gold)]">TouchNodes</span> Press <kbd class="font-mono text-white bg-[#333] px-2 py-1 rounded">T</kbd> for TD background nodes.</li>
-      <li><span class="label !text-[0.7rem] inline-block w-28 text-[var(--gold)]">Coffee Brk</span> Press <kbd class="font-mono text-white bg-[#333] px-2 py-1 rounded">C</kbd> to brew coffee theme.</li>
-      <li><span class="label !text-[0.7rem] inline-block w-28 text-[var(--gold)]">Matrix O/R</span> Press <kbd class="font-mono text-white bg-[#333] px-2 py-1 rounded">M</kbd> for Matrix terminal overlay.</li>
-      <li><span class="label !text-[0.7rem] inline-block w-28 text-[var(--gold)]">God Mode</span> Press <kbd class="font-mono text-white bg-[#333] px-2 py-1 rounded">G</kbd> for system performance metrics.</li>
+    <ul class="space-y-4 text-[1.15rem] leading-[1.6]">
+      <li><span class="label !text-[0.65rem] inline-block w-24">Konami Code</span> Press <kbd class="font-mono text-[var(--gold)]">↑ ↑ ↓ ↓ ← → ← → B A</kbd> to launch the Rhythm Minigame.</li>
+      <li><span class="label !text-[0.65rem] inline-block w-24">Time Shift</span> Click the clock to toggle Japanese standard time.</li>
+      <li><span class="label !text-[0.65rem] inline-block w-24">Data Decay</span> Go completely idle for 60 seconds and watch the data corrupt.</li>
+      <li><span class="label !text-[0.65rem] inline-block w-24">Terminal</span> Press <kbd class="font-mono text-[var(--gold)]">Cmd + K</kbd> to view raw JSON data.</li>
+      <li><span class="label !text-[0.65rem] inline-block w-24">Nodes</span> Press <kbd class="font-mono text-[var(--gold)]">T</kbd> to simulate TouchDesigner background nodes.</li>
+      <li><span class="label !text-[0.65rem] inline-block w-24">Coffee Break</span> Press <kbd class="font-mono text-[var(--gold)]">C</kbd> to brew a coffee theme.</li>
+      <li><span class="label !text-[0.65rem] inline-block w-24">Matrix O/R</span> Press <kbd class="font-mono text-[var(--gold)]">M</kbd> to drop the veil.</li>
+      <li><span class="label !text-[0.65rem] inline-block w-24">God Mode</span> Press <kbd class="font-mono text-[var(--gold)]">G</kbd> for system performance metrics.</li>
     </ul>
   </div>
 </div>
@@ -664,6 +658,7 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
   </div>
 </div>
 
+<!-- PLAYABLE 4-KEY RHYTHM GAME MODAL -->
 <div class="modal-overlay" id="modal-rhythm">
   <div class="rhythm-stage">
     <div class="rhythm-header">
@@ -684,72 +679,6 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
   </div>
 </div>
 
-<div id="vn-overlay">
-  <div id="vn-dialogue-box">
-    <div id="vn-name">NABHYA BAWANKAR</div>
-    <div id="vn-text"></div>
-    <div id="vn-next">▼</div>
-  </div>
-</div>
-
-<div class="gacha-fx-layer" id="gacha-fx">
-  <div id="gacha-card-spin"></div>
-</div>
-
-<template id="tpl-ngo">
-  <article class="ui-card flex flex-col gacha-item rarity-ssr hover-trigger proj-card" data-img="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop">
-    <div class="flex items-center justify-between mb-8">
-      <span class="proj-num">01</span><span class="label !text-[0.7rem] opacity-70">Data Cleaning</span>
-    </div>
-    <h3 class="h-display text-4xl lg:text-5xl text-[var(--ink)] mb-8">NGO Applicant Records</h3>
-    <p class="text-[var(--dim)] leading-[1.8] font-serif text-[1.2rem] mb-10 flex-grow vn-readable">
-      Standardized, validated, and scrubbed 350 applicant records during an intensive operational internship—normalizing formats and resolving encoding corruptions.
-    </p>
-    <div class="mt-auto">
-      <div class="overflow-x-auto mb-10">
-        <table class="data-preview-table !mt-0">
-          <thead><tr><th>Record_ID</th><th>Status</th></tr></thead>
-          <tbody><tr><td>#NS-301</td><td>Verified</td></tr><tr><td>#NS-302</td><td>Normalized</td></tr></tbody>
-        </table>
-      </div>
-      <div class="flex gap-4">
-        <span class="label !text-[0.75rem] border border-[var(--line)] px-5 py-2 rounded-sm">Codebook</span>
-        <span class="label !text-[0.75rem] border border-[var(--line)] px-5 py-2 rounded-sm">CSV</span>
-      </div>
-    </div>
-  </article>
-</template>
-
-<template id="tpl-game-theory">
-  <article class="ui-card flex flex-col gacha-item rarity-sr hover-trigger proj-card" data-img="https://images.unsplash.com/photo-1601597111158-2fceff292cdc?q=80&w=800&auto=format&fit=crop">
-    <div class="flex items-center justify-between mb-8">
-      <span class="proj-num">02</span><span class="label !text-[0.7rem] opacity-70">Game Theory</span>
-    </div>
-    <h3 class="h-display text-4xl lg:text-5xl text-[var(--ink)] mb-8">Quick-Commerce Strategy</h3>
-    <p class="text-[var(--dim)] leading-[1.8] font-serif text-[1.2rem] mb-10 flex-grow vn-readable">
-      A comparative presentation applying game theory models to competitive dynamics within the quick-commerce industry, analyzing strategies of Blinkit, Zepto, and Swiggy Instamart.
-    </p>
-    <div class="mt-auto pt-8 border-t border-[var(--line)] flex gap-4">
-      <span class="label !text-[0.75rem] border border-[var(--line)] px-5 py-2 rounded-sm">Presentation Deck</span>
-    </div>
-  </article>
-</template>
-
-<template id="tpl-field">
-  <article class="ui-card flex flex-col gacha-item rarity-r hover-trigger proj-card" data-img="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=800&auto=format&fit=crop">
-    <div class="flex items-center justify-between mb-8">
-      <span class="proj-num">03</span><span class="label !text-[0.7rem] opacity-70">Field Study</span>
-    </div>
-    <h3 class="h-display text-4xl lg:text-5xl text-[var(--ink)] mb-8">Colaba Causeway Mix</h3>
-    <p class="text-[var(--dim)] leading-[1.8] font-serif text-[1.2rem] mb-10 flex-grow vn-readable">
-      Field study report analyzing marketing mixes and consumer behavior patterns at BeCafe and the Colaba Causeway Market, detailing observational research on impulse buying.
-    </p>
-    <div class="mt-auto pt-8 border-t border-[var(--line)] flex gap-4">
-      <span class="label !text-[0.75rem] border border-[var(--line)] px-5 py-2 rounded-sm">Field Report</span>
-    </div>
-  </article>
-</template>
-
 <script>
 (function(){
   const $ = (s,c=document)=>c.querySelector(s);
@@ -767,46 +696,26 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
   function playClick() {
     if(reduceMotion) return;
     initAudio();
-    const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain();
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
     osc.connect(gain); gain.connect(audioCtx.destination);
-    osc.type = 'sine'; osc.frequency.setValueAtTime(300, audioCtx.currentTime);
-    gain.gain.setValueAtTime(0.01, audioCtx.currentTime);
+    osc.type = 'sine'; osc.frequency.setValueAtTime(200, audioCtx.currentTime);
+    gain.gain.setValueAtTime(0.015, audioCtx.currentTime);
     gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.05);
     osc.start(); osc.stop(audioCtx.currentTime + 0.05);
   }
 
-  function playVNType() {
+  function playHitSound(freq = 440) {
     if(reduceMotion) return;
     initAudio();
-    const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain();
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
     osc.connect(gain); gain.connect(audioCtx.destination);
-    osc.type = 'square'; osc.frequency.setValueAtTime(400 + Math.random()*200, audioCtx.currentTime);
-    gain.gain.setValueAtTime(0.005, audioCtx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.02);
-    osc.start(); osc.stop(audioCtx.currentTime + 0.02);
-  }
-
-  function playGachaRoll() {
-    if(reduceMotion) return;
-    initAudio();
-    for(let i=0; i<15; i++){
-      const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain();
-      osc.connect(gain); gain.connect(audioCtx.destination);
-      osc.type = 'square'; osc.frequency.setValueAtTime(150 + (i*10), audioCtx.currentTime + (i*0.1));
-      gain.gain.setValueAtTime(0.02, audioCtx.currentTime + (i*0.1));
-      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + (i*0.1) + 0.05);
-      osc.start(audioCtx.currentTime + (i*0.1)); osc.stop(audioCtx.currentTime + (i*0.1) + 0.05);
-    }
-    setTimeout(()=>{
-      const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain();
-      osc.connect(gain); gain.connect(audioCtx.destination);
-      osc.type = 'sawtooth';
-      osc.frequency.setValueAtTime(100, audioCtx.currentTime);
-      osc.frequency.exponentialRampToValueAtTime(20, audioCtx.currentTime + 1);
-      gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 1);
-      osc.start(); osc.stop(audioCtx.currentTime + 1);
-    }, 1500);
+    osc.type = 'triangle';
+    osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+    gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.08);
+    osc.start(); osc.stop(audioCtx.currentTime + 0.08);
   }
 
   function playSecretSound() {
@@ -814,177 +723,208 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
     initAudio();
     const notes = [261.63, 329.63, 392.00, 523.25]; 
     notes.forEach((freq, i) => {
-      const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain();
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
       osc.connect(gain); gain.connect(audioCtx.destination);
       osc.type = 'triangle';
       osc.frequency.setValueAtTime(freq, audioCtx.currentTime + i * 0.1);
       gain.gain.setValueAtTime(0, audioCtx.currentTime + i * 0.1);
       gain.gain.linearRampToValueAtTime(0.1, audioCtx.currentTime + i * 0.1 + 0.02);
       gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + i * 0.1 + 0.1);
-      osc.start(audioCtx.currentTime + i * 0.1); osc.stop(audioCtx.currentTime + i * 0.1 + 0.1);
+      osc.start(audioCtx.currentTime + i * 0.1);
+      osc.stop(audioCtx.currentTime + i * 0.1 + 0.1);
     });
   }
 
-  // Gacha Logic
-  const gachaPool = [
-    { id: 'tpl-field', name: 'Colaba Causeway', rarity: 'R', color: '#00e5ff' },
-    { id: 'tpl-game-theory', name: 'Quick-Commerce', rarity: 'SR', color: '#b026ff' },
-    { id: 'tpl-ngo', name: 'NGO Applicant Records', rarity: 'SSR', color: '#ffd700' }
-  ];
-  let pulls = 0;
-  const gachaBtn = $('#gacha-btn');
-  const gStatus = $('#g-status');
-  const gInventory = $('#gacha-inventory');
-  const cardSpin = $('#gacha-card-spin');
+  const hour = new Date().getHours();
+  let hue = 38; 
+  if(hour < 8 || hour > 18) hue = 45; 
+  document.documentElement.style.setProperty('--gold', `hsl(${hue}, 40%, 65%)`);
 
-  gachaBtn.addEventListener('click', () => {
-    if(pulls >= gachaPool.length) {
-      gStatus.textContent = "ARCHIVE DEPLETED. ALL FILES EXTRACTED.";
-      return;
-    }
-    gachaBtn.classList.add('rolling');
-    gStatus.textContent = "DECRYPTING ARCHIVE FILE...";
-    playGachaRoll();
-
-    gsap.to('main > section:not(#work), header, footer', {opacity: 0.1, duration: 0.5});
-    const pullData = gachaPool[pulls];
-    
-    gsap.to(cardSpin, { scale: 1, opacity: 1, duration: 0.3, ease: 'back.out(1.5)' });
-    const colors = ['#fff', '#00e5ff', '#b026ff', pullData.color];
-    const tl = gsap.timeline();
-    for(let i=0; i<15; i++) {
-      tl.to(cardSpin, { rotateY: "+=180", boxShadow: `0 0 ${50 + i*5}px ${colors[i%3]}`, borderColor: colors[i%3], duration: 0.1, ease: 'none' });
-    }
-
-    tl.to(cardSpin, { rotateY: "+=180", scale: 1.2, boxShadow: `0 0 100px ${pullData.color}`, borderColor: pullData.color, duration: 0.2 })
-      .to(cardSpin, { scale: 0, opacity: 0, duration: 0.2, ease: 'power2.in',
-      onComplete: () => {
-        gsap.fromTo("body", {x:-10, y:10}, {x:0, y:0, clearProps:"all", duration:0.4, ease:"rough({strength: 8, points: 20, template: none.out, taper: none, randomize: true, clamp: false})"});
-        const template = $(`#${pullData.id}`);
-        const clone = template.content.cloneNode(true);
-        gInventory.appendChild(clone);
-        const newCard = gInventory.lastElementChild;
-        gsap.fromTo(newCard, {y: -100, opacity: 0, scale: 0.8}, {y: 0, opacity: 1, scale: 1, duration: 0.6, ease: 'bounce.out(1, 0.5)'});
-        pulls++;
-        gachaBtn.classList.remove('rolling');
-        gStatus.textContent = `AWAITING INPUT // ${gachaPool.length - pulls} FILES REMAINING`;
-        gsap.to('main > section:not(#work), header, footer', {opacity: 1, duration: 1});
-        
-        newCard.addEventListener('mouseenter', ()=> cursor.classList.add('hovering'));
-        newCard.addEventListener('mouseleave', ()=> cursor.classList.remove('hovering'));
-        newCard.addEventListener('mouseenter', e => {
-          if(!reduceMotion && newCard.dataset.img) { previewImg.src = newCard.dataset.img; preview.classList.add('active'); }
-        });
-        newCard.addEventListener('mousemove', e => {
-          if(!reduceMotion && newCard.dataset.img) { gsap.to(preview, {left: e.clientX, top: e.clientY, duration:0.4, ease:'power3.out'}); }
-        });
-        newCard.addEventListener('mouseleave', () => preview.classList.remove('active'));
-      }
-    });
-  });
-
-  // Visual Novel Mode
-  const vnOverlay = $('#vn-overlay');
-  const vnText = $('#vn-text');
-  let isVnMode = false; let vnNodes = []; let vnCurrentIdx = 0; let vnTypeInterval;
-
-  function startVnMode() { isVnMode = true; vnOverlay.classList.add('active'); vnNodes = $$('.vn-readable'); vnCurrentIdx = 0; typeVnText(); }
-  function exitVnMode() { isVnMode = false; vnOverlay.classList.remove('active'); clearInterval(vnTypeInterval); }
-  function typeVnText() {
-    if(vnCurrentIdx >= vnNodes.length) { exitVnMode(); return; }
-    clearInterval(vnTypeInterval); vnText.textContent = '';
-    const fullText = vnNodes[vnCurrentIdx].textContent.trim().replace(/\s+/g, ' ');
-    let charIdx = 0;
-    vnTypeInterval = setInterval(() => {
-      vnText.textContent += fullText[charIdx];
-      if(charIdx % 3 === 0) playVNType();
-      charIdx++;
-      if(charIdx >= fullText.length) clearInterval(vnTypeInterval);
-    }, 20);
+  const minimapThumb = $('#minimap-thumb');
+  function updateMinimap() {
+    const scrollPercent = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
+    minimapThumb.style.top = `${scrollPercent * (30 * window.innerHeight / 100 - 20)}px`;
   }
-  $('#vn-dialogue-box').addEventListener('click', () => {
-    if(vnText.textContent.length < vnNodes[vnCurrentIdx].textContent.trim().replace(/\s+/g, ' ').length) {
-      clearInterval(vnTypeInterval);
-      vnText.textContent = vnNodes[vnCurrentIdx].textContent.trim().replace(/\s+/g, ' ');
-    } else { vnCurrentIdx++; typeVnText(); }
-  });
+  window.addEventListener('scroll', updateMinimap);
 
-  // Keyboard Easter Eggs (V, S, C, G, T, M, Cmd+K)
-  let coffeeMode = false; let screenPlayMode = false; let matrixMode = false; let nodesActive = false; let tdRaf; let tdNodes = [];
-  
+  const godMode = $('#god-mode');
+  const fpsEl = $('#fps-counter');
+  const scrollYEl = $('#scroll-y');
+  let frameCount = 0;
+  let lastTime = performance.now();
+  let godModeActive = false;
+
   window.addEventListener('keydown', e => {
-    if(e.key.toLowerCase() === 'v' && !isVnMode) { startVnMode(); playClick(); }
-    if(e.key === 'Escape' && isVnMode) { exitVnMode(); }
-    if(e.key.toLowerCase() === 's') { screenplayMode = !screenplayMode; document.body.classList.toggle('screenplay-mode'); playClick(); }
-    if(e.key.toLowerCase() === 'c') {
-      coffeeMode = !coffeeMode;
-      if(coffeeMode) {
-        document.documentElement.style.setProperty('--void', '#16110c'); document.documentElement.style.setProperty('--ink', '#d6c8b8');
-        document.documentElement.style.setProperty('--line', 'rgba(214, 200, 184, 0.1)'); document.documentElement.style.setProperty('--gold', '#c29a6b');
-      } else {
-        document.documentElement.style.removeProperty('--void'); document.documentElement.style.removeProperty('--ink');
-        document.documentElement.style.removeProperty('--line'); document.documentElement.style.removeProperty('--gold');
-      }
+    if(e.key.toLowerCase() === 'g') {
+      godModeActive = !godModeActive;
+      godMode.classList.toggle('active');
       playSecretSound();
     }
-    if(e.key.toLowerCase() === 'g') { $('#god-mode').classList.toggle('active'); playClick(); }
-    if(e.metaKey && e.key === 'k') { e.preventDefault(); $('#modal-terminal').classList.add('active'); playClick(); }
-    
-    // Matrix Mode (M)
-    if(e.key.toLowerCase() === 'm') {
-      matrixMode = !matrixMode;
-      const tModal = $('#modal-matrix');
-      if(matrixMode) {
-        tModal.classList.add('active'); initMatrix(); clearInterval(matrixInterval); matrixInterval = setInterval(drawMatrix, 33); playSecretSound();
-      } else { tModal.classList.remove('active'); clearInterval(matrixInterval); }
-    }
-
-    // TouchDesigner Nodes (T)
-    if(e.key.toLowerCase() === 't') {
-      nodesActive = !nodesActive;
-      if(nodesActive) {
-        const c = document.createElement('canvas'); c.id = 'td-nodes';
-        c.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;opacity:0.25;pointer-events:none;';
-        document.body.appendChild(c); const ctx = c.getContext('2d');
-        function resizeTD() {
-          c.width = window.innerWidth; c.height = window.innerHeight;
-          tdNodes = Array.from({length: 25}, () => ({ x: Math.random() * c.width, y: Math.random() * c.height, vx: (Math.random() - 0.5) * 1.5, vy: (Math.random() - 0.5) * 1.5 }));
-        }
-        resizeTD(); window.addEventListener('resize', resizeTD);
-        function drawTD() {
-          ctx.clearRect(0,0,c.width,c.height); ctx.strokeStyle = '#d1b794'; ctx.lineWidth = 1;
-          tdNodes.forEach(n => {
-            n.x += n.vx; n.y += n.vy;
-            if(n.x <= 0 || n.x >= c.width) n.vx *= -1;
-            if(n.y <= 0 || n.y >= c.height) n.vy *= -1;
-            ctx.fillStyle = '#1a1918'; ctx.fillRect(n.x - 20, n.y - 10, 40, 20); ctx.strokeRect(n.x - 20, n.y - 10, 40, 20);
-            tdNodes.forEach(n2 => {
-              const dist = Math.hypot(n.x - n2.x, n.y - n2.y);
-              if(dist < 150) { ctx.globalAlpha = 1 - (dist/150); ctx.beginPath(); ctx.moveTo(n.x, n.y); ctx.lineTo(n2.x, n2.y); ctx.stroke(); ctx.globalAlpha = 1; }
-            });
-          });
-          tdRaf = requestAnimationFrame(drawTD);
-        }
-        drawTD(); playSecretSound();
-      } else { cancelAnimationFrame(tdRaf); const c = document.getElementById('td-nodes'); if(c) c.remove(); }
-    }
   });
 
-  // God mode loop
-  let frameCount = 0; let lastTime = performance.now();
   function updateGodMode() {
-    if($('#god-mode').classList.contains('active')) {
-      frameCount++; const now = performance.now();
-      if(now - lastTime >= 1000) { $('#fps-counter').textContent = frameCount; frameCount = 0; lastTime = now; }
-      $('#scroll-y').textContent = Math.floor(window.scrollY);
+    if(godModeActive) {
+      frameCount++;
+      const now = performance.now();
+      if(now - lastTime >= 1000) {
+        fpsEl.textContent = frameCount;
+        frameCount = 0;
+        lastTime = now;
+      }
+      scrollYEl.textContent = Math.floor(window.scrollY);
     }
     requestAnimationFrame(updateGodMode);
   }
   updateGodMode();
 
-  window.addEventListener('load', ()=>{
-    const sk = $('#page-skeleton');
-    if(sk) setTimeout(()=>{ sk.style.opacity='0'; setTimeout(()=>sk.remove(),800); }, 400);
+  let idleTime = 0;
+  const decayTargets = $$('.decay-target');
+  const originalText = new Map();
+  
+  decayTargets.forEach((el, i) => originalText.set(i, el.innerHTML));
+
+  function resetIdle() {
+    idleTime = 0;
+    decayTargets.forEach((el, i) => {
+      if(el.classList.contains('decayed')) {
+        el.classList.remove('decayed');
+        el.innerHTML = originalText.get(i);
+      }
+    });
+  }
+
+  window.addEventListener('mousemove', resetIdle);
+  window.addEventListener('scroll', resetIdle);
+  window.addEventListener('keydown', resetIdle);
+
+  setInterval(() => {
+    idleTime++;
+    if(idleTime > 60) { 
+      decayTargets.forEach(el => {
+        if(!el.classList.contains('decayed')) {
+          el.classList.add('decayed');
+          const len = el.textContent.length;
+          let bin = '';
+          for(let j=0; j<len; j++) bin += Math.random() > 0.5 ? '1' : '0';
+          el.textContent = bin;
+        }
+      });
+    }
+  }, 1000);
+
+  const marquee = $('#marquee');
+  let isScrollingDown = true;
+  
+  if(!reduceMotion) {
+    gsap.to(marquee, { xPercent: -50, ease: "none", duration: 20, repeat: -1 }).timeScale(1);
+    ScrollTrigger.create({
+      trigger: "body", start: "top top", end: "bottom bottom",
+      onUpdate: (self) => {
+        isScrollingDown = self.direction === 1;
+        gsap.to(marquee, { duration: 0.5, x: isScrollingDown ? "-=20" : "+=20" });
+      }
+    });
+  }
+
+  $('#moon-widget').addEventListener('click', ()=>{
+    document.body.classList.add('glitching');
+    setTimeout(() => {
+      document.documentElement.classList.toggle('light-mode');
+      $('#theme-status').textContent = document.documentElement.classList.contains('light-mode') ? 'LIGHT' : 'DARK';
+      document.body.classList.remove('glitching');
+    }, 300); 
+    gsap.fromTo('#moon-widget', {rotate:0}, {rotate:360, duration:0.7, ease:'back.out(1.5)'});
+    playClick();
+  });
+
+  const mCanvas = $('#matrix-canvas');
+  const mCtx = mCanvas.getContext('2d');
+  let mWidth, mHeight, columns, drops;
+  const chars = "SELECT * FROM DATA WHERE NOISE = 0".split("");
+  let matrixInterval;
+
+  function initMatrix() {
+    mWidth = mCanvas.width = mCanvas.parentElement.offsetWidth;
+    mHeight = mCanvas.height = mCanvas.parentElement.offsetHeight;
+    columns = mWidth / 14;
+    drops = [];
+    for(let x = 0; x < columns; x++) drops[x] = 1;
+  }
+
+  function drawMatrix() {
+    mCtx.fillStyle = "rgba(0, 0, 0, 0.05)";
+    mCtx.fillRect(0, 0, mWidth, mHeight);
+    mCtx.fillStyle = "#4ade80"; 
+    mCtx.font = "14px monospace";
+    for(let i = 0; i < drops.length; i++) {
+      const text = chars[Math.floor(Math.random() * chars.length)];
+      mCtx.fillText(text, i * 14, drops[i] * 14);
+      if(drops[i] * 14 > mHeight && Math.random() > 0.975) drops[i] = 0;
+      drops[i]++;
+    }
+  }
+
+  let coffeeMode = false;
+  let matrixMode = false;
+
+  window.addEventListener('keydown', e => {
+    if(e.key.toLowerCase() === 'c') {
+      coffeeMode = !coffeeMode;
+      if(coffeeMode) {
+        document.documentElement.style.setProperty('--void', '#1a120c');
+        document.documentElement.style.setProperty('--ink', '#d4c5b4');
+        document.documentElement.style.setProperty('--line', 'rgba(212, 197, 180, 0.1)');
+        document.documentElement.style.setProperty('--gold', '#a68a6d');
+      } else {
+        document.documentElement.style.removeProperty('--void');
+        document.documentElement.style.removeProperty('--ink');
+        document.documentElement.style.removeProperty('--line');
+        document.documentElement.style.removeProperty('--gold');
+      }
+      playSecretSound();
+    }
+    
+    if(e.key.toLowerCase() === 'm') {
+      matrixMode = !matrixMode;
+      const tModal = $('#modal-matrix');
+      if(matrixMode) {
+        tModal.classList.add('active');
+        initMatrix();
+        clearInterval(matrixInterval);
+        matrixInterval = setInterval(drawMatrix, 33);
+        playSecretSound();
+      } else {
+        tModal.classList.remove('active');
+        clearInterval(matrixInterval);
+      }
+    }
+  });
+
+  $$('.modal-trigger').forEach(btn => {
+    btn.addEventListener('click', e => {
+      const target = $('#' + e.target.dataset.target);
+      if(target) { 
+        target.classList.add('active'); 
+        playClick();
+        if(e.target.dataset.target === 'modal-matrix') {
+          initMatrix();
+          clearInterval(matrixInterval);
+          matrixInterval = setInterval(drawMatrix, 33);
+        }
+      }
+    });
+  });
+  $$('.modal-overlay').forEach(overlay => {
+    overlay.addEventListener('click', e => {
+      if(e.target === overlay || e.target.classList.contains('close-modal')) {
+        overlay.classList.remove('active'); 
+        clearInterval(matrixInterval);
+        stopRhythmGame();
+        matrixMode = false;
+        playClick();
+      }
+    });
   });
 
   let lenisInstance;
@@ -994,9 +934,13 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
     requestAnimationFrame(raf);
     lenisInstance.on('scroll', ()=>ScrollTrigger.update());
   }
-  gsap.registerPlugin(ScrollTrigger);
 
-  gsap.from('.anim-fade', { y:40, opacity:0, duration:1.4, ease:'power3.out', stagger:0.15, delay:0.4 });
+  window.addEventListener('load', ()=>{
+    const sk = $('#page-skeleton');
+    setTimeout(()=>{ sk.style.opacity='0'; setTimeout(()=>sk.remove(),800); }, 600);
+  });
+
+  gsap.from('.anim-fade', { y:40, opacity:0, duration:1.4, ease:'power3.out', stagger:0.15, delay:0.6 });
 
   const twEl = $('#typewriter');
   const phrase = 'Nabhya Bawankar.';
@@ -1014,18 +958,42 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
     });
   }
 
+  $$('.tool-icon').forEach(icon => {
+    icon.addEventListener('mousemove', e => {
+      if(reduceMotion) return;
+      const rect = icon.getBoundingClientRect();
+      const x = e.clientX - rect.left; 
+      const y = e.clientY - rect.top;  
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+      icon.classList.add('active-tilt');
+      gsap.to(icon, {
+        x: (x - centerX) * 0.3, y: (y - centerY) * 0.3,
+        rotateX: ((y - centerY) / centerY) * -20, rotateY: ((x - centerX) / centerX) * 20,
+        scale: 1.15, duration: 0.4, ease: 'power2.out', transformPerspective: 500
+      });
+    });
+    icon.addEventListener('mouseleave', () => {
+      if(reduceMotion) return;
+      icon.classList.remove('active-tilt');
+      gsap.to(icon, { x: 0, y: 0, rotateX: 0, rotateY: 0, scale: 1, duration: 0.6, ease: 'elastic.out(1, 0.3)' });
+    });
+  });
+
   const skillRows = $$('.skill-row');
   const skillContainer = $('#skills-container');
   $$('.sort-btn').forEach(btn => {
     btn.addEventListener('click', (e)=>{
       $$('.sort-btn').forEach(b=>b.classList.remove('active'));
-      e.target.classList.add('active'); playClick();
+      e.target.classList.add('active');
+      playClick();
       const sortBy = e.target.dataset.sort;
       const sorted = [...skillRows].sort((a,b) => parseInt(b.dataset[sortBy]) - parseInt(a.dataset[sortBy]));
       sorted.forEach((row) => {
         gsap.to(row, {opacity:0, y:-10, duration:0.2, onComplete:()=>{
           skillContainer.appendChild(row);
-          const fill = $('.skill-fill', row); fill.style.width = '0%';
+          const fill = $('.skill-fill', row);
+          fill.style.width = '0%';
           gsap.to(row, {opacity:1, y:0, duration:0.3});
           gsap.to(fill, {width: row.dataset[sortBy]+'%', duration:1, ease:'power3.out', delay:0.1});
         }});
@@ -1040,18 +1008,14 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
     });
   }, 1000);
 
-  const preview = $('#hover-preview');
-  const previewImg = preview.querySelector('img');
-  $$('.proj-card, .cert-item').forEach(card => {
-    card.addEventListener('mouseenter', e => {
-      if(reduceMotion || !card.dataset.img) return;
-      previewImg.src = card.dataset.img; preview.classList.add('active'); playClick();
+  $$('.mag-btn').forEach(btn => {
+    btn.addEventListener('mousemove', e => {
+      const rect = btn.getBoundingClientRect();
+      const x = e.clientX - rect.left - rect.width/2;
+      const y = e.clientY - rect.top - rect.height/2;
+      gsap.to(btn, {x: x*0.2, y: y*0.2, duration:0.4, ease:'power2.out'});
     });
-    card.addEventListener('mousemove', e => {
-      if(reduceMotion || !card.dataset.img) return;
-      gsap.to(preview, {left: e.clientX, top: e.clientY, duration:0.4, ease:'power3.out'});
-    });
-    card.addEventListener('mouseleave', () => preview.classList.remove('active'));
+    btn.addEventListener('mouseleave', () => gsap.to(btn, {x:0, y:0, duration:0.6, ease:'elastic.out(1,0.3)'}));
   });
 
   const cursor = $('#ink-cursor');
@@ -1070,64 +1034,232 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
     document.addEventListener('mousedown', playClick);
   } else if(cursor){ cursor.style.display='none'; }
 
-  $('#moon-widget').addEventListener('click', ()=>{
-    document.documentElement.classList.toggle('light-mode');
-    gsap.fromTo('#moon-widget', {rotate:0}, {rotate:360, duration:0.7, ease:'back.out(1.5)'});
-    playClick();
+  let isJapaneseTime = false;
+  $('#dispatch-time').addEventListener('click', () => {
+    isJapaneseTime = !isJapaneseTime;
+    playSecretSound();
   });
 
-  let isJapaneseTime = false;
-  $('#dispatch-time').addEventListener('click', () => { isJapaneseTime = !isJapaneseTime; playClick(); });
   function tick(){ 
     const timeStr = new Date().toLocaleTimeString('en-GB',{hour12:false,timeZone:'Asia/Kolkata'});
-    $('#dispatch-time').textContent = isJapaneseTime ? timeStr.replace(':', '時').replace(':', '分') + '秒' : timeStr;
+    if(isJapaneseTime) {
+      $('#dispatch-time').textContent = timeStr.replace(':', '時').replace(':', '分') + '秒';
+    } else {
+      $('#dispatch-time').textContent = timeStr;
+    }
   }
   tick(); setInterval(tick,1000);
 
-  $$('.modal-trigger').forEach(btn => {
-    btn.addEventListener('click', e => {
-      const target = $('#' + e.target.dataset.target);
-      if(target) { target.classList.add('active'); playClick(); }
-    });
-  });
-  $$('.modal-overlay').forEach(overlay => {
-    overlay.addEventListener('click', e => {
-      if(e.target === overlay || e.target.classList.contains('close-modal')) {
-        overlay.classList.remove('active'); playClick();
+  let nodesActive = false;
+  let tdRaf;
+  let tdNodes = [];
+  
+  window.addEventListener('keydown', e => {
+    if(e.key.toLowerCase() === 't') {
+      nodesActive = !nodesActive;
+      if(nodesActive) {
+        const c = document.createElement('canvas');
+        c.id = 'td-nodes';
+        c.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;opacity:0.25;pointer-events:none;';
+        document.body.appendChild(c);
+        const ctx = c.getContext('2d');
+        
+        function resizeTD() {
+          c.width = window.innerWidth;
+          c.height = window.innerHeight;
+          tdNodes = Array.from({length: 25}, () => ({
+            x: Math.random() * c.width,
+            y: Math.random() * c.height,
+            vx: (Math.random() - 0.5) * 1.5,
+            vy: (Math.random() - 0.5) * 1.5
+          }));
+        }
+        resizeTD();
+        window.addEventListener('resize', resizeTD);
+        
+        function drawTD() {
+          ctx.clearRect(0,0,c.width,c.height);
+          ctx.strokeStyle = '#d1b794'; 
+          ctx.lineWidth = 1;
+          
+          tdNodes.forEach(n => {
+            n.x += n.vx; n.y += n.vy;
+            if(n.x <= 0 || n.x >= c.width) n.vx *= -1;
+            if(n.y <= 0 || n.y >= c.height) n.vy *= -1;
+            
+            ctx.fillStyle = '#1a1918';
+            ctx.fillRect(n.x - 20, n.y - 10, 40, 20);
+            ctx.strokeRect(n.x - 20, n.y - 10, 40, 20);
+            
+            tdNodes.forEach(n2 => {
+              const dist = Math.hypot(n.x - n2.x, n.y - n2.y);
+              if(dist < 150) {
+                ctx.globalAlpha = 1 - (dist/150);
+                ctx.beginPath();
+                ctx.moveTo(n.x, n.y);
+                ctx.lineTo(n2.x, n2.y);
+                ctx.stroke();
+                ctx.globalAlpha = 1;
+              }
+            });
+          });
+          tdRaf = requestAnimationFrame(drawTD);
+        }
+        drawTD();
+        playSecretSound();
+      } else {
+        cancelAnimationFrame(tdRaf);
+        const c = document.getElementById('td-nodes');
+        if(c) c.remove();
       }
-    });
+    }
   });
 
-  // Matrix canvas handler
-  const mCanvas = $('#matrix-canvas');
-  const mCtx = mCanvas.getContext('2d');
-  let mWidth, mHeight, columns, drops;
-  const chars = "SELECT * FROM DATA WHERE NOISE = 0".split("");
-  function initMatrix() {
-    mWidth = mCanvas.width = mCanvas.parentElement.offsetWidth;
-    mHeight = mCanvas.height = mCanvas.parentElement.offsetHeight;
-    columns = mWidth / 14; drops = [];
-    for(let x = 0; x < columns; x++) drops[x] = 1;
-  }
-  function drawMatrix() {
-    mCtx.fillStyle = "rgba(0, 0, 0, 0.05)"; mCtx.fillRect(0, 0, mWidth, mHeight);
-    mCtx.fillStyle = "#4ade80"; mCtx.font = "14px monospace";
-    for(let i = 0; i < drops.length; i++) {
-      const text = chars[Math.floor(Math.random() * chars.length)];
-      mCtx.fillText(text, i * 14, drops[i] * 14);
-      if(drops[i] * 14 > mHeight && Math.random() > 0.975) drops[i] = 0;
-      drops[i]++;
+  /* -------------------------------------------------------------
+     TEMPO-SYNCED RHYTHM GAME LOGIC
+  ------------------------------------------------------------- */
+  const keyMap = { 'd': 0, 'f': 1, 'j': 2, 'k': 3, 'arrowleft': 0, 'arrowdown': 1, 'arrowup': 2, 'arrowright': 3 };
+  const freqs = [261.63, 329.63, 392.00, 523.25]; 
+  let rhythmActive = false;
+  let rhythmScore = 0;
+  let rhythmCombo = 0;
+  let activeNotes = [];
+  let rhythmRafId;
+  let lastTimeGame = 0;
+  let beatTimer = 0;
+  
+  const BPM = 140;
+  const beatInterval = 60000 / BPM; 
+  const noteSpeed = 0.4; 
+
+  const trackArea = $('#rhythm-track-area');
+  const scoreEl = $('#r-score');
+  const comboEl = $('#r-combo');
+  const judgeEl = $('#r-judgement');
+
+  function startRhythmGame() {
+    stopRhythmGame();
+    rhythmActive = true;
+    rhythmScore = 0;
+    rhythmCombo = 0;
+    scoreEl.textContent = '0000';
+    comboEl.textContent = '0';
+    judgeEl.textContent = 'READY...';
+    judgeEl.className = 'rhythm-judgement';
+    lastTimeGame = performance.now();
+    beatTimer = 0;
+
+    function gameLoop(now) {
+      if (!rhythmActive) return;
+      const dt = now - lastTimeGame;
+      lastTimeGame = now;
+      beatTimer += dt;
+
+      if (beatTimer > beatInterval) {
+        beatTimer -= beatInterval;
+        const lane = Math.floor(Math.random() * 4);
+        const noteEl = document.createElement('div');
+        noteEl.className = 'rhythm-note';
+        noteEl.style.left = `${lane * 25 + 3}%`;
+        noteEl.style.top = '0px';
+        trackArea.appendChild(noteEl);
+
+        activeNotes.push({ el: noteEl, lane: lane, top: 0 });
+      }
+
+      const trackHeight = trackArea.offsetHeight - 40;
+
+      for (let i = activeNotes.length - 1; i >= 0; i--) {
+        const n = activeNotes[i];
+        n.top += noteSpeed * dt;
+        n.el.style.top = `${n.top}px`;
+
+        if (n.top > trackHeight + 25) {
+          n.el.remove();
+          activeNotes.splice(i, 1);
+          rhythmCombo = 0;
+          comboEl.textContent = '0';
+          judgeEl.textContent = 'MISS';
+          judgeEl.className = 'rhythm-judgement judg-miss';
+        }
+      }
+      rhythmRafId = requestAnimationFrame(gameLoop);
     }
+    rhythmRafId = requestAnimationFrame(gameLoop);
   }
 
-  // Konami Code Rhythm Minigame
+  function stopRhythmGame() {
+    rhythmActive = false;
+    cancelAnimationFrame(rhythmRafId);
+    activeNotes.forEach(n => n.el.remove());
+    activeNotes = [];
+  }
+
+  window.addEventListener('keydown', e => {
+    const k = e.key.toLowerCase();
+    if (rhythmActive && keyMap.hasOwnProperty(k)) {
+      const lane = keyMap[k];
+      const targetKey = $(`#kt-${lane}`);
+      if (targetKey) targetKey.classList.add('pressed');
+
+      const trackHeight = trackArea.offsetHeight - 40;
+      let hitIdx = -1;
+
+      for (let i = 0; i < activeNotes.length; i++) {
+        if (activeNotes[i].lane === lane) {
+          const dist = Math.abs(activeNotes[i].top - trackHeight);
+          if (dist < 40) {
+            hitIdx = i;
+            break;
+          }
+        }
+      }
+
+      if (hitIdx !== -1) {
+        const n = activeNotes[hitIdx];
+        const dist = Math.abs(n.top - trackHeight);
+        n.el.remove();
+        activeNotes.splice(hitIdx, 1);
+
+        rhythmCombo++;
+        comboEl.textContent = rhythmCombo;
+        playHitSound(freqs[lane]);
+
+        if (dist < 15) {
+          rhythmScore += 300;
+          judgeEl.textContent = 'PERFECT!';
+          judgeEl.className = 'rhythm-judgement judg-perfect';
+        } else {
+          rhythmScore += 100;
+          judgeEl.textContent = 'GREAT!';
+          judgeEl.className = 'rhythm-judgement judg-great';
+        }
+        scoreEl.textContent = String(rhythmScore).padStart(4, '0');
+      }
+    }
+  });
+
+  window.addEventListener('keyup', e => {
+    const k = e.key.toLowerCase();
+    if (keyMap.hasOwnProperty(k)) {
+      const lane = keyMap[k];
+      const targetKey = $(`#kt-${lane}`);
+      if (targetKey) targetKey.classList.remove('pressed');
+    }
+  });
+
+  $('#btn-start-rhythm').addEventListener('click', startRhythmGame);
+
   const konami = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
   let kIdx = 0;
   window.addEventListener('keydown', e => {
     if(e.key === konami[kIdx]) {
       kIdx++;
       if(kIdx === konami.length) {
-        $('#modal-rhythm').classList.add('active'); playSecretSound(); kIdx = 0;
+        $('#modal-rhythm').classList.add('active');
+        startRhythmGame();
+        playSecretSound();
+        kIdx = 0;
       }
     } else { kIdx = 0; }
   });
