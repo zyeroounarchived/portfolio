@@ -1,476 +1,460 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Nabhya Bawankar — Gothic Portfolio</title>
-    <meta name="description" content="Gothic-romantic portfolio — dramatic editorial layout, parallax, and refined micro-interactions." />
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Nabhya Bawankar — Portfolio</title>
+<meta name="description" content="Data analyst & builder. A short, honest dossier of early work." />
 
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Inter:wght@400;600;700&family=Great+Vibes&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Newsreader:ital,wght@0,400;0,500;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 
-    <!-- Tailwind CDN (play) with custom theme -->
-    <script>
-      tailwind_config = {
-        theme: {
-          extend: {
-            colors: {
-              charcoal: '#0d0d0d',
-              parchment: '#d4cfc4',
-              ash: '#8c8c8c',
-              silver: '#dcdad6'
-            },
-            fontFamily: {
-              serif: ['Playfair Display', 'serif'],
-              sans: ['Inter', 'sans-serif'],
-              cursive: ['Great Vibes', 'cursive']
-            }
-          }
-        }
-      }
-    </script>
-    <script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/3.4.1/tailwind.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lenis/1.1.13/lenis.min.js"></script>
 
-    <!-- GSAP for buttery animations -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+<style>
+  :root{
+    --void:#0c0b0a; --ink:#f4efe6; --dim:#9c9384; --line:rgba(244,239,230,0.12); --wine:#8a2f34; --gold:#c5a880;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:auto;}
+  body{
+    background:var(--void); color:var(--ink);
+    font-family:'Newsreader', serif; font-weight:400;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  ::selection{ background:var(--ink); color:var(--void); }
+  a{ color:inherit; text-decoration:none; }
 
-    <style>
-      :root{
-        --charcoal:#0d0d0d;
-        --parchment:#cfc6b6; /* slightly muted */
-        --parchment-dim:#d4cdc0;
-        --ash:#9a9a9a;
-        --silver:#d0cbc4;
-        --muted-overlay: rgba(15,15,15,0.45);
-      }
+  a:focus-visible, button:focus-visible, [tabindex]:focus-visible{
+    outline:none; box-shadow:0 0 0 2px var(--void), 0 0 0 4px var(--gold); border-radius:2px;
+  }
 
-      :root{color-scheme: dark;}
-      html,body{height:100%;}
-      body{
-        font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;
-        background: radial-gradient(1000px 500px at 8% 8%, rgba(255,255,255,0.02), transparent),
-                    linear-gradient(180deg, #070707 0%, var(--charcoal) 100%);
-        color: #e9e6e2;
-        -webkit-font-smoothing:antialiased;
-        -moz-osx-font-smoothing:grayscale;
-        position:relative;
-        overflow-x:hidden;
-      }
+  /* Museum grain + vignette overlay */
+  #grain{
+    position:fixed; inset:-60px; z-index:998; pointer-events:none; opacity:0.045; mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  }
+  #vignette{
+    position:fixed; inset:0; z-index:997; pointer-events:none;
+    background:radial-gradient(120% 85% at 50% 15%, transparent 35%, rgba(0,0,0,0.65) 100%);
+    mix-blend-mode:multiply;
+  }
 
-      /* Subtle vignette to focus center */
-      .vignette::after{
-        content:''; position:fixed; inset:0; pointer-events:none; z-index:1;
-        background: radial-gradient(60% 60% at 50% 40%, rgba(0,0,0,0) 0%, rgba(0,0,0,0.28) 70%);
-        mix-blend-mode:multiply; opacity:0.7;
-      }
+  .container-w{ max-width:1160px; margin:0 auto; padding-left:2rem; padding-right:2rem; }
 
-      /* Subtle paper grain */
-      .paper-grain::before{
-        content:''; position:absolute; inset:0; pointer-events:none; mix-blend-mode:overlay;
-        background-image: repeating-linear-gradient(0deg, rgba(200,190,170,0.02) 0 1px, transparent 1px 6px);
-        opacity:0.7; z-index:0;
-      }
+  .label{ font-family:'Space Mono', monospace; letter-spacing:0.18em; text-transform:uppercase; font-size:0.68rem; color:var(--gold); }
+  .rule{ height:1px; background:var(--line); }
 
-      /* Damask watermark behind hero */
-      .damask{ position:absolute; inset:0; background-repeat:no-repeat; background-position:20% 10%; opacity:0.06; pointer-events:none; z-index:0; background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='800' height='800'><g fill='%23c6bfb2' fill-opacity='0.08'><path d='M400 60c40 0 80 20 110 50 30 30 52 74 38 118-14 44-64 88-106 108-38 18-80 22-122 12-42-10-74-36-98-72-26-38-22-86 2-124C284 104 338 60 400 60z'/></g></svg>"); }
+  .h-display{ font-family:'Cormorant Garamond', serif; font-weight:300; line-height:0.92; letter-spacing:-0.02em; }
+  .h-sub{ font-family:'Cormorant Garamond', serif; font-weight:400; font-style:italic; }
 
-      /* Decorative distressed border */
-      .distressed{
-        box-shadow: inset 0 0 0 1px rgba(220,215,200,0.04), 0 12px 60px rgba(0,0,0,0.55);
-        border-radius:12px;
-        background: linear-gradient(180deg, rgba(255,255,255,0.015), rgba(0,0,0,0.24));
-        border: 1px solid rgba(220,215,200,0.03);
-        backdrop-filter: blur(6px) saturate(90%);
-      }
+  /* Navigation */
+  #topnav{ backdrop-filter:blur(8px); background:rgba(12,11,10,0.85); border-bottom:1px solid var(--line); }
 
-      /* Rose SVG sizing */
-      .rose{width:360px; max-width:40vw; opacity:0.95; filter:drop-shadow(0 10px 30px rgba(0,0,0,0.7));}
+  /* Buttons */
+  .btn-primary{
+    font-family:'Space Mono', monospace; font-size:0.75rem; letter-spacing:0.1em; text-transform:uppercase;
+    background:var(--ink); color:var(--void); padding:0.9rem 1.8rem;
+    transition:transform .35s cubic-bezier(.2,.8,.2,1), background .35s ease, box-shadow .35s ease;
+    display:inline-block; border:1px solid var(--ink);
+  }
+  .btn-primary:hover{ transform:translateY(-2px); background:var(--gold); border-color:var(--gold); box-shadow:0 12px 35px -8px rgba(197,168,128,0.35); }
+  
+  .btn-ghost{
+    font-family:'Space Mono', monospace; font-size:0.75rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--dim);
+    border-bottom:1px solid var(--line); padding-bottom:3px; transition:color .3s ease, border-color .3s ease;
+  }
+  .btn-ghost:hover{ color:var(--ink); border-color:var(--gold); }
 
-      /* Manuscript chapter style */
-      .chapter { font-family: 'Playfair Display', serif; color: var(--parchment); letter-spacing:0.02em; position:relative }
-      .chapter .title { font-family: 'Playfair Display', serif; font-size:clamp(36px,6.5vw,72px); line-height:0.92; }
-      .chapter .lead { font-size:1.05rem; color:var(--parchment-dim); max-width:70ch }
+  /* Museum Frames with Golden Ambient Glow */
+  .museum-frame{
+    position:relative; border:1px solid var(--line); padding:2rem;
+    background:linear-gradient(180deg, rgba(244,239,230,0.015), rgba(244,239,230,0.003));
+    transition:border-color .4s ease, transform .4s ease, box-shadow .4s ease;
+  }
+  .museum-frame::before {
+    content:''; position:absolute; top:6px; left:6px; right:6px; bottom:6px;
+    border:1px solid rgba(244,239,230,0.04); pointer-events:none;
+  }
+  .museum-frame:hover{ 
+    border-color:rgba(197,168,128,0.45); 
+    box-shadow:0 24px 60px -20px rgba(0,0,0,0.8), 0 0 30px -10px rgba(197,168,128,0.15); 
+    transform:translateY(-3px); 
+  }
 
-      /* Watermark cursive */
-      .watermark{ position:absolute; right:6%; top:6%; font-family:'Great Vibes',cursive; font-size:6rem; color:var(--parchment); opacity:0.06; transform:rotate(-12deg); pointer-events:none; z-index:0 }
+  /* Project row accordion */
+  .proj-row{ border-top:1px solid var(--line); transition:background-color .35s ease; }
+  .proj-row:hover{ background:rgba(244,239,230,0.018); }
+  .proj-num{ font-family:'Space Mono',monospace; color:var(--gold); font-size:0.78rem; }
 
-      /* Letter/contact paper */
-      .letter-paper{ background: linear-gradient(180deg, rgba(212,207,196,0.02), rgba(212,207,196,0.01)); border-left:4px solid rgba(212,207,196,0.06); padding:2.2rem }
+  .fold-panel{ overflow:hidden; max-height:0; opacity:0; transition:max-height .65s cubic-bezier(.4,0,.2,1), opacity .4s ease; }
+  .fold-item.open .fold-panel{ max-height:650px; opacity:1; }
+  .fold-chevron{ transition:transform .4s cubic-bezier(.4,0,.2,1); }
+  .fold-item.open .fold-chevron{ transform:rotate(45deg); stroke:var(--gold); }
 
-      /* Glass cards */
-      .glass{ background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.18)); border:1px solid rgba(255,255,255,0.03); backdrop-filter: blur(6px) saturate(80%); }
+  /* Footnote tooltips */
+  .footnote{ position:relative; cursor:help; border-bottom:1px dotted var(--gold); color:var(--ink); }
+  .idx-card{
+    position:absolute; bottom:calc(100% + 12px); left:50%; transform:translateX(-50%) translateY(4px);
+    width:240px; background:#141210; border:1px solid var(--gold); padding:0.9rem 1.1rem;
+    font-family:'Space Mono',monospace; font-size:0.68rem; line-height:1.5; color:var(--dim);
+    opacity:0; pointer-events:none; transition:opacity .25s ease, transform .25s ease; z-index:60;
+    box-shadow:0 10px 30px rgba(0,0,0,0.8);
+  }
+  .footnote:hover .idx-card, .footnote:focus .idx-card{ opacity:1; transform:translateX(-50%) translateY(0); }
 
-      /* Hover reveals for project cards */
-      .proj-card{ transform:translateZ(0); backface-visibility:hidden; transition:box-shadow .28s ease, transform .28s ease; }
-      .proj-card:hover{ box-shadow: 0 18px 48px rgba(3,3,3,0.6); transform: translateY(-6px); }
-      .proj-overlay{ background: linear-gradient(180deg, rgba(22,18,16,0.45), rgba(10,8,7,0.7)); }
+  /* Skill tracks */
+  .skill-track{ height:1px; background:var(--line); position:relative; }
+  .skill-fill{ position:absolute; inset:0; width:0%; background:var(--gold); }
 
-      /* Cursive accent */
-      .sig{ font-family:'Great Vibes',cursive; font-size:1.5rem; color:var(--parchment) }
+  /* Data Table Preview */
+  .data-preview-table {
+    width: 100%; border-collapse: collapse; font-family: 'Space Mono', monospace; font-size: 0.68rem; margin-top: 1rem;
+    background: rgba(0,0,0,0.2); border: 1px solid var(--line);
+  }
+  .data-preview-table th, .data-preview-table td {
+    padding: 0.5rem 0.75rem; border: 1px solid var(--line); text-align: left; color: var(--dim);
+  }
+  .data-preview-table th { color: var(--gold); background: rgba(197,168,128,0.05); }
 
-      /* Grain/fine dust */
-      .grain::after{ content:''; position: absolute; inset:0; background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200"><rect width="200" height="200" fill="rgba(0,0,0,0)"/><g fill="rgba(0,0,0,0.03)"><circle cx="10" cy="10" r="1"/><circle cx="50" cy="70" r="1"/><circle cx="130" cy="40" r="1"/></g></svg>'); opacity:0.06; pointer-events:none; z-index:20 }
+  /* Seal & Cursor */
+  #wax-seal{
+    width:36px; height:36px; border-radius:50%;
+    background:radial-gradient(circle at 34% 28%, #a8434a, #4a1316 72%);
+    box-shadow:inset 0 0 8px rgba(0,0,0,0.6), 0 2px 5px rgba(0,0,0,0.4);
+    display:flex; align-items:center; justify-content:center; cursor:pointer;
+    transition:transform .4s cubic-bezier(.4,0,.2,1); border:1px solid rgba(197,168,128,0.3);
+  }
+  #wax-seal:hover{ transform:scale(1.08) rotate(-8deg); }
 
-      @media (max-width:1024px){ .watermark{display:none} }
-      @media (max-width:768px){ .rose{display:none} .chapter .title{font-size:clamp(28px,7vw,48px);} .chapter .lead{font-size:0.98rem;} }
+  #ink-cursor{
+    position:fixed; top:0; left:0; width:12px; height:12px; border-radius:50%;
+    background:radial-gradient(circle at 35% 30%, rgba(244,239,230,0.95), rgba(197,168,128,0.4) 65%, transparent 78%);
+    pointer-events:none; z-index:999; mix-blend-mode:difference; transition:width .25s ease, height .25s ease;
+  }
+  @media (hover:none){ #ink-cursor{display:none;} }
 
-      /* Focus styles */
-      .proj-card:focus{ outline:2px solid rgba(223,213,200,0.12); outline-offset:6px; }
-      .proj-details-btn:focus, a:focus{ box-shadow:0 0 0 4px rgba(215,200,180,0.06); }
+  .type-cursor{ display:inline-block; width:2px; background:var(--gold); animation:blink 1s step-end infinite; }
+  @keyframes blink{ 50%{opacity:0;} }
 
-      /* Project thumbnail */
-      .proj-thumb{ width:84px; height:84px; border-radius:8px; background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.2)); display:flex; align-items:center; justify-content:center; border:1px solid rgba(255,255,255,0.02); }
-    </style>
-  </head>
-  <body class="paper-grain">
-    <header class="relative overflow-hidden">
-      <nav class="container mx-auto px-6 py-6 flex items-center justify-between z-30 relative">
-        <div class="flex items-center gap-3">
-          <div class="text-parchment font-serif text-xl tracking-wide">NABHYA <span class="text-silver">•</span></div>
+  #page-skeleton{ transition:opacity .6s ease; }
+  .ink-skeleton{
+    background:linear-gradient(100deg, rgba(244,239,230,0.03) 30%, rgba(244,239,230,0.1) 50%, rgba(244,239,230,0.03) 70%);
+    background-size:220% 100%; animation:sh 1.8s ease-in-out infinite;
+  }
+  @keyframes sh{ 0%{background-position:140% 0} 100%{background-position:-40% 0} }
+
+  @media (max-width:768px){
+    #ink-cursor{ display:none; }
+  }
+  ::-webkit-scrollbar{ width:8px; }
+  ::-webkit-scrollbar-track{ background:var(--void); }
+  ::-webkit-scrollbar-thumb{ background:var(--line); border-radius:4px; }
+</style>
+</head>
+
+<body>
+<div id="grain"></div>
+<div id="vignette"></div>
+<div id="ink-cursor"></div>
+
+<div id="page-skeleton" class="fixed inset-0 z-[1000] bg-[var(--void)] flex items-center justify-center">
+  <div class="w-64 space-y-3">
+    <div class="h-2 w-32 ink-skeleton"></div>
+    <div class="h-2 w-48 ink-skeleton"></div>
+  </div>
+</div>
+
+<nav id="topnav" class="fixed top-0 inset-x-0 z-40">
+  <div class="container-w flex items-center justify-between h-20">
+    <a href="#" class="label tracking-[0.25em] text-[var(--ink)]">N. BAWANKAR <span class="text-[var(--gold)]">/ 2028</span></a>
+    <div class="hidden md:flex items-center gap-8">
+      <a href="#work" class="label hover:text-[var(--ink)] transition-colors">Exhibits</a>
+      <a href="#about" class="label hover:text-[var(--ink)] transition-colors">Dossier</a>
+      <a href="#contact" class="label hover:text-[var(--ink)] transition-colors">Dispatch</a>
+      <a href="#resume" onclick="alert('Please link your resume PDF file href here!'); return false;" class="label text-[var(--gold)] hover:underline">Curriculum Vitae ↓</a>
+    </div>
+    <div class="flex items-center gap-5">
+      <span id="dispatch-time" class="label hidden sm:inline text-[var(--dim)]">--:--</span>
+      <button id="wax-seal" aria-label="Toggle accent mode" title="Seal signature"></button>
+    </div>
+  </div>
+</nav>
+
+<header class="relative min-h-[92vh] flex items-center justify-center pt-28 pb-20">
+  <div class="container-w w-full relative z-10 text-center max-w-4xl">
+    <div class="inline-block border border-[var(--line)] px-4 py-1.5 mb-8 bg-[var(--void)]">
+      <p class="label">ITM Skills University — Business Analytics</p>
+    </div>
+    
+    <h1 class="h-display mb-8" style="font-size:clamp(3.5rem, 9.5vw, 8rem);">
+      <span id="typewriter"></span><span class="type-cursor" style="height:0.75em; vertical-align:middle;">&nbsp;</span>
+    </h1>
+
+    <p class="mx-auto max-w-xl text-lg md:text-xl text-[var(--dim)] leading-relaxed font-serif italic">
+      "I clean data, document it honestly, and build small tools with precision. No manufactured polish—just reproducible work and clean hand-offs."
+    </p>
+
+    <div class="mt-12 flex flex-wrap items-center justify-center gap-6">
+      <a href="#work" class="btn-primary">View Selected Exhibits</a>
+      <a href="mailto:2025.nabhyab@isu.ac.in" class="btn-ghost">Establish Contact</a>
+    </div>
+  </div>
+</header>
+
+<div class="container-w"><div class="rule"></div></div>
+
+<main class="relative z-10">
+
+<section id="about" class="container-w py-28 md:py-36">
+  <div class="grid md:grid-cols-[1.2fr,0.8fr] gap-16 items-center">
+    <div>
+      <p class="label mb-4">Section I — The Dossier</p>
+      <h2 class="h-sub mb-6" style="font-size:clamp(2rem,3.5vw,2.8rem);">On working with real, unglamorous data.</h2>
+      <p class="text-[var(--dim)] leading-relaxed text-lg mb-5 font-serif">
+        Most of what I've built stems from real assignments—NGO applicant records, structured cost sheets, and analytical audits. I prefer the administrative mechanics closer to bookkeeping than storytelling: verifying columns, sanitizing erratic inputs, and distilling complex matrices into clear metrics.
+      </p>
+      <p class="text-[var(--dim)] leading-relaxed text-lg font-serif">
+        Every deliverable is built upon a 
+        <span class="footnote">reproducible pipeline<span class="idx-card">Consistent inputs and standardized execution steps yielding identical analytical outputs—free of manual corrections.</span></span>, 
+        transparent documentation, and structural integrity.
+      </p>
+    </div>
+
+    <div class="museum-frame p-8">
+      <p class="label mb-6">Analytical Instruments</p>
+      <div class="space-y-6">
+        <div class="skill-row" data-level="75">
+          <div class="flex justify-between font-serif text-[1rem] mb-2 text-[var(--ink)]"><span>Python Environment</span><span class="label text-[var(--gold)]">Active</span></div>
+          <div class="skill-track"><div class="skill-fill"></div></div>
         </div>
-        <ul class="hidden md:flex gap-8 text-sm text-ash/80">
-          <li><a href="#about" class="hover:text-parchment">About</a></li>
-          <li><a href="#projects" class="hover:text-parchment">Projects</a></li>
-          <li><a href="#contact" class="hover:text-parchment">Contact</a></li>
-        </ul>
-      </nav>
-
-      <div class="container mx-auto px-6 py-20 lg:py-32 relative flex items-center">
-        <!-- Rose anchor (parallax) -->
-        <div class="absolute right-8 top-12 lg:top-24 transform-gpu rose-wrapper" style="z-index:5">
-          <!-- Inline dark rose SVG -->
-          <svg class="rose" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <linearGradient id="g1" x1="0" x2="1" y1="0" y2="1">
-                <stop offset="0" stop-color="#0b0b0b" />
-                <stop offset="1" stop-color="#261b1b" />
-              </linearGradient>
-            </defs>
-            <g fill="url(#g1)">
-              <path d="M300 40c40 0 80 18 110 48 32 32 52 74 38 118-14 44-64 88-106 108-38 18-80 22-122 12-42-10-74-36-98-72-26-38-22-86 2-124C184 84 238 40 300 40z" />
-              <path opacity="0.9" d="M330 160c26 12 56 18 86 20 12 18 18 38 6 56-12 20-40 30-64 36-28 6-56 6-84 2-22-4-48-12-62-30-12-16-6-36 6-52 20-26 52-36 112-28z"/>
-            </g>
-          </svg>
+        <div class="skill-row" data-level="65">
+          <div class="flex justify-between font-serif text-[1rem] mb-2 text-[var(--ink)]"><span>SQL Queries & Architecture</span><span class="label text-[var(--gold)]">Operational</span></div>
+          <div class="skill-track"><div class="skill-fill"></div></div>
         </div>
-
-        <div class="w-full grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
-          <div class="relative z-20">
-            <div class="chapter">
-              <div class="title text-parchment/95">Nabhya Bawankar</div>
-              <div class="mt-3 lead text-ash/80">Data cleaner. Storyteller. Builder of small, useful things.</div>
-              <div class="mt-4 flex gap-2 items-center">
-                <span class="px-2 py-1 text-xs bg-black/30 border border-ash/10 rounded-full text-parchment">Open to internships</span>
-                <span class="px-2 py-1 text-xs bg-black/20 border border-ash/8 rounded-full text-ash">Data · BI</span>
-                <span class="px-2 py-1 text-xs bg-black/20 border border-ash/8 rounded-full text-ash">Python · SQL</span>
-              </div>
-              <div class="watermark">nabhya</div>
-              <div class="mt-8 flex gap-4">
-                <a href="#projects" class="px-6 py-3 bg-parchment text-charcoal rounded-md font-medium shadow-sm">View work</a>
-                <a href="#contact" class="px-6 py-3 border border-parchment/20 rounded-md text-parchment">Say hello</a>
-              </div>
-            </div>
-            <div class="mt-12 flex items-center gap-6">
-              <div class="text-sm text-ash/70">
-                <div class="uppercase font-semibold tracking-wider">Based in</div>
-                <div class="mt-1 text-parchment">Mumbai, India</div>
-              </div>
-              <div class="text-sm text-ash/70">
-                <div class="uppercase font-semibold tracking-wider">Toolkit</div>
-                <div class="mt-1 text-parchment">Python · SQL · R · GSAP</div>
-              </div>
-            </div>
-          </div>
-
-          <div class="relative z-10 flex justify-start lg:justify-end items-start">
-            <div class="w-full max-w-md distressed p-8">
-              <div class="text-sm text-ash/80 uppercase">Chapter I</div>
-                <h3 class="mt-2 font-serif text-2xl text-parchment">About — quick facts</h3>
-                <ul class="mt-3 text-ash/80 list-disc ml-5">
-                  <li>First‑year Business Analytics student at ITM Skills University.</li>
-                  <li>Experience cleaning & documenting real NGO applicant data.</li>
-                  <li>Delivers cleaned datasets, a short codebook, and a one-slide recommendation.</li>
-                </ul>
-                <div class="mt-4">
-                  <button class="about-details-btn inline-block px-4 py-2 bg-parchment text-charcoal rounded-md text-sm">Read more</button>
-                </div>
-                <div class="mt-4">
-                  <div class="sig">— Nabhya</div>
-                </div>
-            </div>
-          </div>
+        <div class="skill-row" data-level="50">
+          <div class="flex justify-between font-serif text-[1rem] mb-2 text-[var(--ink)]"><span>R Modeling & Stats</span><span class="label text-[var(--gold)]">Developing</span></div>
+          <div class="skill-track"><div class="skill-fill"></div></div>
+        </div>
+        <div class="skill-row" data-level="88">
+          <div class="flex justify-between font-serif text-[1rem] mb-2 text-[var(--ink)]"><span>Spreadsheet Architecture</span><span class="label text-[var(--gold)]">Advanced</span></div>
+          <div class="skill-track"><div class="skill-fill"></div></div>
         </div>
       </div>
-    </header>
+    </div>
+  </div>
+</section>
 
-    <main class="container mx-auto px-6 pb-24">
-      <!-- Projects with hover reveal and parallax layers -->
-      <section id="projects" class="mt-8">
-        <div class="flex items-baseline justify-between">
-          <h2 class="font-serif text-3xl text-parchment">Selected Projects</h2>
-          <p class="text-ash/70">A tightly curated set of real work.</p>
-        </div>
+<div class="container-w"><div class="rule"></div></div>
 
-        <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-8">
-          <!-- Project card 1 -->
-          <article class="proj-card relative rounded-xl overflow-hidden group" aria-labelledby="p1" tabindex="0" data-title="NGO Applicant Data — NASEOH" data-content="Organised and cleaned 350 applicant records. Delivered clean CSV, codebook, pivot tables, and an intake checklist." data-tags="Excel,Data Cleaning,Documentation">
-            <div class="absolute inset-0 proj-overlay opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-            <div class="relative p-8 z-10 flex flex-col gap-4">
-                <div class="flex items-start gap-4">
-                  <div class="proj-thumb" aria-hidden="true"><svg width="44" height="44" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><rect x="6" y="6" width="88" height="88" rx="10" fill="#0b0b0b"/><path d="M12 78c18-20 34-28 72-18" stroke="#2b1a1a" stroke-width="3" fill="none" opacity="0.6"/></svg></div>
-                  <div>
-                    <div class="text-sm text-ash/60 uppercase">01 · Data Work</div>
-                  </div>
-                </div>
-                <h3 id="p1" class="font-serif text-2xl text-parchment">NGO Applicant Data — NASEOH</h3>
-              <p class="text-ash/70">Organised and cleaned 350 applicant records for NASEOH. Deliverables included:</p>
-              <ul class="mt-2 text-ash/70 list-disc ml-5">
-                <li>Standardised columns, fixed encodings, and validated contact fields.</li>
-                <li>Produced a clean CSV, a short codebook, and pivot tables for quick insights.</li>
-                <li>Designed a lightweight intake checklist to reduce future data errors.</li>
-              </ul>
-              <div class="mt-4 flex gap-3">
-                <span class="px-3 py-1 border border-ash/10 text-ash/80 rounded-full text-xs">Excel</span>
-                <span class="px-3 py-1 border border-ash/10 text-ash/80 rounded-full text-xs">Data Cleaning</span>
-                <span class="px-3 py-1 border border-ash/10 text-ash/80 rounded-full text-xs">Documentation</span>
-              </div>
-              <div class="mt-4">
-                <button class="proj-details-btn inline-block px-4 py-2 bg-parchment text-charcoal rounded-md text-sm" aria-expanded="false">Details</button>
-              </div>
-            </div>
-            <div class="absolute right-4 bottom-4 opacity-40 group-hover:opacity-70 transition-all">
-              <svg width="120" height="120" viewBox="0 0 200 200"><circle cx="100" cy="100" r="90" stroke="#2b2b2b" stroke-width="2" fill="none"/></svg>
-            </div>
-          </article>
+<section id="work" class="container-w py-28 md:py-36">
+  <p class="label mb-4">Section II — Archives</p>
+  <h2 class="h-sub mb-3" style="font-size:clamp(2rem,3.5vw,2.8rem);">Selected Finished Works.</h2>
+  <p class="text-[var(--dim)] max-w-lg mb-12 font-serif">A curated dossier of deployment-ready deliverables.</p>
 
-          <!-- Project card 2 -->
-          <article class="proj-card relative rounded-xl overflow-hidden group" aria-labelledby="p2" tabindex="0" data-title="Art of Effective Communication" data-content="Converted a workshop into a deployed micro-site; authored templates and iterated after testing with students." data-tags="HTML,Technical Writing,Vercel">
-            <div class="absolute inset-0 proj-overlay opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-            <div class="relative p-8 z-10 flex flex-col gap-4">
-              <div class="flex items-start gap-4">
-                <div class="proj-thumb" aria-hidden="true"><svg width="44" height="44" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><rect x="6" y="6" width="88" height="88" rx="10" fill="#1b0f0f"/><path d="M20 28c18 6 34 8 60 24" stroke="#2b1a1a" stroke-width="3" fill="none" opacity="0.6"/></svg></div>
-                <div>
-                  <div class="text-sm text-ash/60 uppercase">02 · UX & Writing</div>
-                </div>
-              </div>
-              <h3 id="p2" class="font-serif text-2xl text-parchment">Art of Effective Communication</h3>
-              <p class="text-ash/70">Built a micro-site and presentation teaching clearer document structure. Highlights:</p>
-              <ul class="mt-2 text-ash/70 list-disc ml-5">
-                <li>Converted slides into an accessible micro-site with examples and editable templates.</li>
-                <li>Authored a practical template (Context → Objective → Analysis → Recommendation → Next Steps) used by classmates.</li>
-                <li>Deployed to Vercel and iterated the content after classroom testing.</li>
-              </ul>
-              <div class="mt-4 flex gap-3">
-                <a href="https://artofeffectivecomms.vercel.app" target="_blank" rel="noopener" class="px-3 py-1 bg-parchment text-charcoal rounded-full text-xs font-medium">Live</a>
-                <a href="https://github.com/zyeroounarchived/artofeffectivecomm" target="_blank" rel="noopener" class="px-3 py-1 border border-ash/10 text-ash/80 rounded-full text-xs">Source</a>
-              </div>
-              <div class="mt-4">
-                <button class="proj-details-btn inline-block px-4 py-2 bg-parchment text-charcoal rounded-md text-sm" aria-expanded="false">Details</button>
-              </div>
-            </div>
-            <div class="absolute left-4 top-4 opacity-30 group-hover:opacity-60 transition-all">
-              <svg width="80" height="80" viewBox="0 0 200 200"><rect x="10" y="10" width="180" height="180" stroke="#2b2b2b" stroke-width="2" fill="none"/></svg>
-            </div>
-          </article>
-        </div>
-      </section>
-      <!-- Compact Skills -->
-      <section id="skillsCompact" class="mt-12">
-        <div class="flex items-center justify-between">
-          <h3 class="font-serif text-2xl text-parchment">Skills</h3>
-          <p class="text-ash/70 text-sm">Quick, visual summary</p>
-        </div>
-        <div class="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-6">
-          <div class="p-4 glass rounded-md">
-            <div class="flex justify-between items-center"><div class="text-parchment font-medium">Python</div><div class="text-ash text-sm">Intermediate</div></div>
-            <div class="mt-3 h-2 bg-black/20 rounded overflow-hidden"><div class="skill-fill bg-parchment h-full" data-level="72%" style="width:0%"></div></div>
-          </div>
-          <div class="p-4 glass rounded-md">
-            <div class="flex justify-between items-center"><div class="text-parchment font-medium">MySQL</div><div class="text-ash text-sm">Intermediate</div></div>
-            <div class="mt-3 h-2 bg-black/20 rounded overflow-hidden"><div class="skill-fill bg-parchment h-full" data-level="58%" style="width:0%"></div></div>
-          </div>
-          <div class="p-4 glass rounded-md">
-            <div class="flex justify-between items-center"><div class="text-parchment font-medium">R</div><div class="text-ash text-sm">Beginner</div></div>
-            <div class="mt-3 h-2 bg-black/20 rounded overflow-hidden"><div class="skill-fill bg-parchment h-full" data-level="46%" style="width:0%"></div></div>
-          </div>
-          <div class="p-4 glass rounded-md">
-            <div class="flex justify-between items-center"><div class="text-parchment font-medium">MS Office</div><div class="text-ash text-sm">Advanced</div></div>
-            <div class="mt-3 h-2 bg-black/20 rounded overflow-hidden"><div class="skill-fill bg-parchment h-full" data-level="82%" style="width:0%"></div></div>
+  <div id="fold-list" class="border-t border-[var(--line)]">
+    <article class="fold-item proj-row">
+      <button class="fold-trigger w-full text-left py-8 flex items-center justify-between gap-8 cursor-pointer" aria-expanded="false">
+        <div class="flex items-baseline gap-6">
+          <span class="proj-num">01</span>
+          <div>
+            <h3 class="h-sub text-2xl md:text-3xl text-[var(--ink)]">NGO Applicant Records — NASEOH</h3>
+            <p class="label mt-2 text-[var(--dim)]">Data cleaning · Codebook documentation · 350 records</p>
           </div>
         </div>
-      </section>
-
-      <!-- Contact letter -->
-      <section id="contact" class="mt-16 grid md:grid-cols-2 gap-8 items-start">
-        <div class="distressed p-8 letter-paper">
-          <h3 class="font-serif text-2xl text-parchment">Write me a letter</h3>
-          <p class="mt-4 text-ash/80">I'm open to internships, short contracts, or collaboration on small analyst projects — ideally ones that involve real, messy data and a clear question. I won't pretend to have a decade of experience, but I will deliver reproducible work, honest notes about assumptions, and a readable hand-off.</p>
-          <p class="mt-3 text-ash/80">If you have a dataset that needs cleaning, a quick dashboard to inform decisions, or a small project that needs someone to follow through, email me. I read messages regularly and am available for part-time work and remote collaborations.</p>
-          <div class="mt-6">
-            <a href="mailto:2025.nabhyab@isu.ac.in" class="inline-block px-4 py-2 bg-parchment text-charcoal rounded-md">Email</a>
-          </div>
-        </div>
-
-        <div class="p-6 rounded-lg bg-gradient-to-b from-transparent to-black/30 border border-ash/6">
-          <div class="text-ash/70 uppercase text-sm">Social</div>
-          <ul class="mt-4 text-parchment">
-            <li class="mt-3"><a href="https://www.linkedin.com/in/nabhya52kar/" target="_blank" rel="noopener">/in/nabhya52kar</a></li>
-            <li class="mt-3"><a href="https://github.com/zyeroounarchived" target="_blank" rel="noopener">@zyeroounarchived</a></li>
-            <li class="mt-3">Mumbai, Maharashtra</li>
+        <svg class="fold-chevron w-5 h-5 shrink-0 text-[var(--dim)]" viewBox="0 0 16 16" fill="none"><path d="M8 2v12M2 8h12" stroke="currentColor" stroke-width="1.3"/></svg>
+      </button>
+      <div class="fold-panel">
+        <div class="pb-8 pl-0 md:pl-14 text-[var(--dim)] leading-relaxed max-w-2xl font-serif text-lg">
+          <p>Standardized, validated, and scrubbed 350 applicant records during an intensive operational internship—normalizing formats, resolving encoding corruptions, and verifying field inputs.</p>
+          <ul class="mt-4 space-y-2 list-disc ml-5 text-base">
+            <li>Delivered an inspection-ready CSV alongside an explicit operational codebook.</li>
+            <li>Created automated pivot structures for instant administrative oversight.</li>
           </ul>
-        </div>
-      </section>
-    </main>
 
-    <footer class="py-12 text-center text-ash/70">
-      <div class="container mx-auto px-6">© Nabhya Bawankar — 2026</div>
-    </footer>
-
-    <!-- Hidden full about content for modal -->
-    <div id="aboutFull" class="hidden">
-      <h3>About — full</h3>
-      <p>I'm a first‑year Business Analytics student at ITM Skills University. Most of my time lately is split between coursework, an internship where I handled real applicant data for an NGO, and small studio projects where I practise turning messy inputs into something someone can actually use. I prefer work that earns its keep: clear data, simple reproducible steps, and a short write-up that a non-technical person can follow.</p>
-      <p>How I work: I start by asking why the data exists and who needs the answer. Then I standardise columns, fix encodings, handle edge cases, and document the assumptions. My usual deliverables are a cleaned dataset, a short codebook, a reproducible notebook or sheet, and one slide with the top recommendation.</p>
-      <p>Tools & learning: Python for ETL and small scripts, MySQL/SQLite for tidy storage, R for quick stats, and Excel for rapid prototyping. Right now I'm improving my testing and reproducibility habits so analyses survive edits. Outside work I shoot photos, write short pieces, and play basketball — things that keep projects feeling human.</p>
-    </div>
-
-    <!-- Project modal -->
-    <div id="projModal" class="fixed inset-0 hidden z-50 items-center justify-center">
-      <div id="projOverlay" class="absolute inset-0 bg-black/70 backdrop-blur-sm"></div>
-      <div class="relative z-60 max-w-3xl w-full mx-6">
-        <div class="glass p-8 rounded-xl">
-          <button id="projClose" aria-label="Close" class="absolute right-6 top-6 text-parchment/80">✕</button>
-          <h3 id="projModalTitle" class="font-serif text-2xl text-parchment mb-3">Title</h3>
-          <div id="projModalBody" class="text-ash/80 leading-relaxed">
-            <p>Details...</p>
+          <!-- Interactive Data Schema Preview -->
+          <div class="mt-6">
+            <p class="label text-[var(--gold)] mb-2">Schema Preview (Cleaned Sample)</p>
+            <table class="data-preview-table">
+              <thead>
+                <tr>
+                  <th>Record_ID</th>
+                  <th>Category</th>
+                  <th>Validation_Status</th>
+                  <th>Encoding</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>#NS-301</td>
+                  <td>Applicant-A</td>
+                  <td>Verified</td>
+                  <td>UTF-8 Clean</td>
+                </tr>
+                <tr>
+                  <td>#NS-302</td>
+                  <td>Applicant-B</td>
+                  <td>Normalized</td>
+                  <td>UTF-8 Clean</td>
+                </tr>
+                <tr>
+                  <td>#NS-303</td>
+                  <td>Applicant-C</td>
+                  <td>Verified</td>
+                  <td>UTF-8 Clean</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
-          <div id="projModalTags" class="mt-6 flex gap-2"></div>
+
+          <div class="mt-6 flex gap-3 flex-wrap">
+            <span class="label border border-[var(--line)] px-3 py-1 bg-[var(--void)] text-[var(--ink)]">Spreadsheets</span>
+            <span class="label border border-[var(--line)] px-3 py-1 bg-[var(--void)] text-[var(--ink)]">Data Hygiene</span>
+            <span class="label border border-[var(--line)] px-3 py-1 bg-[var(--void)] text-[var(--ink)]">Documentation</span>
+          </div>
         </div>
       </div>
+    </article>
+
+    <article class="fold-item proj-row">
+      <button class="fold-trigger w-full text-left py-8 flex items-center justify-between gap-8 cursor-pointer" aria-expanded="false">
+        <div class="flex items-baseline gap-6">
+          <span class="proj-num">02</span>
+          <div>
+            <h3 class="h-sub text-2xl md:text-3xl text-[var(--ink)]">Art of Effective Communication</h3>
+            <p class="label mt-2 text-[var(--dim)]">Micro-site architecture · Technical publishing · Deployed</p>
+          </div>
+        </div>
+        <svg class="fold-chevron w-5 h-5 shrink-0 text-[var(--dim)]" viewBox="0 0 16 16" fill="none"><path d="M8 2v12M2 8h12" stroke="currentColor" stroke-width="1.3"/></svg>
+      </button>
+      <div class="fold-panel">
+        <div class="pb-8 pl-0 md:pl-14 text-[var(--dim)] leading-relaxed max-w-2xl font-serif text-lg">
+          <p>Architected a dedicated digital micro-site translating workshop materials into an optimized format emphasizing clear document layouts.</p>
+          <ul class="mt-4 space-y-2 list-disc ml-5 text-base">
+            <li>Framework applied: Context → Objective → Analysis → Recommendation → Next Steps.</li>
+            <li>Fully deployed and iteratively refined following peer-testing loops.</li>
+          </ul>
+          <div class="mt-6 flex gap-6 items-center">
+            <a href="https://artofeffectivecomms.vercel.app" target="_blank" rel="noopener" class="btn-ghost text-xs">View Live Site</a>
+            <a href="https://github.com/zyeroounarchived/artofeffectivecomm" target="_blank" rel="noopener" class="btn-ghost text-xs">Source Code</a>
+          </div>
+        </div>
+      </div>
+    </article>
+  </div>
+  <div class="rule mt-0"></div>
+</section>
+
+<section id="contact" class="container-w py-28 md:py-36">
+  <div class="museum-frame p-10 md:p-16 grid md:grid-cols-[1.3fr,0.7fr] gap-12 items-center">
+    <div>
+      <p class="label mb-4">Section III — Correspondence</p>
+      <h2 class="h-sub mb-6" style="font-size:clamp(2rem,3.5vw,2.8rem);">Initiate Communication.</h2>
+      <p class="text-[var(--dim)] leading-relaxed text-lg font-serif mb-8">
+        Open for internships, analytical consults, and structured data-processing contracts—specifically those featuring complex raw inputs and clear objectives.
+      </p>
+      <div class="flex flex-wrap gap-4 items-center">
+        <a href="mailto:2025.nabhyab@isu.ac.in" class="btn-primary">2025.nabhyab@isu.ac.in</a>
+        <a href="#resume" onclick="alert('Please link your resume PDF file href here!'); return false;" class="btn-ghost text-xs">Download CV (PDF)</a>
+      </div>
     </div>
+    <div class="border-t md:border-t-0 md:border-l border-[var(--line)] pt-8 md:pt-0 md:pl-10">
+      <p class="label mb-5">External Portals</p>
+      <ul class="space-y-4 font-serif">
+        <li><a class="btn-ghost" href="https://www.linkedin.com/in/nabhya52kar/" target="_blank" rel="noopener">LinkedIn Profile</a></li>
+        <li><a class="btn-ghost" href="https://github.com/zyeroounarchived" target="_blank" rel="noopener">GitHub Repositories</a></li>
+        <li class="label pt-3 text-[var(--dim)]">Stationed: Mumbai, Maharashtra</li>
+      </ul>
+    </div>
+  </div>
+</section>
 
+</main>
 
-    <!-- Back to top -->
-    <button id="toTop" class="fixed bottom-6 right-6 z-40 w-12 h-12 rounded-full glass hidden items-center justify-center" aria-label="Back to top">↑</button>
+<footer class="border-t border-[var(--line)] py-14">
+  <div class="container-w flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left">
+    <p class="h-sub text-2xl text-[var(--ink)]">Nabhya Bawankar</p>
+    <p class="label">© 2026 · Maintained with rigorous precision</p>
+  </div>
+</footer>
 
-    <!-- GSAP animations -->
-    <script>
-      gsap.registerPlugin(ScrollTrigger);
+<script>
+(function(){
+  const $ = (s,c=document)=>c.querySelector(s);
+  const $$ = (s,c=document)=>[...c.querySelectorAll(s)];
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-      // Hero entrance
-      gsap.from('.chapter .title', {y:30, opacity:0, duration:1.1, ease:'power3.out'});
-      gsap.from('.chapter .lead', {y:20, opacity:0, duration:1.1, delay:0.12, ease:'power3.out'});
+  window.addEventListener('load', ()=>{
+    const sk = $('#page-skeleton');
+    setTimeout(()=>{ sk.style.opacity='0'; setTimeout(()=>sk.remove(),600); }, 250);
+  });
 
-      // Rose parallax
-      gsap.to('.rose', {
-        yPercent: -18,
-        ease: 'none',
-        scrollTrigger: { trigger: document.body, start: 'top top', end: 'bottom bottom', scrub: 0.7 }
-      });
+  let lenis;
+  if(!reduceMotion && window.Lenis){
+    lenis = new Lenis({ duration:1.1, easing:t=>1-Math.pow(1-t,3), smoothWheel:true });
+    function raf(t){ lenis.raf(t); requestAnimationFrame(raf); }
+    requestAnimationFrame(raf);
+    lenis.on('scroll', ()=>ScrollTrigger.update());
+  }
+  gsap.registerPlugin(ScrollTrigger);
 
-      // Respect reduced motion
-      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  gsap.from('#typewriter, header p, header .btn-primary, header .btn-ghost', {
+    y:20, opacity:0, duration:0.9, ease:'power3.out', stagger:0.07, delay:0.35
+  });
 
-      // Project cards subtle lift on scroll (skip heavy animation if reduced motion)
-      gsap.utils.toArray('.proj-card').forEach((card, i) => {
-        if(!reduceMotion){
-          gsap.from(card, { y: 30, opacity: 0, duration: 0.9, delay: i*0.12, ease: 'power3.out', scrollTrigger: { trigger: card, start: 'top 85%' } });
-        } else {
-          card.style.opacity = 1;
-          card.style.transform = 'none';
-        }
-      });
+  const twEl = $('#typewriter');
+  const phrase = 'Nabhya Bawankar.';
+  let i=0;
+  (function typeStep(){
+    if(i<=phrase.length){ twEl.textContent = phrase.slice(0,i); i++; setTimeout(typeStep, 50+Math.random()*70); }
+  })();
 
-      // Hover micro-interactions
-      document.querySelectorAll('.proj-card').forEach(card => {
-        if(!reduceMotion){
-          card.addEventListener('mouseenter', () => gsap.to(card, { scale: 1.02, duration: 0.36, ease: 'power2.out' }));
-          card.addEventListener('mouseleave', () => gsap.to(card, { scale: 1, duration: 0.36, ease: 'power2.out' }));
-        }
-      });
+  if(!reduceMotion){
+    $$('section').forEach(sec=>{
+      gsap.from(sec.children, { y:26, opacity:0, duration:0.8, ease:'power3.out', stagger:0.06,
+        scrollTrigger:{ trigger:sec, start:'top 82%' } });
+    });
+    $$('.skill-row').forEach(row=>{
+      const fill = $('.skill-fill', row);
+      gsap.fromTo(fill, {width:'0%'}, {width:row.dataset.level+'%', duration:1.1, ease:'power3.out',
+        scrollTrigger:{ trigger:row, start:'top 90%' } });
+    });
+  } else {
+    $$('.skill-row').forEach(row=> $('.skill-fill',row).style.width = row.dataset.level+'%');
+  }
 
-      // Signature idle animation
-      gsap.to('.sig', { y: -6, repeat: -1, yoyo: true, duration: 2.8, ease: 'sine.inOut', delay: 0.3 });
+  $$('.fold-item').forEach(item=>{
+    const trigger = $('.fold-trigger', item);
+    trigger.addEventListener('click', ()=>{
+      const isOpen = item.classList.contains('open');
+      $$('.fold-item').forEach(o=>{ o.classList.remove('open'); $('.fold-trigger',o).setAttribute('aria-expanded','false'); });
+      if(!isOpen){ item.classList.add('open'); trigger.setAttribute('aria-expanded','true'); }
+    });
+  });
 
-      // Modal behaviour
-      const modal = document.getElementById('projModal');
-      const projOverlay = document.getElementById('projOverlay');
-      const projTitle = document.getElementById('projModalTitle');
-      const projBody = document.getElementById('projModalBody');
-      const projTags = document.getElementById('projModalTags');
-      const projClose = document.getElementById('projClose');
+  const cursor = $('#ink-cursor');
+  if(!reduceMotion && matchMedia('(hover:hover)').matches){
+    let cx=innerWidth/2, cy=innerHeight/2, tx=cx, ty=cy;
+    window.addEventListener('mousemove', e=>{ tx=e.clientX; ty=e.clientY; });
+    (function loop(){ cx+=(tx-cx)*0.2; cy+=(ty-cy)*0.2; cursor.style.transform=`translate(${cx}px,${cy}px) translate(-50%,-50%)`; requestAnimationFrame(loop); })();
+    $$('a,button,.fold-trigger,.footnote').forEach(el=>{
+      el.addEventListener('mouseenter', ()=>{ cursor.style.width='28px'; cursor.style.height='28px'; });
+      el.addEventListener('mouseleave', ()=>{ cursor.style.width='12px'; cursor.style.height='12px'; });
+    });
+  } else if(cursor){ cursor.style.display='none'; }
 
-      function openModal(title, content, tags){
-        projTitle.textContent = title;
-        projBody.innerHTML = '<p>' + content + '</p>';
-        projTags.innerHTML = '';
-        tags.split(',').forEach(t => {
-          const el = document.createElement('span');
-          el.className = 'px-3 py-1 border border-ash/10 text-ash/80 rounded-full text-xs';
-          el.textContent = t.trim();
-          projTags.appendChild(el);
-        });
-        modal.classList.remove('hidden');
-        gsap.fromTo(modal.querySelector('.glass'), {y:40, opacity:0, scale:0.98}, {y:0, opacity:1, scale:1, duration:0.5, ease:'power3.out'});
-        document.body.style.overflow = 'hidden';
-      }
+  function tick(){
+    $('#dispatch-time').textContent = new Date().toLocaleTimeString('en-GB',{hour12:false,timeZone:'Asia/Kolkata'});
+  }
+  tick(); setInterval(tick,1000);
 
-      function closeModal(){
-        gsap.to(modal.querySelector('.glass'), {y:20, opacity:0, scale:0.98, duration:0.28, ease:'power2.in', onComplete:() => { modal.classList.add('hidden'); document.body.style.overflow=''; }});
-      }
-
-      document.querySelectorAll('.proj-details-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-          const card = e.target.closest('.proj-card');
-          openModal(card.dataset.title, card.dataset.content, card.dataset.tags || '');
-        });
-      });
-
-      // allow Enter on card to open modal
-      document.querySelectorAll('.proj-card[tabindex]').forEach(card => {
-        card.addEventListener('keydown', (e) => { if(e.key === 'Enter' || e.key === ' ') { openModal(card.dataset.title, card.dataset.content, card.dataset.tags || ''); } });
-      });
-
-      projClose.addEventListener('click', closeModal);
-      projOverlay.addEventListener('click', closeModal);
-      document.addEventListener('keydown', (e) => { if(e.key === 'Escape') closeModal(); });
-
-      // Mobile nav toggle
-      const mobileToggle = document.createElement('button');
-      mobileToggle.id = 'mobileNavToggle';
-      mobileToggle.className = 'md:hidden text-parchment';
-      mobileToggle.setAttribute('aria-label', 'Toggle menu');
-      mobileToggle.innerHTML = '&#9776;';
-      document.querySelector('nav .flex.items-center').appendChild(mobileToggle);
-      const navList = document.querySelector('nav ul');
-      mobileToggle.addEventListener('click', () => { navList.classList.toggle('hidden'); });
-
-      // Back to top
-      const toTop = document.getElementById('toTop');
-      window.addEventListener('scroll', () => {
-        if(window.scrollY > 400) toTop.classList.remove('hidden'); else toTop.classList.add('hidden');
-      });
-      toTop.addEventListener('click', () => { window.scrollTo({top:0, behavior:'smooth'}); });
-
-
-      // About Read more -> reuse modal
-      document.querySelectorAll('.about-details-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-          const full = document.getElementById('aboutFull');
-          openModal('About — more', full.innerHTML.replace(/<h3>.*?<\/h3>/,''), 'About');
-        });
-      });
-
-      // Skills section (compact) animation when in view
-      const skillsSection = document.getElementById('skillsCompact');
-      if(skillsSection && !reduceMotion){
-        gsap.utils.toArray('.skill-fill').forEach((el) => {
-          const lvl = el.dataset.level || '60%';
-          gsap.fromTo(el, {width: '0%'}, {width: lvl, duration: 1.1, ease:'power3.out', scrollTrigger: { trigger: el, start: 'top 85%' }});
-        });
-      } else {
-        document.querySelectorAll('.skill-fill').forEach(el => el.style.width = el.dataset.level || '60%');
-      }
-    </script>
-  </body>
+  window.addEventListener('resize', ()=>ScrollTrigger.refresh());
+})();
+</script>
+</body>
 </html>
