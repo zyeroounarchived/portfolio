@@ -8,7 +8,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=Newsreader:ital,wght@0,300;0,400;1,400&family=Space+Mono:wght@400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=Newsreader:ital,wght@0,300;0,400;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/3.4.1/tailwind.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
@@ -31,23 +31,10 @@
     font-family:'Newsreader', serif; font-weight:300;
     -webkit-font-smoothing:antialiased;
     overflow-x:hidden;
-    transition:background-color .6s cubic-bezier(0.4, 0, 0.2, 1), color .6s ease;
+    transition:background-color .4s ease, color .4s ease;
   }
   ::selection{ background:var(--ink); color:var(--void); }
   a{ color:inherit; text-decoration:none; }
-
-  @keyframes glitch-anim {
-    0% { clip-path: inset(10% 0 80% 0); transform: translate(-2px, 2px); }
-    20% { clip-path: inset(80% 0 5% 0); transform: translate(2px, -2px); }
-    40% { clip-path: inset(40% 0 40% 0); transform: translate(-2px, -2px); }
-    60% { clip-path: inset(5% 0 80% 0); transform: translate(2px, 2px); }
-    80% { clip-path: inset(60% 0 10% 0); transform: translate(-2px, 2px); }
-    100% { clip-path: inset(0 0 0 0); transform: translate(0); }
-  }
-  .glitching {
-    animation: glitch-anim 0.3s cubic-bezier(.2,.8,.2,1) forwards;
-    filter: invert(1) hue-rotate(180deg);
-  }
 
   #grain{
     position:fixed; inset:-60px; z-index:998; pointer-events:none; opacity:0.035; mix-blend-mode:overlay;
@@ -174,14 +161,13 @@
     border-color: rgba(26,25,24,0.4);
   }
 
-  /* RESIZED & REFINED GOTHIC CROSS CURSOR */
   #ink-cursor{
     position:fixed; top:0; left:0; color: var(--gold); font-size: 18px; line-height: 1; text-align: center;
     pointer-events:none; z-index:9999; 
-    transition: font-size .2s cubic-bezier(.2,.8,.2,1), color .2s ease, text-shadow .2s ease;
+    transition: font-size .2s cubic-bezier(.2,.8,.2,1), color .2s ease;
     transform:translate(-50%, -50%);
   }
-  #ink-cursor.hovering { font-size: 28px; color: var(--ink); text-shadow: 0 0 10px rgba(247,244,237,0.4); }
+  #ink-cursor.hovering { font-size: 28px; color: var(--ink); text-shadow: 0 0 10px rgba(209,183,148,0.6); }
   @media (hover:none){ #ink-cursor{display:none;} }
   
   #trail-canvas {
@@ -227,19 +213,14 @@
   }
   .tool-icon.active-tilt { color: var(--gold); border-color: var(--gold); background: color-mix(in srgb, var(--gold) 5%, transparent); box-shadow: 0 15px 30px -10px rgba(0,0,0,0.5); }
 
-  #learning-widget {
-    border: 1px solid var(--line); padding: 1.5rem 2rem;
-    background: color-mix(in srgb, var(--void) 90%, transparent); border-radius: 4px; margin-bottom: 3rem;
-  }
-
   .modal-overlay {
-    position: fixed; inset: 0; background: rgba(0,0,0,0.9); backdrop-filter: blur(10px); z-index: 9000;
+    position: fixed; inset: 0; background: rgba(0,0,0,0.92); backdrop-filter: blur(12px); z-index: 9000;
     display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.4s ease;
   }
   .modal-overlay.active { opacity: 1; pointer-events: auto; }
   
   .terminal-window {
-    width: 90%; max-width: 800px; background: transparent; border: 1px solid #333; border-radius: 6px;
+    width: 90%; max-width: 800px; background: #080808; border: 1px solid #333; border-radius: 6px;
     font-family: 'Space Mono', monospace; font-size: 0.85rem; color: #4ade80; padding: 2rem; box-shadow: 0 20px 50px rgba(0,0,0,0.8);
     transform: translateY(20px); transition: transform 0.4s ease; max-height: 80vh; overflow-y: auto; position: relative; overflow: hidden;
   }
@@ -248,7 +229,6 @@
   .terminal-content { position: relative; z-index: 10; background: rgba(0,0,0,0.7); padding: 1rem; border-radius: 4px;}
   #matrix-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; opacity: 0.4; }
   
-  /* REFINED MAGNIFY TEXT (NO MORE CLASHING SCALES) */
   .magnify-text { 
     transition: color 0.3s ease, text-shadow 0.3s ease; 
     cursor: default; position: relative; z-index: 1;
@@ -259,13 +239,40 @@
     z-index: 10;
   }
 
-  .rhythm-window {
-    text-align: center; font-family: 'Space Mono', monospace; color: #fff;
-    transform: scale(0.9); transition: transform 0.4s cubic-bezier(.2,.8,.2,1);
+  /* -------------------------------------------------------------
+     PLAYABLE 4-KEY RHYTHM GAME STYLES (Konami Code Easter Egg)
+  ------------------------------------------------------------- */
+  .rhythm-stage {
+    width: 100%; max-width: 480px; background: #0c0a10; border: 2px solid var(--gold);
+    border-radius: 8px; padding: 1.5rem; text-align: center; font-family: 'Space Mono', monospace;
+    box-shadow: 0 0 40px rgba(209,183,148,0.2), inset 0 0 20px rgba(0,0,0,0.8);
   }
-  .modal-overlay.active .rhythm-window { transform: scale(1); }
-  .rhythm-title { font-size: 3rem; font-weight: bold; font-style: italic; color: #ff0055; text-shadow: 0 0 20px #ff0055, 0 0 40px #ff0055; letter-spacing: 0.2em; margin-bottom: 1rem; }
-  .rhythm-subtitle { color: #00e5ff; font-size: 1rem; letter-spacing: 0.1em; }
+  .rhythm-header { display: flex; justify-content: space-between; margin-bottom: 1rem; color: var(--gold); font-size: 0.8rem; }
+  .rhythm-track-area {
+    position: relative; width: 100%; height: 320px; background: #050408; border: 1px solid rgba(209,183,148,0.2);
+    border-radius: 4px; overflow: hidden; display: flex;
+  }
+  .rhythm-lane {
+    flex: 1; border-right: 1px solid rgba(255,255,255,0.05); position: relative;
+    display: flex; flex-direction: column; justify-content: flex-end; align-items: center; padding-bottom: 8px;
+  }
+  .rhythm-lane:last-child { border-right: none; }
+  .rhythm-key-target {
+    width: 42px; height: 42px; border: 2px solid var(--gold); border-radius: 6px;
+    display: flex; align-items: center; justify-content: center; font-weight: bold; color: var(--gold);
+    background: rgba(209,183,148,0.05); transition: background 0.1s, transform 0.1s; z-index: 5;
+  }
+  .rhythm-key-target.pressed { background: var(--gold); color: #000; transform: scale(0.92); }
+  .rhythm-note {
+    position: absolute; width: 40px; height: 16px; border-radius: 3px;
+    background: linear-gradient(180deg, #ff0055, #ff5500); box-shadow: 0 0 10px #ff0055; z-index: 10;
+  }
+  .rhythm-judgement {
+    height: 24px; font-size: 1rem; font-weight: bold; margin-top: 0.8rem; letter-spacing: 0.1em;
+  }
+  .judg-perfect { color: #00e5ff; text-shadow: 0 0 8px #00e5ff; }
+  .judg-great { color: #4ade80; text-shadow: 0 0 8px #4ade80; }
+  .judg-miss { color: #ff0055; text-shadow: 0 0 8px #ff0055; }
 
   .syn-k { color: #c678dd; } 
   .syn-f { color: #61afef; } 
@@ -310,7 +317,6 @@
       <a href="#contact" class="label hover:text-[var(--ink)] transition-colors hover-trigger">Dispatch</a>
     </div>
     <div class="nav-tools-locked">
-      <!-- NEW TIPS BUTTON -->
       <button class="label hover:text-[var(--ink)] transition-colors hover-trigger modal-trigger" data-target="modal-tips">TIPS ?</button>
       <span id="dispatch-time" class="label hidden sm:block text-[var(--dim)] opacity-70 whitespace-nowrap hover-trigger cursor-pointer">--:--</span>
       <div id="moon-widget" class="hover-trigger" title="Toggle Light/Dark Theme" aria-label="Toggle Theme"></div>
@@ -459,14 +465,11 @@
         A comparative presentation applying game theory models to competitive dynamics within the quick-commerce industry, analyzing strategies of Blinkit, Zepto, and Swiggy Instamart.
       </p>
       <div class="mt-auto pt-8 border-t border-[var(--line)]">
-        <button class="btn-ghost !text-[0.8rem] modal-trigger hover-trigger" data-target="modal-terminal">View Matrix Logic</button>
+        <button class="btn-ghost !text-[0.8rem] modal-trigger hover-trigger" data-target="modal-matrix">View Matrix Logic</button>
       </div>
     </article>
   </div>
 </section>
-
-<!-- Hover Preview Container -->
-<div id="hover-preview"><img src="" alt="Preview"></div>
 
 <div class="container-w"><div class="rule"></div></div>
 
@@ -558,14 +561,14 @@
       <button class="close-modal hover:text-[var(--gold)] hover-trigger text-xl">✕</button>
     </div>
     <ul class="space-y-4 text-[1.15rem] leading-[1.6]">
+      <li><span class="label !text-[0.65rem] inline-block w-24">Konami Code</span> Press <kbd class="font-mono text-[var(--gold)]">↑ ↑ ↓ ↓ ← → ← → B A</kbd> to launch the Rhythm Minigame.</li>
       <li><span class="label !text-[0.65rem] inline-block w-24">Time Shift</span> Click the clock to toggle Japanese standard time.</li>
       <li><span class="label !text-[0.65rem] inline-block w-24">Data Decay</span> Go completely idle for 60 seconds and watch the data corrupt.</li>
       <li><span class="label !text-[0.65rem] inline-block w-24">Terminal</span> Press <kbd class="font-mono text-[var(--gold)]">Cmd + K</kbd> to view raw JSON data.</li>
-      <li><span class="label !text-[0.65rem] inline-block w-24">Nodes</span> Press <kbd class="font-mono text-[var(--gold)]">T</kbd> to toggle the TouchDesigner background nodes.</li>
-      <li><span class="label !text-[0.65rem] inline-block w-24">Coffee Break</span> Press <kbd class="font-mono text-[var(--gold)]">C</kbd> to brew a completely different color palette.</li>
+      <li><span class="label !text-[0.65rem] inline-block w-24">Nodes</span> Press <kbd class="font-mono text-[var(--gold)]">T</kbd> to toggle TouchDesigner background nodes.</li>
+      <li><span class="label !text-[0.65rem] inline-block w-24">Coffee Break</span> Press <kbd class="font-mono text-[var(--gold)]">C</kbd> to brew a coffee theme.</li>
       <li><span class="label !text-[0.65rem] inline-block w-24">Matrix O/R</span> Press <kbd class="font-mono text-[var(--gold)]">M</kbd> to drop the veil.</li>
       <li><span class="label !text-[0.65rem] inline-block w-24">God Mode</span> Press <kbd class="font-mono text-[var(--gold)]">G</kbd> for system performance metrics.</li>
-      <li><span class="label !text-[0.65rem] inline-block w-24">Konami Code</span> ↑ ↑ ↓ ↓ ← → ← → B A</li>
     </ul>
   </div>
 </div>
@@ -643,13 +646,24 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
   </div>
 </div>
 
-<!-- Custom Rhythm Game Easter Egg Modal -->
+<!-- PLAYABLE 4-KEY RHYTHM GAME MODAL (Konami Code Easter Egg) -->
 <div class="modal-overlay" id="modal-rhythm">
-  <div class="rhythm-window">
-    <div class="rhythm-title">RHYTHM OVERDRIVE UNLOCKED</div>
-    <div class="rhythm-subtitle">Combo: MAX &nbsp;|&nbsp; Accuracy: 100%</div>
-    <p class="mt-8 text-sm opacity-60">Just kidding. But good memory.</p>
-    <button class="close-modal mt-8 px-6 py-2 border border-[#00e5ff] text-[#00e5ff] hover:bg-[#00e5ff] hover:text-black transition-colors rounded-full text-xs tracking-widest hover-trigger">DISMISS</button>
+  <div class="rhythm-stage">
+    <div class="rhythm-header">
+      <span>SCORE: <span id="r-score">0000</span></span>
+      <span>COMBO: <span id="r-combo">0</span>x</span>
+    </div>
+    <div class="rhythm-track-area" id="rhythm-track-area">
+      <div class="rhythm-lane" data-key="d"><div class="rhythm-key-target" id="kt-0">D</div></div>
+      <div class="rhythm-lane" data-key="f"><div class="rhythm-key-target" id="kt-1">F</div></div>
+      <div class="rhythm-lane" data-key="j"><div class="rhythm-key-target" id="kt-2">J</div></div>
+      <div class="rhythm-lane" data-key="k"><div class="rhythm-key-target" id="kt-3">K</div></div>
+    </div>
+    <div class="rhythm-judgement" id="r-judgement">PRESS START</div>
+    <div class="mt-4 flex justify-between items-center">
+      <button class="btn-ghost !text-[0.65rem]" id="btn-start-rhythm">START GAME</button>
+      <button class="close-modal btn-ghost !text-[0.65rem]">EXIT</button>
+    </div>
   </div>
 </div>
 
@@ -677,6 +691,19 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
     gain.gain.setValueAtTime(0.015, audioCtx.currentTime);
     gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.05);
     osc.start(); osc.stop(audioCtx.currentTime + 0.05);
+  }
+
+  function playHitSound(freq = 440) {
+    if(reduceMotion) return;
+    initAudio();
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.connect(gain); gain.connect(audioCtx.destination);
+    osc.type = 'triangle';
+    osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+    gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.08);
+    osc.start(); osc.stop(audioCtx.currentTime + 0.08);
   }
 
   function playSecretSound() {
@@ -807,7 +834,6 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
   }, 1000);
 
   const marquee = $('#marquee');
-  let currentScroll = 0;
   let isScrollingDown = true;
   
   if(!reduceMotion) {
@@ -829,13 +855,10 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
     });
   }
 
+  // Smooth theme toggle without body filters
   $('#moon-widget').addEventListener('click', ()=>{
-    document.body.classList.add('glitching');
-    setTimeout(() => {
-      document.documentElement.classList.toggle('light-mode');
-      $('#theme-status').textContent = document.documentElement.classList.contains('light-mode') ? 'LIGHT' : 'DARK';
-      document.body.classList.remove('glitching');
-    }, 300); 
+    document.documentElement.classList.toggle('light-mode');
+    $('#theme-status').textContent = document.documentElement.classList.contains('light-mode') ? 'LIGHT' : 'DARK';
     gsap.fromTo('#moon-widget', {rotate:0}, {rotate:360, duration:0.7, ease:'back.out(1.5)'});
     playClick();
   });
@@ -867,7 +890,6 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
     }
   }
 
-  // Coffee Mode & Matrix Override Event Listeners
   let coffeeMode = false;
   let matrixMode = false;
 
@@ -923,6 +945,7 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
       if(e.target === overlay || e.target.classList.contains('close-modal')) {
         overlay.classList.remove('active'); 
         clearInterval(matrixInterval);
+        stopRhythmGame();
         matrixMode = false;
         playClick();
       }
@@ -1101,6 +1124,141 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
     }
   });
 
+  /* -------------------------------------------------------------
+     INTERACTIVE 4-KEY RHYTHM GAME LOGIC
+  ------------------------------------------------------------- */
+  const keyMap = { 'd': 0, 'f': 1, 'j': 2, 'k': 3, 'arrowleft': 0, 'arrowdown': 1, 'arrowup': 2, 'arrowright': 3 };
+  const freqs = [261.63, 329.63, 392.00, 523.25]; // C4, E4, G4, C5
+  let rhythmActive = false;
+  let rhythmScore = 0;
+  let rhythmCombo = 0;
+  let activeNotes = [];
+  let rhythmLoopId;
+  let noteSpawnTimer;
+
+  const trackArea = $('#rhythm-track-area');
+  const scoreEl = $('#r-score');
+  const comboEl = $('#r-combo');
+  const judgeEl = $('#r-judgement');
+
+  function startRhythmGame() {
+    stopRhythmGame();
+    rhythmActive = true;
+    rhythmScore = 0;
+    rhythmCombo = 0;
+    scoreEl.textContent = '0000';
+    comboEl.textContent = '0';
+    judgeEl.textContent = 'READY...';
+    judgeEl.className = 'rhythm-judgement';
+
+    // Spawn falling notes periodically
+    noteSpawnTimer = setInterval(() => {
+      if (!rhythmActive) return;
+      const lane = Math.floor(Math.random() * 4);
+      const noteEl = document.createElement('div');
+      noteEl.className = 'rhythm-note';
+      noteEl.style.left = `${lane * 25 + 3}%`;
+      noteEl.style.top = '0px';
+      trackArea.appendChild(noteEl);
+
+      activeNotes.push({
+        el: noteEl,
+        lane: lane,
+        top: 0,
+        speed: 3 + Math.random() * 2
+      });
+    }, 500);
+
+    function gameLoop() {
+      if (!rhythmActive) return;
+      const trackHeight = trackArea.offsetHeight - 40;
+
+      for (let i = activeNotes.length - 1; i >= 0; i--) {
+        const n = activeNotes[i];
+        n.top += n.speed;
+        n.el.style.top = `${n.top}px`;
+
+        // Note missed (fell past target)
+        if (n.top > trackHeight + 25) {
+          n.el.remove();
+          activeNotes.splice(i, 1);
+          rhythmCombo = 0;
+          comboEl.textContent = '0';
+          judgeEl.textContent = 'MISS';
+          judgeEl.className = 'rhythm-judgement judg-miss';
+        }
+      }
+      rhythmLoopId = requestAnimationFrame(gameLoop);
+    }
+    rhythmLoopId = requestAnimationFrame(gameLoop);
+  }
+
+  function stopRhythmGame() {
+    rhythmActive = false;
+    clearInterval(noteSpawnTimer);
+    cancelAnimationFrame(rhythmLoopId);
+    activeNotes.forEach(n => n.el.remove());
+    activeNotes = [];
+  }
+
+  // Handle key hits
+  window.addEventListener('keydown', e => {
+    const k = e.key.toLowerCase();
+    if (rhythmActive && keyMap.hasOwnProperty(k)) {
+      const lane = keyMap[k];
+      const targetKey = $(`#kt-${lane}`);
+      if (targetKey) targetKey.classList.add('pressed');
+
+      // Check hit proximity to bottom hit zone (~260px)
+      const trackHeight = trackArea.offsetHeight - 40;
+      let hitIdx = -1;
+
+      for (let i = 0; i < activeNotes.length; i++) {
+        if (activeNotes[i].lane === lane) {
+          const dist = Math.abs(activeNotes[i].top - trackHeight);
+          if (dist < 40) {
+            hitIdx = i;
+            break;
+          }
+        }
+      }
+
+      if (hitIdx !== -1) {
+        const n = activeNotes[hitIdx];
+        const dist = Math.abs(n.top - trackHeight);
+        n.el.remove();
+        activeNotes.splice(hitIdx, 1);
+
+        rhythmCombo++;
+        comboEl.textContent = rhythmCombo;
+        playHitSound(freqs[lane]);
+
+        if (dist < 15) {
+          rhythmScore += 300;
+          judgeEl.textContent = 'PERFECT!';
+          judgeEl.className = 'rhythm-judgement judg-perfect';
+        } else {
+          rhythmScore += 100;
+          judgeEl.textContent = 'GREAT!';
+          judgeEl.className = 'rhythm-judgement judg-great';
+        }
+        scoreEl.textContent = String(rhythmScore).padStart(4, '0');
+      }
+    }
+  });
+
+  window.addEventListener('keyup', e => {
+    const k = e.key.toLowerCase();
+    if (keyMap.hasOwnProperty(k)) {
+      const lane = keyMap[k];
+      const targetKey = $(`#kt-${lane}`);
+      if (targetKey) targetKey.classList.remove('pressed');
+    }
+  });
+
+  $('#btn-start-rhythm').addEventListener('click', startRhythmGame);
+
+  // Konami Code Trigger -> Opens Rhythm Game
   const konami = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
   let kIdx = 0;
   window.addEventListener('keydown', e => {
@@ -1108,6 +1266,7 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
       kIdx++;
       if(kIdx === konami.length) {
         $('#modal-rhythm').classList.add('active');
+        startRhythmGame();
         playSecretSound();
         kIdx = 0;
       }
