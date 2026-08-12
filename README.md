@@ -44,6 +44,6 @@ Zero build steps. Zero dependencies.
 
     Clone the repository.
 
-    Open [nabhya52kar.vercel.app](nabhya52kar.vercel.app)
+Open [nabhya52kar.vercel.app](nabhya52kar.vercel.app)
 
     ---------------------------------------------------------------------------------------------------
