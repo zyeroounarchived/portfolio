@@ -85,10 +85,10 @@
   .katakana-swap:hover::after { opacity: 1; }
 
   #topnav{ backdrop-filter:blur(12px); background:color-mix(in srgb, var(--void) 85%, transparent); border-bottom:1px solid var(--line); z-index:50; }
-  .absolute-nav-wrapper { position: relative; width: 100%; height: 6rem; }
-  .nav-logo-locked { position: absolute; left: 2.5rem; top: 50%; transform: translateY(-50%); }
-  .nav-links-locked { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); display: flex; gap: 3.5rem; }
-  .nav-tools-locked { position: absolute; right: 2.5rem; top: 50%; transform: translateY(-50%); display: flex; align-items: center; gap: 2rem; }
+  .absolute-nav-wrapper { position: relative; width: 100%; height: 6rem; display: flex; align-items: center; justify-content: space-between; }
+  .nav-logo-locked { position: relative; }
+  .nav-links-locked { display: flex; gap: 3.5rem; }
+  .nav-tools-locked { display: flex; align-items: center; gap: 2rem; }
   @media (max-width: 768px) { .nav-links-locked { display: none; } }
 
   .btn-primary{
@@ -130,7 +130,7 @@
   .skill-track{ height:1px; background:var(--line); position:relative; margin-top: 0.8rem; }
   .skill-fill{ position:absolute; inset:0; width:0%; background:var(--gold); }
 
-  /* HOVER PREVIEW (Projects & Certs) */
+  /* HOVER PREVIEW */
   .proj-card, .cert-item { cursor: none; }
   #hover-preview {
     position: fixed; top: 0; left: 0; width: 300px; height: 200px; pointer-events: none;
@@ -142,11 +142,9 @@
   #hover-preview img { width: 100%; height: 100%; object-fit: cover; opacity: 0.8; filter: grayscale(80%) contrast(1.1); }
   .proj-card:hover ~ #hover-preview.active, .cert-item:hover ~ #hover-preview.active { opacity: 1; transform: scale(1) translate(-50%, -50%); }
 
-  /* INTERACTIVE CERTIFICATIONS LIST */
+  /* CERTIFICATIONS LIST */
   .cert-list { display: flex; flex-direction: column; }
-  .cert-item { 
-    transition: background 0.3s ease, padding-left 0.4s cubic-bezier(.2,.8,.2,1); 
-  }
+  .cert-item { transition: background 0.3s ease, padding-left 0.4s cubic-bezier(.2,.8,.2,1); }
   .cert-title { transition: color 0.3s ease, transform 0.4s cubic-bezier(.2,.8,.2,1); transform-origin: left; }
   .cert-item:hover { background: rgba(209,183,148,0.03); padding-left: 1.5rem; }
   .cert-item:hover .cert-title { color: var(--gold); transform: scale(1.02); text-shadow: 0 0 15px rgba(209,183,148,0.3); }
@@ -269,15 +267,8 @@
 <div id="vignette"></div>
 <div id="ink-cursor">✠</div>
 
-<div id="page-skeleton" class="fixed inset-0 z-[1000] bg-[var(--void)] flex items-center justify-center">
-  <div class="flex flex-col items-center gap-4">
-    <div class="label text-[var(--gold)] text-2xl animate-pulse">データ</div>
-    <div class="label text-[var(--dim)] opacity-60">Initializing Environment...</div>
-  </div>
-</div>
-
 <nav id="topnav" class="fixed top-0 inset-x-0 z-40 transition-colors duration-500">
-  <div class="max-w-[1280px] mx-auto absolute-nav-wrapper">
+  <div class="container-w absolute-nav-wrapper">
     <div class="nav-logo-locked">
       <a href="#" class="label tracking-[0.25em] text-[var(--ink)] transition-colors katakana-swap hover-trigger" data-jp="N. バワンカル">N. BAWANKAR</a>
     </div>
@@ -414,7 +405,6 @@
 
 <div class="container-w"><div class="rule"></div></div>
 
-<!-- NEW SECTION III: CREDENTIALS ARCHIVE -->
 <section id="certifications" class="container-w py-32 md:py-40">
   <div class="anim-section mb-16">
     <p class="label mb-6">Section III — Credentials</p>
@@ -425,7 +415,6 @@
   </div>
 
   <div class="border-t border-[var(--line)] flex flex-col cert-list anim-section">
-    <!-- Dummy Data Based on Profile -->
     <div class="cert-item py-6 border-b border-[var(--line)] flex justify-between items-center hover-trigger" data-img="https://images.unsplash.com/photo-1589330694653-ded6df03f754?q=80&w=800&auto=format&fit=crop">
       <span class="font-serif text-2xl text-[var(--ink)] cert-title">Google Data Analytics Professional Certificate</span>
       <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">2026</span>
@@ -446,14 +435,12 @@
       <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">2025</span>
     </div>
     
-    <!-- 14 more can easily slot in here without breaking the design -->
     <div class="py-6 flex justify-center items-center">
        <span class="label !text-[0.65rem] text-[var(--dim)] opacity-50">+ 14 ADDITIONAL ARCHIVES HIDDEN</span>
     </div>
   </div>
 </section>
 
-<!-- Hover Preview Container (Shared for Vault & Credentials) -->
 <div id="hover-preview"><img src="" alt="Preview"></div>
 
 <div class="container-w"><div class="rule"></div></div>
@@ -539,7 +526,7 @@
     <ul class="space-y-6 text-[1.25rem] leading-[1.6]">
       <li><span class="label !text-[0.7rem] inline-block w-28 text-[var(--gold)]">Screenplay</span> Press <kbd class="font-mono text-white bg-[#333] px-2 py-1 rounded">S</kbd> to strip the DOM into a raw script format.</li>
       <li><span class="label !text-[0.7rem] inline-block w-28 text-[var(--gold)]">Visual Nov</span> Press <kbd class="font-mono text-white bg-[#333] px-2 py-1 rounded">V</kbd> to convert the dossier into a Ren'Py interface.</li>
-      <li><span class="label !text-[0.7rem] inline-block w-28 text-[var(--gold)]">Coffee Brk</span> Press <kbd class="font-mono text-white bg-[#333] px-2 py-1 rounded">C</kbd> to brew a completely different color palette.</li>
+      <li><span class="label !text-[0.7rem] inline-block w-28 text-[var(--gold)]">Coffee Brk</span> Press <kbd class="font-mono text-white bg-[#333] px-2 py-1 rounded">C</kbd> to brew a coffee theme.</li>
       <li><span class="label !text-[0.7rem] inline-block w-28 text-[var(--gold)]">Terminal</span> Press <kbd class="font-mono text-white bg-[#333] px-2 py-1 rounded">Cmd+K</kbd> to view raw JSON system data.</li>
       <li><span class="label !text-[0.7rem] inline-block w-28 text-[var(--gold)]">God Mode</span> Press <kbd class="font-mono text-white bg-[#333] px-2 py-1 rounded">G</kbd> for live performance metrics.</li>
     </ul>
@@ -606,7 +593,7 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
 </div>
 
 <template id="tpl-ngo">
-  <article class="ui-card flex flex-col gacha-item rarity-ssr hover-trigger">
+  <article class="ui-card flex flex-col gacha-item rarity-ssr hover-trigger proj-card" data-img="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop">
     <div class="flex items-center justify-between mb-8">
       <span class="proj-num">01</span><span class="label !text-[0.7rem] opacity-70">Data Cleaning</span>
     </div>
@@ -630,7 +617,7 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
 </template>
 
 <template id="tpl-game-theory">
-  <article class="ui-card flex flex-col gacha-item rarity-sr hover-trigger">
+  <article class="ui-card flex flex-col gacha-item rarity-sr hover-trigger proj-card" data-img="https://images.unsplash.com/photo-1601597111158-2fceff292cdc?q=80&w=800&auto=format&fit=crop">
     <div class="flex items-center justify-between mb-8">
       <span class="proj-num">02</span><span class="label !text-[0.7rem] opacity-70">Game Theory</span>
     </div>
@@ -645,7 +632,7 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
 </template>
 
 <template id="tpl-field">
-  <article class="ui-card flex flex-col gacha-item rarity-r hover-trigger">
+  <article class="ui-card flex flex-col gacha-item rarity-r hover-trigger proj-card" data-img="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=800&auto=format&fit=crop">
     <div class="flex items-center justify-between mb-8">
       <span class="proj-num">03</span><span class="label !text-[0.7rem] opacity-70">Field Study</span>
     </div>
@@ -774,7 +761,6 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
         newCard.addEventListener('mouseenter', ()=> cursor.classList.add('hovering'));
         newCard.addEventListener('mouseleave', ()=> cursor.classList.remove('hovering'));
         
-        // Attach preview listeners for new items
         newCard.addEventListener('mouseenter', e => {
           if(!reduceMotion && newCard.dataset.img) {
             previewImg.src = newCard.dataset.img;
@@ -869,22 +855,6 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
     }
   });
 
-  let frameCount = 0; let lastTime = performance.now();
-  function updateGodMode() {
-    if($('#god-mode').classList.contains('active')) {
-      frameCount++; const now = performance.now();
-      if(now - lastTime >= 1000) { $('#fps-counter').textContent = frameCount; frameCount = 0; lastTime = now; }
-      $('#scroll-y').textContent = Math.floor(window.scrollY);
-    }
-    requestAnimationFrame(updateGodMode);
-  }
-  updateGodMode();
-
-  window.addEventListener('load', ()=>{
-    const sk = $('#page-skeleton');
-    setTimeout(()=>{ sk.style.opacity='0'; setTimeout(()=>sk.remove(),800); }, 600);
-  });
-
   let lenisInstance;
   if(!reduceMotion && window.Lenis){
     lenisInstance = new Lenis({ duration:1.2, easing:t=>Math.min(1, 1.001 - Math.pow(2, -10 * t)), smoothWheel:true });
@@ -940,7 +910,6 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
     });
   }, 1000);
 
-  // Hover Previews for Certs & Initial Projects
   const preview = $('#hover-preview');
   const previewImg = preview.querySelector('img');
   $$('.proj-card, .cert-item').forEach(card => {
