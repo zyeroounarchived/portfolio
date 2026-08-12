@@ -31,13 +31,11 @@
     font-family:'Newsreader', serif; font-weight:300;
     -webkit-font-smoothing:antialiased;
     overflow-x:hidden;
-    /* IDEA 23: GLITCH TRANSITION - Base transition altered by JS during toggle */
     transition:background-color .6s cubic-bezier(0.4, 0, 0.2, 1), color .6s ease;
   }
   ::selection{ background:var(--ink); color:var(--void); }
   a{ color:inherit; text-decoration:none; }
 
-  /* IDEA 23: CSS Glitch Animation applied on theme toggle */
   @keyframes glitch-anim {
     0% { clip-path: inset(10% 0 80% 0); transform: translate(-2px, 2px); }
     20% { clip-path: inset(80% 0 5% 0); transform: translate(2px, -2px); }
@@ -51,7 +49,6 @@
     filter: invert(1) hue-rotate(180deg);
   }
 
-  /* Refined Grain + Vignette */
   #grain{
     position:fixed; inset:-60px; z-index:998; pointer-events:none; opacity:0.035; mix-blend-mode:overlay;
     background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
@@ -65,11 +62,9 @@
 
   .container-w{ max-width:1280px; margin:0 auto; padding-left:2.5rem; padding-right:2.5rem; }
 
-  /* Refined Typography */
   .label{ font-family:'Space Mono', monospace; letter-spacing:0.18em; text-transform:uppercase; font-size:0.75rem; color:var(--gold); }
   .rule{ height:1px; background:var(--line); transform-origin:left; margin: 5rem 0; }
 
-  /* IDEA 8: TEXT MASKING - A dynamic, slow-moving fluid gradient clipped inside the hero text */
   .h-display{ 
     font-family:'Cormorant Garamond', serif; font-weight:300; line-height:0.95; letter-spacing:-0.03em; 
   }
@@ -88,7 +83,6 @@
 
   .h-sub{ font-family:'Cormorant Garamond', serif; font-weight:400; font-style:italic; }
 
-  /* Katakana Hover Swap */
   .katakana-swap { display: inline-block; position: relative; }
   .katakana-swap::after {
     content: attr(data-jp); position: absolute; left: 0; top: 0; opacity: 0;
@@ -97,7 +91,6 @@
   .katakana-swap:hover { color: transparent; }
   .katakana-swap:hover::after { opacity: 1; }
 
-  /* Navigation */
   #topnav{ 
     backdrop-filter:blur(12px); background:color-mix(in srgb, var(--void) 85%, transparent); 
     border-bottom:1px solid var(--line); z-index:50; 
@@ -108,7 +101,6 @@
   .nav-tools-locked { position: absolute; right: 2.5rem; top: 50%; transform: translateY(-50%); display: flex; align-items: center; gap: 2rem; }
   @media (max-width: 768px) { .nav-links-locked { display: none; } }
 
-  /* Buttons */
   .btn-primary{
     font-family:'Space Mono', monospace; font-size:0.8rem; letter-spacing:0.12em; text-transform:uppercase;
     background:var(--ink); color:var(--void); padding:1rem 2.5rem; border-radius:100px;
@@ -125,7 +117,6 @@
   }
   .btn-ghost:hover{ color:var(--ink); border-color:var(--gold); }
 
-  /* UI Cards */
   .ui-card{
     position:relative; border:1px solid var(--line); padding:4rem;
     background:var(--card-bg); border-radius: 4px;
@@ -141,9 +132,19 @@
     transform:translateY(-4px); 
   }
   
+  .proj-card { cursor: none; }
+  #hover-preview {
+    position: fixed; top: 0; left: 0; width: 280px; height: 180px; pointer-events: none;
+    z-index: 100; opacity: 0; transform: scale(0.8) translate(-50%, -50%);
+    transition: opacity 0.3s ease, transform 0.4s cubic-bezier(.2,.8,.2,1);
+    border: 1px solid var(--gold); border-radius: 4px; overflow: hidden;
+    background: var(--void); box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+  }
+  #hover-preview img { width: 100%; height: 100%; object-fit: cover; opacity: 0.6; filter: grayscale(100%) contrast(1.2); }
+  .proj-card:hover ~ #hover-preview.active { opacity: 1; transform: scale(1) translate(-50%, -50%); }
+
   .proj-num{ font-family:'Space Mono',monospace; color:var(--gold); font-size:0.9rem; opacity: 0.8;}
 
-  /* Sortable Skill Tracks */
   .skills-list { display: flex; flex-direction: column; gap: 2.5rem; }
   .skill-row { transition: transform 0.5s ease, opacity 0.5s ease; }
   .skill-track{ height:1px; background:var(--line); position:relative; margin-top: 0.8rem; }
@@ -151,7 +152,6 @@
   .sort-btn { font-size: 0.65rem; color: var(--dim); cursor: pointer; transition: color 0.3s; }
   .sort-btn.active { color: var(--gold); border-bottom: 1px solid var(--gold); }
 
-  /* Minimal Data Table */
   .data-preview-table {
     width: 100%; border-collapse: collapse; font-family: 'Space Mono', monospace; font-size: 0.8rem; margin-top: 2rem;
     background: color-mix(in srgb, var(--void) 30%, transparent); border: 1px solid var(--line); border-radius: 4px; overflow: hidden;
@@ -160,7 +160,6 @@
   .data-preview-table th { color: var(--gold); font-weight: normal; background: color-mix(in srgb, var(--gold) 4%, transparent); }
   .data-preview-table tr:last-child td { border-bottom: none; }
 
-  /* 3D Moon UI Element */
   #moon-widget{
     width:36px; height:36px; border-radius:50%; cursor:pointer; position:relative; flex-shrink: 0;
     background:radial-gradient(circle at 30% 30%, #f0ebd8 0%, #c2b59b 50%, #5c5445 100%);
@@ -175,27 +174,21 @@
     border-color: rgba(26,25,24,0.4);
   }
 
-  /* 
-   =============================================
-   IDEA 15 & 14: INVERTING CURSOR + SUBTLE TRAIL
-   =============================================
-  */
-  /* The main cursor (Gothic Cross) uses difference to invert colors */
+  /* RESIZED & REFINED GOTHIC CROSS CURSOR */
   #ink-cursor{
-    position:fixed; top:0; left:0; color: #ffffff; font-size: 28px; line-height: 1; text-align: center;
-    pointer-events:none; z-index:9999; mix-blend-mode: difference;
-    transition: font-size .25s cubic-bezier(.2,.8,.2,1), transform 0.1s linear;
+    position:fixed; top:0; left:0; color: var(--gold); font-size: 18px; line-height: 1; text-align: center;
+    pointer-events:none; z-index:9999; 
+    transition: font-size .2s cubic-bezier(.2,.8,.2,1), color .2s ease, text-shadow .2s ease;
     transform:translate(-50%, -50%);
   }
-  #ink-cursor.hovering { font-size: 46px; }
+  #ink-cursor.hovering { font-size: 28px; color: var(--ink); text-shadow: 0 0 10px rgba(247,244,237,0.4); }
+  @media (hover:none){ #ink-cursor{display:none;} }
   
-  /* The subtle trails are canvas elements drawn via JS below */
   #trail-canvas {
     position: fixed; inset: 0; pointer-events: none; z-index: 9998; opacity: 0.4;
   }
-  @media (hover:none){ #ink-cursor, #trail-canvas {display:none;} }
+  @media (hover:none){ #trail-canvas {display:none;} }
 
-  /* IDEA 26: LIVE FLOATING MINIMAP */
   #minimap {
     position: fixed; right: 1rem; top: 50%; transform: translateY(-50%);
     width: 4px; height: 30vh; background: var(--line); border-radius: 4px; z-index: 90;
@@ -204,21 +197,19 @@
   #minimap:hover { opacity: 1; }
   #minimap-thumb {
     width: 100%; background: var(--gold); border-radius: 4px;
-    position: absolute; top: 0; left: 0; height: 20px; /* updated via JS */
+    position: absolute; top: 0; left: 0; height: 20px;
   }
 
-  /* IDEA 7: KINETIC TYPOGRAPHY MARQUEE */
   .marquee-container {
     width: 100%; overflow: hidden; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
-    padding: 1rem 0; background: color-mix(in srgb, var(--void) 95%, var(--gold));
+    padding: 0.4rem 0; background: color-mix(in srgb, var(--void) 95%, var(--gold));
     display: flex; white-space: nowrap; align-items: center;
   }
   .marquee-track {
-    display: flex; gap: 4rem; font-family: 'Space Mono', monospace; text-transform: uppercase;
-    font-size: 2rem; color: transparent; -webkit-text-stroke: 1px var(--gold); opacity: 0.5;
+    display: flex; gap: 2rem; font-family: 'Space Mono', monospace; text-transform: uppercase;
+    font-size: 0.85rem; color: transparent; -webkit-text-stroke: 1px var(--gold); opacity: 0.6;
   }
 
-  /* IDEA 30: GOD MODE DASHBOARD (Hidden until 'G' is pressed) */
   #god-mode {
     position: fixed; bottom: 1rem; right: 1rem; background: rgba(0,0,0,0.85); border: 1px solid #4ade80;
     color: #4ade80; font-family: 'Space Mono', monospace; font-size: 0.65rem; padding: 1rem;
@@ -226,10 +217,8 @@
   }
   #god-mode.active { display: block; }
 
-  /* IDEA 28: DATA DECAY (Applied via JS to target elements) */
   .decayed { font-family: 'Space Mono', monospace !important; color: #ff0055 !important; opacity: 0.7; }
 
-  /* Tool Stack Grid - Now fully interactive 3D */
   .tool-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: 1rem; perspective: 800px; }
   .tool-icon { 
     aspect-ratio: 1; border: 1px solid var(--line); border-radius: 4px; display: flex; align-items: center; justify-content: center;
@@ -238,13 +227,11 @@
   }
   .tool-icon.active-tilt { color: var(--gold); border-color: var(--gold); background: color-mix(in srgb, var(--gold) 5%, transparent); box-shadow: 0 15px 30px -10px rgba(0,0,0,0.5); }
 
-  /* Currently Learning Widget */
   #learning-widget {
     border: 1px solid var(--line); padding: 1.5rem 2rem;
     background: color-mix(in srgb, var(--void) 90%, transparent); border-radius: 4px; margin-bottom: 3rem;
   }
 
-  /* IDEA 29: MATRIX RAIN IN TERMINAL MODAL */
   .modal-overlay {
     position: fixed; inset: 0; background: rgba(0,0,0,0.9); backdrop-filter: blur(10px); z-index: 9000;
     display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.4s ease;
@@ -261,14 +248,34 @@
   .terminal-content { position: relative; z-index: 10; background: rgba(0,0,0,0.7); padding: 1rem; border-radius: 4px;}
   #matrix-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; opacity: 0.4; }
   
-  /* IDEA 16: MAGNIFYING GLASS EFFECT (Applied to specific paragraphs) */
-  .magnify-text { display: inline-block; transition: transform 0.2s cubic-bezier(.2,.8,.2,1), text-shadow 0.2s ease; transform-origin: center; cursor: none; }
-  .magnify-text:hover { transform: scale(1.15); color: var(--gold); text-shadow: 0 5px 15px rgba(0,0,0,0.5); z-index: 10;}
+  /* REFINED MAGNIFY TEXT (NO MORE CLASHING SCALES) */
+  .magnify-text { 
+    transition: color 0.3s ease, text-shadow 0.3s ease; 
+    cursor: default; position: relative; z-index: 1;
+  }
+  .magnify-text:hover { 
+    color: var(--gold); 
+    text-shadow: 0 2px 10px rgba(209,183,148,0.4); 
+    z-index: 10;
+  }
 
-  /* Audio Toggle Button */
-  #audio-toggle { position: fixed; bottom: 2rem; left: 2.5rem; z-index: 100; opacity: 0.5; transition: opacity 0.3s; }
-  #audio-toggle:hover { opacity: 1; }
+  .rhythm-window {
+    text-align: center; font-family: 'Space Mono', monospace; color: #fff;
+    transform: scale(0.9); transition: transform 0.4s cubic-bezier(.2,.8,.2,1);
+  }
+  .modal-overlay.active .rhythm-window { transform: scale(1); }
+  .rhythm-title { font-size: 3rem; font-weight: bold; font-style: italic; color: #ff0055; text-shadow: 0 0 20px #ff0055, 0 0 40px #ff0055; letter-spacing: 0.2em; margin-bottom: 1rem; }
+  .rhythm-subtitle { color: #00e5ff; font-size: 1rem; letter-spacing: 0.1em; }
 
+  .syn-k { color: #c678dd; } 
+  .syn-f { color: #61afef; } 
+  .syn-s { color: #98c379; } 
+  .syn-c { color: #5c6370; font-style: italic; } 
+
+  .type-cursor{ display:inline-block; width:1.5px; background:var(--gold); animation:blink 1s step-end infinite; }
+  @keyframes blink{ 50%{opacity:0;} }
+
+  #page-skeleton{ transition:opacity .8s ease; }
   ::-webkit-scrollbar{ width:6px; }
   ::-webkit-scrollbar-track{ background:var(--void); }
   ::-webkit-scrollbar-thumb{ background:var(--dim); border-radius:10px; }
@@ -281,10 +288,8 @@
 <div id="vignette"></div>
 <div id="ink-cursor">✠</div>
 
-<!-- IDEA 26: LIVE FLOATING MINIMAP -->
 <div id="minimap"><div id="minimap-thumb"></div></div>
 
-<!-- IDEA 30: GOD MODE DASHBOARD -->
 <div id="god-mode">
   <div>SYSTEM: ONLINE</div>
   <div>FPS: <span id="fps-counter">60</span></div>
@@ -305,7 +310,9 @@
       <a href="#contact" class="label hover:text-[var(--ink)] transition-colors hover-trigger">Dispatch</a>
     </div>
     <div class="nav-tools-locked">
-      <span id="dispatch-time" class="label hidden sm:block text-[var(--dim)] opacity-70 whitespace-nowrap">--:--</span>
+      <!-- NEW TIPS BUTTON -->
+      <button class="label hover:text-[var(--ink)] transition-colors hover-trigger modal-trigger" data-target="modal-tips">TIPS ?</button>
+      <span id="dispatch-time" class="label hidden sm:block text-[var(--dim)] opacity-70 whitespace-nowrap hover-trigger cursor-pointer">--:--</span>
       <div id="moon-widget" class="hover-trigger" title="Toggle Light/Dark Theme" aria-label="Toggle Theme"></div>
     </div>
   </div>
@@ -319,12 +326,10 @@
       <p class="label !text-[0.7rem]">ITM Skills University — Business Analytics</p>
     </div>
     
-    <!-- IDEA 8: TEXT MASKING APPLIED HERE -->
     <h1 class="h-display text-mask-fluid mb-10" style="font-size:clamp(4rem, 9.5vw, 9rem);">
       <span id="typewriter"></span><span class="type-cursor" style="height:0.8em; vertical-align:middle; -webkit-text-fill-color: var(--gold);"></span>
     </h1>
 
-    <!-- IDEA 16: MAGNIFYING TEXT EFFECT -->
     <p class="mx-auto max-w-3xl text-[1.35rem] leading-[1.8] text-[var(--dim)] font-serif italic anim-fade mb-16 decay-target">
       "<span class="magnify-text">I clean data,</span> <span class="magnify-text">document it honestly,</span> <span class="magnify-text">and build analytical tools with precision.</span> <span class="magnify-text">No manufactured polish—</span><span class="magnify-text">just reproducible work and seamless hand-offs.</span>"
     </p>
@@ -336,7 +341,6 @@
   </div>
 </header>
 
-<!-- IDEA 7: KINETIC TYPOGRAPHY MARQUEE -->
 <div class="marquee-container">
   <div class="marquee-track" id="marquee">
     <span>Data Hygiene</span> <span>·</span> <span>Optimization Models</span> <span>·</span> <span>Game Theory</span> <span>·</span> <span>SQL Architecture</span> <span>·</span> <span>Statistical Inference</span> <span>·</span> <span>Data Hygiene</span> <span>·</span> <span>Optimization Models</span> <span>·</span> <span>Game Theory</span> <span>·</span> <span>SQL Architecture</span> <span>·</span> <span>Statistical Inference</span> <span>·</span>
@@ -419,8 +423,7 @@
   </div>
 
   <div class="grid md:grid-cols-2 gap-16">
-    <!-- Project 01: NGO -->
-    <article class="ui-card anim-section flex flex-col">
+    <article class="ui-card anim-section flex flex-col proj-card hover-trigger" data-img="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop">
       <div class="flex items-center justify-between mb-8">
         <span class="proj-num">01</span><span class="label !text-[0.7rem] opacity-70">Data Cleaning</span>
       </div>
@@ -447,8 +450,7 @@
       </div>
     </article>
 
-    <!-- Project 02: Quick Commerce -->
-    <article class="ui-card anim-section flex flex-col">
+    <article class="ui-card anim-section flex flex-col proj-card hover-trigger" data-img="https://images.unsplash.com/photo-1601597111158-2fceff292cdc?q=80&w=800&auto=format&fit=crop">
       <div class="flex items-center justify-between mb-8">
         <span class="proj-num">02</span><span class="label !text-[0.7rem] opacity-70">Game Theory</span>
       </div>
@@ -462,6 +464,9 @@
     </article>
   </div>
 </section>
+
+<!-- Hover Preview Container -->
+<div id="hover-preview"><img src="" alt="Preview"></div>
 
 <div class="container-w"><div class="rule"></div></div>
 
@@ -485,6 +490,7 @@
       <p class="text-[var(--dim)] text-[1.05rem] leading-[1.7] font-serif mb-4 decay-target">
         Utilizing optimization packages in R to solve linear programming matrices. The setup takes longer than the solve.
       </p>
+      <button class="btn-ghost !text-[0.7rem] modal-trigger hover-trigger" data-target="modal-code">View R Snippet</button>
     </div>
     <div class="border-t border-[var(--line)] pt-8 anim-section">
       <p class="label !text-[0.65rem] mb-4 text-[var(--dim)]">2026-01</p>
@@ -519,6 +525,11 @@
       </ul>
     </div>
   </div>
+  
+  <div class="mt-24 anim-section">
+    <p class="label mb-6 text-center">Repository Activity</p>
+    <div class="gh-graph justify-center" id="gh-grid"></div>
+  </div>
 </section>
 
 </main>
@@ -527,19 +538,86 @@
   <div class="container-w flex flex-col md:flex-row items-center justify-between gap-8 text-center md:text-left">
     <div>
       <p class="h-sub text-3xl text-[var(--ink)] mb-2">Nabhya Bawankar</p>
-      <p class="label !text-[0.65rem] text-[var(--dim)]">Built with Vanilla JS, GSAP, Tailwind & Web Audio API.</p>
+      <p class="label !text-[0.65rem] text-[var(--dim)]">Built with Vanilla JS, GSAP, Tailwind.</p>
     </div>
     <div class="flex flex-col items-end gap-3">
-      <p class="label !text-[0.65rem] text-[var(--dim)]">© 2026 · Maintained with precision</p>
+      <p class="label !text-[0.65rem] text-[var(--dim)]" id="footer-time">© 2026 · Maintained with precision</p>
+      <div class="flex items-center gap-4">
+        <span class="label !text-[0.6rem] text-[var(--dim)]">Lighting</span>
+        <input type="range" id="light-slider" min="0" max="1" step="0.1" value="0.7" class="w-24 hover-trigger cursor-pointer accent-[var(--gold)] bg-[var(--line)] h-1 rounded-full appearance-none">
+      </div>
     </div>
   </div>
 </footer>
 
-<!-- Audio Toggle (Needed for browser autoplay policy) -->
-<button id="audio-toggle" class="btn-ghost !text-[0.6rem] !py-1 !px-3 hover-trigger">Enable Ambient Audio</button>
+<!-- Modals -->
+<div class="modal-overlay" id="modal-tips">
+  <div class="terminal-window !bg-[var(--void)] !border-[var(--gold)] !text-[var(--ink)] font-serif max-w-2xl">
+    <div class="flex justify-between items-center mb-6 border-b border-[var(--line)] pb-4">
+      <h3 class="text-3xl text-[var(--gold)] italic">Dossier Secrets</h3>
+      <button class="close-modal hover:text-[var(--gold)] hover-trigger text-xl">✕</button>
+    </div>
+    <ul class="space-y-4 text-[1.15rem] leading-[1.6]">
+      <li><span class="label !text-[0.65rem] inline-block w-24">Time Shift</span> Click the clock to toggle Japanese standard time.</li>
+      <li><span class="label !text-[0.65rem] inline-block w-24">Data Decay</span> Go completely idle for 60 seconds and watch the data corrupt.</li>
+      <li><span class="label !text-[0.65rem] inline-block w-24">Terminal</span> Press <kbd class="font-mono text-[var(--gold)]">Cmd + K</kbd> to view raw JSON data.</li>
+      <li><span class="label !text-[0.65rem] inline-block w-24">Nodes</span> Press <kbd class="font-mono text-[var(--gold)]">T</kbd> to toggle the TouchDesigner background nodes.</li>
+      <li><span class="label !text-[0.65rem] inline-block w-24">Coffee Break</span> Press <kbd class="font-mono text-[var(--gold)]">C</kbd> to brew a completely different color palette.</li>
+      <li><span class="label !text-[0.65rem] inline-block w-24">Matrix O/R</span> Press <kbd class="font-mono text-[var(--gold)]">M</kbd> to drop the veil.</li>
+      <li><span class="label !text-[0.65rem] inline-block w-24">God Mode</span> Press <kbd class="font-mono text-[var(--gold)]">G</kbd> for system performance metrics.</li>
+      <li><span class="label !text-[0.65rem] inline-block w-24">Konami Code</span> ↑ ↑ ↓ ↓ ← → ← → B A</li>
+    </ul>
+  </div>
+</div>
 
-<!-- IDEA 29: Matrix Terminal Modal -->
+<div class="modal-overlay" id="modal-code">
+  <div class="terminal-window">
+    <div class="terminal-header flex justify-between items-center">
+      <span>~/projects/optimization/linear_prog.R</span>
+      <button class="close-modal hover:text-white hover-trigger">✕</button>
+    </div>
+<pre><code><span class="syn-c"># Objective: Maximize profit given resource constraints</span>
+<span class="syn-f">library</span>(lpSolve)
+
+<span class="syn-c"># Objective function coefficients (Profit per unit)</span>
+obj_coeff <span class="syn-k"><-</span> <span class="syn-f">c</span>(<span class="syn-s">40</span>, <span class="syn-s">30</span>) 
+
+<span class="syn-c"># Constraint matrix</span>
+const_mat <span class="syn-k"><-</span> <span class="syn-f">matrix</span>(<span class="syn-f">c</span>(<span class="syn-s">2</span>, <span class="syn-s">1</span>, 
+                      <span class="syn-s">1</span>, <span class="syn-s">2</span>,
+                      <span class="syn-s">1</span>, <span class="syn-s">1</span>), nrow=<span class="syn-s">3</span>, byrow=<span class="syn-k">TRUE</span>)
+
+<span class="syn-c"># Constraint directions and RHS values</span>
+const_dir <span class="syn-k"><-</span> <span class="syn-f">c</span>(<span class="syn-s">"<="</span>, <span class="syn-s">"<="</span>, <span class="syn-s">"<="</span>)
+const_rhs <span class="syn-k"><-</span> <span class="syn-f">c</span>(<span class="syn-s">100</span>, <span class="syn-s">80</span>, <span class="syn-s">50</span>)
+
+<span class="syn-c"># Solve</span>
+solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class="syn-s">"max"</span>, obj_coeff, const_mat, const_dir, const_rhs)
+<span class="syn-f">print</span>(solution$solution) <span class="syn-c"># Output optimal quantities</span>
+</code></pre>
+  </div>
+</div>
+
 <div class="modal-overlay" id="modal-terminal">
+  <div class="terminal-window">
+    <div class="terminal-header flex justify-between items-center">
+      <span>guest@bawankar-os:~$ cat resume.json</span>
+      <button class="close-modal hover:text-white hover-trigger">✕</button>
+    </div>
+<pre><code>{
+  <span class="syn-s">"name"</span>: <span class="syn-s">"Nabhya Bawankar"</span>,
+  <span class="syn-s">"program"</span>: <span class="syn-s">"BBA Business Analytics & Data Science"</span>,
+  <span class="syn-s">"institution"</span>: <span class="syn-s">"ITM Skills University"</span>,
+  <span class="syn-s">"graduation"</span>: <span class="syn-s">2028</span>,
+  <span class="syn-s">"skills"</span>: [<span class="syn-s">"Python"</span>, <span class="syn-s">"SQL"</span>, <span class="syn-s">"R"</span>, <span class="syn-s">"Spreadsheets"</span>],
+  <span class="syn-s">"interests"</span>: [<span class="syn-s">"Japanese Language"</span>, <span class="syn-s">"Drama Club"</span>, <span class="syn-s">"TouchDesigner"</span>, <span class="syn-s">"Rhythm Games"</span>]
+}
+<span class="text-white mt-4 block">guest@bawankar-os:~$ <span class="animate-pulse">_</span></span>
+</code></pre>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-matrix">
   <div class="terminal-window">
     <canvas id="matrix-canvas"></canvas>
     <div class="terminal-header flex justify-between items-center">
@@ -565,68 +643,65 @@
   </div>
 </div>
 
+<!-- Custom Rhythm Game Easter Egg Modal -->
+<div class="modal-overlay" id="modal-rhythm">
+  <div class="rhythm-window">
+    <div class="rhythm-title">RHYTHM OVERDRIVE UNLOCKED</div>
+    <div class="rhythm-subtitle">Combo: MAX &nbsp;|&nbsp; Accuracy: 100%</div>
+    <p class="mt-8 text-sm opacity-60">Just kidding. But good memory.</p>
+    <button class="close-modal mt-8 px-6 py-2 border border-[#00e5ff] text-[#00e5ff] hover:bg-[#00e5ff] hover:text-black transition-colors rounded-full text-xs tracking-widest hover-trigger">DISMISS</button>
+  </div>
+</div>
+
 <script>
 (function(){
   const $ = (s,c=document)=>c.querySelector(s);
   const $$ = (s,c=document)=>[...c.querySelectorAll(s)];
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  // ==========================================
-  // IDEA 18, 19, 20: WEB AUDIO API (Ambient Drone + Spatial Panner)
-  // ==========================================
   const AudioContext = window.AudioContext || window.webkitAudioContext;
-  let audioCtx, droneOsc, droneGain, panner;
-  let audioEnabled = false;
+  let audioCtx;
 
-  $('#audio-toggle').addEventListener('click', (e) => {
-    if(!audioCtx) {
-      audioCtx = new AudioContext();
-      
-      // Ambient Drone Oscillator
-      droneOsc = audioCtx.createOscillator();
-      droneOsc.type = 'sine';
-      droneOsc.frequency.value = 55; // Deep bass note (A1)
-      
-      // Gain (Volume) Control
-      droneGain = audioCtx.createGain();
-      droneGain.gain.value = 0.05; // Very quiet
-      
-      // Spatial Panner (IDEA 20)
-      panner = audioCtx.createStereoPanner();
-      
-      droneOsc.connect(panner);
-      panner.connect(droneGain);
-      droneGain.connect(audioCtx.destination);
-      droneOsc.start();
-      
-      e.target.textContent = "Audio Enabled";
-      e.target.style.color = "var(--gold)";
-      audioEnabled = true;
-    } else {
-      if(audioCtx.state === 'running') { audioCtx.suspend(); e.target.textContent = "Audio Paused"; e.target.style.color = ""; }
-      else { audioCtx.resume(); e.target.textContent = "Audio Enabled"; e.target.style.color = "var(--gold)"; }
-    }
-  });
+  function initAudio() {
+    if (!audioCtx) audioCtx = new AudioContext();
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+  }
 
-  // Link Drone Pitch to Scroll Y (IDEA 18) & Panner to Mouse X (IDEA 20)
-  window.addEventListener('scroll', () => {
-    if(audioEnabled && droneOsc) {
-      const scrollPercent = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
-      // Shift pitch slightly from 55hz to 75hz based on scroll depth
-      droneOsc.frequency.setTargetAtTime(55 + (scrollPercent * 20), audioCtx.currentTime + 0.1);
-    }
-  });
-  window.addEventListener('mousemove', (e) => {
-    if(audioEnabled && panner) {
-      // Map mouse X to -1 (left) to 1 (right)
-      const panValue = (e.clientX / window.innerWidth) * 2 - 1;
-      panner.pan.setTargetAtTime(panValue, audioCtx.currentTime + 0.1);
-    }
-  });
+  function playClick() {
+    if(reduceMotion) return;
+    initAudio();
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.connect(gain); gain.connect(audioCtx.destination);
+    osc.type = 'sine'; osc.frequency.setValueAtTime(200, audioCtx.currentTime);
+    gain.gain.setValueAtTime(0.015, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.05);
+    osc.start(); osc.stop(audioCtx.currentTime + 0.05);
+  }
 
-  // ==========================================
-  // IDEA 14: SUBTLE CANVAS TRAILS
-  // ==========================================
+  function playSecretSound() {
+    if(reduceMotion) return;
+    initAudio();
+    const notes = [261.63, 329.63, 392.00, 523.25]; 
+    notes.forEach((freq, i) => {
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.connect(gain); gain.connect(audioCtx.destination);
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(freq, audioCtx.currentTime + i * 0.1);
+      gain.gain.setValueAtTime(0, audioCtx.currentTime + i * 0.1);
+      gain.gain.linearRampToValueAtTime(0.1, audioCtx.currentTime + i * 0.1 + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + i * 0.1 + 0.1);
+      osc.start(audioCtx.currentTime + i * 0.1);
+      osc.stop(audioCtx.currentTime + i * 0.1 + 0.1);
+    });
+  }
+
+  const hour = new Date().getHours();
+  let hue = 38; 
+  if(hour < 8 || hour > 18) hue = 45; 
+  document.documentElement.style.setProperty('--gold', `hsl(${hue}, 40%, 65%)`);
+
   const trailCanvas = document.getElementById('trail-canvas');
   const tCtx = trailCanvas.getContext('2d');
   let trails = [];
@@ -644,10 +719,10 @@
       let p = trails[i];
       tCtx.beginPath();
       tCtx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-      tCtx.fillStyle = `rgba(209, 183, 148, ${p.opacity})`; // var(--gold)
+      tCtx.fillStyle = `rgba(209, 183, 148, ${p.opacity})`; 
       tCtx.fill();
-      p.opacity -= 0.02; // Fast fade
-      p.r += 0.2; // Slight spread
+      p.opacity -= 0.02; 
+      p.r += 0.2; 
     }
     trails = trails.filter(p => p.opacity > 0);
     requestAnimationFrame(drawTrails);
@@ -659,9 +734,6 @@
     drawTrails();
   }
 
-  // ==========================================
-  // IDEA 26: LIVE FLOATING MINIMAP
-  // ==========================================
   const minimapThumb = $('#minimap-thumb');
   function updateMinimap() {
     const scrollPercent = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
@@ -669,9 +741,6 @@
   }
   window.addEventListener('scroll', updateMinimap);
 
-  // ==========================================
-  // IDEA 30: GOD MODE DASHBOARD (Press 'G')
-  // ==========================================
   const godMode = $('#god-mode');
   const fpsEl = $('#fps-counter');
   const scrollYEl = $('#scroll-y');
@@ -683,6 +752,7 @@
     if(e.key.toLowerCase() === 'g') {
       godModeActive = !godModeActive;
       godMode.classList.toggle('active');
+      playSecretSound();
     }
   });
 
@@ -701,19 +771,14 @@
   }
   updateGodMode();
 
-  // ==========================================
-  // IDEA 28: DATA DECAY (Idle timer turns text to binary)
-  // ==========================================
   let idleTime = 0;
   const decayTargets = $$('.decay-target');
   const originalText = new Map();
   
-  // Store original text
   decayTargets.forEach((el, i) => originalText.set(i, el.innerHTML));
 
   function resetIdle() {
     idleTime = 0;
-    // Restore text if it was decayed
     decayTargets.forEach((el, i) => {
       if(el.classList.contains('decayed')) {
         el.classList.remove('decayed');
@@ -728,11 +793,10 @@
 
   setInterval(() => {
     idleTime++;
-    if(idleTime > 60) { // 60 seconds of idle
+    if(idleTime > 60) { 
       decayTargets.forEach(el => {
         if(!el.classList.contains('decayed')) {
           el.classList.add('decayed');
-          // Replace text content with random 0s and 1s, preserving length
           const len = el.textContent.length;
           let bin = '';
           for(let j=0; j<len; j++) bin += Math.random() > 0.5 ? '1' : '0';
@@ -742,9 +806,6 @@
     }
   }, 1000);
 
-  // ==========================================
-  // IDEA 7: KINETIC TYPOGRAPHY MARQUEE
-  // ==========================================
   const marquee = $('#marquee');
   let currentScroll = 0;
   let isScrollingDown = true;
@@ -762,33 +823,28 @@
       start: "top top",
       end: "bottom bottom",
       onUpdate: (self) => {
-        // Change direction based on scroll velocity
         isScrollingDown = self.direction === 1;
         gsap.to(marquee, { duration: 0.5, x: isScrollingDown ? "-=20" : "+=20" });
       }
     });
   }
 
-  // ==========================================
-  // IDEA 23: CSS GLITCH ON THEME TOGGLE
-  // ==========================================
   $('#moon-widget').addEventListener('click', ()=>{
     document.body.classList.add('glitching');
     setTimeout(() => {
       document.documentElement.classList.toggle('light-mode');
       $('#theme-status').textContent = document.documentElement.classList.contains('light-mode') ? 'LIGHT' : 'DARK';
       document.body.classList.remove('glitching');
-    }, 300); // Wait for glitch animation halfway point to swap colors
+    }, 300); 
     gsap.fromTo('#moon-widget', {rotate:0}, {rotate:360, duration:0.7, ease:'back.out(1.5)'});
+    playClick();
   });
 
-  // ==========================================
-  // IDEA 29: MATRIX RAIN IN MODAL
-  // ==========================================
   const mCanvas = $('#matrix-canvas');
   const mCtx = mCanvas.getContext('2d');
   let mWidth, mHeight, columns, drops;
   const chars = "SELECT * FROM DATA WHERE NOISE = 0".split("");
+  let matrixInterval;
 
   function initMatrix() {
     mWidth = mCanvas.width = mCanvas.parentElement.offsetWidth;
@@ -801,7 +857,7 @@
   function drawMatrix() {
     mCtx.fillStyle = "rgba(0, 0, 0, 0.05)";
     mCtx.fillRect(0, 0, mWidth, mHeight);
-    mCtx.fillStyle = "#4ade80"; // Matrix Green
+    mCtx.fillStyle = "#4ade80"; 
     mCtx.font = "14px monospace";
     for(let i = 0; i < drops.length; i++) {
       const text = chars[Math.floor(Math.random() * chars.length)];
@@ -810,15 +866,51 @@
       drops[i]++;
     }
   }
-  let matrixInterval;
 
-  // Modal Triggers
+  // Coffee Mode & Matrix Override Event Listeners
+  let coffeeMode = false;
+  let matrixMode = false;
+
+  window.addEventListener('keydown', e => {
+    if(e.key.toLowerCase() === 'c') {
+      coffeeMode = !coffeeMode;
+      if(coffeeMode) {
+        document.documentElement.style.setProperty('--void', '#2c1e16');
+        document.documentElement.style.setProperty('--ink', '#f5e6d3');
+        document.documentElement.style.setProperty('--line', 'rgba(245,230,211,0.15)');
+        document.documentElement.style.setProperty('--gold', '#d4a373');
+      } else {
+        document.documentElement.style.removeProperty('--void');
+        document.documentElement.style.removeProperty('--ink');
+        document.documentElement.style.removeProperty('--line');
+        document.documentElement.style.removeProperty('--gold');
+      }
+      playSecretSound();
+    }
+    
+    if(e.key.toLowerCase() === 'm') {
+      matrixMode = !matrixMode;
+      const tModal = $('#modal-matrix');
+      if(matrixMode) {
+        tModal.classList.add('active');
+        initMatrix();
+        clearInterval(matrixInterval);
+        matrixInterval = setInterval(drawMatrix, 33);
+        playSecretSound();
+      } else {
+        tModal.classList.remove('active');
+        clearInterval(matrixInterval);
+      }
+    }
+  });
+
   $$('.modal-trigger').forEach(btn => {
     btn.addEventListener('click', e => {
       const target = $('#' + e.target.dataset.target);
       if(target) { 
         target.classList.add('active'); 
-        if(e.target.dataset.target === 'modal-terminal') {
+        playClick();
+        if(e.target.dataset.target === 'modal-matrix') {
           initMatrix();
           clearInterval(matrixInterval);
           matrixInterval = setInterval(drawMatrix, 33);
@@ -831,11 +923,12 @@
       if(e.target === overlay || e.target.classList.contains('close-modal')) {
         overlay.classList.remove('active'); 
         clearInterval(matrixInterval);
+        matrixMode = false;
+        playClick();
       }
     });
   });
 
-  // Standard Site Init Logic
   let lenisInstance;
   if(!reduceMotion && window.Lenis){
     lenisInstance = new Lenis({ duration:1.2, easing:t=>Math.min(1, 1.001 - Math.pow(2, -10 * t)), smoothWheel:true });
@@ -843,6 +936,11 @@
     requestAnimationFrame(raf);
     lenisInstance.on('scroll', ()=>ScrollTrigger.update());
   }
+
+  window.addEventListener('load', ()=>{
+    const sk = $('#page-skeleton');
+    setTimeout(()=>{ sk.style.opacity='0'; setTimeout(()=>sk.remove(),800); }, 600);
+  });
 
   gsap.from('.anim-fade', { y:40, opacity:0, duration:1.4, ease:'power3.out', stagger:0.15, delay:0.6 });
 
@@ -862,7 +960,6 @@
     });
   }
 
-  // 3D Tool Grid
   $$('.tool-icon').forEach(icon => {
     icon.addEventListener('mousemove', e => {
       if(reduceMotion) return;
@@ -885,13 +982,13 @@
     });
   });
 
-  // Sorting
   const skillRows = $$('.skill-row');
   const skillContainer = $('#skills-container');
   $$('.sort-btn').forEach(btn => {
     btn.addEventListener('click', (e)=>{
       $$('.sort-btn').forEach(b=>b.classList.remove('active'));
       e.target.classList.add('active');
+      playClick();
       const sortBy = e.target.dataset.sort;
       const sorted = [...skillRows].sort((a,b) => parseInt(b.dataset[sortBy]) - parseInt(a.dataset[sortBy]));
       sorted.forEach((row) => {
@@ -913,7 +1010,6 @@
     });
   }, 1000);
 
-  // Magnetic Buttons
   $$('.mag-btn').forEach(btn => {
     btn.addEventListener('mousemove', e => {
       const rect = btn.getBoundingClientRect();
@@ -924,7 +1020,6 @@
     btn.addEventListener('mouseleave', () => gsap.to(btn, {x:0, y:0, duration:0.6, ease:'elastic.out(1,0.3)'}));
   });
 
-  // Custom Inverting Cursor
   const cursor = $('#ink-cursor');
   if(!reduceMotion && matchMedia('(hover:hover)').matches){
     let cx=innerWidth/2, cy=innerHeight/2, tx=cx, ty=cy;
@@ -938,15 +1033,88 @@
       if(e.target.closest('.hover-trigger, a, button, input')) cursor.classList.add('hovering');
       else cursor.classList.remove('hovering');
     });
+    document.addEventListener('mousedown', playClick);
   } else if(cursor){ cursor.style.display='none'; }
 
-  function tick(){ $('#dispatch-time').textContent = new Date().toLocaleTimeString('en-GB',{hour12:false,timeZone:'Asia/Kolkata'}); }
-  tick(); setInterval(tick,1000);
-  
-  window.addEventListener('load', ()=>{
-    const sk = $('#page-skeleton');
-    setTimeout(()=>{ sk.style.opacity='0'; setTimeout(()=>sk.remove(),800); }, 600);
+  let isJapaneseTime = false;
+  $('#dispatch-time').addEventListener('click', () => {
+    isJapaneseTime = !isJapaneseTime;
+    playSecretSound();
   });
+
+  function tick(){ 
+    const timeStr = new Date().toLocaleTimeString('en-GB',{hour12:false,timeZone:'Asia/Kolkata'});
+    if(isJapaneseTime) {
+      $('#dispatch-time').textContent = timeStr.replace(':', '時').replace(':', '分') + '秒';
+    } else {
+      $('#dispatch-time').textContent = timeStr;
+    }
+  }
+  tick(); setInterval(tick,1000);
+
+  const ghGrid = $('#gh-grid');
+  for(let w=0; w<24; w++) {
+    const col = document.createElement('div');
+    col.className = 'gh-col';
+    for(let d=0; d<7; d++) {
+      const cell = document.createElement('div');
+      cell.className = 'gh-cell hover-trigger';
+      const level = Math.random() > 0.6 ? Math.floor(Math.random() * 5) : 0;
+      cell.dataset.level = level;
+      col.appendChild(cell);
+    }
+    ghGrid.appendChild(col);
+  }
+
+  let nodesActive = false;
+  let nodeInterval;
+  window.addEventListener('keydown', e => {
+    if(e.key.toLowerCase() === 't') {
+      nodesActive = !nodesActive;
+      if(nodesActive) {
+        const c = document.createElement('canvas');
+        c.id = 'td-nodes';
+        c.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;opacity:0.15;pointer-events:none;';
+        document.body.appendChild(c);
+        const ctx = c.getContext('2d');
+        c.width = window.innerWidth; c.height = window.innerHeight;
+        
+        nodeInterval = setInterval(() => {
+          ctx.clearRect(0,0,c.width,c.height);
+          ctx.strokeStyle = '#d1b794'; ctx.lineWidth = 1;
+          for(let i=0; i<20; i++){
+            ctx.beginPath();
+            ctx.moveTo(Math.random()*c.width, Math.random()*c.height);
+            ctx.lineTo(Math.random()*c.width, Math.random()*c.height);
+            ctx.stroke();
+            ctx.fillStyle = '#1a1918';
+            ctx.fillRect(Math.random()*c.width, Math.random()*c.height, 40, 20);
+            ctx.strokeRect(Math.random()*c.width, Math.random()*c.height, 40, 20);
+          }
+        }, 500);
+        playSecretSound();
+      } else {
+        clearInterval(nodeInterval);
+        const c = document.getElementById('td-nodes');
+        if(c) c.remove();
+      }
+    }
+  });
+
+  const konami = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
+  let kIdx = 0;
+  window.addEventListener('keydown', e => {
+    if(e.key === konami[kIdx]) {
+      kIdx++;
+      if(kIdx === konami.length) {
+        $('#modal-rhythm').classList.add('active');
+        playSecretSound();
+        kIdx = 0;
+      }
+    } else { kIdx = 0; }
+  });
+
+  window.addEventListener('resize', ()=>ScrollTrigger.refresh());
 })();
 </script>
 </body>
