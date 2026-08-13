@@ -6,7 +6,7 @@
 <title>Nabhya Bawankar — Portfolio</title>
 <meta name="description" content="Data analyst & builder. A short, honest dossier of early work." />
 
-<!-- Meta Tags & Open Graph (Issue 9) -->
+<!-- Meta Tags & Open Graph -->
 <meta property="og:title" content="Nabhya Bawankar — Portfolio" />
 <meta property="og:description" content="Data analyst & builder. A short, honest dossier of early work." />
 <meta property="og:type" content="website" />
@@ -36,17 +36,17 @@
     --card-bg:linear-gradient(180deg, rgba(43,41,39,0.03), rgba(43,41,39,0.01));
   }
 
-  /* Feature 15: Candle Flicker Mode */
   html.candle-mode {
-    --void: #140e0b; --ink: #e8d5c4; --dim: #a37c58; --line: rgba(212,171,113,0.1); --gold: #d97736;
-    --card-bg: linear-gradient(180deg, rgba(217,119,54,0.03), transparent);
+    --void: #0f0704; --ink: #ffebc7; --dim: #d46f2c; --line: rgba(255, 106, 0, 0.15); --gold: #ff6a00;
+    --card-bg: linear-gradient(180deg, rgba(255, 106, 0, 0.03), rgba(0,0,0,0.6));
   }
-  html.candle-mode body {
-    animation: candleAmbient 4s infinite alternate ease-in-out;
-  }
+  html.candle-mode body { animation: candleAmbient 3.5s infinite alternate ease-in-out; }
   @keyframes candleAmbient {
-    0% { text-shadow: 0 0 12px color-mix(in srgb, var(--gold) 10%, transparent); }
-    100% { text-shadow: 0 0 20px color-mix(in srgb, var(--gold) 25%, transparent); }
+    0% { text-shadow: 0 0 8px color-mix(in srgb, var(--gold) 15%, transparent); }
+    25% { text-shadow: 0 0 12px color-mix(in srgb, var(--gold) 25%, transparent); }
+    50% { text-shadow: 0 0 18px color-mix(in srgb, var(--gold) 45%, transparent); }
+    75% { text-shadow: 0 0 10px color-mix(in srgb, var(--gold) 20%, transparent); }
+    100% { text-shadow: 0 0 22px color-mix(in srgb, var(--gold) 50%, transparent); }
   }
   
   *{box-sizing:border-box;}
@@ -54,24 +54,17 @@
   ::-webkit-scrollbar { display: none; width: 0; height: 0; }
 
   body{
-    background:var(--void); color:var(--ink);
-    font-family:'Newsreader', serif; font-weight:300;
-    -webkit-font-smoothing:antialiased;
-    transition:background-color .4s ease, color .4s ease;
-    overflow-x: hidden;
+    background:var(--void); color:var(--ink); font-family:'Newsreader', serif; font-weight:300;
+    -webkit-font-smoothing:antialiased; transition:background-color .4s ease, color .4s ease; overflow-x: hidden;
     text-shadow: 0 0 1px color-mix(in srgb, currentColor 15%, transparent);
   }
   
-  h1, h2, h3, h4, .h-display, .h-sub {
-    text-shadow: 0 0 16px color-mix(in srgb, currentColor 25%, transparent);
-  }
-  
+  h1, h2, h3, h4, .h-display, .h-sub { text-shadow: 0 0 16px color-mix(in srgb, currentColor 25%, transparent); }
   ::selection{ background:var(--ink); color:var(--void); }
   a{ color:inherit; text-decoration:none; }
 
   #page-skeleton {
-    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-    z-index: 99999; background: var(--void);
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 99999; background: var(--void);
     display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1rem;
     transition: opacity 0.8s ease; pointer-events: none;
   }
@@ -128,17 +121,12 @@
   .nav-tools-locked button, .nav-tools-locked span { color: var(--dim); transition: color 0.3s ease; }
   .nav-tools-locked button:hover, .nav-tools-locked span:hover { color: var(--ink); }
   
-  /* Hamburger Nav */
   .hamburger { display: none; background: transparent; border: none; color: var(--dim); cursor: pointer; font-size: 1.5rem; z-index: 1002; }
   #mobile-nav-overlay { position: fixed; inset: 0; background: color-mix(in srgb, var(--void) 98%, transparent); backdrop-filter: blur(15px); z-index: 1001; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 2.5rem; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; }
   #mobile-nav-overlay.active { opacity: 1; pointer-events: auto; }
   #mobile-nav-overlay a { font-family: 'Cormorant Garamond', serif; font-size: 2rem; color: var(--ink); transition: color 0.3s; }
   #mobile-nav-overlay a:hover { color: var(--gold); }
-  
-  @media (max-width: 768px) { 
-    .nav-links-locked, #dispatch-time, #audio-widget { display: none; } 
-    .hamburger { display: block; }
-  }
+  @media (max-width: 768px) { .nav-links-locked, #dispatch-time, #audio-widget { display: none; } .hamburger { display: block; } }
 
   .btn-primary{ font-family:'Space Mono', monospace; font-size:0.8rem; letter-spacing:0.12em; text-transform:uppercase; background:var(--ink); color:var(--void); padding:1.2rem 3rem; border-radius:100px; transition:transform .35s cubic-bezier(.2,.8,.2,1), background .35s ease, box-shadow .35s ease; display:inline-flex; align-items: center; justify-content: center; border:1px solid var(--ink); text-align:center; appearance: none; -webkit-appearance: none; cursor: pointer;}
   .btn-primary:hover{ transform:translateY(-2px); background:var(--gold); border-color:var(--gold); box-shadow:0 12px 35px -8px rgba(209,183,148,0.35); }
@@ -184,6 +172,7 @@
   .data-preview-table th, .data-preview-table td { padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--line); text-align: left; color: var(--dim); }
   .data-preview-table th { color: var(--gold); font-weight: normal; background: color-mix(in srgb, var(--gold) 4%, transparent); }
 
+  /* Perfectly visible Moon Widget */
   #moon-widget{
     width:36px; height:36px; border-radius:50%; cursor:pointer; position:relative; flex-shrink: 0; display: flex; align-items: center; justify-content: center;
     background:radial-gradient(circle at 30% 30%, #f0ebd8 0%, #c2b59b 50%, #5c5445 100%);
@@ -199,6 +188,7 @@
   html.light-mode #audio-widget { color: var(--dim); }
   html.light-mode #audio-widget:hover { color: var(--gold); }
   
+  /* Bolder Cursor + Soft Transparent Bleed Trail */
   #ink-cursor{ 
     position:fixed; top:0; left:0; color: var(--gold); font-size: 32px; line-height: 1; text-align: center; 
     pointer-events:none; z-index:9999; transition: font-size .2s cubic-bezier(.2,.8,.2,1), color .2s ease; 
@@ -233,19 +223,22 @@
   .terminal-content { position: relative; z-index: 10; background: rgba(0,0,0,0.7); padding: 1rem; border-radius: 4px;}
   .terminal-window, .terminal-window * { font-family: 'Courier New', Courier, monospace !important; font-size: 12px !important; line-height: 1.6 !important; letter-spacing: normal !important; text-transform: none !important; }
 
-  .slide-drawer { position: fixed; top: 0; right: 0; width: 100%; max-width: 650px; height: 100vh; background: color-mix(in srgb, var(--void) 95%, transparent); backdrop-filter: blur(25px); border-left: 1px solid var(--line); z-index: 9999; transform: translateX(100%); transition: transform 0.6s cubic-bezier(0.77, 0, 0.175, 1); overflow-y: auto; padding: 4rem 3rem; box-shadow: none; }
+  /* Feature 4: Slide Drawers with Drop Shadow Fix */
+  .slide-drawer { position: fixed; top: 0; right: 0; width: 100%; max-width: 650px; height: 100vh; background: color-mix(in srgb, var(--void) 95%, transparent); backdrop-filter: blur(25px); border-left: 1px solid var(--line); z-index: 9999; transform: translateX(100%); transition: transform 0.6s cubic-bezier(0.77, 0, 0.175, 1), box-shadow 0.6s ease; overflow-y: auto; padding: 4rem 3rem; box-shadow: none; }
   .slide-drawer.active { transform: translateX(0); box-shadow: -20px 0 50px rgba(0,0,0,0.5); }
   .drawer-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); z-index: 9998; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; }
   .drawer-overlay.active { opacity: 1; pointer-events: auto; }
   .drawer-close { position: absolute; top: 2rem; right: 2.5rem; color: var(--dim); cursor: pointer; font-size: 1.5rem; transition: color 0.3s; z-index: 10; }
   .drawer-close:hover { color: var(--gold); }
 
+  /* FIX: Authentic Before/After Clip-Path Slider */
   .ba-container { position: relative; width: 100%; aspect-ratio: 16/9; overflow: hidden; border: 1px solid var(--line); border-radius: 4px; margin-top: 2.5rem; margin-bottom: 2.5rem; }
   .ba-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-  .ba-overlay { position: absolute; inset: 0; width: 50%; overflow: hidden; border-right: 2px solid var(--gold); }
-  .ba-overlay img { width: 200%; height: 100%; object-fit: cover; max-width: none; }
-  .ba-slider { position: absolute; inset: 0; width: 100%; opacity: 0; cursor: ew-resize; z-index: 10; }
-  .ba-badge { position: absolute; top: 1rem; padding: 0.2rem 0.6rem; background: rgba(0,0,0,0.7); border: 1px solid var(--gold); color: var(--gold); font-family: 'Space Mono', monospace; font-size: 0.7rem; border-radius: 2px; }
+  .ba-overlay { position: absolute; inset: 0; width: 100%; height: 100%; clip-path: inset(0 50% 0 0); transition: clip-path 0.1s ease-out; }
+  .ba-overlay img { width: 100%; height: 100%; object-fit: cover; }
+  .ba-slider-line { position: absolute; top: 0; bottom: 0; left: 50%; width: 2px; background: var(--gold); transform: translateX(-50%); pointer-events: none; z-index: 5; box-shadow: 0 0 10px var(--gold); transition: left 0.1s ease-out; }
+  .ba-slider { position: absolute; inset: 0; width: 100%; opacity: 0; cursor: ew-resize; z-index: 10; margin: 0; padding: 0; }
+  .ba-badge { position: absolute; top: 1rem; padding: 0.2rem 0.6rem; background: rgba(0,0,0,0.7); border: 1px solid var(--gold); color: var(--gold); font-family: 'Space Mono', monospace; font-size: 0.7rem; border-radius: 2px; z-index:10; pointer-events: none; }
 
   .toast-container { position: fixed; bottom: 2rem; right: 2rem; z-index: 10000; display: flex; flex-direction: column; gap: 1rem; pointer-events: none; }
   .toast { background: var(--ink); color: var(--void); font-family: 'Space Mono', monospace; font-size: 0.8rem; padding: 1rem 1.5rem; border-radius: 4px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); transform: translateY(20px); opacity: 0; transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1); border: 1px solid var(--gold); pointer-events: auto; }
@@ -253,7 +246,7 @@
   .copy-btn { background: transparent; border: 1px solid var(--gold); color: var(--gold); padding: 0.3rem 0.8rem; font-size: 0.75rem; border-radius: 2px; cursor: pointer; transition: all 0.2s; font-family: 'Space Mono', monospace; }
   .copy-btn:hover { background: var(--gold); color: #000; }
 
-  .signature-svg { width: 45px; height: 45px; color: var(--gold); stroke-dasharray: 200; stroke-dashoffset: 200; margin: 0 auto 1rem auto; display: block; opacity: 0.9; filter: drop-shadow(0 0 6px var(--gold)); }
+  .signature-svg { width: 45px; height: 45px; color: var(--gold); stroke-dasharray: 200; stroke-dashoffset: 200; margin: 0 auto; display: block; opacity: 0.9; filter: drop-shadow(0 0 6px var(--gold)); }
   .signature-svg.draw { animation: drawSig 2s ease-out forwards; }
   @keyframes drawSig { to { stroke-dashoffset: 0; } }
 
@@ -303,12 +296,10 @@
   #god-mode { position: fixed; bottom: 1rem; right: 1rem; background: rgba(0,0,0,0.85); border: 1px solid #4ade80; color: #4ade80; font-family: 'Courier New', Courier, monospace; font-size: 12px; padding: 1rem; z-index: 10000; border-radius: 4px; pointer-events: none; display: none; backdrop-filter: blur(5px); }
   #god-mode.active { display: block; }
   
-  /* Back to Top Button */
   #btt-btn { position: fixed; bottom: 2rem; right: 2rem; z-index: 8000; width: 40px; height: 40px; border-radius: 50%; background: var(--void); border: 1px solid var(--line); color: var(--gold); display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: all 0.3s ease; cursor: pointer; }
   #btt-btn.visible { opacity: 0.7; pointer-events: auto; }
   #btt-btn:hover { opacity: 1; border-color: var(--gold); transform: translateY(-3px); box-shadow: 0 5px 15px rgba(209,183,148,0.2); }
 
-  /* Achievement Display inside Tips Modal */
   .achievement-box { background: rgba(0,0,0,0.3); border: 1px solid #333; padding: 1rem; border-radius: 4px; margin-top: 1rem; font-family: 'Courier New', monospace; font-size: 12px; }
   .ach-bar { height: 4px; background: #222; margin-top: 0.5rem; border-radius: 2px; overflow: hidden; }
   .ach-fill { height: 100%; background: var(--gold); width: 0%; transition: width 1s ease; }
@@ -349,7 +340,6 @@
   <div>THEME: <span id="theme-status">DARK</span></div>
 </div>
 
-<!-- Mobile Navigation Overlay -->
 <div id="mobile-nav-overlay">
   <a href="#about" class="hover-trigger" onclick="closeMobileNav()">Dossier</a>
   <a href="#work" class="hover-trigger" onclick="closeMobileNav()">Exhibits</a>
@@ -379,6 +369,7 @@
       <button type="button" id="audio-widget" class="hover-trigger" title="Toggle UI Audio">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
       </button>
+      <!-- Reintegrated Theme Button -->
       <button type="button" id="moon-widget" class="hover-trigger mr-4 md:mr-0" title="Toggle Light/Dark Theme" aria-label="Toggle Theme"></button>
     </div>
   </div>
@@ -387,7 +378,6 @@
 <header class="relative min-h-[75vh] flex flex-col justify-center items-center pt-48 pb-20">
   <div class="container-w w-full relative z-10 text-center max-w-5xl">
     
-    <!-- Fixed Tailwind bg-[color-mix...] syntax -->
     <div class="inline-flex items-center gap-3 border border-[var(--line)] rounded-full px-5 py-2 mb-10 bg-[color-mix(in_srgb,var(--void)_50%,transparent)] anim-fade">
       <div class="text-[var(--gold)] text-xs">✠</div>
       <p class="label !text-[0.68rem]">ITM Skills University — Business Analytics</p>
@@ -398,9 +388,10 @@
     </h1>
 
     <p class="mx-auto max-w-2xl text-[1.15rem] leading-[1.8] text-[var(--dim)] font-serif italic anim-fade mb-12 vn-readable decay-target">
-      "<span class="magnify-text">I clean data,</span> <span class="magnify-text">document it honestly,</span> <span class="magnify-text">and build analytical tools with precision.</span> <span class="magnify-text">No manufactured polish—</span><span class="magnify-text">just reproducible work and seamless hand-offs.</span>"
+      "<span class="magnify-text">I research and clean data,</span> <span class="magnify-text">document it precisely,</span> <span class="magnify-text">and analyze without any inefficacy.</span> <span class="magnify-text">No manufactured polish—</span><span class="magnify-text">just reproducible work and seamless hand-offs.</span>"
     </p>
 
+    <!-- PERFECTLY SPACED AND RENAMED RESUME BUTTON -->
     <div class="flex flex-wrap items-center justify-center gap-x-12 gap-y-5 anim-fade mt-4">
       <a href="#contact" class="btn-ghost hover-trigger tracking-[0.25em] text-[0.85rem]">ESTABLISH CONTACT</a>
       <a href="Resume.pdf" download class="btn-ghost hover-trigger tracking-[0.25em] text-[0.85rem]">RESUME</a>
@@ -408,6 +399,7 @@
   </div>
 </header>
 
+<!-- Thinner, sleeker marquee with added terms and Easter Egg (click 5 times to speed up, slows down after 5s) -->
 <div class="marquee-container" id="marquee-cont">
   <div class="marquee-track" id="marquee">
     <span>Data Hygiene</span> <span class="!text-[var(--gold)] !-webkit-text-stroke-0">✠</span> 
@@ -420,6 +412,7 @@
     <span>Predictive Analytics</span> <span class="!text-[var(--gold)] !-webkit-text-stroke-0">✠</span> 
     <span>Connectomics</span> <span class="!text-[var(--gold)] !-webkit-text-stroke-0">✠</span> 
     <span>Deep Learning</span> <span class="!text-[var(--gold)] !-webkit-text-stroke-0">✠</span>
+    <!-- Duplicated to ensure seamless loop width -->
     <span>Data Hygiene</span> <span class="!text-[var(--gold)] !-webkit-text-stroke-0">✠</span> 
     <span>Large Language Models</span> <span class="!text-[var(--gold)] !-webkit-text-stroke-0">✠</span> 
     <span>Optimization Models</span> <span class="!text-[var(--gold)] !-webkit-text-stroke-0">✠</span> 
@@ -498,6 +491,41 @@
           </div>
           <div class="skill-track"><div class="skill-fill"></div></div>
         </div>
+        <div class="skill-row" data-prof="60" data-freq="70">
+          <div class="flex w-full justify-between items-center font-serif text-[1.3rem] text-[var(--ink)] mb-4">
+            <span class="pr-4">Japanese</span>
+            <span class="label text-[var(--gold)] shrink-0 !text-[0.7rem]">Intermediate</span>
+          </div>
+          <div class="skill-track"><div class="skill-fill"></div></div>
+        </div>
+        <div class="skill-row" data-prof="45" data-freq="50">
+          <div class="flex w-full justify-between items-center font-serif text-[1.3rem] text-[var(--ink)] mb-4">
+            <span class="pr-4">Machine Learning</span>
+            <span class="label text-[var(--gold)] shrink-0 !text-[0.7rem]">Developing</span>
+          </div>
+          <div class="skill-track"><div class="skill-fill"></div></div>
+        </div>
+        <div class="skill-row" data-prof="40" data-freq="35">
+          <div class="flex w-full justify-between items-center font-serif text-[1.3rem] text-[var(--ink)] mb-4">
+            <span class="pr-4">Tableau / Visualization</span>
+            <span class="label text-[var(--gold)] shrink-0 !text-[0.7rem]">Learning</span>
+          </div>
+          <div class="skill-track"><div class="skill-fill"></div></div>
+        </div>
+        <div class="skill-row" data-prof="40" data-freq="20">
+          <div class="flex w-full justify-between items-center font-serif text-[1.3rem] text-[var(--ink)] mb-4">
+            <span class="pr-4">French</span>
+            <span class="label text-[var(--gold)] shrink-0 !text-[0.7rem]">Novice</span>
+          </div>
+          <div class="skill-track"><div class="skill-fill"></div></div>
+        </div>
+        <div class="skill-row" data-prof="30" data-freq="15">
+          <div class="flex w-full justify-between items-center font-serif text-[1.3rem] text-[var(--ink)] mb-4">
+            <span class="pr-4">German</span>
+            <span class="label text-[var(--gold)] shrink-0 !text-[0.7rem]">Novice</span>
+          </div>
+          <div class="skill-track"><div class="skill-fill"></div></div>
+        </div>
       </div>
     </div>
   </div>
@@ -506,16 +534,25 @@
 <div class="container-w"><div class="rule"></div></div>
 
 <section id="work" class="container-w py-32 md:py-40">
-  <div class="anim-section mb-24 flex justify-center items-end text-center">
+  <div class="anim-section flex flex-col justify-center items-center text-center">
     <div class="max-w-3xl mx-auto">
       <p class="label mb-6">Section II — Archives <span class="text-[var(--gold)] opacity-50 ml-2">✠</span></p>
       <h2 class="h-sub mb-6 ink-bleed" style="font-size:clamp(2.8rem,5vw,3.8rem);">Selected Finished Works.</h2>
       <p class="text-[var(--dim)] max-w-lg mx-auto font-serif text-[1.25rem] decay-target">A curated dossier of deployment-ready deliverables.</p>
     </div>
+    
+    <!-- Filterable Project Grid Bar properly spaced -->
+    <div class="flex flex-wrap justify-center gap-4 w-full max-w-4xl mx-auto mt-8 mb-20">
+      <button class="filter-btn sort-btn active !bg-[var(--gold)] !text-[var(--void)] hover-trigger" data-filter="all">All</button>
+      <button class="filter-btn sort-btn hover-trigger" data-filter="sql">Data / SQL</button>
+      <button class="filter-btn sort-btn hover-trigger" data-filter="ml">Machine Learning</button>
+      <button class="filter-btn sort-btn hover-trigger" data-filter="viz">Visualization</button>
+      <button class="filter-btn sort-btn hover-trigger" data-filter="strategy">Strategy</button>
+    </div>
   </div>
 
-  <div class="grid md:grid-cols-2 gap-16">
-    <article class="ui-card spotlight anim-section flex flex-col proj-card hover-trigger magnetic-hover" data-img="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop">
+  <div class="grid md:grid-cols-2 gap-16" id="projects-grid">
+    <article class="ui-card spotlight anim-section flex flex-col proj-card hover-trigger magnetic-hover project-item" data-category="sql" data-img="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop">
       <div class="flex items-center justify-between mb-8">
         <span class="proj-num">01</span><span class="label !text-[0.7rem] opacity-70">Data Cleaning</span>
       </div>
@@ -536,7 +573,7 @@
       </div>
     </article>
 
-    <article class="ui-card spotlight anim-section flex flex-col proj-card hover-trigger magnetic-hover" data-img="https://images.unsplash.com/photo-1601597111158-2fceff292cdc?q=80&w=800&auto=format&fit=crop">
+    <article class="ui-card spotlight anim-section flex flex-col proj-card hover-trigger magnetic-hover project-item" data-category="strategy" data-img="https://images.unsplash.com/photo-1601597111158-2fceff292cdc?q=80&w=800&auto=format&fit=crop">
       <div class="flex items-center justify-between mb-8">
         <span class="proj-num">02</span><span class="label !text-[0.7rem] opacity-70">Game Theory</span>
       </div>
@@ -545,11 +582,12 @@
         A comparative presentation applying game theory models to competitive dynamics within the quick-commerce industry, analyzing strategies of Blinkit, Zepto, and Swiggy Instamart.
       </p>
       <div class="mt-auto pt-8 border-t border-[var(--line)] flex gap-4">
-        <button class="btn-ghost hover-trigger modal-trigger" data-target="modal-matrix">View Matrix Logic</button>
+        <!-- Replaced modal trigger with Drawer for proper case study view -->
+        <button class="btn-ghost hover-trigger" onclick="openDrawer('drawer-matrix')">View Matrix Logic</button>
       </div>
     </article>
 
-    <article class="ui-card spotlight anim-section flex flex-col proj-card hover-trigger magnetic-hover" data-img="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop">
+    <article class="ui-card spotlight anim-section flex flex-col proj-card hover-trigger magnetic-hover project-item" data-category="ml" data-img="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop">
       <div class="flex items-center justify-between mb-8">
         <span class="proj-num">03</span><span class="label !text-[0.7rem] opacity-70">Machine Learning</span>
       </div>
@@ -558,11 +596,11 @@
         Tackled a heavily imbalanced dataset (0.17% fraud rate across 284k cases) using Python. Applied SMOTE to generate synthetic minority samples, stabilizing model accuracy. Evaluated distributions dynamically via matplotlib.
       </p>
       <div class="mt-auto pt-8 border-t border-[var(--line)] flex gap-4">
-        <button class="btn-ghost hover-trigger modal-trigger" data-target="modal-fraud">View Analysis Logic</button>
+        <button class="btn-ghost hover-trigger" onclick="openDrawer('drawer-fraud')">View Analysis Pipeline</button>
       </div>
     </article>
 
-    <article class="ui-card spotlight anim-section flex flex-col proj-card hover-trigger magnetic-hover" data-img="https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=800&auto=format&fit=crop">
+    <article class="ui-card spotlight anim-section flex flex-col proj-card hover-trigger magnetic-hover project-item" data-category="viz" data-img="https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=800&auto=format&fit=crop">
       <div class="flex items-center justify-between mb-8">
         <span class="proj-num">04</span><span class="label !text-[0.7rem] opacity-70">Interactive Analytics</span>
       </div>
@@ -571,12 +609,12 @@
         Engineered an interactive dashboard for Navi Mumbai evaluating real estate density. Leveraged functional state hooks to construct dynamic radius filtering and a regression matrix tracking price per m² correlations.
       </p>
       <div class="mt-auto pt-8 border-t border-[var(--line)] flex gap-4">
-        <button class="btn-ghost hover-trigger modal-trigger" data-target="modal-heatmap">Launch Dashboard</button>
+        <button class="btn-ghost hover-trigger" onclick="openDrawer('drawer-heatmap')">Launch Dashboard</button>
       </div>
     </article>
 
     <!-- Failed Experiments Addition -->
-    <article class="ui-card spotlight anim-section flex flex-col proj-card hover-trigger magnetic-hover" style="border-color: color-mix(in srgb, var(--gold) 30%, transparent);">
+    <article class="ui-card spotlight anim-section flex flex-col proj-card hover-trigger magnetic-hover project-item" data-category="ml" style="border-color: color-mix(in srgb, var(--gold) 30%, transparent);">
       <div class="flex items-center justify-between mb-8">
         <span class="proj-num" style="color:var(--dim)">05</span><span class="label !text-[0.7rem] opacity-70">Failed Experiment</span>
       </div>
@@ -593,7 +631,6 @@
 
 <div class="container-w"><div class="rule"></div></div>
 
-<!-- Rebuilt Creative Engineering Section exactly matching the Screenshot 2 layout with keyboard a11y -->
 <section id="creative" class="container-w py-32 md:py-40">
   <div class="ui-card spotlight anim-section p-10 md:p-16 relative border-t-4 border-t-[var(--gold)]">
     <div class="mb-12 border-b border-[var(--line)] pb-6">
@@ -772,9 +809,8 @@
   </div>
   
   <div class="grid md:grid-cols-3 gap-16">
-    <!-- "Now" section card added -->
-    <div class="border-t border-[var(--gold)] pt-10 anim-section">
-      <p class="label !text-[0.65rem] mb-4 text-[var(--gold)]">Currently (Now Page)</p>
+    <div class="border-t border-[var(--gold)] pt-10 anim-section relative">
+      <p class="label !text-[0.65rem] mb-4 text-[var(--gold)] tracking-[0.25em]">CURRENTLY (NOW PAGE)</p>
       <h4 class="text-2xl text-[var(--ink)] font-serif mb-4">Focus & Directives</h4>
       <p class="text-[var(--dim)] text-[1.15rem] leading-[1.8] font-serif vn-readable decay-target">
         Deep-diving into C++ for systems programming, exploring non-Euclidean geometry, and actively avoiding web framework fatigue. Writing scripts for upcoming club theatricals.
@@ -824,18 +860,14 @@
       </ul>
     </div>
   </div>
-  
-  <div class="mt-24 anim-section repo-activity-wrap">
-    <p class="label mb-6 text-center">Repository Activity</p>
-    <div class="gh-graph justify-center" id="gh-grid"></div> 
-  </div>
 </section>
 
 </main>
 
 <footer class="border-t border-[var(--line)] py-20 relative z-20 overflow-hidden">
   <div class="container-w footer-stack">
-    <div class="mb-4">
+    <!-- Distinctly Spaced Signature -->
+    <div class="mb-8 mt-16">
       <svg class="signature-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
         <path d="M50 10 L50 90 M10 30 L90 30 M40 10 L60 10 M40 90 L60 90 M10 20 L10 40 M90 20 L90 40" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="square"/>
       </svg>
@@ -845,14 +877,13 @@
       <p class="label !text-[0.65rem] text-[var(--dim)]">Built with Vanilla JS, GSAP, Tailwind.</p>
     </div>
     <div class="flex flex-col items-center gap-3 mt-4">
-      <a href="#" onclick="openDrawer('drawer-colophon'); return false;" class="label !text-[0.65rem] hover:text-[var(--gold)] transition-colors">View Colophon</a>
+      <a href="#" onclick="openDrawer('drawer-colophon'); return false;" class="label !text-[0.65rem] hover:text-[var(--gold)] transition-colors hover-trigger">View Colophon</a>
       <p class="label !text-[0.65rem] text-[var(--dim)] mt-2">VISITORS: <span id="visitor-count" class="text-[var(--gold)] tracking-widest">000000</span></p>
       <p class="label !text-[0.65rem] text-[var(--dim)]" id="footer-time">✠ © Life isnt always black and white. ✠</p>
     </div>
   </div>
 </footer>
 
-<!-- Floating Back to Top -->
 <button id="btt-btn" class="hover-trigger" onclick="window.scrollTo({top:0, behavior:'smooth'})" aria-label="Back to top">↑</button>
 
 <!-- OVERLAYS & SLIDE DRAWERS -->
@@ -866,26 +897,133 @@
     During my internship at NASEOH, I handled raw intake forms for 350 applicants. The data suffered from encoding errors, inconsistent date formats, and missing variables. I built a pipeline to sanitize the matrix.
   </p>
   <h3 class="label text-[var(--gold)] mb-4">Before / After Transformation</h3>
+  
   <div class="ba-container">
-    <div class="ba-badge left-2">RAW CSV</div>
+    <div class="ba-badge left-2 z-10">RAW CSV</div>
     <img class="ba-img" src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=80" alt="Raw Data" style="filter: grayscale(100%) blur(2px);">
     <div class="ba-overlay" id="ba-overlay">
-      <div class="ba-badge right-2">CLEANED SQL</div>
       <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=80" alt="Clean Data" style="filter: contrast(1.2) sepia(0.3);">
     </div>
+    <div class="ba-slider-line" id="ba-slider-line"></div>
+    <div class="ba-badge right-2 z-10">CLEANED SQL</div>
     <input type="range" min="0" max="100" value="50" class="ba-slider" id="ba-slider" oninput="updateSlider(this.value)">
   </div>
   <p class="text-[var(--dim)] text-sm font-serif italic mt-4 mb-10 text-center">Drag slider to compare dataset structure.</p>
 </div>
 
-<!-- Creative Drawers for Snippets -->
+<div class="slide-drawer" id="drawer-matrix">
+  <span class="drawer-close hover-trigger" onclick="closeAllDrawers()" role="button" tabindex="0">✕</span>
+  <p class="label mb-4">Case Study 02</p>
+  <h2 class="h-display text-4xl text-[var(--ink)] mb-6">Game Theory & Commerce</h2>
+  <p class="text-[var(--dim)] font-serif text-[1.1rem] leading-[1.8] mb-8">
+    A comparative presentation applying game theory models to competitive dynamics within the quick-commerce industry. We analyzed Nash Equilibriums mapping out the aggressive market strategies of Blinkit, Zepto, and Swiggy Instamart.
+  </p>
+  
+  <div class="terminal-window !max-w-full !p-0 !border-none !shadow-none !h-[300px] !mb-8 relative rounded-none border-y border-[var(--gold)]">
+    <!-- Matrix Canvas -->
+    <canvas id="matrix-canvas" style="position:absolute; top:0; left:0; width:100%; height:100%; z-index:1; opacity:0.6;"></canvas>
+    
+    <!-- Code Overlay with fading gradient background for perfect readability -->
+    <div class="relative z-10 p-6 bg-gradient-to-b from-[rgba(0,0,0,0.85)] to-[rgba(0,0,0,0.95)] h-full w-full">
+      <div class="flex justify-between items-center border-b border-[#333] pb-2 mb-4">
+        <span class="text-[#888] font-mono text-sm">~/sql/strategy_extraction.sql</span>
+      </div>
+<pre class="font-mono text-[#4ade80] text-sm leading-relaxed"><code><span class="text-[#888]">-- Extracting Optimization Matrix Data</span>
+<span class="text-[#d1b794]">SELECT</span> 
+    strategy_id, 
+    <span class="text-[#d1b794]">SUM</span>(payoff_value) <span class="text-[#d1b794]">AS</span> total_utility,
+    <span class="text-[#d1b794]">MAX</span>(market_share) <span class="text-[#d1b794]">AS</span> equilibrium_point
+<span class="text-[#d1b794]">FROM</span> 
+    game_theory_simulations
+<span class="text-[#d1b794]">WHERE</span> 
+    competitor = <span class="text-[#ff6a00]">'Zepto'</span> 
+    <span class="text-[#d1b794]">AND</span> model_type = <span class="text-[#ff6a00]">'Nash'</span>
+<span class="text-[#d1b794]">GROUP BY</span> 
+    strategy_id;
+<span class="text-white mt-4 block">Execution Time: 0.04s <span class="animate-pulse">_</span></span></code></pre>
+    </div>
+  </div>
+</div>
+
+<div class="slide-drawer" id="drawer-fraud">
+  <span class="drawer-close hover-trigger" onclick="closeAllDrawers()" role="button" tabindex="0">✕</span>
+  <p class="label mb-4">Machine Learning Pipeline</p>
+  <h2 class="h-display text-4xl text-[var(--ink)] mb-6">Credit Card Fraud Detection</h2>
+  <div class="text-[var(--dim)] font-serif text-[1.05rem] leading-[1.8] space-y-6">
+    <p>Step 1. Import the libraries and import the csv file to be used as training data.</p>
+    <div class="terminal-window !p-4 !mb-6 w-full !text-[0.75rem] relative">
+      <button class="copy-btn hover-trigger absolute top-3 right-3" onclick="copyCode(this)">Copy Source</button>
+      <pre><code>import pandas as pd
+from imblearn.over_sampling import SMOTE
+df = pd.read_csv("/Users/nabhya/Downloads/creditcard.csv")
+print(df.shape)
+# Output: (284807, 31)</code></pre>
+    </div>
+    <p>Only 492 Frauds in 284k cases. Fraud percentage = 0.1727%. We check for correlations against the 'Class' column, removing self-correlation, and order from most negative to most positive.</p>
+    <div class="terminal-window !p-4 !mb-6 w-full !text-[0.75rem] relative">
+      <button class="copy-btn hover-trigger absolute top-3 right-3" onclick="copyCode(this)">Copy Source</button>
+      <pre><code>correlations = df.corr()['Class'].drop('Class').sort_values()
+X = df.drop('Class', axis=1) # Full dataset minus label
+y = df['Class']
+
+# Rescale using z-score
+scaler = StandardScaler()
+X['Amount'] = scaler.fit_transform(X[['Amount']])
+X['Time'] = scaler.fit_transform(X[['Time']])</code></pre>
+    </div>
+    <p>Splitting the data: <code>test_size=0.2</code> means 20% of rows go to the test set, 80% to training. <code>stratify=y</code> guarantees the fraud ratio (0.17%) is preserved in both splits proportionally.</p>
+    <div class="terminal-window !p-4 !mb-6 w-full !text-[0.75rem] relative">
+      <button class="copy-btn hover-trigger absolute top-3 right-3" onclick="copyCode(this)">Copy Source</button>
+      <pre><code>smote = SMOTE(random_state=42)
+X_train_resampled, y_train_resampled = smote.fit_resample(X_train, y_train)
+
+print(f"Before SMOTE: {y_train.value_counts().to_dict()}")
+# Output: {0: 227451, 1: 394}
+
+print(f"After SMOTE: {pd.Series(y_train_resampled).value_counts().to_dict()}")
+# Output: {0: 227451, 1: 227451}</code></pre>
+    </div>
+    <p>SMOTE looks at each fraud example in your training set, finds its nearest neighbors among other fraud examples, and generates new synthetic fraud rows. They're realistic but not exact duplicates.</p>
+  </div>
+</div>
+
+<div class="slide-drawer" id="drawer-heatmap">
+  <span class="drawer-close hover-trigger" onclick="closeAllDrawers()" role="button" tabindex="0">✕</span>
+  <p class="label mb-4">Case Study 04</p>
+  <h2 class="h-display text-4xl text-[var(--ink)] mb-4">Spatial Real Estate Heatmap</h2>
+  <p class="text-[var(--dim)] font-serif text-[1.1rem] leading-[1.8] mb-8">
+    Engineered an interactive dashboard for Navi Mumbai evaluating real estate density. Leveraged functional state hooks to construct dynamic radius filtering and a regression matrix tracking price per m² correlations.
+  </p>
+  <h3 class="label text-[var(--gold)] mb-4">Interactive Canvas</h3>
+  <div class="flex flex-col items-center justify-center gap-6 w-full mt-6">
+    <div class="relative w-full max-w-[800px] border border-[#333] rounded overflow-hidden">
+        <canvas id="hm-canvas" style="width:100%; height:auto; background:#080808; display:block;"></canvas>
+    </div>
+    <div class="grid grid-cols-2 gap-4 w-full max-w-[800px] max-md:grid-cols-1 text-[#4ade80] font-mono text-sm">
+        <div class="border border-[#333] bg-[#080808] p-4 rounded flex flex-col justify-center">
+            <label class="block mb-4">Analysis Radius (<span id="hm-radius-val">5</span> km)</label>
+            <input type="range" id="hm-radius" min="1" max="15" value="5" class="w-full accent-[var(--gold)]">
+        </div>
+        <div class="border border-[#333] bg-[#080808] p-4 rounded flex flex-col justify-center">
+            <div class="mb-2 border-b border-[#333] pb-2 text-[var(--gold)]">Market Statistics</div>
+            <div class="grid grid-cols-2 gap-2 mt-2">
+                <div class="flex flex-col"><span>Properties</span><span id="hm-count">0</span></div>
+                <div class="flex flex-col"><span>Avg Price/m²</span><span id="hm-avg">₹0</span></div>
+                <div class="flex flex-col mt-2"><span>R² Value</span><span id="hm-r2">0.00</span></div>
+            </div>
+        </div>
+    </div>
+  </div>
+</div>
+
 <div class="slide-drawer" id="drawer-giving-up">
   <span class="drawer-close hover-trigger" onclick="closeAllDrawers()" role="button" tabindex="0">✕</span>
   <p class="label mb-4">Creative Essay</p>
   <h2 class="h-display text-4xl text-[var(--ink)] mb-6">The art of giving up.</h2>
   <div class="text-[var(--dim)] font-serif text-[1.1rem] leading-[1.9] space-y-6">
-    <p>I am tired. So i quit. We live in a world that worships persistence. We hear it in classrooms, in sports, in offices and in advertisements: keep going, never quit, winners never give up. Quitting is seen as a weakness and stopping is seen as failure. And yet... everyone has quit something somewhere, sometime, somehow.</p>
-    <p>To abandon one path is not always to fall into failure; sometimes it is to recognize that a path was never truly ours. Kierkegaard once wrote that despair is to live at odds with one's own self.</p>
+    <p>We live in a world that worships persistence. We hear it in classrooms, in sports, in offices and in advertisements: keep going, never quit, winners never give up. Quitting is seen as a weakness and stopping is seen as failure. And yet... everyone has quit something somewhere, sometime, somehow.</p>
+    <p>To abandon one path is not always to fall into failure; sometimes it is to recognize that a path was never truly ours. Kierkegaard once wrote that despair is to live at odds with one's own self. In this light, quitting becomes not cowardice but reconciliation: a turning back toward what is authentic.</p>
+    <p>To persist without hope is not tenacity—it's inertia. Thus, giving up is not always surrender. It can be a higher form of courage: the ability to stop, to relinquish, to make space for something unimagined.</p>
     <p>The sunk cost fallacy. The more time, money, or energy we've invested in something, the harder it feels to walk away... But the past cannot be recovered. The only choice we truly control is the present moment, and the direction we step into next.</p>
     <p>To give up is not to stop living, it's to start living differently. And sometimes, thats just the art of giving up.</p>
   </div>
@@ -897,8 +1035,9 @@
   <h2 class="h-display text-4xl text-[var(--ink)] mb-6">The Ouroboros of Ignorance</h2>
   <div class="text-[var(--dim)] font-serif text-[1.1rem] leading-[1.9] space-y-6">
     <p>The constant echoing chamber of knowledge births an ouroboros of ignorance, having real-life effects like the declining rate of average intelligence every year and the mis-knowledge of to-be common sense.</p>
-    <p>Why are billionaires taxed almost the same as normal people? To fix this, let us ask the same billionaires to donate to a camouflaged charity which recycles the money back to the billionaires.</p>
-    <p>The rise of AI and the impact of silicone being able to think for us is well documented yet obsolete within a few days... How can corporations and governments promote privacy and human free will but allow personalised and stolen data, only to be used against us?</p>
+    <p>The absurd rate of declining human intelligence is worrying, not only because it ignores the previous generations and subjectivity of intelligence, but also because of the future it holds for humanity. Research has shown absolute levels of decline in mental capacity- not only in mathematics, language and social awareness, but in abstract behaviours like kindness and happiness.</p>
+    <p>Why are billionaires taxed almost the same as normal people? To fix this, let us ask the same billionaires to donate to a camouflaged charity which recycles the money back to the billionaires. How flawed a democracy was talked about by Plato, approximately 2475 years ago, still it leads to an echo chamber of freedom of choice and how every vote is equal, either it be the senile old man with dementia or the convicted criminal.</p>
+    <p>The rise of AI and the impact of silicone being able to think for us is well documented yet obsolete within a few days... How can corporations and governments promote privacy and human free will but allow personalised and stolen data, only to be used against us, in forms of advertisement and the misuse of human creativity?</p>
   </div>
 </div>
 
@@ -908,7 +1047,8 @@
   <h2 class="h-display text-4xl text-[var(--ink)] mb-6">Constitutional Erosion</h2>
   <div class="text-[var(--dim)] font-serif text-[1.1rem] leading-[1.9] space-y-6">
     <p>The philosophical core of the constitution lies in The Preamble, the blueprint which organizes the Law into four core values- Justice, Liberty, Equality and Fraternity.</p>
-    <p>The judgment [K.S. Puttaswamy v. Union of India] introduced a constitutional framework that governs any state action infringing on privacy, forcing a re-evaluation of government operations and legislative necessity. The Court established a three-fold test that any State action encroaching upon privacy must satisfy: Legality, Legitimate Aim, and Proportionality.</p>
+    <p>The judgment [K.S. Puttaswamy v. Union of India (2017)] introduced a constitutional framework that governs any state action infringing on privacy, forcing a re-evaluation of government operations and legislative necessity. The Court established a three-fold test that any State action encroaching upon privacy must satisfy: Legality, Legitimate Aim, and Proportionality.</p>
+    <p>Erosion of Federalism in not-so recent trends and major legislative actions, particularly the Goods and Services Tax (GST) and changes in the Concurrent List, suggest that India’s federal structure is experiencing a centralizing tilt towards a more unitary system.</p>
     <p>Ever since the Independence of India, literacy rate has been consistently rising. A consequence of which is the criticism of the Constitution and Law as a whole... The continuous threat to privacy, despite its clear recognition as a Fundamental Right, illustrates the erosion of the Constitution.</p>
     <p>The true Erosion is not in the text, but in the political class's disregard for the 'Principled Distance' of secularism and the 'Proportionality Test' of privacy, effectively treating the Constitution as obsolete in practice.</p>
   </div>
@@ -943,7 +1083,7 @@
       <div class="ach-bar"><div class="ach-fill" id="ach-fill"></div></div>
     </div>
 
-    <ul class="space-y-6">
+    <ul class="space-y-6 font-mono text-sm">
       <li><span class="inline-block w-28 text-[var(--gold)]">Konami Code</span> Press <kbd class="px-2 py-1 rounded border border-[#333]">↑ ↑ ↓ ↓ ← → ← → B A</kbd> to launch the Rhythm Minigame.</li>
       <li><span class="inline-block w-28 text-[var(--gold)]">Screenplay</span> Press <kbd class="px-2 py-1 rounded border border-[#333]">S</kbd> to strip the DOM into a raw script format.</li>
       <li><span class="inline-block w-28 text-[var(--gold)]">Visual Nov</span> Press <kbd class="px-2 py-1 rounded border border-[#333]">V</kbd> to convert the dossier into a Ren'Py interface.</li>
@@ -951,7 +1091,6 @@
       <li><span class="inline-block w-28 text-[var(--gold)]">Candlelight</span> Press <kbd class="px-2 py-1 rounded border border-[#333]">N</kbd> to ignite the dark academia theme.</li>
       <li><span class="inline-block w-28 text-[var(--gold)]">Terminal</span> Press <kbd class="px-2 py-1 rounded border border-[#333]">Cmd+K</kbd> to view raw JSON system data.</li>
       <li><span class="inline-block w-28 text-[var(--gold)]">TouchNodes</span> Press <kbd class="px-2 py-1 rounded border border-[#333]">T</kbd> for interactive physics nodes in the background.</li>
-      <li><span class="inline-block w-28 text-[var(--gold)]">Matrix O/R</span> Press <kbd class="px-2 py-1 rounded border border-[#333]">M</kbd> to initiate the terminal rain.</li>
       <li><span class="inline-block w-28 text-[var(--gold)]">God Mode</span> Press <kbd class="px-2 py-1 rounded border border-[#333]">G</kbd> for system performance metrics.</li>
       <li><span class="inline-block w-28 text-[var(--gold)]">Time Shift</span> Click the clock in the nav to toggle Japanese standard time.</li>
       <li><span class="inline-block w-28 text-[var(--gold)]">Data Decay</span> Go completely idle for 60 seconds and watch the data corrupt.</li>
@@ -998,60 +1137,6 @@ const_rhs <span class="syn-k"><-</span> <span class="syn-f">c</span>(<span class
 solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class="syn-s">"max"</span>, obj_coeff, const_mat, const_dir, const_rhs)
 <span class="syn-f">print</span>(solution$solution)
 </code></pre>
-  </div>
-</div>
-
-<div class="modal-overlay" id="modal-matrix">
-  <div class="terminal-window">
-    <canvas id="matrix-canvas"></canvas>
-    <div class="terminal-header flex justify-between items-center">
-      <span>guest@bawankar-os:~/projects/SQL_Queries</span>
-      <button class="close-modal hover:text-white hover-trigger">✕</button>
-    </div>
-    <div class="terminal-content term-text">
-<pre><code><span class="syn-k">SELECT</span> strategy_id, <span class="syn-f">SUM</span>(payoff_value) <span class="syn-k">AS</span> total_utility <span class="syn-k">FROM</span> game_theory_simulations; <span class="animate-pulse">_</span></code></pre>
-    </div>
-  </div>
-</div>
-
-<div class="modal-overlay" id="modal-fraud">
-  <div class="terminal-window">
-    <div class="terminal-header flex justify-between items-center">
-      <span>~/projects/ml/fraud_detection.py</span>
-      <button class="close-modal hover:text-white hover-trigger">✕</button>
-    </div>
-<pre><code><span class="syn-k">from</span> imblearn.over_sampling <span class="syn-k">import</span> SMOTE
-smote = SMOTE(random_state=42)
-X_train_resampled, y_train_resampled = smote.fit_resample(X_train, y_train)
-</code></pre>
-  </div>
-</div>
-
-<div class="modal-overlay" id="modal-heatmap">
-  <div class="terminal-window !bg-[var(--void)] !border-[var(--gold)] !text-[var(--ink)] max-w-4xl w-[95%] mx-auto">
-    <div class="flex justify-between items-center mb-4 border-b border-[#333] pb-4">
-      <div class="text-[var(--gold)]">Navi Mumbai Real Estate Heatmap</div>
-      <button class="close-modal hover:text-[var(--gold)] hover-trigger">✕</button>
-    </div>
-    <div class="flex flex-col items-center justify-center gap-6 w-full">
-      <div class="relative w-full max-w-[800px]">
-         <canvas id="hm-canvas" width="800" height="400" class="w-full h-auto bg-[#080808] border border-[#333] rounded"></canvas>
-      </div>
-      <div class="grid grid-cols-2 gap-4 w-full max-w-[800px] max-md:grid-cols-1 text-[#4ade80]">
-         <div class="border border-[#333] p-4 rounded flex flex-col justify-center">
-            <label class="block mb-4">Analysis Radius (<span id="hm-radius-val">5</span> km)</label>
-            <input type="range" id="hm-radius" min="1" max="15" value="5" class="w-full accent-[#4ade80]">
-         </div>
-         <div class="border border-[#333] p-4 rounded flex flex-col justify-center">
-            <div class="mb-2 border-b border-[#333] pb-2">Market Statistics</div>
-            <div class="grid grid-cols-2 gap-2 mt-2">
-                <div class="flex flex-col"><span>Properties</span><span id="hm-count">0</span></div>
-                <div class="flex flex-col"><span>Avg Price/m²</span><span id="hm-avg">₹0</span></div>
-                <div class="flex flex-col mt-2"><span>R² Value</span><span id="hm-r2">0.00</span></div>
-            </div>
-         </div>
-      </div>
-    </div>
   </div>
 </div>
 
@@ -1178,24 +1263,45 @@ X_train_resampled, y_train_resampled = smote.fit_resample(X_train, y_train)
   };
   
   window.copyCode = function(btn) {
-    const pre = document.getElementById('r-source-code');
+    const pre = btn.nextElementSibling;
     navigator.clipboard.writeText(pre.innerText).then(() => showToast('Source code copied to clipboard.'));
   };
 
+  // Safe Drawers & Canvas Launching
   window.openDrawer = function(id) {
     $('#drawer-overlay').classList.add('active');
     $('#' + id).classList.add('active');
     playClick();
+    
+    // Explicit sizing for canvases so they never render as 0x0
+    if(id === 'drawer-matrix') {
+        matrixMode = true; 
+        setTimeout(() => {
+            initMatrix(); 
+            clearInterval(matrixInterval); 
+            matrixInterval = setInterval(drawMatrix, 33);
+        }, 300);
+    }
+    if(id === 'drawer-heatmap') {
+        setTimeout(initHeatmap, 300); 
+    }
   };
   
   window.closeAllDrawers = function() {
     $('#drawer-overlay').classList.remove('active');
     $$('.slide-drawer').forEach(d => d.classList.remove('active'));
+    clearInterval(matrixInterval);
+    matrixMode = false;
     playClick();
   };
 
   $('#drawer-overlay').addEventListener('click', closeAllDrawers);
-  window.updateSlider = function(val) { $('#ba-overlay').style.width = val + '%'; };
+  
+  // Advanced Clip-Path Slider
+  window.updateSlider = function(val) { 
+    $('#ba-overlay').style.clipPath = `inset(0 ${100 - val}% 0 0)`; 
+    $('#ba-slider-line').style.left = `${val}%`; 
+  };
 
   window.toggleMobileNav = function() {
     const nav = $('#mobile-nav-overlay');
@@ -1206,6 +1312,27 @@ X_train_resampled, y_train_resampled = smote.fit_resample(X_train, y_train)
     $('#mobile-nav-overlay').classList.remove('active');
     playClick();
   }
+
+  // Filterable Grid Logic
+  $$('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      $$('.filter-btn').forEach(b => b.classList.remove('active', '!bg-[var(--gold)]', '!text-[var(--void)]'));
+      e.target.classList.add('active', '!bg-[var(--gold)]', '!text-[var(--void)]');
+      playClick();
+      
+      const filter = e.target.dataset.filter;
+      const cards = $$('.project-item');
+      
+      cards.forEach(card => {
+        if(filter === 'all' || card.dataset.category.includes(filter)) {
+          gsap.to(card, { scale: 1, opacity: 1, display: 'flex', duration: 0.4, ease: 'power2.out' });
+        } else {
+          gsap.to(card, { scale: 0.9, opacity: 0, display: 'none', duration: 0.4, ease: 'power2.out' });
+        }
+      });
+      setTimeout(() => ScrollTrigger.refresh(), 450);
+    });
+  });
 
   $$('.ui-card').forEach(card => {
     card.addEventListener('mousemove', e => {
@@ -1220,10 +1347,9 @@ X_train_resampled, y_train_resampled = smote.fit_resample(X_train, y_train)
     const sk = $('#page-skeleton');
     if(sk) { sk.style.opacity = '0'; setTimeout(()=>sk.remove(), 800); }
   });
-  // Failsafe loader removal
   setTimeout(() => { const sk = $('#page-skeleton'); if(sk) { sk.style.opacity = '0'; setTimeout(()=>sk.remove(), 800); } }, 3000);
 
-  // Master Keydown Controller (Merged)
+  // Master Keydown Controller
   let coffeeMode = false; let screenPlayMode = false; let matrixMode = false; let nodesActive = false; let tdRaf; let tdNodes = []; let candleMode = false;
   
   window.addEventListener('keydown', e => {
@@ -1239,7 +1365,6 @@ X_train_resampled, y_train_resampled = smote.fit_resample(X_train, y_train)
       clearInterval(matrixInterval); matrixMode = false; return;
     }
     
-    // Bypass if typing in an input (not relevant here but good practice)
     if(e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
 
     if(e.key.toLowerCase() === 'v' && !isVnMode) { startVnMode(); playClick(); unlockSecret('vn'); }
@@ -1266,13 +1391,6 @@ X_train_resampled, y_train_resampled = smote.fit_resample(X_train, y_train)
     }
     if(e.key.toLowerCase() === 'g') { const gm = $('#god-mode'); if(gm) { gm.classList.toggle('active'); playClick(); unlockSecret('godmode'); } }
     if(e.metaKey && e.key === 'k') { e.preventDefault(); const tMod = $('#modal-terminal'); if(tMod){ tMod.classList.add('active'); playClick(); unlockSecret('terminal'); } }
-    if(e.key.toLowerCase() === 'm') {
-      matrixMode = !matrixMode; const tModal = $('#modal-matrix');
-      if(tModal) {
-        if(matrixMode) { tModal.classList.add('active'); initMatrix(); clearInterval(matrixInterval); matrixInterval = setInterval(drawMatrix, 33); playSecretSound(); unlockSecret('matrix'); } 
-        else { tModal.classList.remove('active'); clearInterval(matrixInterval); }
-      }
-    }
     if(e.key.toLowerCase() === 't') {
       nodesActive = !nodesActive;
       if(nodesActive) {
@@ -1342,8 +1460,9 @@ X_train_resampled, y_train_resampled = smote.fit_resample(X_train, y_train)
   }
 
   $$('.sort-btn').forEach(btn => {
+    if(btn.classList.contains('filter-btn')) return; 
     btn.addEventListener('click', (e)=>{
-      $$('.sort-btn').forEach(b=>b.classList.remove('active')); e.target.classList.add('active'); playClick();
+      $$('.sort-btn:not(.filter-btn)').forEach(b=>b.classList.remove('active')); e.target.classList.add('active'); playClick();
       const sortBy = e.target.dataset.sort;
       const skillRows = $$('.skill-row'); const skillContainer = $('#skills-container');
       const sorted = [...skillRows].sort((a,b) => parseInt(b.dataset[sortBy]) - parseInt(a.dataset[sortBy]));
@@ -1371,6 +1490,7 @@ X_train_resampled, y_train_resampled = smote.fit_resample(X_train, y_train)
     });
   }
 
+  // Proper 3D Tilt Logic Fix (Mapped perspective to GSAP, avoiding clipping issues)
   $$('.magnetic-hover').forEach(card => {
     card.addEventListener('mousemove', (event) => {
       if (reduceMotion) return;
@@ -1397,7 +1517,7 @@ X_train_resampled, y_train_resampled = smote.fit_resample(X_train, y_train)
       requestAnimationFrame(cursorLoop); 
     })();
     document.addEventListener('mouseover', e => { 
-      if(e.target.closest('.hover-trigger, a, button, input')) cursor.classList.add('hovering'); 
+      if(e.target.closest('.hover-trigger, a, button, input, .filter-btn')) cursor.classList.add('hovering'); 
       else cursor.classList.remove('hovering'); 
     });
     document.addEventListener('mousedown', playClick);
@@ -1418,21 +1538,25 @@ X_train_resampled, y_train_resampled = smote.fit_resample(X_train, y_train)
     tick(); setInterval(tick,1000);
   }
   
-  // Set Footer Year
   const fTime = $('#footer-time');
   if(fTime) {
       fTime.innerHTML = `✠ © ${new Date().getFullYear()} · Life isnt always black and white. ✠`;
   }
 
-  const mCanvas = $('#matrix-canvas'); const mCtx = mCanvas ? mCanvas.getContext('2d') : null;
+  // Safe Explicit Canvas Setup for Matrix Drawer
   let mWidth, mHeight, columns, drops; const chars = "SELECT * FROM DATA WHERE NOISE = 0".split(""); let matrixInterval;
   function initMatrix() {
-    if(!mCanvas || !mCtx) return;
-    mWidth = mCanvas.width = mCanvas.parentElement.offsetWidth; mHeight = mCanvas.height = mCanvas.parentElement.offsetHeight;
+    const mCanvas = document.getElementById('matrix-canvas');
+    if(!mCanvas) return;
+    const mCtx = mCanvas.getContext('2d');
+    // Hardcode sizes to prevent 0x0 off-screen rendering
+    mWidth = mCanvas.width = 600; mHeight = mCanvas.height = 300;
     columns = mWidth / 14; drops = []; for(let x = 0; x < columns; x++) drops[x] = 1;
   }
   function drawMatrix() {
-    if(!mCtx) return;
+    const mCanvas = document.getElementById('matrix-canvas');
+    if(!mCanvas) return;
+    const mCtx = mCanvas.getContext('2d');
     mCtx.fillStyle = "rgba(0, 0, 0, 0.05)"; mCtx.fillRect(0, 0, mWidth, mHeight); mCtx.fillStyle = "#4ade80"; mCtx.font = "14px monospace";
     for(let i = 0; i < drops.length; i++) {
       const text = chars[Math.floor(Math.random() * chars.length)];
@@ -1442,9 +1566,10 @@ X_train_resampled, y_train_resampled = smote.fit_resample(X_train, y_train)
     }
   }
 
-  const hmCanvas = $('#hm-canvas'); const hmRadiusSlider = $('#hm-radius'); const hmRadiusVal = $('#hm-radius-val'); const hmCount = $('#hm-count'); const hmAvg = $('#hm-avg'); const hmR2 = $('#hm-r2');
+  // Safe Explicit Canvas Setup for Heatmap Drawer
   let hmProperties = []; let hmLandmark = { x: 400, y: 200 };
   function initHeatmap() {
+    const hmCanvas = document.getElementById('hm-canvas');
     if(!hmCanvas) return;
     hmCanvas.width = 800; hmCanvas.height = 400; hmLandmark = { x: 400, y: 200 }; hmProperties = [];
     for(let i=0; i<150; i++) {
@@ -1455,7 +1580,14 @@ X_train_resampled, y_train_resampled = smote.fit_resample(X_train, y_train)
     drawHeatmap();
   }
   function drawHeatmap() {
+    const hmCanvas = document.getElementById('hm-canvas');
     if(!hmCanvas) return;
+    const hmRadiusSlider = document.getElementById('hm-radius');
+    const hmRadiusVal = document.getElementById('hm-radius-val');
+    const hmCount = document.getElementById('hm-count');
+    const hmAvg = document.getElementById('hm-avg');
+    const hmR2 = document.getElementById('hm-r2');
+    
     const ctx = hmCanvas.getContext('2d'); const radiusKm = parseFloat(hmRadiusSlider.value); const radiusPx = (radiusKm / 15) * 180;
     ctx.clearRect(0,0, 800, 400);
     ctx.strokeStyle = '#2a2a2a'; ctx.lineWidth = 0.5;
@@ -1481,26 +1613,19 @@ X_train_resampled, y_train_resampled = smote.fit_resample(X_train, y_train)
     hmAvg.textContent = activeCount > 0 ? '₹' + Math.round(sumPrice/activeCount).toLocaleString() : '₹0';
     hmR2.textContent = activeCount > 5 ? (0.6 + Math.random()*0.3).toFixed(2) : '0.00'; 
   }
-  if(hmRadiusSlider) { hmRadiusSlider.addEventListener('input', drawHeatmap); }
+  const mainSlider = document.getElementById('hm-radius');
+  if(mainSlider) { mainSlider.addEventListener('input', drawHeatmap); }
   
-  // Modal Triggers fixed for Matrix integration
   $$('.modal-trigger').forEach(btn => {
     btn.addEventListener('click', e => {
       const targetId = e.currentTarget.dataset.target; const target = targetId ? $('#' + targetId) : null;
-      if(target) { 
-        target.classList.add('active'); 
-        playClick(); 
-        if(targetId === 'modal-heatmap') setTimeout(initHeatmap, 50); 
-        if(targetId === 'modal-matrix') {
-          matrixMode = true; initMatrix(); clearInterval(matrixInterval); matrixInterval = setInterval(drawMatrix, 33);
-        }
-      }
+      if(target) { target.classList.add('active'); playClick(); }
     });
   });
   
   $$('.modal-overlay').forEach(overlay => {
     overlay.addEventListener('click', e => {
-      if(e.target === overlay || e.target.classList.contains('close-modal')) { overlay.classList.remove('active'); clearInterval(matrixInterval); matrixMode = false; playClick(); if(overlay.id === 'modal-rhythm') endRhythm(false); }
+      if(e.target === overlay || e.target.classList.contains('close-modal')) { overlay.classList.remove('active'); playClick(); if(overlay.id === 'modal-rhythm') endRhythm(false); }
     });
   });
 
@@ -1519,8 +1644,6 @@ X_train_resampled, y_train_resampled = smote.fit_resample(X_train, y_train)
         const scrollableHeight = document.documentElement.scrollHeight - window.innerHeight;
         if (scrollableHeight > 0) { const scrollPercent = window.scrollY / scrollableHeight; const maxTop = minimap.offsetHeight - minimapThumb.offsetHeight; minimapThumb.style.transform = `translateY(${scrollPercent * maxTop}px)`; }
     }
-    
-    // Back to top button logic
     const btt = $('#btt-btn');
     if(btt) {
         if(window.scrollY > window.innerHeight) btt.classList.add('visible');
@@ -1677,6 +1800,7 @@ X_train_resampled, y_train_resampled = smote.fit_resample(X_train, y_train)
 
   window.addEventListener('resize', ()=>ScrollTrigger.refresh());
 
+  // Visual Novel Logic Safe Re-Init
   const vnOverlay = $('#vn-overlay'); const vnText = $('#vn-text');
   let isVnMode = false; let vnNodes = []; let vnCurrentIdx = 0; let vnTypeInterval;
   function startVnMode() { if(!vnOverlay || !vnText) return; isVnMode = true; vnOverlay.classList.add('active'); vnNodes = $$('.vn-readable'); vnCurrentIdx = 0; typeVnText(); }
