@@ -4,11 +4,11 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Nabhya Bawankar — Portfolio</title>
-<meta name="description" content="Data analyst & student. A brief dossier of early work." />
+<meta name="description" content="Data analyst & builder. A short, honest dossier of early work." />
 
 <!-- Meta Tags & Open Graph -->
 <meta property="og:title" content="Nabhya Bawankar — Portfolio" />
-<meta property="og:description" content="Data analyst & student. A brief dossier of early work." />
+<meta property="og:description" content="Data analyst & builder. A short, honest dossier of early work." />
 <meta property="og:type" content="website" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="theme-color" content="#0a0908" />
@@ -93,9 +93,16 @@
   .ink-bleed:hover { color: transparent; text-shadow: 0 0 16px var(--ink); filter: blur(1.5px); }
 
   .h-display{ font-family:'Cormorant Garamond', serif; font-weight:300; letter-spacing:-0.03em; }
-  .hero-title{ font-family:'Avenir Next','Avenir','Helvetica Neue',Helvetica,Arial,sans-serif; font-weight:500; letter-spacing:-0.045em; line-height: 1.2 !important; font-size: clamp(3.2rem, 7vw, 7rem); text-shadow: 0 0 25px color-mix(in srgb, var(--gold) 35%, transparent); }
+  .hero-title{ font-family:'Avenir Next','Avenir',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Helvetica,Arial,sans-serif; font-weight:500; letter-spacing:-0.045em; line-height: 1.2 !important; font-size: clamp(3.2rem, 7vw, 7rem); text-shadow: 0 0 25px color-mix(in srgb, var(--gold) 35%, transparent); }
   .hero-initial{ font-family:'Pinyon Script', cursive; font-size:1.45em; letter-spacing:0; display: inline-block; padding: 0.4em 0.5em 0.4em 0.5em; margin: -0.4em -0.35em -0.4em -0.5em; vertical-align:bottom; line-height: 1; }
   #typewriter-rest{ display:inline-block; letter-spacing:-0.055em; }
+  
+  .type-cursor::after {
+      content: ''; display: inline-block; width: 3px; height: 0.8em; background-color: var(--gold);
+      vertical-align: middle; margin-left: 6px; animation: blinkCursor 1s step-end infinite; box-shadow: 0 0 8px var(--gold);
+  }
+  @keyframes blinkCursor { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
   .text-mask-fluid { background: linear-gradient(120deg, var(--ink), var(--gold), var(--ink), var(--dim)); background-size: 300% 300%; background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; color: transparent; animation: fluidMask 12s ease infinite; }
   
   @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; } }
@@ -150,7 +157,6 @@
   .ui-card:hover{ border-color:rgba(209,183,148,0.4); box-shadow:0 24px 60px -20px rgba(0,0,0,0.4), 0 0 40px -15px rgba(209,183,148,0.1); }
   .ui-card > * { position: relative; z-index: 10; pointer-events: auto; } 
   
-  /* PERFECTED EDITORIAL HORIZONTAL PROJECT CARDS */
   .proj-card { min-height: 220px; display: flex; flex-direction: row; justify-content: space-between; align-items: center; gap: 3rem; }
   .proj-info-left { display: flex; flex-direction: column; width: 15%; flex-shrink: 0;}
   .proj-num { font-family:'Space Mono',monospace; color:var(--gold); font-size:1.15rem; line-height:1.2; opacity: 0.9; margin-bottom: 0.35rem;}
@@ -213,6 +219,8 @@
   #ink-cursor.hovering ~ #ink-cursor-trail { opacity: 0.3; width: 50px; height: 50px; filter: blur(20px); }
 
   @media (hover:none){ #ink-cursor, #ink-cursor-trail {display:none;} }
+
+  .no-stroke { -webkit-text-stroke: 0px !important; }
 
   .marquee-container { width: 100%; overflow: hidden; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 0.4rem 0; background: color-mix(in srgb, var(--void) 95%, var(--gold)); cursor: crosshair; display: flex; white-space: nowrap; align-items: center; margin-top: 3rem; margin-bottom: 4rem; }
   .marquee-track { display: flex; gap: 3rem; font-family: 'Space Mono', monospace; text-transform: uppercase; font-size: 0.85rem; color: transparent; -webkit-text-stroke: 1px var(--gold); opacity: 0.6; }
@@ -350,9 +358,12 @@
 <div id="mobile-nav-overlay">
   <a href="#about" class="hover-trigger" onclick="closeMobileNav()">Dossier</a>
   <a href="#work" class="hover-trigger" onclick="closeMobileNav()">Exhibits</a>
+  <a href="#certifications" class="hover-trigger" onclick="closeMobileNav()">Credentials</a>
   <a href="#creative" class="hover-trigger" onclick="closeMobileNav()">Creative</a>
   <a href="#notes" class="hover-trigger" onclick="closeMobileNav()">Notes</a>
   <a href="#contact" class="hover-trigger" onclick="closeMobileNav()">Socials</a>
+  <span id="dispatch-time-mobile" class="label mt-8 opacity-70 hover-trigger cursor-pointer text-center block">--:--</span>
+  <p class="label !text-[0.5rem] opacity-50 text-center">Tap clock for JP Time</p>
 </div>
 
 <nav id="topnav" class="transition-colors duration-500">
@@ -371,11 +382,13 @@
     <div class="nav-tools-locked">
       <button class="hamburger hover-trigger" id="hamburger-btn" aria-label="Menu" onclick="toggleMobileNav()">☰</button>
       <button type="button" class="btn-ghost hover-trigger modal-trigger hidden md:inline-flex" data-target="modal-tips">TIPS ?</button>
-      <span id="dispatch-time" class="label hidden sm:block opacity-70 whitespace-nowrap hover-trigger cursor-pointer" aria-live="polite">--:--</span>
+      <!-- Visible on md+ screens -->
+      <span id="dispatch-time" class="label hidden md:block opacity-70 whitespace-nowrap hover-trigger cursor-pointer" aria-live="polite">--:--</span>
       <!-- Clean Vector Audio Icon -->
       <button type="button" id="audio-widget" class="hover-trigger" title="Toggle UI Audio">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
       </button>
+      <!-- Reintegrated Theme Button -->
       <button type="button" id="moon-widget" class="hover-trigger mr-4 md:mr-0" title="Toggle Light/Dark Theme" aria-label="Toggle Theme"></button>
     </div>
   </div>
@@ -384,6 +397,7 @@
 <header class="relative min-h-[75vh] flex flex-col justify-center items-center pt-48 pb-20">
   <div class="container-w w-full relative z-10 text-center max-w-5xl">
     
+    <!-- Fixed Tailwind bg-[color-mix...] syntax -->
     <div class="inline-flex items-center gap-3 border border-[var(--line)] rounded-full px-5 py-2 mb-10 bg-[color-mix(in_srgb,var(--void)_50%,transparent)] anim-fade">
       <div class="text-[var(--gold)] text-xs">✠</div>
       <p class="label !text-[0.68rem]">ITM Skills University — Business Analytics</p>
@@ -394,10 +408,9 @@
     </h1>
 
     <p class="mx-auto max-w-2xl text-[1.15rem] leading-[1.8] text-[var(--dim)] font-serif italic anim-fade mb-12 vn-readable decay-target">
-      "<span class="magnify-text">I research and clean data,</span> <span class="magnify-text">document it precisely,</span> <span class="magnify-text">and build analytical tools without any inefficacy.</span> <span class="magnify-text">No manufactured polish—</span><span class="magnify-text">just reproducible work and perfect hand-offs.</span>"
+      "<span class="magnify-text">I clean data,</span> <span class="magnify-text">document it honestly,</span> <span class="magnify-text">and build analytical tools with precision.</span> <span class="magnify-text">No manufactured polish—</span><span class="magnify-text">just reproducible work and seamless hand-offs.</span>"
     </p>
 
-    <!-- PERFECTLY SPACED AND RENAMED RESUME BUTTON -->
     <div class="flex flex-wrap items-center justify-center gap-x-12 gap-y-5 anim-fade mt-4">
       <a href="#contact" class="btn-ghost hover-trigger tracking-[0.25em] text-[0.85rem]">ESTABLISH CONTACT</a>
       <a href="Resume.pdf" download class="btn-ghost hover-trigger tracking-[0.25em] text-[0.85rem]">RESUME</a>
@@ -407,27 +420,27 @@
 
 <div class="marquee-container" id="marquee-cont">
   <div class="marquee-track" id="marquee">
-    <span>Data Hygiene</span> <span class="!text-[var(--gold)] !-webkit-text-stroke-0">✠</span> 
-    <span>Large Language Models</span> <span class="!text-[var(--gold)] !-webkit-text-stroke-0">✠</span> 
-    <span>Optimization Models</span> <span class="!text-[var(--gold)] !-webkit-text-stroke-0">✠</span> 
-    <span>Machine Learning</span> <span class="!text-[var(--gold)] !-webkit-text-stroke-0">✠</span> 
-    <span>Game Theory</span> <span class="!text-[var(--gold)] !-webkit-text-stroke-0">✠</span> 
-    <span>SQL Architecture</span> <span class="!text-[var(--gold)] !-webkit-text-stroke-0">✠</span> 
-    <span>Statistical Inference</span> <span class="!text-[var(--gold)] !-webkit-text-stroke-0">✠</span> 
-    <span>Predictive Analytics</span> <span class="!text-[var(--gold)] !-webkit-text-stroke-0">✠</span> 
-    <span>Connectomics</span> <span class="!text-[var(--gold)] !-webkit-text-stroke-0">✠</span> 
-    <span>Deep Learning</span> <span class="!text-[var(--gold)] !-webkit-text-stroke-0">✠</span>
+    <span>Data Hygiene</span> <span class="!text-[var(--gold)] no-stroke">✠</span> 
+    <span>Large Language Models</span> <span class="!text-[var(--gold)] no-stroke">✠</span> 
+    <span>Optimization Models</span> <span class="!text-[var(--gold)] no-stroke">✠</span> 
+    <span>Machine Learning</span> <span class="!text-[var(--gold)] no-stroke">✠</span> 
+    <span>Game Theory</span> <span class="!text-[var(--gold)] no-stroke">✠</span> 
+    <span>SQL Architecture</span> <span class="!text-[var(--gold)] no-stroke">✠</span> 
+    <span>Statistical Inference</span> <span class="!text-[var(--gold)] no-stroke">✠</span> 
+    <span>Predictive Analytics</span> <span class="!text-[var(--gold)] no-stroke">✠</span> 
+    <span>Connectomics</span> <span class="!text-[var(--gold)] no-stroke">✠</span> 
+    <span>Deep Learning</span> <span class="!text-[var(--gold)] no-stroke">✠</span>
     <!-- Duplicated to ensure seamless loop width -->
-    <span>Data Hygiene</span> <span class="!text-[var(--gold)] !-webkit-text-stroke-0">✠</span> 
-    <span>Large Language Models</span> <span class="!text-[var(--gold)] !-webkit-text-stroke-0">✠</span> 
-    <span>Optimization Models</span> <span class="!text-[var(--gold)] !-webkit-text-stroke-0">✠</span> 
-    <span>Machine Learning</span> <span class="!text-[var(--gold)] !-webkit-text-stroke-0">✠</span> 
-    <span>Game Theory</span> <span class="!text-[var(--gold)] !-webkit-text-stroke-0">✠</span> 
-    <span>SQL Architecture</span> <span class="!text-[var(--gold)] !-webkit-text-stroke-0">✠</span> 
-    <span>Statistical Inference</span> <span class="!text-[var(--gold)] !-webkit-text-stroke-0">✠</span> 
-    <span>Predictive Analytics</span> <span class="!text-[var(--gold)] !-webkit-text-stroke-0">✠</span> 
-    <span>Connectomics</span> <span class="!text-[var(--gold)] !-webkit-text-stroke-0">✠</span> 
-    <span>Deep Learning</span> <span class="!text-[var(--gold)] !-webkit-text-stroke-0">✠</span>
+    <span>Data Hygiene</span> <span class="!text-[var(--gold)] no-stroke">✠</span> 
+    <span>Large Language Models</span> <span class="!text-[var(--gold)] no-stroke">✠</span> 
+    <span>Optimization Models</span> <span class="!text-[var(--gold)] no-stroke">✠</span> 
+    <span>Machine Learning</span> <span class="!text-[var(--gold)] no-stroke">✠</span> 
+    <span>Game Theory</span> <span class="!text-[var(--gold)] no-stroke">✠</span> 
+    <span>SQL Architecture</span> <span class="!text-[var(--gold)] no-stroke">✠</span> 
+    <span>Statistical Inference</span> <span class="!text-[var(--gold)] no-stroke">✠</span> 
+    <span>Predictive Analytics</span> <span class="!text-[var(--gold)] no-stroke">✠</span> 
+    <span>Connectomics</span> <span class="!text-[var(--gold)] no-stroke">✠</span> 
+    <span>Deep Learning</span> <span class="!text-[var(--gold)] no-stroke">✠</span>
   </div>
 </div>
 
@@ -547,7 +560,7 @@
       <p class="text-[var(--dim)] max-w-lg mx-auto font-serif text-[1.25rem] decay-target">A curated dossier of deployment-ready deliverables.</p>
     </div>
     
-    <!-- Filterable Project Grid Bar properly spaced to not "kiss" the boxes -->
+    <!-- Filterable Project Grid Bar - Spacing Increased -->
     <div class="flex flex-wrap justify-center gap-4 w-full max-w-4xl mx-auto mt-8 mb-28">
       <button class="filter-btn sort-btn active !bg-[var(--gold)] !text-[var(--void)] hover-trigger" data-filter="all">All</button>
       <button class="filter-btn sort-btn hover-trigger" data-filter="sql">Data / SQL</button>
@@ -557,7 +570,7 @@
     </div>
   </div>
 
-  <!-- PERFECTLY ALIGNED HORIZONTAL PROJECT CARDS (Screenshot 1 Match) -->
+  <!-- PERFECTLY ALIGNED HORIZONTAL PROJECT CARDS -->
   <div class="flex flex-col gap-16" id="projects-grid">
     
     <article class="ui-card spotlight anim-section proj-card hover-trigger magnetic-hover project-item" data-category="sql">
@@ -628,7 +641,6 @@
       </div>
     </article>
 
-    <!-- Failed Experiments Addition -->
     <article class="ui-card spotlight anim-section proj-card hover-trigger magnetic-hover project-item" data-category="ml" style="border-color: color-mix(in srgb, var(--gold) 30%, transparent);">
       <div class="proj-info-left">
         <span class="proj-num" style="color:var(--dim)">05</span>
@@ -657,7 +669,6 @@
     </div>
     
     <div class="space-y-12">
-      <!-- Essays that open reading drawers with accessibility attributes -->
       <div class="cursor-pointer group hover-trigger" role="button" tabindex="0" onclick="openDrawer('drawer-giving-up')" onkeydown="if(event.key==='Enter'||event.key===' ') openDrawer('drawer-giving-up')">
         <h4 class="text-xl md:text-2xl text-[var(--ink)] font-serif mb-4 group-hover:text-[var(--gold)] transition-colors">The Art of Giving Up <span class="text-[var(--gold)] opacity-0 group-hover:opacity-100 transition-opacity ml-1">↗</span></h4>
         <p class="text-[var(--dim)] text-[1.1rem] leading-[1.8] font-serif max-w-4xl">
@@ -816,6 +827,8 @@
   </div>
 </section>
 
+<div id="hover-preview"><img src="" alt="Preview"></div>
+
 <div class="container-w"><div class="rule"></div></div>
 
 <section id="notes" class="container-w py-32 md:py-40">
@@ -825,7 +838,6 @@
   </div>
   
   <div class="grid md:grid-cols-3 gap-16">
-    <!-- "Now" section card added -->
     <div class="border-t border-[var(--gold)] pt-10 anim-section relative">
       <p class="label !text-[0.65rem] mb-4 text-[var(--gold)] tracking-[0.25em]">CURRENTLY (NOW PAGE)</p>
       <h4 class="text-2xl text-[var(--ink)] font-serif mb-4">Focus & Directives</h4>
@@ -1084,9 +1096,9 @@ print(f"After SMOTE: {pd.Series(y_train_resampled).value_counts().to_dict()}")
   </div>
 </div>
 
-<!-- Hidden Modals & Terminals -->
+<!-- Easter Egg Modals & Terminals -->
 <div class="modal-overlay" id="modal-tips">
-  <div class="terminal-window !bg-[var(--void)] !border-[var(--gold)] !text-[var(--ink)] max-w-3xl">
+  <div class="terminal-window !bg-[var(--void)] !border-[var(--gold)] !text-[var(--ink)] max-w-3xl !mt-[5vh]">
     <div class="flex justify-between items-center mb-8 border-b border-[#333] pb-6">
       <div class="text-[var(--gold)]">Dossier Secrets</div>
       <button class="close-modal hover:text-[var(--gold)] hover-trigger">✕</button>
@@ -1111,13 +1123,12 @@ print(f"After SMOTE: {pd.Series(y_train_resampled).value_counts().to_dict()}")
       <li><span class="inline-block w-28 text-[var(--gold)]">Matrix O/R</span> Press <kbd class="px-2 py-1 rounded border border-[#333]">M</kbd> to initiate the terminal rain.</li>
       <li><span class="inline-block w-28 text-[var(--gold)]">God Mode</span> Press <kbd class="px-2 py-1 rounded border border-[#333]">G</kbd> for system performance metrics.</li>
       <li><span class="inline-block w-28 text-[var(--gold)]">Time Shift</span> Click the clock in the nav to toggle Japanese standard time.</li>
-      <li><span class="inline-block w-28 text-[var(--gold)]">Data Decay</span> Go completely idle for 60 seconds and watch the data corrupt.</li>
     </ul>
   </div>
 </div>
 
 <div class="modal-overlay" id="modal-terminal">
-  <div class="terminal-window">
+  <div class="terminal-window !mt-[15vh]">
     <div class="terminal-header flex justify-between items-center">
       <span>guest@bawankar-os:~$ cat resume.json</span>
       <button class="close-modal hover:text-white hover-trigger">✕</button>
@@ -1158,13 +1169,13 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
   </div>
 </div>
 
-<!-- THE "M" SHORTCUT TERMINAL RAIN EASTER EGG (Fully decoupled from drawer) -->
+<!-- DECOUPLED FULL SCREEN MATRIX EASTER EGG -->
 <div class="modal-overlay" id="modal-matrix">
-  <div class="terminal-window !max-w-full !h-[80vh] !w-[90vw] !m-0 !p-0 !border-[var(--gold)] relative overflow-hidden">
-    <canvas id="matrix-canvas-modal" style="position:absolute; top:0; left:0; width:100%; height:100%; z-index:1; opacity:0.8;"></canvas>
-    <button class="close-modal absolute top-6 right-6 text-white hover:text-[var(--gold)] text-2xl z-50 hover-trigger">✕</button>
-    <div class="absolute inset-0 z-10 p-10 bg-gradient-to-b from-[rgba(0,0,0,0.4)] to-[rgba(0,0,0,0.8)] pointer-events-none">
-      <pre class="font-mono text-[#4ade80] text-lg"><code>SYSTEM OVERRIDE INITIATED...</code></pre>
+  <div class="terminal-window !max-w-full !h-full !w-full !m-0 !p-0 !border-none !rounded-none relative overflow-hidden">
+    <canvas id="matrix-canvas-modal" style="position:absolute; top:0; left:0; width:100%; height:100%; z-index:1; opacity:0.9;"></canvas>
+    <button class="close-modal absolute top-8 right-8 text-white hover:text-[var(--gold)] text-3xl z-50 hover-trigger cursor-pointer font-sans" onclick="closeAllDrawers()">✕</button>
+    <div class="absolute inset-0 z-10 p-10 bg-[rgba(0,0,0,0.1)] pointer-events-none flex flex-col justify-center items-center">
+      <pre class="font-mono text-[#4ade80] text-xl"><code>SYSTEM OVERRIDE INITIATED...</code></pre>
     </div>
   </div>
 </div>
@@ -1291,9 +1302,13 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
     playClick();
   };
   
+  // Safe Copy Logic finding the closest PRE element
   window.copyCode = function(btn) {
-    const pre = btn.nextElementSibling;
-    navigator.clipboard.writeText(pre.innerText).then(() => showToast('Source code copied to clipboard.'));
+    const container = btn.closest('.terminal-window');
+    const pre = container ? container.querySelector('pre') : null;
+    if(pre) {
+      navigator.clipboard.writeText(pre.innerText).then(() => showToast('Source code copied to clipboard.'));
+    }
   };
 
   // Safe Drawers & Canvas Launching
@@ -1302,25 +1317,24 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
     $('#' + id).classList.add('active');
     playClick();
     
-    // Explicit sizing for canvases so they never render as 0x0
     if(id === 'drawer-heatmap') {
         setTimeout(initHeatmap, 300); 
     }
   };
   
-  // ROBUST CLOSE ALL FUNCTION
+  // 100% ROBUST CLOSE ALL FUNCTION
   window.closeAllDrawers = function() {
     $('#drawer-overlay').classList.remove('active');
     $$('.slide-drawer').forEach(d => d.classList.remove('active'));
     $$('.modal-overlay').forEach(overlay => overlay.classList.remove('active'));
     clearInterval(matrixInterval);
     matrixMode = false;
+    if(window.endRhythmGame) window.endRhythmGame();
     playClick();
   };
 
   $('#drawer-overlay').addEventListener('click', closeAllDrawers);
   
-  // Advanced Clip-Path Slider
   window.updateSlider = function(val) { 
     $('#ba-overlay').style.clipPath = `inset(0 ${100 - val}% 0 0)`; 
     $('#ba-slider-line').style.left = `${val}%`; 
@@ -1376,14 +1390,14 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
   let coffeeMode = false; let screenPlayMode = false; let matrixMode = false; let nodesActive = false; let tdRaf; let tdNodes = []; let candleMode = false;
   
   window.addEventListener('keydown', e => {
-    // 100% ROBUST ESCAPE HANDLER
+    // FORCE CLOSE ALL ON ESCAPE
     if (e.key === 'Escape') {
       if (isVnMode) exitVnMode();
       closeAllDrawers();
       return;
     }
     
-    if(e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+    if(e.target.tagName === 'TEXTAREA' || (e.target.tagName === 'INPUT' && e.target.type !== 'range')) return;
 
     if(e.key.toLowerCase() === 'v' && !isVnMode) { startVnMode(); playClick(); unlockSecret('vn'); }
     if(e.key.toLowerCase() === 's') { screenPlayMode = !screenPlayMode; document.body.classList.toggle('screenplay-mode'); playClick(); unlockSecret('screenplay'); }
@@ -1410,7 +1424,7 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
     if(e.key.toLowerCase() === 'g') { const gm = $('#god-mode'); if(gm) { gm.classList.toggle('active'); playClick(); unlockSecret('godmode'); } }
     if(e.metaKey && e.key === 'k') { e.preventDefault(); const tMod = $('#modal-terminal'); if(tMod){ tMod.classList.add('active'); playClick(); unlockSecret('terminal'); } }
     
-    // M KEY NOW CORRECTLY OPENS THE EASTER EGG MATRIX MODAL
+    // FULLY SEPARATED M KEY MATRIX EASTER EGG
     if(e.key.toLowerCase() === 'm') {
       matrixMode = !matrixMode; const tModal = $('#modal-matrix');
       if(tModal) {
@@ -1545,7 +1559,7 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
       requestAnimationFrame(cursorLoop); 
     })();
     document.addEventListener('mouseover', e => { 
-      if(e.target.closest('.hover-trigger, a, button, input, .filter-btn')) cursor.classList.add('hovering'); 
+      if(e.target.closest('.hover-trigger, a, button, input, .filter-btn, [role="button"]')) cursor.classList.add('hovering'); 
       else cursor.classList.remove('hovering'); 
     });
     document.addEventListener('mousedown', playClick);
@@ -1559,12 +1573,18 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
     moonWidget.addEventListener('click', ()=>{ document.documentElement.classList.toggle('light-mode'); gsap.fromTo(moonWidget, {rotate:0}, {rotate:360, duration:0.7, ease:'back.out(1.5)'}); playClick(); });
   }
 
-  const dispatchTime = $('#dispatch-time'); let isJapaneseTime = false;
-  if(dispatchTime) {
-    dispatchTime.addEventListener('click', () => { isJapaneseTime = !isJapaneseTime; playClick(); });
-    function tick(){ const timeStr = new Date().toLocaleTimeString('en-GB',{hour12:false,timeZone:'Asia/Kolkata'}); dispatchTime.textContent = isJapaneseTime ? timeStr.replace(':', '時').replace(':', '分') + '秒' : timeStr; }
-    tick(); setInterval(tick,1000);
+  const dispatchTime = $('#dispatch-time'); const dispatchTimeMobile = $('#dispatch-time-mobile'); let isJapaneseTime = false;
+  function toggleTime() { isJapaneseTime = !isJapaneseTime; playClick(); tick(); }
+  if(dispatchTime) dispatchTime.addEventListener('click', toggleTime);
+  if(dispatchTimeMobile) dispatchTimeMobile.addEventListener('click', toggleTime);
+  function tick(){ 
+      const tz = isJapaneseTime ? 'Asia/Tokyo' : 'Asia/Kolkata';
+      const timeStr = new Date().toLocaleTimeString('en-GB', { hour12: false, timeZone: tz });
+      const displayStr = isJapaneseTime ? timeStr.replace(':', '時').replace(':', '分') + '秒' : timeStr; 
+      if(dispatchTime) dispatchTime.textContent = displayStr;
+      if(dispatchTimeMobile) dispatchTimeMobile.textContent = displayStr;
   }
+  tick(); setInterval(tick,1000);
   
   const fTime = $('#footer-time');
   if(fTime) {
@@ -1647,12 +1667,6 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
     btn.addEventListener('click', e => {
       const targetId = e.currentTarget.dataset.target; const target = targetId ? $('#' + targetId) : null;
       if(target) { target.classList.add('active'); playClick(); }
-    });
-  });
-  
-  $$('.modal-overlay').forEach(overlay => {
-    overlay.addEventListener('click', e => {
-      if(e.target === overlay || e.target.classList.contains('close-modal')) { overlay.classList.remove('active'); clearInterval(matrixInterval); matrixMode = false; playClick(); if(overlay.id === 'modal-rhythm') endRhythm(false); }
     });
   });
 
@@ -1765,6 +1779,11 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
   function endRhythm(showResult = true) {
     rhythmRunning = false; cancelAnimationFrame(rhythmRafId); clearRhythmNotes();
     if(showResult) setJudge('END • SCORE ' + String(rhythmScoreValue).padStart(4, '0'), 'judg-great');
+  }
+  
+  // Expose endRhythm globally so closeAllDrawers can fire it correctly
+  window.endRhythmGame = function() {
+      if(rhythmRunning) endRhythm(false);
   }
 
   function updateRhythm(now) {
