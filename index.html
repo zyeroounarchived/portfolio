@@ -14,6 +14,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lenis/1.1.13/lenis.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
   :root{
@@ -21,36 +22,28 @@
     --card-bg:linear-gradient(180deg, rgba(247,244,237,0.02), rgba(247,244,237,0.005));
   }
   
-  /* MODIFIED: Muted the light theme colors to reduce brightness */
   html.light-mode{
-    --void:#e3dfd5; 
-    --ink:#2b2927; 
-    --dim:#756f63; 
-    --line:rgba(43,41,39,0.12); 
-    --gold:#9a7b50;
+    --void:#e3dfd5; --ink:#2b2927; --dim:#756f63; --line:rgba(43,41,39,0.12); --gold:#9a7b50;
     --card-bg:linear-gradient(180deg, rgba(43,41,39,0.03), rgba(43,41,39,0.01));
   }
   
   *{box-sizing:border-box;}
-  
-  html{
-      scroll-behavior:auto;
-      scrollbar-width: none; 
-      -ms-overflow-style: none; 
-  }
-  
-  ::-webkit-scrollbar { 
-      display: none; 
-      width: 0; 
-      height: 0; 
-  }
+  html{ scroll-behavior:auto; scrollbar-width: none; -ms-overflow-style: none; overflow-x: hidden; }
+  ::-webkit-scrollbar { display: none; width: 0; height: 0; }
 
   body{
     background:var(--void); color:var(--ink);
     font-family:'Newsreader', serif; font-weight:300;
     -webkit-font-smoothing:antialiased;
     transition:background-color .4s ease, color .4s ease;
+    overflow-x: hidden;
+    text-shadow: 0 0 1px color-mix(in srgb, currentColor 15%, transparent);
   }
+  
+  h1, h2, h3, h4, .h-display, .h-sub {
+    text-shadow: 0 0 16px color-mix(in srgb, currentColor 25%, transparent);
+  }
+  
   ::selection{ background:var(--ink); color:var(--void); }
   a{ color:inherit; text-decoration:none; }
 
@@ -64,320 +57,198 @@
   .skel-txt { font-family: 'Space Mono', monospace; color: var(--dim); font-size: 0.8rem; letter-spacing: 0.2em; text-transform: uppercase; opacity: 0.6; }
   @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
 
-  body.screenplay-mode {
-    --void: #f4f0e6; --ink: #111; --dim: #333; --line: transparent; --card-bg: transparent;
-    font-family: 'Courier Prime', Courier, monospace !important;
-  }
+  body.screenplay-mode { --void: #f4f0e6; --ink: #111; --dim: #333; --line: transparent; --card-bg: transparent; font-family: 'Courier Prime', Courier, monospace !important; text-shadow: none; }
   body.screenplay-mode .ui-card { border: none; padding: 0; box-shadow: none !important; margin-bottom: 2rem; }
   body.screenplay-mode .ui-card::before { display: none; }
-  body.screenplay-mode .h-display, body.screenplay-mode .h-sub { 
-    font-family: 'Courier Prime', Courier, monospace !important; 
-    text-transform: uppercase; text-align: center; font-size: 1.2rem !important; letter-spacing: 0; font-weight: bold;
-  }
-  body.screenplay-mode p { width: 60%; margin: 0 auto 1rem auto; text-align: left; font-size: 1rem !important; }
+  body.screenplay-mode .h-display, body.screenplay-mode .h-sub { font-family: 'Courier Prime', Courier, monospace !important; text-transform: uppercase; text-align: center; font-size: 1.2rem !important; letter-spacing: 0; font-weight: bold; text-shadow: none; }
+  body.screenplay-mode p { width: 60%; margin: 0 auto 1rem auto; text-align: left; font-size: 1rem !important; text-shadow: none; }
   body.screenplay-mode .label { text-align: center; display: block; margin-bottom: 0.5rem; color: #111; }
   body.screenplay-mode .marquee-container { display: none; }
   body.screenplay-mode #grain, body.screenplay-mode #vignette { display: none; }
 
-  #grain{
-    position:fixed; inset:-60px; z-index:998; pointer-events:none; opacity:0.035; mix-blend-mode:overlay;
-    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
-  }
-  #vignette{
-    position:fixed; inset:0; z-index:997; pointer-events:none;
-    background:radial-gradient(120% 85% at 50% 15%, transparent 35%, rgba(0,0,0,0.7) 100%);
-    mix-blend-mode:multiply; transition:opacity .3s ease;
-  }
+  #grain{ position:fixed; inset:-60px; z-index:998; pointer-events:none; opacity:0.035; mix-blend-mode:overlay; background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>"); }
+  #vignette{ position:fixed; inset:0; z-index:997; pointer-events:none; background:radial-gradient(120% 85% at 50% 15%, transparent 35%, rgba(0,0,0,0.7) 100%); mix-blend-mode:multiply; transition:opacity .3s ease; }
   html.light-mode #vignette{ opacity:0.08; }
 
   .container-w{ max-width:1280px; margin:0 auto; padding-left:2.5rem; padding-right:2.5rem; }
   .label{ font-family:'Space Mono', monospace; letter-spacing:0.18em; text-transform:uppercase; font-size:0.75rem; color:var(--gold); }
   .rule{ height:1px; background:var(--line); transform-origin:left; margin: 5rem 0; }
 
+  .ink-bleed { transition: color 0.4s ease, filter 0.4s ease, text-shadow 0.4s ease; cursor: default; }
+  .ink-bleed:hover { color: transparent; text-shadow: 0 0 16px var(--ink); filter: blur(1.5px); }
+
   .h-display{ font-family:'Cormorant Garamond', serif; font-weight:300; letter-spacing:-0.03em; }
+  .hero-title{ font-family:'Avenir Next','Avenir','Helvetica Neue',Helvetica,Arial,sans-serif; font-weight:500; letter-spacing:-0.045em; line-height: 1.2 !important; font-size: clamp(3.2rem, 7vw, 7rem); text-shadow: 0 0 25px color-mix(in srgb, var(--gold) 35%, transparent); }
+  .hero-initial{ font-family:'Pinyon Script', cursive; font-size:1.45em; letter-spacing:0; display: inline-block; padding: 0.4em 0.5em 0.4em 0.5em; margin: -0.4em -0.35em -0.4em -0.5em; vertical-align:bottom; line-height: 1; }
+  #typewriter-rest{ display:inline-block; letter-spacing:-0.055em; }
+  .text-mask-fluid { background: linear-gradient(120deg, var(--ink), var(--gold), var(--ink), var(--dim)); background-size: 300% 300%; background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; color: transparent; animation: fluidMask 12s ease infinite; }
   
-  /* MODIFIED: Moved inline clamp to CSS for media query control */
-  .hero-title{
-    font-family:'Avenir Next','Avenir','Helvetica Neue',Helvetica,Arial,sans-serif;
-    font-weight:500;
-    letter-spacing:-0.045em;
-    line-height: 1.2 !important;
-    font-size: clamp(3.2rem, 7vw, 7rem);
-  }
-  
-  .hero-initial{
-    font-family:'Pinyon Script', cursive;
-    font-size:1.45em; 
-    letter-spacing:0;
-    display: inline-block;
-    padding: 0.4em 0.5em 0.4em 0.5em; 
-    margin: -0.4em -0.35em -0.4em -0.5em; 
-    vertical-align:bottom;
-    line-height: 1;
-  }
-  #typewriter-rest{
-    display:inline-block;
-    letter-spacing:-0.055em;
-  }
-  .text-mask-fluid {
-    background: linear-gradient(120deg, var(--ink), var(--gold), var(--ink), var(--dim)); background-size: 300% 300%;
-    background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; color: transparent; animation: fluidMask 12s ease infinite;
-  }
-  @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
-  }
-  a:focus-visible, button:focus-visible, [role="button"]:focus-visible {
-    outline: 2px solid var(--gold); outline-offset: 4px; border-radius: 4px;
-  }
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; } }
+  a:focus-visible, button:focus-visible, [role="button"]:focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; border-radius: 4px; }
   .h-sub{ font-family:'Cormorant Garamond', serif; font-weight:400; font-style:italic; }
 
-  .font-gothic-accent{
-    font-family:'Cinzel', serif;
-    letter-spacing:0.01em;
-    font-weight:500;
-  }
-  .font-calligraphy-accent{
-    font-family:'Allura', cursive;
-    letter-spacing:0.01em;
-    font-weight:400;
-  }
+  .font-gothic-accent{ font-family:'Cinzel', serif; letter-spacing:0.01em; font-weight:500; }
+  .font-calligraphy-accent{ font-family:'Allura', cursive; letter-spacing:0.01em; font-weight:400; }
 
   .katakana-swap { display: inline-block; position: relative; }
-  .katakana-swap::after {
-    content: attr(data-jp); position: absolute; left: 0; top: 0; opacity: 0;
-    transition: opacity 0.3s ease; color: var(--gold);
-  }
+  .katakana-swap::after { content: attr(data-jp); position: absolute; left: 0; top: 0; opacity: 0; transition: opacity 0.3s ease; color: var(--gold); }
   .katakana-swap:hover { color: transparent; }
   .katakana-swap:hover::after { opacity: 1; }
 
-  #topnav{ 
-    position: fixed !important; top: 0; width: 100%;
-    backdrop-filter:blur(12px); background:color-mix(in srgb, var(--void) 85%, transparent); border-bottom:1px solid var(--line); 
-    z-index: 100;
-  }
+  #topnav{ position: fixed !important; top: 0; width: 100%; backdrop-filter:blur(12px); background:color-mix(in srgb, var(--void) 85%, transparent); border-bottom:1px solid var(--line); z-index: 1000; }
   .absolute-nav-wrapper { position: relative; width: 95%; max-width: 1600px; height: 4.5rem; display: flex; align-items: center; justify-content: space-between; margin: 0 auto; }
   .nav-logo-locked { position: relative; }
   .nav-logo-locked a { color: var(--ink); }
-  
   .nav-links-locked { display: flex; gap: 3.5rem; }
   .nav-links-locked a { color: var(--dim); transition: color 0.3s ease; }
   .nav-links-locked a:hover { color: var(--ink); }
-  
   .nav-tools-locked { display: flex; align-items: center; gap: 1.5rem; }
   .nav-tools-locked button, .nav-tools-locked span { color: var(--dim); transition: color 0.3s ease; }
   .nav-tools-locked button:hover, .nav-tools-locked span:hover { color: var(--ink); }
-  
   @media (max-width: 768px) { .nav-links-locked { display: none; } }
 
-  .btn-primary{
-    font-family:'Space Mono', monospace; font-size:0.8rem; letter-spacing:0.12em; text-transform:uppercase;
-    background:var(--ink); color:var(--void); padding:1.2rem 3rem; border-radius:100px;
-    transition:transform .35s cubic-bezier(.2,.8,.2,1), background .35s ease, box-shadow .35s ease;
-    display:inline-flex; align-items: center; justify-content: center; border:1px solid var(--ink); text-align:center;
-    appearance: none; -webkit-appearance: none;
-  }
+  .btn-primary{ font-family:'Space Mono', monospace; font-size:0.8rem; letter-spacing:0.12em; text-transform:uppercase; background:var(--ink); color:var(--void); padding:1.2rem 3rem; border-radius:100px; transition:transform .35s cubic-bezier(.2,.8,.2,1), background .35s ease, box-shadow .35s ease; display:inline-flex; align-items: center; justify-content: center; border:1px solid var(--ink); text-align:center; appearance: none; -webkit-appearance: none; cursor: pointer;}
   .btn-primary:hover{ transform:translateY(-2px); background:var(--gold); border-color:var(--gold); box-shadow:0 12px 35px -8px rgba(209,183,148,0.35); }
   
-  .btn-ghost{
-    font-family:'Space Mono', monospace; font-size:0.8rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--dim);
-    background: transparent; appearance: none; -webkit-appearance: none;
-    border: none; border-bottom: 1px solid var(--line); padding-bottom:6px; 
-    transition:color .3s ease, border-color .3s ease, transform .3s ease;
-    display:inline-flex; align-items: center; justify-content: center; cursor: pointer;
-  }
+  .btn-ghost{ font-family:'Space Mono', monospace; font-size:0.8rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--dim); background: transparent; appearance: none; -webkit-appearance: none; border: none; border-bottom: 1px solid var(--line); padding-bottom:6px; transition:color .3s ease, border-color .3s ease, transform .3s ease; display:inline-flex; align-items: center; justify-content: center; cursor: pointer; }
   .btn-ghost:hover{ color:var(--ink); border-bottom-color:var(--gold); }
 
-  .sort-btn{
-    font-family:'Cinzel', serif; font-size:0.85rem; letter-spacing:0.05em; text-transform:uppercase;
-    color:var(--dim); border:1px solid var(--line); background:transparent;
-    padding:0.65rem 0.95rem; min-width:9.25rem; border-radius:999px; cursor:pointer; text-align:center;
-    transition:color .25s ease, border-color .25s ease, background-color .25s ease, transform .2s ease;
-    appearance: none; -webkit-appearance: none;
-  }
+  .sort-btn{ font-family:'Cinzel', serif; font-size:0.85rem; letter-spacing:0.05em; text-transform:uppercase; color:var(--dim); border:1px solid var(--line); background:transparent; padding:0.65rem 0.95rem; min-width:9.25rem; border-radius:999px; cursor:pointer; text-align:center; transition:color .25s ease, border-color .25s ease, background-color .25s ease, transform .2s ease; appearance: none; -webkit-appearance: none; }
   .sort-btn:hover{ color:var(--ink); border-color:var(--gold); transform:translateY(-1px); }
   .sort-btn.active{ color:var(--void); background:var(--gold); border-color:var(--gold); }
-  
   .sort-meta{ font-family:'Allura', cursive; font-size:1.2rem; color:var(--gold); line-height:1; opacity:0.9; }
   .sort-controls{ display:flex; align-items:center; justify-content:center; flex-wrap:wrap; gap:0.6rem; }
   .sort-controls .sort-meta{ margin-right:0.2rem; transform:translateY(1px); }
   @media (max-width: 768px) { .sort-controls{ justify-content:center; } .sort-btn{ min-width:8.5rem; } }
 
-  .ui-card{
-    position:relative; border:1px solid var(--line); padding:4rem;
-    background:var(--card-bg); border-radius: 4px;
-    transition:border-color .5s ease, transform .5s cubic-bezier(.2,.8,.2,1), box-shadow .5s ease;
-  }
-  .ui-card::before {
-    content:''; position:absolute; top:8px; left:8px; right:8px; bottom:8px;
-    border:1px solid var(--line); opacity:0.3; pointer-events:none; border-radius: 2px; transition: border-color 0.5s ease;
-  }
-  .ui-card:hover{ 
-    border-color:rgba(209,183,148,0.4); 
-    box-shadow:0 24px 60px -20px rgba(0,0,0,0.4), 0 0 40px -15px rgba(209,183,148,0.1); 
-    transform:translateY(-4px); 
-  }
+  .ui-card{ position:relative; border:1px solid var(--line); padding:4rem; background:var(--card-bg); border-radius: 4px; transition:border-color .5s ease, box-shadow .5s ease; overflow: hidden; }
+  .spotlight::before { content:''; position:absolute; inset:0; pointer-events:none; background:radial-gradient(800px circle at var(--mouse-x) var(--mouse-y), rgba(209,183,148,0.06), transparent 40%); opacity:0; transition:opacity 0.5s ease; z-index: 0; }
+  .ui-card.spotlight:hover::before { opacity: 1; }
+  .ui-card::after { content:''; position:absolute; inset:8px; border:1px solid var(--line); opacity:0.3; pointer-events:none; border-radius: 2px; transition: border-color 0.5s ease; z-index: 0; }
+  .ui-card:hover::after { border-color: var(--gold); opacity: 0.5; }
+  .ui-card:hover{ border-color:rgba(209,183,148,0.4); box-shadow:0 24px 60px -20px rgba(0,0,0,0.4), 0 0 40px -15px rgba(209,183,148,0.1); }
+  .ui-card > * { position: relative; z-index: 10; pointer-events: auto; } 
   
   .proj-num{ font-family:'Space Mono',monospace; color:var(--gold); font-size:0.9rem; opacity: 0.8;}
-
   .skills-list { display: flex; flex-direction: column; gap: 2.5rem; }
   .skill-row { transition: transform 0.5s ease, opacity 0.5s ease; }
   .skill-track{ height:1px; background:var(--line); position:relative; margin-top: 0.8rem; }
   .skill-fill{ position:absolute; inset:0; width:0%; background:var(--gold); }
 
   .proj-card, .cert-item { cursor: none; }
-  #hover-preview {
-    position: fixed; top: 0; left: 0; width: 300px; height: 200px; pointer-events: none;
-    z-index: 100; opacity: 0; transform: scale(0.8) translate(-50%, -50%);
-    transition: opacity 0.3s ease, transform 0.4s cubic-bezier(.2,.8,.2,1);
-    border: 1px solid var(--gold); border-radius: 4px; overflow: hidden;
-    background: var(--void); box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-  }
+  #hover-preview { position: fixed; top: 0; left: 0; width: 300px; height: 200px; pointer-events: none; z-index: 100; opacity: 0; transform: scale(0.8) translate(-50%, -50%); transition: opacity 0.3s ease, transform 0.4s cubic-bezier(.2,.8,.2,1); border: 1px solid var(--gold); border-radius: 4px; overflow: hidden; background: var(--void); box-shadow: 0 20px 40px rgba(0,0,0,0.5); }
   #hover-preview img { width: 100%; height: 100%; object-fit: cover; opacity: 0.8; filter: grayscale(80%) contrast(1.1); }
   .proj-card:hover ~ #hover-preview.active, .cert-item:hover ~ #hover-preview.active { opacity: 1; transform: scale(1) translate(-50%, -50%); }
 
   .cert-grid { display: grid; gap: 0rem 4rem; }
   @media (min-width: 768px) { .cert-grid { grid-template-columns: 1fr 1fr; } }
-  .cert-item { 
-    display: flex; justify-content: space-between; align-items: center; 
-    padding: 1.5rem 0; border-bottom: 1px solid var(--line);
-    transition: background 0.3s ease, padding-left 0.4s cubic-bezier(.2,.8,.2,1), padding-right 0.4s cubic-bezier(.2,.8,.2,1); 
-  }
+  .cert-item { display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 0; border-bottom: 1px solid var(--line); transition: background 0.3s ease, padding-left 0.4s cubic-bezier(.2,.8,.2,1), padding-right 0.4s cubic-bezier(.2,.8,.2,1); }
   .cert-item:hover { background: rgba(209,183,148,0.03); padding-left: 1rem; padding-right: 1rem; border-bottom-color: var(--gold); }
   .cert-title { transition: color 0.3s ease; }
   .cert-item:hover .cert-title { color: var(--gold); text-shadow: 0 0 10px rgba(209,183,148,0.3); }
 
-  .data-preview-table {
-    width: 100%; border-collapse: collapse; font-family: 'Space Mono', monospace; font-size: 0.8rem; margin-top: 2rem;
-    background: color-mix(in srgb, var(--void) 30%, transparent); border: 1px solid var(--line); border-radius: 4px; overflow: hidden;
-  }
+  .data-preview-table { width: 100%; border-collapse: collapse; font-family: 'Space Mono', monospace; font-size: 0.8rem; margin-top: 2rem; background: color-mix(in srgb, var(--void) 30%, transparent); border: 1px solid var(--line); border-radius: 4px; overflow: hidden; }
   .data-preview-table th, .data-preview-table td { padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--line); text-align: left; color: var(--dim); }
   .data-preview-table th { color: var(--gold); font-weight: normal; background: color-mix(in srgb, var(--gold) 4%, transparent); }
 
   #moon-widget{
-    width:36px; height:36px; border-radius:50%; cursor:pointer; position:relative; flex-shrink: 0;
+    width:36px; height:36px; border-radius:50%; cursor:pointer; position:relative; flex-shrink: 0; display: flex; align-items: center; justify-content: center;
     background:radial-gradient(circle at 30% 30%, #f0ebd8 0%, #c2b59b 50%, #5c5445 100%);
     box-shadow:inset -5px -3px 8px rgba(0,0,0,0.6), 0 0 12px rgba(209,183,148,0.2);
     transition:transform .5s cubic-bezier(.4,0,.2,1), box-shadow .5s ease;
-    border:1px solid rgba(209,183,148,0.4);
-    appearance: none; -webkit-appearance: none;
+    border:1px solid rgba(209,183,148,0.4); appearance: none; -webkit-appearance: none;
   }
-  #moon-widget:hover{ transform:scale(1.15) rotate(20deg); box-shadow:inset -6px -4px 10px rgba(0,0,0,0.7), 0 0 20px rgba(209,183,148,0.4); }
-  html.light-mode #moon-widget {
-    background:radial-gradient(circle at 30% 30%, #3a3835 0%, #1a1918 50%, #000000 100%);
-    box-shadow:inset -5px -3px 8px rgba(255,255,255,0.2), 0 0 12px rgba(0,0,0,0.2);
-    border-color: rgba(26,25,24,0.4);
+  #moon-widget:hover { transform:scale(1.15) rotate(20deg); box-shadow:inset -6px -4px 10px rgba(0,0,0,0.7), 0 0 20px rgba(209,183,148,0.4); }
+  html.light-mode #moon-widget { background:radial-gradient(circle at 30% 30%, #3a3835 0%, #1a1918 50%, #000000 100%); box-shadow:inset -5px -3px 8px rgba(255,255,255,0.2), 0 0 12px rgba(0,0,0,0.2); border-color: rgba(26,25,24,0.4); }
+  
+  #audio-widget { color: var(--dim); background: transparent; border: none; transition: color 0.3s ease, transform 0.3s ease; display: flex; align-items: center; justify-content: center; cursor: pointer; padding: 0 0.5rem; outline: none; }
+  #audio-widget:hover { color: var(--gold); transform: scale(1.1) rotate(5deg); text-shadow: 0 0 12px var(--gold); }
+  html.light-mode #audio-widget { color: var(--dim); }
+  html.light-mode #audio-widget:hover { color: var(--gold); }
+  
+  /* Bolder Cursor + Soft Transparent Bleed Trail */
+  #ink-cursor{ 
+    position:fixed; top:0; left:0; color: var(--gold); font-size: 32px; line-height: 1; text-align: center; 
+    pointer-events:none; z-index:9999; transition: font-size .2s cubic-bezier(.2,.8,.2,1), color .2s ease; 
+    transform:translate(-50%, -50%); filter: drop-shadow(0 0 6px rgba(209,183,148,0.4));
   }
+  #ink-cursor.hovering { font-size: 48px; color: var(--ink); text-shadow: 0 0 12px rgba(209,183,148,0.8); }
+  
+  #ink-cursor-trail {
+    position: fixed; top: 0; left: 0; width: 30px; height: 30px; background: var(--gold);
+    border-radius: 50%; pointer-events: none; z-index: 9998; 
+    filter: blur(16px); opacity: 0.15;
+    transform: translate(-50%, -50%); transition: transform 0.15s ease-out, opacity 0.3s, width 0.3s, height 0.3s;
+  }
+  #ink-cursor.hovering ~ #ink-cursor-trail { opacity: 0.3; width: 50px; height: 50px; filter: blur(20px); }
 
-  /* INCREASED CURSOR SIZE */
-  #ink-cursor{
-    position:fixed; top:0; left:0; color: var(--gold); font-size: 24px; line-height: 1; text-align: center;
-    pointer-events:none; z-index:9999; transition: font-size .2s cubic-bezier(.2,.8,.2,1), color .2s ease; transform:translate(-50%, -50%);
-  }
-  #ink-cursor.hovering { font-size: 36px; color: var(--ink); text-shadow: 0 0 10px rgba(209,183,148,0.6); }
-  @media (hover:none){ #ink-cursor{display:none;} }
+  @media (hover:none){ #ink-cursor, #ink-cursor-trail {display:none;} }
 
-  .marquee-container {
-    width: 100%; overflow: hidden; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
-    padding: 0.8rem 0; background: color-mix(in srgb, var(--void) 95%, var(--gold));
-    display: flex; white-space: nowrap; align-items: center; margin-top: 4rem; margin-bottom: 5rem;
-  }
-  .marquee-track {
-    display: flex; gap: 4rem; font-family: 'Space Mono', monospace; text-transform: uppercase;
-    font-size: 1rem; color: transparent; -webkit-text-stroke: 1px var(--gold); opacity: 0.6;
-  }
+  .marquee-container { width: 100%; overflow: hidden; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 0.4rem 0; background: color-mix(in srgb, var(--void) 95%, var(--gold)); cursor: crosshair; display: flex; white-space: nowrap; align-items: center; margin-top: 3rem; margin-bottom: 4rem; }
+  .marquee-track { display: flex; gap: 3rem; font-family: 'Space Mono', monospace; text-transform: uppercase; font-size: 0.85rem; color: transparent; -webkit-text-stroke: 1px var(--gold); opacity: 0.6; }
 
   .tool-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: 1rem; perspective: 800px; }
-  .tool-icon { 
-    aspect-ratio: 1; border: 1px solid var(--line); border-radius: 4px; display: flex; align-items: center; justify-content: center;
-    color: var(--dim); font-size: 1.5rem; transition: color 0.3s, border-color 0.3s, background 0.3s;
-    transform-style: preserve-3d; will-change: transform; cursor: pointer; text-decoration: none;
-  }
+  .tool-icon { aspect-ratio: 1; border: 1px solid var(--line); border-radius: 4px; display: flex; align-items: center; justify-content: center; color: var(--dim); font-size: 1.5rem; transition: color 0.3s, border-color 0.3s, background 0.3s; transform-style: preserve-3d; will-change: transform; cursor: pointer; text-decoration: none; }
   .tool-icon.active-tilt { color: var(--gold); border-color: var(--gold); background: color-mix(in srgb, var(--gold) 5%, transparent); box-shadow: 0 15px 30px -10px rgba(0,0,0,0.5); }
 
-  .magnetic-hover {
-    perspective: 800px;
-    transform-style: preserve-3d;
-    will-change: transform;
-    transition: box-shadow 0.3s ease, border-color 0.3s ease;
-  }
+  .magnetic-hover { will-change: transform; transition: box-shadow 0.3s ease, border-color 0.3s ease; }
 
-  /* Modals & Terminals */
-  .modal-overlay {
-    position: fixed; inset: 0; background: rgba(0,0,0,0.92); backdrop-filter: blur(12px); z-index: 9000;
-    display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.4s ease;
-  }
+  .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.92); backdrop-filter: blur(12px); z-index: 9000; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; }
   .modal-overlay.active { opacity: 1; pointer-events: auto; }
-  
-  .terminal-window {
-    width: 90%; max-width: 800px; background: #080808; border: 1px solid #333; border-radius: 6px;
-    color: #4ade80; padding: 2rem; box-shadow: 0 20px 50px rgba(0,0,0,0.8);
-    transform: translateY(20px); transition: transform 0.4s ease; max-height: 80vh; overflow-y: auto; position: relative; overflow: hidden;
-  }
+  .terminal-window { width: 90%; max-width: 800px; background: #080808; border: 1px solid #333; border-radius: 6px; color: #4ade80; padding: 2rem; box-shadow: 0 20px 50px rgba(0,0,0,0.8); transform: translateY(20px); transition: transform 0.4s ease; max-height: 80vh; overflow-y: auto; position: relative; overflow: hidden; }
   .modal-overlay.active .terminal-window { transform: translateY(0); }
   .terminal-header { border-bottom: 1px solid #333; padding-bottom: 1rem; margin-bottom: 1rem; color: #888; position: relative; z-index: 10; }
   .terminal-content { position: relative; z-index: 10; background: rgba(0,0,0,0.7); padding: 1rem; border-radius: 4px;}
-  
-  /* STRICT TERMINAL FONT ENFORCEMENT - Applies to all children of terminal modals */
-  .terminal-window, .terminal-window * {
-    font-family: 'Courier New', Courier, monospace !important;
-    font-size: 12px !important;
-    line-height: 1.6 !important;
-    letter-spacing: normal !important;
-    text-transform: none !important;
-  }
+  .terminal-window, .terminal-window * { font-family: 'Courier New', Courier, monospace !important; font-size: 12px !important; line-height: 1.6 !important; letter-spacing: normal !important; text-transform: none !important; }
+
+  .slide-drawer { position: fixed; top: 0; right: 0; width: 100%; max-width: 650px; height: 100vh; background: color-mix(in srgb, var(--void) 95%, transparent); backdrop-filter: blur(25px); border-left: 1px solid var(--line); z-index: 9999; transform: translateX(100%); transition: transform 0.6s cubic-bezier(0.77, 0, 0.175, 1), box-shadow 0.6s ease; overflow-y: auto; padding: 4rem 3rem; box-shadow: none; }
+  .slide-drawer.active { transform: translateX(0); box-shadow: -20px 0 50px rgba(0,0,0,0.5); }
+  .drawer-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); z-index: 9998; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; }
+  .drawer-overlay.active { opacity: 1; pointer-events: auto; }
+  .drawer-close { position: absolute; top: 2rem; right: 2.5rem; color: var(--dim); cursor: pointer; font-size: 1.5rem; transition: color 0.3s; }
+  .drawer-close:hover { color: var(--gold); }
+
+  .ba-container { position: relative; width: 100%; aspect-ratio: 16/9; overflow: hidden; border: 1px solid var(--line); border-radius: 4px; margin-top: 2.5rem; margin-bottom: 2.5rem; }
+  .ba-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .ba-overlay { position: absolute; inset: 0; width: 50%; overflow: hidden; border-right: 2px solid var(--gold); }
+  .ba-overlay img { width: 200%; height: 100%; object-fit: cover; max-width: none; }
+  .ba-slider { position: absolute; inset: 0; width: 100%; opacity: 0; cursor: ew-resize; z-index: 10; }
+  .ba-badge { position: absolute; top: 1rem; padding: 0.2rem 0.6rem; background: rgba(0,0,0,0.7); border: 1px solid var(--gold); color: var(--gold); font-family: 'Space Mono', monospace; font-size: 0.7rem; border-radius: 2px; }
+
+  .toast-container { position: fixed; bottom: 2rem; right: 2rem; z-index: 10000; display: flex; flex-direction: column; gap: 1rem; }
+  .toast { background: var(--ink); color: var(--void); font-family: 'Space Mono', monospace; font-size: 0.8rem; padding: 1rem 1.5rem; border-radius: 4px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); transform: translateY(20px); opacity: 0; transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1); border: 1px solid var(--gold); }
+  .toast.show { transform: translateY(0); opacity: 1; }
+  .copy-btn { background: transparent; border: 1px solid var(--gold); color: var(--gold); padding: 0.3rem 0.8rem; font-size: 0.75rem; border-radius: 2px; cursor: pointer; transition: all 0.2s; font-family: 'Space Mono', monospace; }
+  .copy-btn:hover { background: var(--gold); color: #000; }
+
+  .signature-svg { width: 45px; height: 45px; color: var(--gold); stroke-dasharray: 200; stroke-dashoffset: 200; margin: 0 auto 1rem auto; display: block; opacity: 0.9; filter: drop-shadow(0 0 6px var(--gold)); }
+  .signature-svg.draw { animation: drawSig 2s ease-out forwards; }
+  @keyframes drawSig { to { stroke-dashoffset: 0; } }
 
   .magnify-text { transition: color 0.3s ease, text-shadow 0.3s ease; cursor: default; position: relative; z-index: 1; }
   .magnify-text:hover { color: var(--gold); text-shadow: 0 2px 10px rgba(209,183,148,0.4); z-index: 10; }
 
-  /* Rhythm Game Styles */
-  .rhythm-stage {
-    width: 100%; max-width: 480px; background: #0c0a10; border: 2px solid var(--gold);
-    border-radius: 8px; padding: 1.5rem; text-align: center; font-family: 'Courier New', Courier, monospace;
-    box-shadow: 0 0 40px rgba(209,183,148,0.2), inset 0 0 20px rgba(0,0,0,0.8);
-  }
+  .rhythm-stage { width: 100%; max-width: 480px; background: #0c0a10; border: 2px solid var(--gold); border-radius: 8px; padding: 1.5rem; text-align: center; font-family: 'Courier New', Courier, monospace; box-shadow: 0 0 40px rgba(209,183,148,0.2), inset 0 0 20px rgba(0,0,0,0.8); }
   .rhythm-header { display: flex; justify-content: space-between; margin-bottom: 1rem; color: var(--gold); font-size: 12px; }
-  .rhythm-track-area {
-    position: relative; width: 100%; height: 320px; background: #050408; border: 1px solid rgba(209,183,148,0.2);
-    border-radius: 4px; overflow: hidden; display: flex;
-  }
-  .rhythm-lane {
-    flex: 1; border-right: 1px solid rgba(255,255,255,0.05); position: relative;
-    display: flex; flex-direction: column; justify-content: flex-end; align-items: center; padding-bottom: 8px;
-  }
+  .rhythm-track-area { position: relative; width: 100%; height: 320px; background: #050408; border: 1px solid rgba(209,183,148,0.2); border-radius: 4px; overflow: hidden; display: flex; }
+  .rhythm-lane { flex: 1; border-right: 1px solid rgba(255,255,255,0.05); position: relative; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; padding-bottom: 8px; }
   .rhythm-lane:last-child { border-right: none; }
-  .rhythm-key-target {
-    width: 42px; height: 42px; border: 2px solid var(--gold); border-radius: 6px;
-    display: flex; align-items: center; justify-content: center; font-weight: bold; color: var(--gold);
-    background: rgba(209,183,148,0.05); transition: background 0.1s, transform 0.1s; z-index: 5;
-    font-size: 16px !important;
-  }
+  .rhythm-key-target { width: 42px; height: 42px; border: 2px solid var(--gold); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-weight: bold; color: var(--gold); background: rgba(209,183,148,0.05); transition: background 0.1s, transform 0.1s; z-index: 5; font-size: 16px !important; }
   .rhythm-key-target.pressed { background: var(--gold); color: #000; transform: scale(0.92); }
-  .rhythm-note {
-    position: absolute; width: 40px; height: 16px; border-radius: 3px;
-    background: linear-gradient(180deg, #ff0055, #ff5500); box-shadow: 0 0 10px #ff0055; z-index: 10;
-  }
+  .rhythm-note { position: absolute; width: 40px; height: 16px; border-radius: 3px; background: linear-gradient(180deg, #ff0055, #ff5500); box-shadow: 0 0 10px #ff0055; z-index: 10; }
   .rhythm-judgement { height: 24px; font-size: 16px !important; font-weight: bold; margin-top: 0.8rem; letter-spacing: 0.1em; }
   .judg-perfect { color: #00e5ff; text-shadow: 0 0 8px #00e5ff; }
   .judg-great { color: #4ade80; text-shadow: 0 0 8px #4ade80; }
   .judg-miss { color: #ff0055; text-shadow: 0 0 8px #ff0055; }
 
-  /* VISUAL NOVEL MODE */
-  #vn-overlay {
-    position: fixed; inset: 0; z-index: 9500; pointer-events: none; opacity: 0; transition: opacity 0.5s ease;
-    background: linear-gradient(180deg, rgba(10,9,8,0) 40%, rgba(10,9,8,0.95) 100%);
-  }
+  #vn-overlay { position: fixed; inset: 0; z-index: 9500; pointer-events: none; opacity: 0; transition: opacity 0.5s ease; background: linear-gradient(180deg, rgba(10,9,8,0) 40%, rgba(10,9,8,0.95) 100%); }
   #vn-overlay.active { opacity: 1; pointer-events: auto; }
-  #vn-dialogue-box {
-    position: absolute; bottom: 3rem; left: 50%; transform: translateX(-50%);
-    width: 90%; max-width: 900px; background: rgba(15,13,18,0.85); border: 2px solid var(--gold); border-radius: 8px;
-    padding: 2.5rem; backdrop-filter: blur(10px); box-shadow: 0 20px 50px rgba(0,0,0,0.8); cursor: pointer;
-  }
+  #vn-dialogue-box { position: absolute; bottom: 3rem; left: 50%; transform: translateX(-50%); width: 90%; max-width: 900px; background: rgba(15,13,18,0.85); border: 2px solid var(--gold); border-radius: 8px; padding: 2.5rem; backdrop-filter: blur(10px); box-shadow: 0 20px 50px rgba(0,0,0,0.8); cursor: pointer; }
   #vn-name { font-family: 'Space Mono', monospace; color: var(--gold); font-size: 1.2rem; margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.1em; }
   #vn-text { font-family: 'Newsreader', serif; font-size: 1.5rem; color: #fff; line-height: 1.6; min-height: 4.8rem; }
   #vn-next { position: absolute; bottom: 1.5rem; right: 2rem; color: var(--gold); font-family: 'Space Mono'; animation: bounceX 1s infinite; }
   @keyframes bounceX { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(5px); } }
 
-  /* GitHub Graph */
   .gh-graph { display: flex; gap: 4px; overflow-x: auto; padding-bottom: 1rem; }
   .gh-col { display: flex; flex-direction: column; gap: 4px; }
   .gh-cell { width: 12px; height: 12px; border-radius: 2px; background: var(--line); transition: background 0.3s; }
@@ -385,75 +256,26 @@
   .gh-cell[data-level="2"] { background: color-mix(in srgb, var(--gold) 50%, transparent); }
   .gh-cell[data-level="3"] { background: color-mix(in srgb, var(--gold) 75%, transparent); }
   .gh-cell[data-level="4"] { background: var(--gold); }
-  .repo-activity-wrap{
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    text-align:center;
-    width:100%;
-  }
-  #gh-grid{
-    display:flex;
-    justify-content:center;
-    width:fit-content;
-    max-width:100%;
-    margin-left:auto;
-    margin-right:auto;
-  }
-  .footer-stack{
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    gap:0.75rem;
-    text-align:center;
-  }
+  .repo-activity-wrap{ display:flex; flex-direction:column; align-items:center; text-align:center; width:100%; }
+  #gh-grid{ display:flex; justify-content:center; width:fit-content; max-width:100%; margin-left:auto; margin-right:auto; }
+  .footer-stack{ display:flex; flex-direction:column; align-items:center; justify-content:center; gap:0.75rem; text-align:center; }
 
-  .sr-only {
-    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
-  }
-  .sr-only:focus,
-  .focus\:not-sr-only:focus {
-    position: fixed; left: 1rem; top: 1rem; width: auto; height: auto; padding: 0.75rem 1rem; margin: 0; clip: auto; white-space: normal; background: var(--void); color: var(--ink); border: 1px solid var(--gold); z-index: 20000; border-radius: 4px;
-  }
+  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+  .sr-only:focus, .focus\:not-sr-only:focus { position: fixed; left: 1rem; top: 1rem; width: auto; height: auto; padding: 0.75rem 1rem; margin: 0; clip: auto; white-space: normal; background: var(--void); color: var(--ink); border: 1px solid var(--gold); z-index: 20000; border-radius: 4px; }
   
-  /* Scrollbar Sync */
-  #minimap {
-    position: fixed; right: 1rem; top: 50%; transform: translateY(-50%);
-    width: 4px; height: 30vh; background: var(--line); border-radius: 4px; z-index: 90;
-    opacity: 0.3; transition: opacity 0.3s; cursor: pointer;
-  }
+  #minimap { position: fixed; right: 1rem; top: 50%; transform: translateY(-50%); width: 4px; height: 30vh; background: var(--line); border-radius: 4px; z-index: 90; opacity: 0.3; transition: opacity 0.3s; cursor: pointer; }
   #minimap:hover { opacity: 1; }
-  #minimap-thumb {
-    width: 100%; background: var(--gold); border-radius: 4px;
-    position: absolute; top: 0; left: 0; height: 20px;
-    will-change: transform; cursor: grab;
-  }
+  #minimap-thumb { width: 100%; background: var(--gold); border-radius: 4px; position: absolute; top: 0; left: 0; height: 20px; will-change: transform; cursor: grab; }
   #minimap-thumb:active { cursor: grabbing; }
   
-  #god-mode {
-    position: fixed; bottom: 1rem; right: 1rem; background: rgba(0,0,0,0.85); border: 1px solid #4ade80;
-    color: #4ade80; font-family: 'Courier New', Courier, monospace; font-size: 12px; padding: 1rem;
-    z-index: 10000; border-radius: 4px; pointer-events: none; display: none; backdrop-filter: blur(5px);
-  }
+  #god-mode { position: fixed; bottom: 1rem; right: 1rem; background: rgba(0,0,0,0.85); border: 1px solid #4ade80; color: #4ade80; font-family: 'Courier New', Courier, monospace; font-size: 12px; padding: 1rem; z-index: 10000; border-radius: 4px; pointer-events: none; display: none; backdrop-filter: blur(5px); }
   #god-mode.active { display: block; }
   
-  /* MODIFIED: Mobile Specific Responsive Tweaks */
   @media (max-width: 768px) {
-    .hero-title {
-      font-size: clamp(2.5rem, 10vw, 4rem) !important;
-    }
-    .hero-initial {
-      font-size: 1.25em;
-      padding: 0.1em 0.2em 0.1em 0.2em;
-      margin: -0.1em -0.1em -0.1em -0.2em;
-    }
-    .ui-card {
-      padding: 2rem !important; 
-    }
-    .cert-grid {
-      gap: 2rem;
-    }
+    .hero-title { font-size: clamp(2.5rem, 10vw, 4rem) !important; }
+    .hero-initial { font-size: 1.25em; padding: 0.1em 0.2em 0.1em 0.2em; margin: -0.1em -0.1em -0.1em -0.2em; }
+    .ui-card { padding: 2rem !important; }
+    .cert-grid { gap: 2rem; }
   }
 </style>
 </head>
@@ -461,8 +283,12 @@
 <body id="top">
 <div id="grain" aria-hidden="true"></div>
 <div id="vignette" aria-hidden="true"></div>
-<div id="ink-cursor" aria-hidden="true">✠</div>
 
+<!-- Enhanced Cursor & Softer Ink Trail -->
+<div id="ink-cursor" aria-hidden="true">✠</div>
+<div id="ink-cursor-trail" aria-hidden="true"></div>
+
+<div class="toast-container" id="toast-container"></div>
 <div id="minimap" aria-hidden="true"><div id="minimap-thumb"></div></div>
 
 <a href="#main-content" class="sr-only focus:not-sr-only">Skip to content</a>
@@ -489,12 +315,17 @@
       <a href="#about" class="label transition-colors hover-trigger">Dossier</a>
       <a href="#work" class="label transition-colors hover-trigger">Exhibits</a>
       <a href="#certifications" class="label transition-colors hover-trigger">Credentials</a>
+      <a href="#creative" class="label transition-colors hover-trigger">Creative</a>
       <a href="#notes" class="label transition-colors hover-trigger">Notes</a>
       <a href="#contact" class="label transition-colors hover-trigger">Socials</a>
     </div>
     <div class="nav-tools-locked">
       <button type="button" class="btn-ghost hover-trigger modal-trigger" data-target="modal-tips">TIPS ?</button>
       <span id="dispatch-time" class="label hidden sm:block opacity-70 whitespace-nowrap hover-trigger cursor-pointer" aria-live="polite">--:--</span>
+      <!-- Clean Vector Audio Icon -->
+      <button type="button" id="audio-widget" class="hover-trigger" title="Toggle UI Audio">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
+      </button>
       <button type="button" id="moon-widget" class="hover-trigger mr-4 md:mr-0" title="Toggle Light/Dark Theme" aria-label="Toggle Theme"></button>
     </div>
   </div>
@@ -508,7 +339,6 @@
       <p class="label !text-[0.68rem]">ITM Skills University — Business Analytics</p>
     </div>
     
-    <!-- MODIFIED: Removed inline font-size, now handled in CSS for responsive scaling -->
     <h1 class="h-display hero-title text-mask-fluid mb-8">
       <span class="hero-initial">N</span><span id="typewriter-rest"></span><span class="type-cursor" style="height:0.8em; vertical-align:middle; -webkit-text-fill-color: var(--gold);"></span>
     </h1>
@@ -517,16 +347,35 @@
       "<span class="magnify-text">I clean data,</span> <span class="magnify-text">document it honestly,</span> <span class="magnify-text">and build analytical tools with precision.</span> <span class="magnify-text">No manufactured polish—</span><span class="magnify-text">just reproducible work and seamless hand-offs.</span>"
     </p>
 
-    <div class="flex flex-wrap items-center justify-center gap-x-8 gap-y-5 anim-fade">
-      <a href="#work" class="btn-primary hover-trigger">View Selected Exhibits</a>
-      <a href="mailto:nabhya52kar@gmail.com" class="btn-ghost hover-trigger">Establish Contact</a>
+    <div class="flex flex-wrap items-center justify-center gap-x-12 gap-y-5 anim-fade mt-4">
+      <a href="#contact" class="btn-ghost hover-trigger tracking-[0.25em] text-[0.85rem]">ESTABLISH CONTACT</a>
+      <a href="Resume.pdf" download class="btn-ghost hover-trigger tracking-[0.25em] text-[0.85rem]">RESUME</a>
     </div>
   </div>
 </header>
 
-<div class="marquee-container my-32">
+<div class="marquee-container" id="marquee-cont">
   <div class="marquee-track" id="marquee">
-    <span>Data Hygiene</span> <span class="!text-[var(--gold)] !-webkit-text-stroke-0">✠</span> <span>Optimization Models</span> <span class="!text-[var(--gold)] !-webkit-text-stroke-0">✠</span> <span>Game Theory</span> <span class="!text-[var(--gold)] !-webkit-text-stroke-0">✠</span> <span>SQL Architecture</span> <span class="!text-[var(--gold)] !-webkit-text-stroke-0">✠</span> <span>Statistical Inference</span> <span class="!text-[var(--gold)] !-webkit-text-stroke-0">✠</span> <span>Data Hygiene</span> <span class="!text-[var(--gold)] !-webkit-text-stroke-0">✠</span> <span>Optimization Models</span> <span class="!text-[var(--gold)] !-webkit-text-stroke-0">✠</span> <span>Game Theory</span> <span class="!text-[var(--gold)] !-webkit-text-stroke-0">✠</span> <span>SQL Architecture</span> <span class="!text-[var(--gold)] !-webkit-text-stroke-0">✠</span> <span>Statistical Inference</span> <span class="!text-[var(--gold)] !-webkit-text-stroke-0">✠</span>
+    <span>Data Hygiene</span> <span class="!text-[var(--gold)] !-webkit-text-stroke-0">✠</span> 
+    <span>Large Language Models</span> <span class="!text-[var(--gold)] !-webkit-text-stroke-0">✠</span> 
+    <span>Optimization Models</span> <span class="!text-[var(--gold)] !-webkit-text-stroke-0">✠</span> 
+    <span>Machine Learning</span> <span class="!text-[var(--gold)] !-webkit-text-stroke-0">✠</span> 
+    <span>Game Theory</span> <span class="!text-[var(--gold)] !-webkit-text-stroke-0">✠</span> 
+    <span>SQL Architecture</span> <span class="!text-[var(--gold)] !-webkit-text-stroke-0">✠</span> 
+    <span>Statistical Inference</span> <span class="!text-[var(--gold)] !-webkit-text-stroke-0">✠</span> 
+    <span>Predictive Analytics</span> <span class="!text-[var(--gold)] !-webkit-text-stroke-0">✠</span> 
+    <span>Connectomics</span> <span class="!text-[var(--gold)] !-webkit-text-stroke-0">✠</span> 
+    <span>Deep Learning</span> <span class="!text-[var(--gold)] !-webkit-text-stroke-0">✠</span>
+    <span>Data Hygiene</span> <span class="!text-[var(--gold)] !-webkit-text-stroke-0">✠</span> 
+    <span>Large Language Models</span> <span class="!text-[var(--gold)] !-webkit-text-stroke-0">✠</span> 
+    <span>Optimization Models</span> <span class="!text-[var(--gold)] !-webkit-text-stroke-0">✠</span> 
+    <span>Machine Learning</span> <span class="!text-[var(--gold)] !-webkit-text-stroke-0">✠</span> 
+    <span>Game Theory</span> <span class="!text-[var(--gold)] !-webkit-text-stroke-0">✠</span> 
+    <span>SQL Architecture</span> <span class="!text-[var(--gold)] !-webkit-text-stroke-0">✠</span> 
+    <span>Statistical Inference</span> <span class="!text-[var(--gold)] !-webkit-text-stroke-0">✠</span> 
+    <span>Predictive Analytics</span> <span class="!text-[var(--gold)] !-webkit-text-stroke-0">✠</span> 
+    <span>Connectomics</span> <span class="!text-[var(--gold)] !-webkit-text-stroke-0">✠</span> 
+    <span>Deep Learning</span> <span class="!text-[var(--gold)] !-webkit-text-stroke-0">✠</span>
   </div>
 </div>
 
@@ -536,7 +385,7 @@
   <div class="grid md:grid-cols-[1.1fr,0.9fr] gap-24 items-start">
     <div class="anim-section text-center">
       <p class="label mb-6">Section I — The Dossier <span class="text-[var(--gold)] opacity-50 ml-2">✠</span></p>
-      <h2 class="h-sub mb-10" style="font-size:clamp(3rem,5vw,4rem);">On working with real, unglamorous data.</h2>
+      <h2 class="h-sub mb-10 ink-bleed" style="font-size:clamp(3rem,5vw,4rem);">On working with real, unglamorous data.</h2>
       <p class="text-[var(--dim)] leading-[1.9] text-[1.3rem] mb-8 font-serif vn-readable decay-target">
         Most of what I've built stems from real assignments—NGO applicant records, structured cost sheets, and analytical audits. I prefer the administrative mechanics closer to bookkeeping than storytelling: verifying columns, sanitizing erratic inputs, and distilling complex matrices into clear metrics.
       </p>
@@ -555,7 +404,8 @@
       </div>
     </div>
 
-    <div class="ui-card anim-section">
+    <!-- Spotlight applied here -->
+    <div class="ui-card spotlight anim-section">
       <div class="flex flex-col items-center gap-6 mb-16 text-center">
         <p class="label text-[var(--ink)]">Analytical Instruments</p>
         <div class="sort-controls">
@@ -605,13 +455,13 @@
   <div class="anim-section mb-24 flex justify-center items-end text-center">
     <div class="max-w-3xl mx-auto">
       <p class="label mb-6">Section II — Archives <span class="text-[var(--gold)] opacity-50 ml-2">✠</span></p>
-      <h2 class="h-sub mb-6" style="font-size:clamp(2.8rem,5vw,3.8rem);">Selected Finished Works.</h2>
+      <h2 class="h-sub mb-6 ink-bleed" style="font-size:clamp(2.8rem,5vw,3.8rem);">Selected Finished Works.</h2>
       <p class="text-[var(--dim)] max-w-lg mx-auto font-serif text-[1.25rem] decay-target">A curated dossier of deployment-ready deliverables.</p>
     </div>
   </div>
 
   <div class="grid md:grid-cols-2 gap-16">
-    <article class="ui-card anim-section flex flex-col proj-card hover-trigger magnetic-hover" data-img="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop">
+    <article class="ui-card spotlight anim-section flex flex-col proj-card hover-trigger magnetic-hover" data-img="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop">
       <div class="flex items-center justify-between mb-8">
         <span class="proj-num">01</span><span class="label !text-[0.7rem] opacity-70">Data Cleaning</span>
       </div>
@@ -627,13 +477,12 @@
           </table>
         </div>
         <div class="flex gap-4">
-          <span class="label !text-[0.75rem] border border-[var(--line)] px-5 py-2 rounded-sm">Codebook</span>
-          <span class="label !text-[0.75rem] border border-[var(--line)] px-5 py-2 rounded-sm">CSV</span>
+          <button class="btn-ghost hover-trigger text-[0.75rem]" onclick="openDrawer('drawer-ngo')">View Case Study</button>
         </div>
       </div>
     </article>
 
-    <article class="ui-card anim-section flex flex-col proj-card hover-trigger magnetic-hover" data-img="https://images.unsplash.com/photo-1601597111158-2fceff292cdc?q=80&w=800&auto=format&fit=crop">
+    <article class="ui-card spotlight anim-section flex flex-col proj-card hover-trigger magnetic-hover" data-img="https://images.unsplash.com/photo-1601597111158-2fceff292cdc?q=80&w=800&auto=format&fit=crop">
       <div class="flex items-center justify-between mb-8">
         <span class="proj-num">02</span><span class="label !text-[0.7rem] opacity-70">Game Theory</span>
       </div>
@@ -646,20 +495,20 @@
       </div>
     </article>
 
-    <article class="ui-card anim-section flex flex-col proj-card hover-trigger magnetic-hover" data-img="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop">
+    <article class="ui-card spotlight anim-section flex flex-col proj-card hover-trigger magnetic-hover" data-img="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop">
       <div class="flex items-center justify-between mb-8">
         <span class="proj-num">03</span><span class="label !text-[0.7rem] opacity-70">Machine Learning</span>
       </div>
       <h3 class="h-display text-4xl lg:text-5xl text-[var(--ink)] mb-8">Credit Card Fraud Detection</h3>
       <p class="text-[var(--dim)] leading-[1.8] font-serif text-[1.2rem] mb-10 flex-grow vn-readable">
-        Tackled a heavily imbalanced dataset (0.17% fraud rate across 284k cases) using Python. Applied SMOTE to generate synthetic minority samples, stabilizing model accuracy. Evaluated distributions dynamically via matplotlib.[cite: 2]
+        Tackled a heavily imbalanced dataset (0.17% fraud rate across 284k cases) using Python. Applied SMOTE to generate synthetic minority samples, stabilizing model accuracy. Evaluated distributions dynamically via matplotlib.
       </p>
       <div class="mt-auto pt-8 border-t border-[var(--line)] flex gap-4">
         <button class="btn-ghost hover-trigger modal-trigger" data-target="modal-fraud">View Analysis Logic</button>
       </div>
     </article>
 
-    <article class="ui-card anim-section flex flex-col proj-card hover-trigger magnetic-hover" data-img="https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=800&auto=format&fit=crop">
+    <article class="ui-card spotlight anim-section flex flex-col proj-card hover-trigger magnetic-hover" data-img="https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=800&auto=format&fit=crop">
       <div class="flex items-center justify-between mb-8">
         <span class="proj-num">04</span><span class="label !text-[0.7rem] opacity-70">Interactive Analytics</span>
       </div>
@@ -676,10 +525,44 @@
 
 <div class="container-w"><div class="rule"></div></div>
 
+<section id="creative" class="container-w py-32 md:py-40">
+  <div class="ui-card spotlight anim-section p-10 md:p-16 relative border-t-4 border-t-[var(--gold)]">
+    <div class="mb-12 border-b border-[var(--line)] pb-6">
+      <p class="label text-[var(--gold)] mb-2 tracking-[0.2em]">CREATIVE ENGINEERING</p>
+      <span class="label !text-[0.6rem] opacity-70 tracking-[0.2em]">MULTIDISCIPLINARY</span>
+    </div>
+    
+    <div class="space-y-12">
+      <div class="cursor-pointer group hover-trigger" onclick="openDrawer('drawer-giving-up')">
+        <h4 class="text-xl md:text-2xl text-[var(--ink)] font-serif mb-4 group-hover:text-[var(--gold)] transition-colors">The Art of Giving Up <span class="text-[var(--gold)] opacity-0 group-hover:opacity-100 transition-opacity ml-1">↗</span></h4>
+        <p class="text-[var(--dim)] text-[1.1rem] leading-[1.8] font-serif max-w-4xl">
+          "To give up is not to stop living, it's to start living differently." An essay exploring the paradox of quitting as an act of authentic alignment rather than defeat.
+        </p>
+      </div>
+
+      <div class="cursor-pointer group hover-trigger" onclick="openDrawer('drawer-ouroboros')">
+        <h4 class="text-xl md:text-2xl text-[var(--ink)] font-serif mb-4 group-hover:text-[var(--gold)] transition-colors">The Ouroboros of Ignorance <span class="text-[var(--gold)] opacity-0 group-hover:opacity-100 transition-opacity ml-1">↗</span></h4>
+        <p class="text-[var(--dim)] text-[1.1rem] leading-[1.8] font-serif max-w-4xl">
+          "The constant echoing chamber of knowledge births an ouroboros of ignorance." Analyzing the intersection of late-stage capitalism, AI, and intellectual decline.
+        </p>
+      </div>
+
+      <div class="cursor-pointer group hover-trigger" onclick="openDrawer('drawer-constitution')">
+        <h4 class="text-xl md:text-2xl text-[var(--ink)] font-serif mb-4 group-hover:text-[var(--gold)] transition-colors">An Essay on Constitutional Erosion <span class="text-[var(--gold)] opacity-0 group-hover:opacity-100 transition-opacity ml-1">↗</span></h4>
+        <p class="text-[var(--dim)] text-[1.1rem] leading-[1.8] font-serif max-w-4xl">
+          A critical evaluation of the Indian Constitution, detailing the friction between Fundamental Rights and Directive Principles, the Puttaswamy privacy judgment, and the boundaries of judicial activism.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="container-w"><div class="rule"></div></div>
+
 <section id="certifications" class="container-w py-32 md:py-40">
   <div class="anim-section mb-20 text-center">
     <p class="label mb-6">Section III — Credentials <span class="text-[var(--gold)] opacity-50 ml-2">✠</span></p>
-    <h2 class="h-sub mb-6" style="font-size:clamp(2.8rem,5vw,3.8rem);">Verified Proficiencies.</h2>
+    <h2 class="h-sub mb-6 ink-bleed" style="font-size:clamp(2.8rem,5vw,3.8rem);">Verified Proficiencies.</h2>
     <p class="text-[var(--dim)] max-w-3xl mx-auto font-serif text-[1.3rem] mb-12 decay-target">
       A cryptographic ledger of academic and professional certifications acquired to date. Click to authenticate directly via Coursera.
     </p>
@@ -693,15 +576,13 @@
       </div>
       <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">Jul 6, 2026 ↗</span>
     </a>
-
     <a href="https://coursera.org/verify/2OIY80FRZGQN" target="_blank" rel="noopener" class="cert-item hover-trigger" data-img="https://images.unsplash.com/photo-1601597111158-2fceff292cdc?q=80&w=800&auto=format&fit=crop">
       <div>
-        <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">AI for App Building[cite: 1]</span>
+        <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">AI for App Building</span>
         <span class="label !text-[0.6rem] text-[var(--dim)] mt-1">Google</span>
       </div>
-      <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">Jul 6, 2026[cite: 1] ↗</span>
+      <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">Jul 6, 2026 ↗</span>
     </a>
-
     <a href="https://coursera.org/verify/62JOVFOST4YO" target="_blank" rel="noopener" class="cert-item hover-trigger" data-img="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=800&auto=format&fit=crop">
       <div>
         <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">AI for Content Creation</span>
@@ -709,7 +590,6 @@
       </div>
       <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">Jul 6, 2026 ↗</span>
     </a>
-
     <a href="https://coursera.org/verify/6G3P6R907SMA" target="_blank" rel="noopener" class="cert-item hover-trigger" data-img="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop">
       <div>
         <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">AI for Data Analysis</span>
@@ -717,15 +597,13 @@
       </div>
       <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">Jul 6, 2026 ↗</span>
     </a>
-
     <a href="https://coursera.org/verify/C8IDWFQ2B38C" target="_blank" rel="noopener" class="cert-item hover-trigger" data-img="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=800&auto=format&fit=crop">
       <div>
-        <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">AI for Brainstorming and Planning[cite: 2]</span>
+        <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">AI for Brainstorming and Planning</span>
         <span class="label !text-[0.6rem] text-[var(--dim)] mt-1">Google</span>
       </div>
-      <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">Jul 5, 2026[cite: 2] ↗</span>
+      <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">Jul 5, 2026 ↗</span>
     </a>
-
     <a href="https://coursera.org/verify/YBW2BYO2NGWC" target="_blank" rel="noopener" class="cert-item hover-trigger" data-img="https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=800&auto=format&fit=crop">
       <div>
         <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">AI for Research and Insights</span>
@@ -733,7 +611,6 @@
       </div>
       <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">Jul 5, 2026 ↗</span>
     </a>
-
     <a href="https://coursera.org/verify/JUOLOYE3XL31" target="_blank" rel="noopener" class="cert-item hover-trigger" data-img="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=800&auto=format&fit=crop">
       <div>
         <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">AI for Writing and Communicating</span>
@@ -741,7 +618,6 @@
       </div>
       <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">Jul 5, 2026 ↗</span>
     </a>
-
     <a href="https://coursera.org/verify/816ZSIY7JQ2Y" target="_blank" rel="noopener" class="cert-item hover-trigger" data-img="https://images.unsplash.com/photo-1555949963-aa79dcee981c?q=80&w=800&auto=format&fit=crop">
       <div>
         <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">AI Fundamentals</span>
@@ -749,7 +625,6 @@
       </div>
       <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">Jul 5, 2026 ↗</span>
     </a>
-
     <a href="https://coursera.org/verify/1E1100ABDTDP" target="_blank" rel="noopener" class="cert-item hover-trigger" data-img="https://images.unsplash.com/photo-1589330694653-ded6df03f754?q=80&w=800&auto=format&fit=crop">
       <div>
         <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">Data Science Methodology</span>
@@ -757,7 +632,6 @@
       </div>
       <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">Jul 5, 2026 ↗</span>
     </a>
-
     <a href="https://coursera.org/verify/8LLOVUI816GV" target="_blank" rel="noopener" class="cert-item hover-trigger" data-img="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=800&auto=format&fit=crop">
       <div>
         <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">What is Data Science?</span>
@@ -765,7 +639,6 @@
       </div>
       <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">Jun 3, 2026 ↗</span>
     </a>
-
     <a href="https://coursera.org/verify/2LK3BMDH5L10" target="_blank" rel="noopener" class="cert-item hover-trigger" data-img="https://images.unsplash.com/photo-1528164344705-47542687000d?q=80&w=800&auto=format&fit=crop">
       <div>
         <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">Tools for Data Science</span>
@@ -773,7 +646,6 @@
       </div>
       <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">Jun 20, 2026 ↗</span>
     </a>
-
     <a href="https://coursera.org/verify/9FNW7ECSJOOD" target="_blank" rel="noopener" class="cert-item hover-trigger" data-img="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop">
       <div>
         <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">Python for Data Science, AI & Dev</span>
@@ -781,7 +653,6 @@
       </div>
       <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">May 22, 2026 ↗</span>
     </a>
-
     <a href="https://coursera.org/verify/4B176SBS1FUC" target="_blank" rel="noopener" class="cert-item hover-trigger" data-img="https://images.unsplash.com/photo-1616077168712-fc6c788db4fa?q=80&w=800&auto=format&fit=crop">
       <div>
         <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">Excel Basics for Data Analysis</span>
@@ -789,7 +660,6 @@
       </div>
       <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">May 22, 2026 ↗</span>
     </a>
-
     <a href="https://coursera.org/verify/35BF0N944583" target="_blank" rel="noopener" class="cert-item hover-trigger" data-img="https://images.unsplash.com/photo-1555949963-aa79dcee981c?q=80&w=800&auto=format&fit=crop">
       <div>
         <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">Programming for Everybody (Python)</span>
@@ -797,7 +667,6 @@
       </div>
       <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">May 20, 2026 ↗</span>
     </a>
-
     <a href="https://coursera.org/verify/2IMXO38ZVMVO" target="_blank" rel="noopener" class="cert-item hover-trigger" data-img="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=800&auto=format&fit=crop">
       <div>
         <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">Generative AI: Prompt Engineering</span>
@@ -805,7 +674,6 @@
       </div>
       <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">May 13, 2026 ↗</span>
     </a>
-
     <a href="https://coursera.org/verify/Z4F077T14PVG" target="_blank" rel="noopener" class="cert-item hover-trigger" data-img="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=800&auto=format&fit=crop">
       <div>
         <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">Leveraging AI for Content Creation</span>
@@ -813,7 +681,6 @@
       </div>
       <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">May 3, 2026 ↗</span>
     </a>
-
     <a href="https://coursera.org/verify/GPRAZ1HU9HET" target="_blank" rel="noopener" class="cert-item hover-trigger" data-img="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=800&auto=format&fit=crop">
       <div>
         <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">How to Get Into AI</span>
@@ -830,19 +697,11 @@
 
 <section id="notes" class="container-w py-32 md:py-40">
   <div class="anim-section mb-20 text-center">
-    <p class="label mb-6">Section IV — Field Notes <span class="text-[var(--gold)] opacity-50 ml-2">✠</span></p>
-    <h2 class="h-sub mb-6" style="font-size:clamp(2.8rem,5vw,3.8rem);">Micro-Blog & Snippets.</h2>
+    <p class="label mb-6">Section V — Field Notes <span class="text-[var(--gold)] opacity-50 ml-2">✠</span></p>
+    <h2 class="h-sub mb-6 ink-bleed" style="font-size:clamp(2.8rem,5vw,3.8rem);">Micro-Blog & Snippets.</h2>
   </div>
   
   <div class="grid md:grid-cols-3 gap-16">
-    <div class="border-t border-[var(--line)] pt-10 anim-section">
-      <p class="label !text-[0.65rem] mb-4 text-[var(--dim)]">2026-05</p>
-      <h4 class="text-2xl text-[var(--ink)] font-serif mb-4">AI & The Immortality of Consciousness</h4>
-      <p class="text-[var(--dim)] text-[1.15rem] leading-[1.8] font-serif vn-readable decay-target">
-        Authored a philosophical dissertation theorizing if Large Language Models and Connectomics could replicate human subjectivity. Navigated the paradox of the Ship of Theseus via the lens of a "Quantified Self."
-      </p>
-    </div>
-
     <div class="border-t border-[var(--line)] pt-10 anim-section">
       <p class="label !text-[0.65rem] mb-4 text-[var(--dim)]">2026-04</p>
       <h4 class="text-2xl text-[var(--ink)] font-serif mb-4">On Pearson's Skewness</h4>
@@ -873,10 +732,10 @@
 <div class="container-w"><div class="rule"></div></div>
 
 <section id="contact" class="container-w py-32 md:py-48">
-  <div class="ui-card p-14 md:p-24 grid md:grid-cols-[1.3fr,0.7fr] gap-20 items-center anim-section">
+  <div class="ui-card spotlight p-14 md:p-24 grid md:grid-cols-[1.3fr,0.7fr] gap-20 items-center anim-section">
     <div class="text-center">
-      <p class="label mb-6">Section V — Correspondence <span class="text-[var(--gold)] opacity-50 ml-2">✠</span></p>
-      <h2 class="h-sub mb-8" style="font-size:clamp(2.8rem,5vw,3.8rem);">Initiate Communication.</h2>
+      <p class="label mb-6">Section VI — Correspondence <span class="text-[var(--gold)] opacity-50 ml-2">✠</span></p>
+      <h2 class="h-sub mb-8 ink-bleed" style="font-size:clamp(2.8rem,5vw,3.8rem);">Initiate Communication.</h2>
       <p class="text-[var(--dim)] leading-[1.9] text-[1.25rem] font-serif mb-14 vn-readable decay-target max-w-2xl mx-auto">
         Open for internships, analytical consults, and structured data-processing contracts—specifically those featuring complex raw inputs and clear objectives.
       </p>
@@ -903,19 +762,83 @@
 
 </main>
 
-<footer class="border-t border-[var(--line)] py-20 relative z-20">
+<footer class="border-t border-[var(--line)] py-20 relative z-20 overflow-hidden">
   <div class="container-w footer-stack">
+    <div class="mb-4">
+      <svg class="signature-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <path d="M50 10 L50 90 M10 30 L90 30 M40 10 L60 10 M40 90 L60 90 M10 20 L10 40 M90 20 L90 40" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="square"/>
+      </svg>
+    </div>
     <div>
       <p class="h-sub font-calligraphy-accent text-4xl text-[var(--ink)] mb-2">Nabhya Bawankar</p>
       <p class="label !text-[0.65rem] text-[var(--dim)]">Built with Vanilla JS, GSAP, Tailwind.</p>
     </div>
-    <div class="flex flex-col items-center gap-3">
+    <div class="flex flex-col items-center gap-3 mt-2">
       <p class="label !text-[0.65rem] text-[var(--dim)]" id="footer-time">✠ © 2026 · Life isnt always black and white. ✠</p>
     </div>
   </div>
 </footer>
 
-<!-- Modals & Overlays -->
+<!-- OVERLAYS & SLIDE DRAWERS -->
+<div class="drawer-overlay" id="drawer-overlay" onclick="closeAllDrawers()"></div>
+
+<div class="slide-drawer" id="drawer-ngo">
+  <span class="drawer-close hover-trigger" onclick="closeAllDrawers()">✕</span>
+  <p class="label mb-4">Case Study 01</p>
+  <h2 class="h-display text-4xl text-[var(--ink)] mb-4">Data Cleaning Protocol</h2>
+  <p class="text-[var(--dim)] font-serif text-[1.1rem] leading-[1.8] mb-8">
+    During my internship at NASEOH, I handled raw intake forms for 350 applicants. The data suffered from encoding errors, inconsistent date formats, and missing variables. I built a pipeline to sanitize the matrix.
+  </p>
+  <h3 class="label text-[var(--gold)] mb-4">Before / After Transformation</h3>
+  <div class="ba-container">
+    <div class="ba-badge left-2">RAW CSV</div>
+    <img class="ba-img" src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=80" alt="Raw Data" style="filter: grayscale(100%) blur(2px);">
+    <div class="ba-overlay" id="ba-overlay">
+      <div class="ba-badge right-2">CLEANED SQL</div>
+      <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=80" alt="Clean Data" style="filter: contrast(1.2) sepia(0.3);">
+    </div>
+    <input type="range" min="0" max="100" value="50" class="ba-slider" id="ba-slider" oninput="updateSlider(this.value)">
+  </div>
+  <p class="text-[var(--dim)] text-sm font-serif italic mt-4 mb-10 text-center">Drag slider to compare dataset structure.</p>
+</div>
+
+<!-- Creative Drawers for Snippets -->
+<div class="slide-drawer" id="drawer-giving-up">
+  <span class="drawer-close hover-trigger" onclick="closeAllDrawers()">✕</span>
+  <p class="label mb-4">Creative Essay</p>
+  <h2 class="h-display text-4xl text-[var(--ink)] mb-6">The art of giving up.</h2>
+  <div class="text-[var(--dim)] font-serif text-[1.1rem] leading-[1.9] space-y-6">
+    <p>I am tired. So i quit. We live in a world that worships persistence. We hear it in classrooms, in sports, in offices and in advertisements: keep going, never quit, winners never give up. Quitting is seen as a weakness and stopping is seen as failure. And yet... everyone has quit something somewhere, sometime, somehow.</p>
+    <p>To abandon one path is not always to fall into failure; sometimes it is to recognize that a path was never truly ours. Kierkegaard once wrote that despair is to live at odds with one's own self.</p>
+    <p>The sunk cost fallacy. The more time, money, or energy we've invested in something, the harder it feels to walk away... But the past cannot be recovered. The only choice we truly control is the present moment, and the direction we step into next.</p>
+    <p>To give up is not to stop living, it's to start living differently. And sometimes, thats just the art of giving up.</p>
+  </div>
+</div>
+
+<div class="slide-drawer" id="drawer-ouroboros">
+  <span class="drawer-close hover-trigger" onclick="closeAllDrawers()">✕</span>
+  <p class="label mb-4">Philosophical Snippet</p>
+  <h2 class="h-display text-4xl text-[var(--ink)] mb-6">The Ouroboros of Ignorance</h2>
+  <div class="text-[var(--dim)] font-serif text-[1.1rem] leading-[1.9] space-y-6">
+    <p>The constant echoing chamber of knowledge births an ouroboros of ignorance, having real-life effects like the declining rate of average intelligence every year and the mis-knowledge of to-be common sense.</p>
+    <p>Why are billionaires taxed almost the same as normal people? To fix this, let us ask the same billionaires to donate to a camouflaged charity which recycles the money back to the billionaires.</p>
+    <p>The rise of AI and the impact of silicone being able to think for us is well documented yet obsolete within a few days... How can corporations and governments promote privacy and human free will but allow personalised and stolen data, only to be used against us?</p>
+  </div>
+</div>
+
+<div class="slide-drawer" id="drawer-constitution">
+  <span class="drawer-close hover-trigger" onclick="closeAllDrawers()">✕</span>
+  <p class="label mb-4">Analytical Documentation</p>
+  <h2 class="h-display text-4xl text-[var(--ink)] mb-6">Constitutional Erosion</h2>
+  <div class="text-[var(--dim)] font-serif text-[1.1rem] leading-[1.9] space-y-6">
+    <p>The philosophical core of the constitution lies in The Preamble, the blueprint which organizes the Law into four core values- Justice, Liberty, Equality and Fraternity.</p>
+    <p>The judgment [K.S. Puttaswamy v. Union of India] introduced a constitutional framework that governs any state action infringing on privacy, forcing a re-evaluation of government operations and legislative necessity. The Court established a three-fold test that any State action encroaching upon privacy must satisfy: Legality, Legitimate Aim, and Proportionality.</p>
+    <p>Ever since the Independence of India, literacy rate has been consistently rising. A consequence of which is the criticism of the Constitution and Law as a whole... The continuous threat to privacy, despite its clear recognition as a Fundamental Right, illustrates the erosion of the Constitution.</p>
+    <p>The true Erosion is not in the text, but in the political class's disregard for the 'Principled Distance' of secularism and the 'Proportionality Test' of privacy, effectively treating the Constitution as obsolete in practice.</p>
+  </div>
+</div>
+
+<!-- Hidden Modals & Terminals -->
 <div class="modal-overlay" id="modal-tips">
   <div class="terminal-window !bg-[var(--void)] !border-[var(--gold)] !text-[var(--ink)] max-w-3xl">
     <div class="flex justify-between items-center mb-8 border-b border-[#333] pb-6">
@@ -941,45 +864,21 @@
   <div class="terminal-window">
     <div class="terminal-header flex justify-between items-center">
       <span>~/projects/optimization/linear_prog.R</span>
-      <button class="close-modal hover:text-white hover-trigger">✕</button>
+      <div class="flex gap-4 items-center">
+        <button class="copy-btn hover-trigger" onclick="copyCode(this)">Copy Source</button>
+        <button class="close-modal hover:text-white hover-trigger">✕</button>
+      </div>
     </div>
-<pre><code><span class="syn-c"># Objective: Maximize profit given resource constraints</span>
+<pre id="r-source-code"><code><span class="syn-c"># Objective: Maximize profit given resource constraints</span>
 <span class="syn-f">library</span>(lpSolve)
 
-<span class="syn-c"># Objective function coefficients (Profit per unit)</span>
 obj_coeff <span class="syn-k"><-</span> <span class="syn-f">c</span>(<span class="syn-s">40</span>, <span class="syn-s">30</span>) 
-
-<span class="syn-c"># Constraint matrix</span>
-const_mat <span class="syn-k"><-</span> <span class="syn-f">matrix</span>(<span class="syn-f">c</span>(<span class="syn-s">2</span>, <span class="syn-s">1</span>, 
-                      <span class="syn-s">1</span>, <span class="syn-s">2</span>,
-                      <span class="syn-s">1</span>, <span class="syn-s">1</span>), nrow=<span class="syn-s">3</span>, byrow=<span class="syn-k">TRUE</span>)
-
-<span class="syn-c"># Constraint directions and RHS values</span>
+const_mat <span class="syn-k"><-</span> <span class="syn-f">matrix</span>(<span class="syn-f">c</span>(<span class="syn-s">2</span>, <span class="syn-s">1</span>, <span class="syn-s">1</span>, <span class="syn-s">2</span>, <span class="syn-s">1</span>, <span class="syn-s">1</span>), nrow=<span class="syn-s">3</span>, byrow=<span class="syn-k">TRUE</span>)
 const_dir <span class="syn-k"><-</span> <span class="syn-f">c</span>(<span class="syn-s">"<="</span>, <span class="syn-s">"<="</span>, <span class="syn-s">"<="</span>)
 const_rhs <span class="syn-k"><-</span> <span class="syn-f">c</span>(<span class="syn-s">100</span>, <span class="syn-s">80</span>, <span class="syn-s">50</span>)
 
-<span class="syn-c"># Solve</span>
 solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class="syn-s">"max"</span>, obj_coeff, const_mat, const_dir, const_rhs)
-<span class="syn-f">print</span>(solution$solution) <span class="syn-c"># Output optimal quantities</span>
-</code></pre>
-  </div>
-</div>
-
-<div class="modal-overlay" id="modal-terminal">
-  <div class="terminal-window">
-    <div class="terminal-header flex justify-between items-center">
-      <span>guest@bawankar-os:~$ cat resume.json</span>
-      <button class="close-modal hover:text-white hover-trigger">✕</button>
-    </div>
-<pre><code>{
-  <span class="syn-s">"name"</span>: <span class="syn-s">"Nabhya Bawankar"</span>,
-  <span class="syn-s">"program"</span>: <span class="syn-s">"BBA Business Analytics."</span>,
-  <span class="syn-s">"institution"</span>: <span class="syn-s">"ITM Skills University"</span>,
-  <span class="syn-s">"graduation"</span>: <span class="syn-s">2028</span>,
-  <span class="syn-s">"skills"</span>: [<span class="syn-s">"Python"</span>, <span class="syn-s">"SQL"</span>, <span class="syn-s">"R"</span>, <span class="syn-s">"Spreadsheets"</span>],
-  <span class="syn-s">"interests"</span>: [<span class="syn-s">"Languages"</span>, <span class="syn-s">"Data Analytics"</span>, <span class="syn-s">"Video Games"</span>]
-}
-<span class="text-white mt-4 block term-text">guest@bawankar-os:~$ <span class="animate-pulse">_</span></span>
+<span class="syn-f">print</span>(solution$solution)
 </code></pre>
   </div>
 </div>
@@ -992,20 +891,7 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
       <button class="close-modal hover:text-white hover-trigger">✕</button>
     </div>
     <div class="terminal-content term-text">
-<pre><code><span class="syn-c">-- Extracting Optimization Matrix Data</span>
-<span class="syn-k">SELECT</span> 
-    strategy_id, 
-    <span class="syn-f">SUM</span>(payoff_value) <span class="syn-k">AS</span> total_utility,
-    <span class="syn-f">MAX</span>(market_share) <span class="syn-k">AS</span> equilibrium_point
-<span class="syn-k">FROM</span> 
-    game_theory_simulations
-<span class="syn-k">WHERE</span> 
-    competitor = <span class="syn-s">'Zepto'</span> 
-    <span class="syn-k">AND</span> model_type = <span class="syn-s">'Nash'</span>
-<span class="syn-k">GROUP BY</span> 
-    strategy_id;
-<span class="text-white mt-4 block">Execution Time: 0.04s <span class="animate-pulse">_</span></span>
-</code></pre>
+<pre><code><span class="syn-k">SELECT</span> strategy_id, <span class="syn-f">SUM</span>(payoff_value) <span class="syn-k">AS</span> total_utility <span class="syn-k">FROM</span> game_theory_simulations; <span class="animate-pulse">_</span></code></pre>
     </div>
   </div>
 </div>
@@ -1016,22 +902,10 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
       <span>~/projects/ml/fraud_detection.py</span>
       <button class="close-modal hover:text-white hover-trigger">✕</button>
     </div>
-<pre><code><span class="syn-c"># Synthetic Minority Over-sampling Technique (SMOTE)</span>
-<span class="syn-k">from</span> imblearn.over_sampling <span class="syn-k">import</span> SMOTE
-<span class="syn-k">import</span> pandas <span class="syn-k">as</span> pd
-
+<pre><code><span class="syn-k">from</span> imblearn.over_sampling <span class="syn-k">import</span> SMOTE
 smote = SMOTE(random_state=42)
 X_train_resampled, y_train_resampled = smote.fit_resample(X_train, y_train)
-
-<span class="syn-f">print</span>(<span class="syn-s">f"Before SMOTE: {y_train.value_counts().to_dict()}"</span>)
-<span class="syn-f">print</span>(<span class="syn-s">f"After SMOTE: {pd.Series(y_train_resampled).value_counts().to_dict()}"</span>)
 </code></pre>
-    <div class="mt-6 p-4 bg-black border border-[#333] rounded term-text text-[#4ade80]">
-      > Executing script...<br>
-      > Before SMOTE: {0: 227451, 1: 394}<br>
-      > After SMOTE: {0: 227451, 1: 227451}<br>
-      > Model balanced successfully.
-    </div>
   </div>
 </div>
 
@@ -1041,33 +915,21 @@ X_train_resampled, y_train_resampled = smote.fit_resample(X_train, y_train)
       <div class="text-[var(--gold)]">Navi Mumbai Real Estate Heatmap</div>
       <button class="close-modal hover:text-[var(--gold)] hover-trigger">✕</button>
     </div>
-    
     <div class="flex flex-col items-center justify-center gap-6 w-full">
       <div class="relative w-full max-w-[800px]">
          <canvas id="hm-canvas" width="800" height="400" class="w-full h-auto bg-[#080808] border border-[#333] rounded"></canvas>
       </div>
-      
       <div class="grid grid-cols-2 gap-4 w-full max-w-[800px] max-md:grid-cols-1 text-[#4ade80]">
          <div class="border border-[#333] p-4 rounded flex flex-col justify-center">
             <label class="block mb-4">Analysis Radius (<span id="hm-radius-val">5</span> km)</label>
             <input type="range" id="hm-radius" min="1" max="15" value="5" class="w-full accent-[#4ade80]">
          </div>
-         
          <div class="border border-[#333] p-4 rounded flex flex-col justify-center">
             <div class="mb-2 border-b border-[#333] pb-2">Market Statistics</div>
             <div class="grid grid-cols-2 gap-2 mt-2">
-                <div class="flex flex-col">
-                    <span>Properties</span>
-                    <span id="hm-count">0</span>
-                </div>
-                <div class="flex flex-col">
-                    <span>Avg Price/m²</span>
-                    <span id="hm-avg">₹0</span>
-                </div>
-                <div class="flex flex-col mt-2">
-                    <span>R² Value</span>
-                    <span id="hm-r2">0.00</span>
-                </div>
+                <div class="flex flex-col"><span>Properties</span><span id="hm-count">0</span></div>
+                <div class="flex flex-col"><span>Avg Price/m²</span><span id="hm-avg">₹0</span></div>
+                <div class="flex flex-col mt-2"><span>R² Value</span><span id="hm-r2">0.00</span></div>
             </div>
          </div>
       </div>
@@ -1077,10 +939,7 @@ X_train_resampled, y_train_resampled = smote.fit_resample(X_train, y_train)
 
 <div class="modal-overlay" id="modal-rhythm">
   <div class="rhythm-stage">
-    <div class="rhythm-header">
-      <span>SCORE: <span id="r-score">0000</span></span>
-      <span>COMBO: <span id="r-combo">0</span>x</span>
-    </div>
+    <div class="rhythm-header"><span>SCORE: <span id="r-score">0000</span></span><span>COMBO: <span id="r-combo">0</span>x</span></div>
     <div class="rhythm-track-area" id="rhythm-track-area">
       <div class="rhythm-lane" data-key="d"><div class="rhythm-key-target" id="kt-0">D</div></div>
       <div class="rhythm-lane" data-key="f"><div class="rhythm-key-target" id="kt-1">F</div></div>
@@ -1109,6 +968,7 @@ X_train_resampled, y_train_resampled = smote.fit_resample(X_train, y_train)
   const $$ = (s,c=document)=>[...c.querySelectorAll(s)];
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  let isMuted = false;
   const AudioContext = window.AudioContext || window.webkitAudioContext;
   let audioCtx;
 
@@ -1118,7 +978,7 @@ X_train_resampled, y_train_resampled = smote.fit_resample(X_train, y_train)
   }
 
   function playClick() {
-    if(reduceMotion) return;
+    if(reduceMotion || isMuted) return;
     initAudio();
     const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain();
     osc.connect(gain); gain.connect(audioCtx.destination);
@@ -1127,20 +987,9 @@ X_train_resampled, y_train_resampled = smote.fit_resample(X_train, y_train)
     gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.05);
     osc.start(); osc.stop(audioCtx.currentTime + 0.05);
   }
-
-  function playVNType() {
-    if(reduceMotion) return;
-    initAudio();
-    const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain();
-    osc.connect(gain); gain.connect(audioCtx.destination);
-    osc.type = 'square'; osc.frequency.setValueAtTime(400 + Math.random()*200, audioCtx.currentTime);
-    gain.gain.setValueAtTime(0.005, audioCtx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.02);
-    osc.start(); osc.stop(audioCtx.currentTime + 0.02);
-  }
-
+  
   function playSecretSound() {
-    if(reduceMotion) return;
+    if(reduceMotion || isMuted) return;
     initAudio();
     const notes = [261.63, 329.63, 392.00, 523.25]; 
     notes.forEach((freq, i) => {
@@ -1155,76 +1004,78 @@ X_train_resampled, y_train_resampled = smote.fit_resample(X_train, y_train)
     });
   }
 
-  // Safely Remove Loader
+  const audioWidget = $('#audio-widget');
+  if(audioWidget) {
+    audioWidget.addEventListener('click', (e) => {
+      isMuted = !isMuted;
+      audioWidget.style.opacity = isMuted ? '0.4' : '1';
+      if(!isMuted) playClick();
+    });
+  }
+
+  window.showToast = function(msg) {
+    const container = document.getElementById('toast-container');
+    const toast = document.createElement('div');
+    toast.className = 'toast'; toast.textContent = msg;
+    container.appendChild(toast);
+    setTimeout(() => toast.classList.add('show'), 10);
+    setTimeout(() => {
+      toast.classList.remove('show');
+      setTimeout(() => toast.remove(), 300);
+    }, 2500);
+    playClick();
+  };
+  
+  window.copyCode = function(btn) {
+    const pre = document.getElementById('r-source-code');
+    navigator.clipboard.writeText(pre.innerText).then(() => showToast('Source code copied to clipboard.'));
+  };
+
+  window.openDrawer = function(id) {
+    $('#drawer-overlay').classList.add('active');
+    $('#' + id).classList.add('active');
+    playClick();
+  };
+  
+  window.closeAllDrawers = function() {
+    $('#drawer-overlay').classList.remove('active');
+    $$('.slide-drawer').forEach(d => d.classList.remove('active'));
+    playClick();
+  };
+
+  $('#drawer-overlay').addEventListener('click', closeAllDrawers);
+  window.updateSlider = function(val) { $('#ba-overlay').style.width = val + '%'; };
+
+  $$('.ui-card').forEach(card => {
+    card.addEventListener('mousemove', e => {
+      const rect = card.getBoundingClientRect();
+      card.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
+      card.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
+    });
+  });
+
   const sk = $('#page-skeleton');
   if(sk) {
     setTimeout(() => { sk.style.opacity = '0'; setTimeout(()=>sk.remove(), 800); }, 1500);
-    window.addEventListener('load', () => {
-      sk.style.opacity = '0'; setTimeout(()=>sk.remove(), 800);
-    });
+    window.addEventListener('load', () => { sk.style.opacity = '0'; setTimeout(()=>sk.remove(), 800); });
   }
 
-  // Visual Novel Mode
-  const vnOverlay = $('#vn-overlay');
-  const vnText = $('#vn-text');
-  let isVnMode = false; let vnNodes = []; let vnCurrentIdx = 0; let vnTypeInterval;
-
-  function startVnMode() { 
-    if(!vnOverlay || !vnText) return;
-    isVnMode = true; vnOverlay.classList.add('active'); vnNodes = $$('.vn-readable'); vnCurrentIdx = 0; typeVnText(); 
-  }
-  function exitVnMode() { 
-    if(!vnOverlay) return;
-    isVnMode = false; vnOverlay.classList.remove('active'); clearInterval(vnTypeInterval); 
-  }
-  function typeVnText() {
-    if(vnCurrentIdx >= vnNodes.length) { exitVnMode(); return; }
-    clearInterval(vnTypeInterval); vnText.textContent = '';
-    const fullText = vnNodes[vnCurrentIdx].textContent.trim().replace(/\s+/g, ' ');
-    let charIdx = 0;
-    vnTypeInterval = setInterval(() => {
-      vnText.textContent += fullText[charIdx];
-      if(charIdx % 3 === 0) playVNType(); 
-      charIdx++;
-      if(charIdx >= fullText.length) clearInterval(vnTypeInterval);
-    }, 20); 
-  }
-  const vnDBox = $('#vn-dialogue-box');
-  if(vnDBox && vnText) {
-    vnDBox.addEventListener('click', () => {
-      if(vnNodes.length === 0) return;
-      if(vnText.textContent.length < vnNodes[vnCurrentIdx].textContent.trim().replace(/\s+/g, ' ').length) {
-        clearInterval(vnTypeInterval);
-        vnText.textContent = vnNodes[vnCurrentIdx].textContent.trim().replace(/\s+/g, ' ');
-      } else { vnCurrentIdx++; typeVnText(); }
-    });
-  }
-
-  // Keyboard Overrides
   let coffeeMode = false; let screenPlayMode = false; let matrixMode = false; let nodesActive = false; let tdRaf; let tdNodes = [];
   
   window.addEventListener('keydown', e => {
-    // ESC KEY FIX
     if (e.key === 'Escape') {
       if (isVnMode) exitVnMode();
-      
+      closeAllDrawers();
       $$('.modal-overlay').forEach(overlay => {
         if(overlay.classList.contains('active')) {
           overlay.classList.remove('active');
           if (overlay.id === 'modal-rhythm') endRhythm(false);
         }
       });
-      clearInterval(matrixInterval);
-      matrixMode = false;
-      return;
+      clearInterval(matrixInterval); matrixMode = false; return;
     }
-
     if(e.key.toLowerCase() === 'v' && !isVnMode) { startVnMode(); playClick(); }
-
-    if(e.key.toLowerCase() === 's') {
-      screenPlayMode = !screenPlayMode; document.body.classList.toggle('screenplay-mode'); playClick();
-    }
-
+    if(e.key.toLowerCase() === 's') { screenPlayMode = !screenPlayMode; document.body.classList.toggle('screenplay-mode'); playClick(); }
     if(e.key.toLowerCase() === 'c') {
       coffeeMode = !coffeeMode;
       if(coffeeMode) {
@@ -1236,35 +1087,22 @@ X_train_resampled, y_train_resampled = smote.fit_resample(X_train, y_train)
       }
       playSecretSound();
     }
-    
-    if(e.key.toLowerCase() === 'g') {
-      const gm = $('#god-mode'); if(gm) { gm.classList.toggle('active'); playClick(); }
-    }
-    
-    if(e.metaKey && e.key === 'k') { 
-      e.preventDefault(); const tMod = $('#modal-terminal'); if(tMod){ tMod.classList.add('active'); playClick(); }
-    }
-
+    if(e.key.toLowerCase() === 'g') { const gm = $('#god-mode'); if(gm) { gm.classList.toggle('active'); playClick(); } }
+    if(e.metaKey && e.key === 'k') { e.preventDefault(); const tMod = $('#modal-terminal'); if(tMod){ tMod.classList.add('active'); playClick(); } }
     if(e.key.toLowerCase() === 'm') {
-      matrixMode = !matrixMode;
-      const tModal = $('#modal-matrix');
+      matrixMode = !matrixMode; const tModal = $('#modal-matrix');
       if(tModal) {
-        if(matrixMode) {
-          tModal.classList.add('active'); initMatrix(); clearInterval(matrixInterval); matrixInterval = setInterval(drawMatrix, 33); playSecretSound();
-        } else { tModal.classList.remove('active'); clearInterval(matrixInterval); }
+        if(matrixMode) { tModal.classList.add('active'); initMatrix(); clearInterval(matrixInterval); matrixInterval = setInterval(drawMatrix, 33); playSecretSound(); } 
+        else { tModal.classList.remove('active'); clearInterval(matrixInterval); }
       }
     }
-
     if(e.key.toLowerCase() === 't') {
       nodesActive = !nodesActive;
       if(nodesActive) {
         const c = document.createElement('canvas'); c.id = 'td-nodes';
         c.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;opacity:0.25;pointer-events:none;';
         document.body.appendChild(c); const ctx = c.getContext('2d');
-        function resizeTD() {
-          c.width = window.innerWidth; c.height = window.innerHeight;
-          tdNodes = Array.from({length: 25}, () => ({ x: Math.random() * c.width, y: Math.random() * c.height, vx: (Math.random() - 0.5) * 1.5, vy: (Math.random() - 0.5) * 1.5 }));
-        }
+        function resizeTD() { c.width = window.innerWidth; c.height = window.innerHeight; tdNodes = Array.from({length: 25}, () => ({ x: Math.random() * c.width, y: Math.random() * c.height, vx: (Math.random() - 0.5) * 1.5, vy: (Math.random() - 0.5) * 1.5 })); }
         resizeTD(); window.addEventListener('resize', resizeTD);
         function drawTD() {
           ctx.clearRect(0,0,c.width,c.height); ctx.strokeStyle = '#d1b794'; ctx.lineWidth = 1;
@@ -1285,11 +1123,8 @@ X_train_resampled, y_train_resampled = smote.fit_resample(X_train, y_train)
     }
   });
 
-  // God Mode Setup
   let frameCount = 0; let lastTime = performance.now();
-  const godModeEl = $('#god-mode');
-  const fpsEl = $('#fps-counter');
-  const scrollYEl = $('#scroll-y');
+  const godModeEl = $('#god-mode'); const fpsEl = $('#fps-counter'); const scrollYEl = $('#scroll-y');
   function updateGodMode() {
     if(godModeEl && godModeEl.classList.contains('active')) {
       frameCount++; const now = performance.now();
@@ -1300,25 +1135,20 @@ X_train_resampled, y_train_resampled = smote.fit_resample(X_train, y_train)
   }
   updateGodMode();
 
-  // Lenis
-  let lenisInstance;
   if(!reduceMotion && window.Lenis){
-    lenisInstance = new Lenis({ duration:1.2, easing:t=>Math.min(1, 1.001 - Math.pow(2, -10 * t)), smoothWheel:true });
-    function raf(t){ lenisInstance.raf(t); requestAnimationFrame(raf); }
+    const lenis = new Lenis({ duration:1.2, easing:t=>Math.min(1, 1.001 - Math.pow(2, -10 * t)), smoothWheel:true });
+    function raf(t){ lenis.raf(t); requestAnimationFrame(raf); }
     requestAnimationFrame(raf);
-    lenisInstance.on('scroll', ()=>ScrollTrigger.update());
+    lenis.on('scroll', ()=>ScrollTrigger.update());
   }
   gsap.registerPlugin(ScrollTrigger);
 
-  // Initial Animations
   gsap.from('.anim-fade', { y:40, opacity:0, duration:1.4, ease:'power3.out', stagger:0.15, delay:0.4 });
-
+  
   const twEl = $('#typewriter-rest');
   if(twEl) {
     const phrase = 'abhya Bawankar.'; let i=0;
-    (function typeStep(){
-      if(i<=phrase.length){ twEl.textContent = phrase.slice(0,i); i++; setTimeout(typeStep, 60+Math.random()*60); }
-    })();
+    (function typeStep(){ if(i<=phrase.length){ twEl.textContent = phrase.slice(0,i); i++; setTimeout(typeStep, 60+Math.random()*60); } })();
   }
 
   if(!reduceMotion){
@@ -1326,14 +1156,11 @@ X_train_resampled, y_train_resampled = smote.fit_resample(X_train, y_train)
     $$('.rule').forEach(rule=>{ gsap.fromTo(rule, {scaleX:0}, { scaleX:1, duration:1.6, ease:'power4.inOut', scrollTrigger:{ trigger:rule, start:'top 95%' } }); });
   }
 
-  // Skill Sorting
-  const skillRows = $$('.skill-row');
-  const skillContainer = $('#skills-container');
   $$('.sort-btn').forEach(btn => {
     btn.addEventListener('click', (e)=>{
-      $$('.sort-btn').forEach(b=>b.classList.remove('active'));
-      e.target.classList.add('active'); playClick();
+      $$('.sort-btn').forEach(b=>b.classList.remove('active')); e.target.classList.add('active'); playClick();
       const sortBy = e.target.dataset.sort;
+      const skillRows = $$('.skill-row'); const skillContainer = $('#skills-container');
       const sorted = [...skillRows].sort((a,b) => parseInt(b.dataset[sortBy]) - parseInt(a.dataset[sortBy]));
       sorted.forEach((row) => {
         gsap.to(row, {opacity:0, y:-10, duration:0.2, onComplete:()=>{
@@ -1347,127 +1174,77 @@ X_train_resampled, y_train_resampled = smote.fit_resample(X_train, y_train)
   });
 
   setTimeout(()=>{
-    $$('.skill-row').forEach(row=>{
-      const fill = $('.skill-fill', row);
-      if(fill) gsap.to(fill, {width:row.dataset.prof+'%', duration:1.5, ease:'power3.out', scrollTrigger:{ trigger:row, start:'top 90%' } });
-    });
+    $$('.skill-row').forEach(row=>{ const fill = $('.skill-fill', row); if(fill) gsap.to(fill, {width:row.dataset.prof+'%', duration:1.5, ease:'power3.out', scrollTrigger:{ trigger:row, start:'top 90%' } }); });
   }, 1000);
 
-  // Hover Previews
-  const preview = $('#hover-preview');
-  const previewImg = preview ? preview.querySelector('img') : null;
+  const preview = $('#hover-preview'); const previewImg = preview ? preview.querySelector('img') : null;
   if(preview && previewImg) {
     $$('.proj-card, .cert-item').forEach(card => {
-      card.addEventListener('mouseenter', e => {
-        if(reduceMotion || !card.dataset.img) return;
-        previewImg.src = card.dataset.img; preview.classList.add('active'); playClick();
-      });
-      card.addEventListener('mousemove', e => {
-        if(reduceMotion || !card.dataset.img) return;
-        gsap.to(preview, {left: e.clientX, top: e.clientY, duration:0.4, ease:'power3.out'});
-      });
+      card.addEventListener('mouseenter', e => { if(reduceMotion || !card.dataset.img) return; previewImg.src = card.dataset.img; preview.classList.add('active'); playClick(); });
+      card.addEventListener('mousemove', e => { if(reduceMotion || !card.dataset.img) return; gsap.to(preview, {left: e.clientX, top: e.clientY, duration:0.4, ease:'power3.out'}); });
       card.addEventListener('mouseleave', () => preview.classList.remove('active'));
     });
   }
 
-  // Subtle magnetic hover for interactive portfolio elements only
+  // Proper 3D Tilt Logic Fix (Mapped perspective to GSAP, avoiding clipping issues)
   $$('.magnetic-hover').forEach(card => {
     card.addEventListener('mousemove', (event) => {
       if (reduceMotion) return;
-
       const rect = card.getBoundingClientRect();
-      const px = (event.clientX - rect.left) / rect.width;
-      const py = (event.clientY - rect.top) / rect.height;
-      const x = (px - 0.5) * 2;
-      const y = (py - 0.5) * 2;
-
-      const rotateY = x * 10;
-      const rotateX = -y * 10;
-      const moveX = x * 8;
-      const moveY = y * 8;
-
-      gsap.to(card, {
-        x: moveX,
-        y: moveY,
-        rotateX,
-        rotateY,
-        scale: 1.03,
-        duration: 0.22,
-        ease: 'power2.out'
-      });
+      const x = ((event.clientX - rect.left) / rect.width - 0.5) * 2; 
+      const y = ((event.clientY - rect.top) / rect.height - 0.5) * 2;
+      gsap.to(card, { rotationY: x * 6, rotationX: -y * 6, scale: 1.02, transformPerspective: 1000, duration: 0.3, ease: 'power2.out' });
     });
-
-    card.addEventListener('mouseleave', () => {
-      gsap.to(card, {
-        x: 0,
-        y: 0,
-        rotateX: 0,
-        rotateY: 0,
-        scale: 1,
-        duration: 0.75,
-        ease: 'elastic.out(1, 0.35)'
-      });
+    card.addEventListener('mouseleave', () => { 
+      gsap.to(card, { rotationX: 0, rotationY: 0, scale: 1, duration: 0.7, ease: 'elastic.out(1, 0.35)' }); 
     });
   });
 
-  // Cursor
-  const cursor = $('#ink-cursor');
+  // Feature: Large Ink Cursor & Ink Trail Bleed 
+  const cursor = $('#ink-cursor'); const trail = $('#ink-cursor-trail');
   if(!reduceMotion && matchMedia('(hover:hover)').matches && cursor){
     let cx=innerWidth/2, cy=innerHeight/2, tx=cx, ty=cy;
+    let trX=cx, trY=cy;
     window.addEventListener('mousemove', e=>{ tx=e.clientX; ty=e.clientY; });
-    (function cursorLoop(){
-      cx += (tx - cx) * 0.25; cy += (ty - cy) * 0.25;
-      cursor.style.transform = `translate(${cx}px, ${cy}px) translate(-50%, -50%)`;
-      requestAnimationFrame(cursorLoop);
+    (function cursorLoop(){ 
+      cx += (tx - cx) * 0.25; cy += (ty - cy) * 0.25; 
+      trX += (tx - trX) * 0.10; trY += (ty - trY) * 0.10;
+      cursor.style.transform = `translate(${cx}px, ${cy}px) translate(-50%, -50%)`; 
+      if(trail) trail.style.transform = `translate(${trX}px, ${trY}px) translate(-50%, -50%)`;
+      requestAnimationFrame(cursorLoop); 
     })();
-    document.addEventListener('mouseover', e => {
-      if(e.target.closest('.hover-trigger, a, button, input')) cursor.classList.add('hovering');
-      else cursor.classList.remove('hovering');
+    document.addEventListener('mouseover', e => { 
+      if(e.target.closest('.hover-trigger, a, button, input')) cursor.classList.add('hovering'); 
+      else cursor.classList.remove('hovering'); 
     });
     document.addEventListener('mousedown', playClick);
-  } else if(cursor){ cursor.style.display='none'; }
-
-  // Theme Toggle
-  const moonWidget = $('#moon-widget');
-  if(moonWidget) {
-    moonWidget.addEventListener('click', ()=>{
-      document.documentElement.classList.toggle('light-mode');
-      gsap.fromTo(moonWidget, {rotate:0}, {rotate:360, duration:0.7, ease:'back.out(1.5)'});
-      playClick();
-    });
+  } else { 
+    if(cursor) cursor.style.display='none'; 
+    if(trail) trail.style.display='none'; 
   }
 
-  // Dispatch Time
-  let isJapaneseTime = false;
-  const dispatchTime = $('#dispatch-time');
+  const moonWidget = $('#moon-widget');
+  if(moonWidget) {
+    moonWidget.addEventListener('click', ()=>{ document.documentElement.classList.toggle('light-mode'); gsap.fromTo(moonWidget, {rotate:0}, {rotate:360, duration:0.7, ease:'back.out(1.5)'}); playClick(); });
+  }
+
+  const dispatchTime = $('#dispatch-time'); let isJapaneseTime = false;
   if(dispatchTime) {
     dispatchTime.addEventListener('click', () => { isJapaneseTime = !isJapaneseTime; playClick(); });
-    function tick(){ 
-      const timeStr = new Date().toLocaleTimeString('en-GB',{hour12:false,timeZone:'Asia/Kolkata'});
-      dispatchTime.textContent = isJapaneseTime ? timeStr.replace(':', '時').replace(':', '分') + '秒' : timeStr;
-    }
+    function tick(){ const timeStr = new Date().toLocaleTimeString('en-GB',{hour12:false,timeZone:'Asia/Kolkata'}); dispatchTime.textContent = isJapaneseTime ? timeStr.replace(':', '時').replace(':', '分') + '秒' : timeStr; }
     tick(); setInterval(tick,1000);
   }
 
-  // Matrix Logic
-  const mCanvas = $('#matrix-canvas');
-  const mCtx = mCanvas ? mCanvas.getContext('2d') : null;
-  let mWidth, mHeight, columns, drops;
-  const chars = "SELECT * FROM DATA WHERE NOISE = 0".split("");
-  let matrixInterval;
-
+  const mCanvas = $('#matrix-canvas'); const mCtx = mCanvas ? mCanvas.getContext('2d') : null;
+  let mWidth, mHeight, columns, drops; const chars = "SELECT * FROM DATA WHERE NOISE = 0".split(""); let matrixInterval;
   function initMatrix() {
     if(!mCanvas || !mCtx) return;
-    mWidth = mCanvas.width = mCanvas.parentElement.offsetWidth;
-    mHeight = mCanvas.height = mCanvas.parentElement.offsetHeight;
-    columns = mWidth / 14; drops = [];
-    for(let x = 0; x < columns; x++) drops[x] = 1;
+    mWidth = mCanvas.width = mCanvas.parentElement.offsetWidth; mHeight = mCanvas.height = mCanvas.parentElement.offsetHeight;
+    columns = mWidth / 14; drops = []; for(let x = 0; x < columns; x++) drops[x] = 1;
   }
-
   function drawMatrix() {
     if(!mCtx) return;
-    mCtx.fillStyle = "rgba(0, 0, 0, 0.05)"; mCtx.fillRect(0, 0, mWidth, mHeight);
-    mCtx.fillStyle = "#4ade80"; mCtx.font = "14px monospace";
+    mCtx.fillStyle = "rgba(0, 0, 0, 0.05)"; mCtx.fillRect(0, 0, mWidth, mHeight); mCtx.fillStyle = "#4ade80"; mCtx.font = "14px monospace";
     for(let i = 0; i < drops.length; i++) {
       const text = chars[Math.floor(Math.random() * chars.length)];
       mCtx.fillText(text, i * 14, drops[i] * 14);
@@ -1476,194 +1253,94 @@ X_train_resampled, y_train_resampled = smote.fit_resample(X_train, y_train)
     }
   }
 
-  // Heatmap Logic
-  const hmCanvas = $('#hm-canvas');
-  const hmRadiusSlider = $('#hm-radius');
-  const hmRadiusVal = $('#hm-radius-val');
-  const hmCount = $('#hm-count');
-  const hmAvg = $('#hm-avg');
-  const hmR2 = $('#hm-r2');
-
-  let hmProperties = [];
-  let hmLandmark = { x: 400, y: 200 };
-
+  const hmCanvas = $('#hm-canvas'); const hmRadiusSlider = $('#hm-radius'); const hmRadiusVal = $('#hm-radius-val'); const hmCount = $('#hm-count'); const hmAvg = $('#hm-avg'); const hmR2 = $('#hm-r2');
+  let hmProperties = []; let hmLandmark = { x: 400, y: 200 };
   function initHeatmap() {
     if(!hmCanvas) return;
-    
-    // Hardcoded canvas size to prevent infinite resize loop and ensure centering
-    hmCanvas.width = 800;
-    hmCanvas.height = 400;
-    hmLandmark = { x: 400, y: 200 };
-    
-    hmProperties = [];
+    hmCanvas.width = 800; hmCanvas.height = 400; hmLandmark = { x: 400, y: 200 }; hmProperties = [];
     for(let i=0; i<150; i++) {
-        const angle = Math.random() * Math.PI * 2;
-        const dist = Math.random() * 180; 
+        const angle = Math.random() * Math.PI * 2; const dist = Math.random() * 180; 
         const price = Math.round(10000 - (dist * 10) + (Math.random() * 2000));
-        hmProperties.push({
-          xOffset: Math.cos(angle) * dist,
-          yOffset: Math.sin(angle) * dist,
-          kmDist: (dist / 180) * 15, 
-          price: Math.max(price, 4000)
-        });
+        hmProperties.push({ xOffset: Math.cos(angle) * dist, yOffset: Math.sin(angle) * dist, kmDist: (dist / 180) * 15, price: Math.max(price, 4000) });
     }
     drawHeatmap();
   }
-
   function drawHeatmap() {
     if(!hmCanvas) return;
-
-    const ctx = hmCanvas.getContext('2d');
-    const radiusKm = parseFloat(hmRadiusSlider.value);
-    const radiusPx = (radiusKm / 15) * 180;
-
+    const ctx = hmCanvas.getContext('2d'); const radiusKm = parseFloat(hmRadiusSlider.value); const radiusPx = (radiusKm / 15) * 180;
     ctx.clearRect(0,0, 800, 400);
-
-    ctx.strokeStyle = '#2a2a2a';
-    ctx.lineWidth = 0.5;
+    ctx.strokeStyle = '#2a2a2a'; ctx.lineWidth = 0.5;
     for (let i = 0; i <= 20; i++) {
-      ctx.beginPath();
-      ctx.moveTo((i / 20) * 800, 0);
-      ctx.lineTo((i / 20) * 800, 400);
-      ctx.stroke();
-      ctx.beginPath();
-      ctx.moveTo(0, (i / 20) * 400);
-      ctx.lineTo(800, (i / 20) * 400);
-      ctx.stroke();
+      ctx.beginPath(); ctx.moveTo((i / 20) * 800, 0); ctx.lineTo((i / 20) * 800, 400); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(0, (i / 20) * 400); ctx.lineTo(800, (i / 20) * 400); ctx.stroke();
     }
+    ctx.strokeStyle = '#d1b794'; ctx.lineWidth = 1; ctx.setLineDash([5, 5]);
+    ctx.beginPath(); ctx.arc(hmLandmark.x, hmLandmark.y, radiusPx, 0, Math.PI*2); ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillStyle = '#ef4444'; ctx.beginPath(); ctx.arc(hmLandmark.x, hmLandmark.y, 6, 0, Math.PI*2); ctx.fill();
 
-    ctx.strokeStyle = '#d1b794';
-    ctx.lineWidth = 1;
-    ctx.setLineDash([5, 5]);
-    ctx.beginPath();
-    ctx.arc(hmLandmark.x, hmLandmark.y, radiusPx, 0, Math.PI*2);
-    ctx.stroke();
-    ctx.setLineDash([]);
-
-    ctx.fillStyle = '#ef4444';
-    ctx.beginPath();
-    ctx.arc(hmLandmark.x, hmLandmark.y, 6, 0, Math.PI*2);
-    ctx.fill();
-
-    let activeCount = 0;
-    let sumPrice = 0;
-
+    let activeCount = 0; let sumPrice = 0;
     hmProperties.forEach(p => {
-        const pX = hmLandmark.x + p.xOffset;
-        const pY = hmLandmark.y + p.yOffset;
+        const pX = hmLandmark.x + p.xOffset; const pY = hmLandmark.y + p.yOffset;
         const isNearby = p.kmDist <= radiusKm;
-
-        ctx.beginPath();
-        ctx.arc(pX, pY, 4, 0, Math.PI*2);
-        if(isNearby) {
-          ctx.fillStyle = 'rgba(209, 183, 148, 0.8)';
-          activeCount++;
-          sumPrice += p.price;
-        } else {
-          ctx.fillStyle = 'rgba(100, 100, 100, 0.3)';
-        }
+        ctx.beginPath(); ctx.arc(pX, pY, 4, 0, Math.PI*2);
+        if(isNearby) { ctx.fillStyle = 'rgba(209, 183, 148, 0.8)'; activeCount++; sumPrice += p.price; } 
+        else { ctx.fillStyle = 'rgba(100, 100, 100, 0.3)'; }
         ctx.fill();
     });
 
-    hmRadiusVal.textContent = radiusKm;
-    hmCount.textContent = activeCount;
+    hmRadiusVal.textContent = radiusKm; hmCount.textContent = activeCount;
     hmAvg.textContent = activeCount > 0 ? '₹' + Math.round(sumPrice/activeCount).toLocaleString() : '₹0';
     hmR2.textContent = activeCount > 5 ? (0.6 + Math.random()*0.3).toFixed(2) : '0.00'; 
   }
-
-  if(hmRadiusSlider) {
-    hmRadiusSlider.addEventListener('input', drawHeatmap);
-  }
+  if(hmRadiusSlider) { hmRadiusSlider.addEventListener('input', drawHeatmap); }
   
-  // Modals Overlay Init
   $$('.modal-trigger').forEach(btn => {
     btn.addEventListener('click', e => {
-      const targetId = e.currentTarget.dataset.target;
-      const target = targetId ? $('#' + targetId) : null;
-      if(target) { 
-        target.classList.add('active'); 
-        playClick(); 
-        if(targetId === 'modal-heatmap') {
-          setTimeout(initHeatmap, 50); 
-        }
-      }
+      const targetId = e.currentTarget.dataset.target; const target = targetId ? $('#' + targetId) : null;
+      if(target) { target.classList.add('active'); playClick(); if(targetId === 'modal-heatmap') setTimeout(initHeatmap, 50); }
     });
   });
+  
   $$('.modal-overlay').forEach(overlay => {
     overlay.addEventListener('click', e => {
-      if(e.target === overlay || e.target.classList.contains('close-modal')) {
-        overlay.classList.remove('active'); 
-        clearInterval(matrixInterval); matrixMode = false; playClick();
-        if(overlay.id === 'modal-rhythm') endRhythm(false);
-      }
+      if(e.target === overlay || e.target.classList.contains('close-modal')) { overlay.classList.remove('active'); clearInterval(matrixInterval); matrixMode = false; playClick(); if(overlay.id === 'modal-rhythm') endRhythm(false); }
     });
   });
 
-  // Safe Data Decay & Scroll Sync
-  let idleTime = 0;
-  const decayTargets = $$('.decay-target');
-  const originalText = new Map();
+  let idleTime = 0; const decayTargets = $$('.decay-target'); const originalText = new Map();
   decayTargets.forEach((el, i) => originalText.set(i, el.innerHTML));
-
-  const minimap = $('#minimap');
-  const minimapThumb = $('#minimap-thumb');
+  const minimap = $('#minimap'); const minimapThumb = $('#minimap-thumb');
 
   function handleInteraction() {
     idleTime = 0;
-    decayTargets.forEach((el, i) => {
-      if(el.classList.contains('decayed')) {
-        el.classList.remove('decayed');
-        el.innerHTML = originalText.get(i);
-      }
-    });
+    decayTargets.forEach((el, i) => { if(el.classList.contains('decayed')) { el.classList.remove('decayed'); el.innerHTML = originalText.get(i); } });
   }
 
   window.addEventListener('scroll', () => {
     handleInteraction();
-    
     if (minimap && minimapThumb) {
         const scrollableHeight = document.documentElement.scrollHeight - window.innerHeight;
-        if (scrollableHeight > 0) {
-            const scrollPercent = window.scrollY / scrollableHeight;
-            const maxTop = minimap.offsetHeight - minimapThumb.offsetHeight;
-            minimapThumb.style.transform = `translateY(${scrollPercent * maxTop}px)`;
-        }
+        if (scrollableHeight > 0) { const scrollPercent = window.scrollY / scrollableHeight; const maxTop = minimap.offsetHeight - minimapThumb.offsetHeight; minimapThumb.style.transform = `translateY(${scrollPercent * maxTop}px)`; }
     }
   });
 
   window.addEventListener('mousemove', handleInteraction);
 
-  // Custom Minimap Draggable Scrollbar Fix
   let isDraggingThumb = false;
   if(minimapThumb && minimap) {
-    minimapThumb.addEventListener('mousedown', (e) => {
-        isDraggingThumb = true;
-        e.stopPropagation();
-        document.body.style.userSelect = 'none';
-    });
+    minimapThumb.addEventListener('mousedown', (e) => { isDraggingThumb = true; e.stopPropagation(); document.body.style.userSelect = 'none'; });
     window.addEventListener('mousemove', (e) => {
         if (!isDraggingThumb) return;
-        const trackRect = minimap.getBoundingClientRect();
-        const thumbHeight = minimapThumb.offsetHeight;
-        const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-        let newY = e.clientY - trackRect.top - (thumbHeight / 2);
-        newY = Math.max(0, Math.min(newY, trackRect.height - thumbHeight));
-        const scrollPercent = newY / (trackRect.height - thumbHeight);
-        window.scrollTo(0, scrollPercent * maxScroll);
+        const trackRect = minimap.getBoundingClientRect(); const thumbHeight = minimapThumb.offsetHeight; const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+        let newY = e.clientY - trackRect.top - (thumbHeight / 2); newY = Math.max(0, Math.min(newY, trackRect.height - thumbHeight));
+        window.scrollTo(0, (newY / (trackRect.height - thumbHeight)) * maxScroll);
     });
-    window.addEventListener('mouseup', () => { 
-        isDraggingThumb = false; 
-        document.body.style.userSelect = '';
-    });
+    window.addEventListener('mouseup', () => { isDraggingThumb = false; document.body.style.userSelect = ''; });
     minimap.addEventListener('click', (e) => {
         if (isDraggingThumb) return;
-        const trackRect = minimap.getBoundingClientRect();
-        const thumbHeight = minimapThumb.offsetHeight;
-        const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-        let newY = e.clientY - trackRect.top - (thumbHeight / 2);
-        newY = Math.max(0, Math.min(newY, trackRect.height - thumbHeight));
-        const scrollPercent = newY / (trackRect.height - thumbHeight);
-        window.scrollTo({ top: scrollPercent * maxScroll, behavior: 'smooth' });
+        const trackRect = minimap.getBoundingClientRect(); const thumbHeight = minimapThumb.offsetHeight; const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+        let newY = e.clientY - trackRect.top - (thumbHeight / 2); newY = Math.max(0, Math.min(newY, trackRect.height - thumbHeight));
+        window.scrollTo({ top: (newY / (trackRect.height - thumbHeight)) * maxScroll, behavior: 'smooth' });
     });
   }
 
@@ -1672,30 +1349,33 @@ X_train_resampled, y_train_resampled = smote.fit_resample(X_train, y_train)
     if(idleTime > 60) { 
       decayTargets.forEach(el => {
         if(!el.classList.contains('decayed')) {
-          el.classList.add('decayed');
-          const len = el.textContent.length; let bin = '';
-          for(let j=0; j<len; j++) bin += Math.random() > 0.5 ? '1' : '0';
-          el.textContent = bin;
+          el.classList.add('decayed'); const len = el.textContent.length; let bin = '';
+          for(let j=0; j<len; j++) bin += Math.random() > 0.5 ? '1' : '0'; el.textContent = bin;
         }
       });
     }
   }, 1000);
 
-  // Marquee
-  const marquee = $('#marquee');
-  let isScrollingDown = true;
-  if(!reduceMotion && marquee) {
-    gsap.to(marquee, { xPercent: -50, ease: "none", duration: 20, repeat: -1 }).timeScale(1);
-    ScrollTrigger.create({
-      trigger: "body", start: "top top", end: "bottom bottom",
-      onUpdate: (self) => {
-        isScrollingDown = self.direction === 1;
-        gsap.to(marquee, { duration: 0.5, x: isScrollingDown ? "-=20" : "+=20" });
+  // Safe Marquee Overclocker
+  const marquee = $('#marquee'); const marqueeCont = $('#marquee-cont');
+  let isScrollingDown = true; let marqueeClicks = 0; let timeoutId;
+  if(!reduceMotion && marquee && marqueeCont) {
+    let marqueeTween = gsap.to(marquee, { xPercent: -50, ease: "none", duration: 35, repeat: -1 });
+    ScrollTrigger.create({ trigger: "body", start: "top top", end: "bottom bottom", onUpdate: (self) => { isScrollingDown = self.direction === 1; gsap.to(marqueeTween, { timeScale: isScrollingDown ? 1 : -1, duration: 0.5 }); } });
+    marqueeCont.addEventListener('click', () => {
+      marqueeClicks++; playClick();
+      if(marqueeClicks === 5) {
+        gsap.to(marqueeTween, { timeScale: isScrollingDown ? 12 : -12, duration: 2, ease: "power2.in" });
+        showToast("🏆 ACHIEVEMENT UNLOCKED: OVERCLOCKER"); playSecretSound();
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => { 
+          gsap.to(marqueeTween, { timeScale: isScrollingDown ? 1 : -1, duration: 3, ease: "power3.out" }); 
+          marqueeClicks = 0; 
+        }, 5000);
       }
     });
   }
 
-  // GitHub Grid Failsafe
   const ghGrid = $('#gh-grid');
   if(ghGrid) {
     for(let w=0; w<24; w++) {
@@ -1709,222 +1389,115 @@ X_train_resampled, y_train_resampled = smote.fit_resample(X_train, y_train)
     }
   }
 
-  // Safe Rhythm Game Initialization
-  const rhythmModal = $('#modal-rhythm');
-  const rhythmArea = $('#rhythm-track-area');
-  const rhythmScore = $('#r-score');
-  const rhythmCombo = $('#r-combo');
-  const rhythmJudgement = $('#r-judgement');
-  const rhythmStartBtn = $('#btn-start-rhythm');
-  const keyTargets = [$('#kt-0'), $('#kt-1'), $('#kt-2'), $('#kt-3')];
-  const laneKeys = ['d', 'f', 'j', 'k'];
+  const rhythmModal = $('#modal-rhythm'); const rhythmArea = $('#rhythm-track-area'); const rhythmScore = $('#r-score'); const rhythmCombo = $('#r-combo'); const rhythmJudgement = $('#r-judgement'); const rhythmStartBtn = $('#btn-start-rhythm'); const keyTargets = [$('#kt-0'), $('#kt-1'), $('#kt-2'), $('#kt-3')]; const laneKeys = ['d', 'f', 'j', 'k']; const konami = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a']; let kIdx = 0; let rhythmRunning = false; let rhythmScoreValue = 0; let rhythmComboValue = 0; let rhythmLastSpawn = 0; let rhythmSpawnEvery = 520; let rhythmNextEndAt = 0; let rhythmRafId; const rhythmNotes = [];
 
-  const konami = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
-  let kIdx = 0;
-  let rhythmRunning = false;
-  let rhythmScoreValue = 0;
-  let rhythmComboValue = 0;
-  let rhythmLastSpawn = 0;
-  let rhythmSpawnEvery = 520;
-  let rhythmNextEndAt = 0;
-  let rhythmRafId;
-  const rhythmNotes = [];
-
-  function setJudge(text, klass) {
-    if(!rhythmJudgement) return;
-    rhythmJudgement.className = 'rhythm-judgement';
-    rhythmJudgement.textContent = text;
-    if(klass) rhythmJudgement.classList.add(klass);
-  }
-
-  function updateRhythmHud() {
-    if(rhythmScore) rhythmScore.textContent = String(rhythmScoreValue).padStart(4, '0');
-    if(rhythmCombo) rhythmCombo.textContent = String(rhythmComboValue);
-  }
-
-  function clearRhythmNotes() {
-    rhythmNotes.forEach(note => note.el.remove());
-    rhythmNotes.length = 0;
-  }
-
-  function resetRhythmGame() {
-    rhythmScoreValue = 0;
-    rhythmComboValue = 0;
-    rhythmLastSpawn = 0;
-    updateRhythmHud();
-    clearRhythmNotes();
-    setJudge('PRESS START', '');
-  }
+  function setJudge(text, klass) { if(!rhythmJudgement) return; rhythmJudgement.className = 'rhythm-judgement'; rhythmJudgement.textContent = text; if(klass) rhythmJudgement.classList.add(klass); }
+  function updateRhythmHud() { if(rhythmScore) rhythmScore.textContent = String(rhythmScoreValue).padStart(4, '0'); if(rhythmCombo) rhythmCombo.textContent = String(rhythmComboValue); }
+  function clearRhythmNotes() { rhythmNotes.forEach(note => note.el.remove()); rhythmNotes.length = 0; }
+  function resetRhythmGame() { rhythmScoreValue = 0; rhythmComboValue = 0; rhythmLastSpawn = 0; updateRhythmHud(); clearRhythmNotes(); setJudge('PRESS START', ''); }
 
   function spawnRhythmNote(now) {
     if(!rhythmArea) return;
     if(now - rhythmLastSpawn < rhythmSpawnEvery) return;
     rhythmLastSpawn = now;
-
-    const lane = Math.floor(Math.random() * 4);
-    const laneEl = rhythmArea.children[lane];
+    const lane = Math.floor(Math.random() * 4); const laneEl = rhythmArea.children[lane];
     if(!laneEl) return;
-
-    const noteEl = document.createElement('div');
-    noteEl.className = 'rhythm-note';
-    noteEl.style.top = '-18px';
-    laneEl.appendChild(noteEl);
-
-    rhythmNotes.push({
-      el: noteEl,
-      lane,
-      y: -18,
-      speed: 2.8 + Math.random() * 0.9,
-      active: true
-    });
+    const noteEl = document.createElement('div'); noteEl.className = 'rhythm-note'; noteEl.style.top = '-18px'; laneEl.appendChild(noteEl);
+    rhythmNotes.push({ el: noteEl, lane, y: -18, speed: 2.8 + Math.random() * 0.9, active: true });
   }
 
   function endRhythm(showResult = true) {
-    rhythmRunning = false;
-    cancelAnimationFrame(rhythmRafId);
-    clearRhythmNotes();
-    if(showResult) {
-      setJudge('END • SCORE ' + String(rhythmScoreValue).padStart(4, '0'), 'judg-great');
-    }
+    rhythmRunning = false; cancelAnimationFrame(rhythmRafId); clearRhythmNotes();
+    if(showResult) setJudge('END • SCORE ' + String(rhythmScoreValue).padStart(4, '0'), 'judg-great');
   }
 
   function updateRhythm(now) {
     if(!rhythmRunning || !rhythmArea) return;
-
     spawnRhythmNote(now);
     const hitLine = rhythmArea.clientHeight - 56;
-
     for(let i = rhythmNotes.length - 1; i >= 0; i--) {
       const note = rhythmNotes[i];
       if(!note.active) continue;
-
-      note.y += note.speed;
-      note.el.style.top = note.y + 'px';
-
-      if(note.y > hitLine + 34) {
-        note.active = false;
-        note.el.remove();
-        rhythmNotes.splice(i, 1);
-        rhythmComboValue = 0;
-        updateRhythmHud();
-        setJudge('MISS', 'judg-miss');
-      }
+      note.y += note.speed; note.el.style.top = note.y + 'px';
+      if(note.y > hitLine + 34) { note.active = false; note.el.remove(); rhythmNotes.splice(i, 1); rhythmComboValue = 0; updateRhythmHud(); setJudge('MISS', 'judg-miss'); }
     }
-
-    if(now >= rhythmNextEndAt) {
-      endRhythm(true);
-      return;
-    }
-
+    if(now >= rhythmNextEndAt) { endRhythm(true); return; }
     rhythmRafId = requestAnimationFrame(updateRhythm);
   }
 
   function judgeLanePress(lane) {
     if(!rhythmRunning || !rhythmArea) return;
-
-    const hitLine = rhythmArea.clientHeight - 56;
-    let bestIndex = -1;
-    let bestDistance = Infinity;
-
+    const hitLine = rhythmArea.clientHeight - 56; let bestIndex = -1; let bestDistance = Infinity;
     for(let i = 0; i < rhythmNotes.length; i++) {
       const note = rhythmNotes[i];
       if(!note.active || note.lane !== lane) continue;
       const dist = Math.abs(note.y - hitLine);
-      if(dist < bestDistance) {
-        bestDistance = dist;
-        bestIndex = i;
-      }
+      if(dist < bestDistance) { bestDistance = dist; bestIndex = i; }
     }
-
-    if(bestIndex === -1) {
-      rhythmComboValue = 0;
-      updateRhythmHud();
-      setJudge('MISS', 'judg-miss');
-      return;
-    }
-
-    const hitNote = rhythmNotes[bestIndex];
-    let gain = 0;
-    let judgeClass = '';
-    let judgeText = 'MISS';
-
-    if(bestDistance <= 14) {
-      gain = 300;
-      judgeClass = 'judg-perfect';
-      judgeText = 'PERFECT';
-    } else if(bestDistance <= 28) {
-      gain = 150;
-      judgeClass = 'judg-great';
-      judgeText = 'GREAT';
-    }
-
+    if(bestIndex === -1) { rhythmComboValue = 0; updateRhythmHud(); setJudge('MISS', 'judg-miss'); return; }
+    const hitNote = rhythmNotes[bestIndex]; let gain = 0; let judgeClass = ''; let judgeText = 'MISS';
+    if(bestDistance <= 14) { gain = 300; judgeClass = 'judg-perfect'; judgeText = 'PERFECT'; } 
+    else if(bestDistance <= 28) { gain = 150; judgeClass = 'judg-great'; judgeText = 'GREAT'; }
     if(gain > 0) {
-      rhythmScoreValue += gain;
-      rhythmComboValue += 1;
-      hitNote.active = false;
-      hitNote.el.remove();
-      rhythmNotes.splice(bestIndex, 1);
-      updateRhythmHud();
-      setJudge(judgeText, judgeClass);
-      playClick();
-    } else {
-      rhythmComboValue = 0;
-      updateRhythmHud();
-      setJudge('MISS', 'judg-miss');
-    }
+      rhythmScoreValue += gain; rhythmComboValue += 1; hitNote.active = false; hitNote.el.remove(); rhythmNotes.splice(bestIndex, 1); updateRhythmHud(); setJudge(judgeText, judgeClass); playClick();
+    } else { rhythmComboValue = 0; updateRhythmHud(); setJudge('MISS', 'judg-miss'); }
   }
 
   function startRhythm() {
     if(!rhythmArea || rhythmRunning) return;
-    resetRhythmGame();
-    rhythmRunning = true;
-    rhythmSpawnEvery = 500;
-    rhythmNextEndAt = performance.now() + 25000;
-    setJudge('READY', 'judg-great');
-    rhythmRafId = requestAnimationFrame(updateRhythm);
+    resetRhythmGame(); rhythmRunning = true; rhythmSpawnEvery = 500; rhythmNextEndAt = performance.now() + 25000;
+    setJudge('READY', 'judg-great'); rhythmRafId = requestAnimationFrame(updateRhythm);
   }
 
   if(rhythmStartBtn) {
-    rhythmStartBtn.addEventListener('click', () => {
-      if(rhythmModal) rhythmModal.classList.add('active');
-      startRhythm();
-    });
+    rhythmStartBtn.addEventListener('click', () => { if(rhythmModal) rhythmModal.classList.add('active'); startRhythm(); });
   }
 
   window.addEventListener('keydown', e => {
     if(rhythmModal && rhythmModal.classList.contains('active')) {
-      const key = e.key.toLowerCase();
-      const lane = laneKeys.indexOf(key);
-      if(lane !== -1) {
-        e.preventDefault();
-        judgeLanePress(lane);
-        const target = keyTargets[lane];
-        if(target) target.classList.add('pressed');
-      }
+      const key = e.key.toLowerCase(); const lane = laneKeys.indexOf(key);
+      if(lane !== -1) { e.preventDefault(); judgeLanePress(lane); const target = keyTargets[lane]; if(target) target.classList.add('pressed'); }
     }
-
     if(e.key === konami[kIdx]) {
       kIdx++;
-      if(kIdx === konami.length) {
-        if(rhythmModal) rhythmModal.classList.add('active');
-        resetRhythmGame();
-        playSecretSound();
-        kIdx = 0;
-      }
-    } else {
-      kIdx = 0;
-    }
+      if(kIdx === konami.length) { if(rhythmModal) rhythmModal.classList.add('active'); resetRhythmGame(); playSecretSound(); kIdx = 0; }
+    } else { kIdx = 0; }
   });
 
   window.addEventListener('keyup', e => {
     const lane = laneKeys.indexOf(e.key.toLowerCase());
-    if(lane !== -1) {
-      const target = keyTargets[lane];
-      if(target) target.classList.remove('pressed');
-    }
+    if(lane !== -1) { const target = keyTargets[lane]; if(target) target.classList.remove('pressed'); }
   });
 
   window.addEventListener('resize', ()=>ScrollTrigger.refresh());
+
+  // Visual Novel Logic Safe Re-Init
+  const vnOverlay = $('#vn-overlay'); const vnText = $('#vn-text');
+  let isVnMode = false; let vnNodes = []; let vnCurrentIdx = 0; let vnTypeInterval;
+  function startVnMode() { if(!vnOverlay || !vnText) return; isVnMode = true; vnOverlay.classList.add('active'); vnNodes = $$('.vn-readable'); vnCurrentIdx = 0; typeVnText(); }
+  function exitVnMode() { if(!vnOverlay) return; isVnMode = false; vnOverlay.classList.remove('active'); clearInterval(vnTypeInterval); }
+  function typeVnText() {
+    if(vnCurrentIdx >= vnNodes.length) { exitVnMode(); return; }
+    clearInterval(vnTypeInterval); vnText.textContent = '';
+    const fullText = vnNodes[vnCurrentIdx].textContent.trim().replace(/\s+/g, ' '); let charIdx = 0;
+    vnTypeInterval = setInterval(() => {
+      vnText.textContent += fullText[charIdx];
+      if(!isMuted && charIdx % 3 === 0) { initAudio(); const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain(); osc.connect(gain); gain.connect(audioCtx.destination); osc.type = 'square'; osc.frequency.setValueAtTime(400 + Math.random()*200, audioCtx.currentTime); gain.gain.setValueAtTime(0.005, audioCtx.currentTime); gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.02); osc.start(); osc.stop(audioCtx.currentTime + 0.02); }
+      charIdx++; if(charIdx >= fullText.length) clearInterval(vnTypeInterval);
+    }, 20); 
+  }
+  const vnDBox = $('#vn-dialogue-box');
+  if(vnDBox && vnText) {
+    vnDBox.addEventListener('click', () => {
+      if(vnNodes.length === 0) return;
+      if(vnText.textContent.length < vnNodes[vnCurrentIdx].textContent.trim().replace(/\s+/g, ' ').length) {
+        clearInterval(vnTypeInterval); vnText.textContent = vnNodes[vnCurrentIdx].textContent.trim().replace(/\s+/g, ' ');
+      } else { vnCurrentIdx++; typeVnText(); }
+    });
+  }
+
+  gsap.to('.signature-svg', { scrollTrigger: { trigger: 'footer', start: 'top 90%' }, onStart: () => document.querySelector('.signature-svg').classList.add('draw') });
+
 })();
 </script>
 </body>
