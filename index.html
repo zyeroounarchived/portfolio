@@ -4,11 +4,11 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Nabhya Bawankar — Portfolio</title>
-<meta name="description" content="Data analyst & builder. A short, honest dossier of early work." />
+<meta name="description" content="Data analyst & student. A brief dossier of early work." />
 
 <!-- Meta Tags & Open Graph -->
 <meta property="og:title" content="Nabhya Bawankar — Portfolio" />
-<meta property="og:description" content="Data analyst & builder. A short, honest dossier of early work." />
+<meta property="og:description" content="Data analyst & student. A brief dossier of early work." />
 <meta property="og:type" content="website" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="theme-color" content="#0a0908" />
@@ -150,29 +150,38 @@
   .ui-card:hover{ border-color:rgba(209,183,148,0.4); box-shadow:0 24px 60px -20px rgba(0,0,0,0.4), 0 0 40px -15px rgba(209,183,148,0.1); }
   .ui-card > * { position: relative; z-index: 10; pointer-events: auto; } 
   
-  .proj-num{ font-family:'Space Mono',monospace; color:var(--gold); font-size:0.9rem; opacity: 0.8;}
+  /* PERFECTED EDITORIAL HORIZONTAL PROJECT CARDS */
+  .proj-card { min-height: 220px; display: flex; flex-direction: row; justify-content: space-between; align-items: center; gap: 3rem; }
+  .proj-info-left { display: flex; flex-direction: column; width: 15%; flex-shrink: 0;}
+  .proj-num { font-family:'Space Mono',monospace; color:var(--gold); font-size:1.15rem; line-height:1.2; opacity: 0.9; margin-bottom: 0.35rem;}
+  .proj-cat { font-family:'Space Mono',monospace; color:var(--gold); font-size:0.75rem; text-transform: uppercase; letter-spacing: 0.15em; line-height:1.5; opacity: 0.7;}
+  .proj-info-center { display: flex; flex-direction: column; width: 55%; flex-grow: 1; padding-right: 2rem;}
+  .proj-title { font-family:'Cormorant Garamond', serif; font-size: 2.3rem; color:var(--ink); margin-bottom: 0.75rem; line-height: 1.1; font-weight: 400;}
+  .proj-desc { font-family:'Newsreader', serif; color:var(--dim); font-size:1.05rem; line-height: 1.6; }
+  .proj-action-right { width: 25%; display: flex; flex-direction: column; align-items: flex-end; justify-content: center; flex-shrink: 0;}
+  
+  @media (max-width: 1024px) {
+    .proj-card { flex-direction: column; align-items: flex-start; gap: 2rem; padding: 2.5rem !important; }
+    .proj-info-left, .proj-info-center, .proj-action-right { width: 100%; align-items: flex-start; padding-right: 0;}
+    .proj-action-right { border-top: 1px solid var(--line); padding-top: 1.5rem; align-items: flex-start; }
+  }
+
   .skills-list { display: flex; flex-direction: column; gap: 2.5rem; }
   .skill-row { transition: transform 0.5s ease, opacity 0.5s ease; }
   .skill-track{ height:1px; background:var(--line); position:relative; margin-top: 0.8rem; }
   .skill-fill{ position:absolute; inset:0; width:0%; background:var(--gold); }
 
-  .proj-card, .cert-item { cursor: none; }
-  #hover-preview { position: fixed; top: 0; left: 0; width: 300px; height: 200px; pointer-events: none; z-index: 100; opacity: 0; transform: scale(0.8) translate(-50%, -50%); transition: opacity 0.3s ease, transform 0.4s cubic-bezier(.2,.8,.2,1); border: 1px solid var(--gold); border-radius: 4px; overflow: hidden; background: var(--void); box-shadow: 0 20px 40px rgba(0,0,0,0.5); }
-  #hover-preview img { width: 100%; height: 100%; object-fit: cover; opacity: 0.8; filter: grayscale(80%) contrast(1.1); }
-  .proj-card:hover ~ #hover-preview.active, .cert-item:hover ~ #hover-preview.active { opacity: 1; transform: scale(1) translate(-50%, -50%); }
-
-  .cert-grid { display: grid; gap: 0rem 4rem; }
+  .cert-grid { display: grid; gap: 1rem 4rem; }
   @media (min-width: 768px) { .cert-grid { grid-template-columns: 1fr 1fr; } }
   .cert-item { display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 0; border-bottom: 1px solid var(--line); transition: background 0.3s ease, padding-left 0.4s cubic-bezier(.2,.8,.2,1), padding-right 0.4s cubic-bezier(.2,.8,.2,1); }
   .cert-item:hover { background: rgba(209,183,148,0.03); padding-left: 1rem; padding-right: 1rem; border-bottom-color: var(--gold); }
   .cert-title { transition: color 0.3s ease; }
   .cert-item:hover .cert-title { color: var(--gold); text-shadow: 0 0 10px rgba(209,183,148,0.3); }
 
-  .data-preview-table { width: 100%; border-collapse: collapse; font-family: 'Space Mono', monospace; font-size: 0.8rem; margin-top: 2rem; background: color-mix(in srgb, var(--void) 30%, transparent); border: 1px solid var(--line); border-radius: 4px; overflow: hidden; }
-  .data-preview-table th, .data-preview-table td { padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--line); text-align: left; color: var(--dim); }
+  .data-preview-table { width: 100%; border-collapse: collapse; font-family: 'Space Mono', monospace; font-size: 0.8rem; margin-top: 0; margin-bottom: 1.5rem; background: color-mix(in srgb, var(--void) 30%, transparent); border: 1px solid var(--line); border-radius: 4px; overflow: hidden; }
+  .data-preview-table th, .data-preview-table td { padding: 1rem 1.25rem; border-bottom: 1px solid var(--line); text-align: left; color: var(--dim); }
   .data-preview-table th { color: var(--gold); font-weight: normal; background: color-mix(in srgb, var(--gold) 4%, transparent); }
 
-  /* Perfectly visible Moon Widget */
   #moon-widget{
     width:36px; height:36px; border-radius:50%; cursor:pointer; position:relative; flex-shrink: 0; display: flex; align-items: center; justify-content: center;
     background:radial-gradient(circle at 30% 30%, #f0ebd8 0%, #c2b59b 50%, #5c5445 100%);
@@ -188,7 +197,6 @@
   html.light-mode #audio-widget { color: var(--dim); }
   html.light-mode #audio-widget:hover { color: var(--gold); }
   
-  /* Bolder Cursor + Soft Transparent Bleed Trail */
   #ink-cursor{ 
     position:fixed; top:0; left:0; color: var(--gold); font-size: 32px; line-height: 1; text-align: center; 
     pointer-events:none; z-index:9999; transition: font-size .2s cubic-bezier(.2,.8,.2,1), color .2s ease; 
@@ -217,13 +225,13 @@
 
   .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.92); backdrop-filter: blur(12px); z-index: 9000; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; }
   .modal-overlay.active { opacity: 1; pointer-events: auto; }
-  .terminal-window { width: 90%; max-width: 800px; background: #080808; border: 1px solid #333; border-radius: 6px; color: #4ade80; padding: 2rem; box-shadow: 0 20px 50px rgba(0,0,0,0.8); transform: translateY(20px); transition: transform 0.4s ease; max-height: 80vh; overflow-y: auto; position: relative; overflow: hidden; }
+  
+  .terminal-window { width: 90%; max-width: 800px; background: #080808; border: 1px solid #333; border-radius: 6px; color: #4ade80; padding: 2rem; box-shadow: 0 20px 50px rgba(0,0,0,0.8); transform: translateY(20px); transition: transform 0.4s ease; overflow-y: auto; position: relative; overflow: hidden; margin-bottom: 2rem; margin-top: 1rem; }
   .modal-overlay.active .terminal-window { transform: translateY(0); }
   .terminal-header { border-bottom: 1px solid #333; padding-bottom: 1rem; margin-bottom: 1rem; color: #888; position: relative; z-index: 10; }
   .terminal-content { position: relative; z-index: 10; background: rgba(0,0,0,0.7); padding: 1rem; border-radius: 4px;}
-  .terminal-window, .terminal-window * { font-family: 'Courier New', Courier, monospace !important; font-size: 12px !important; line-height: 1.6 !important; letter-spacing: normal !important; text-transform: none !important; }
+  .terminal-window, .terminal-window * { font-family: 'Courier New', Courier, monospace !important; font-size: 13px !important; line-height: 1.6 !important; letter-spacing: normal !important; text-transform: none !important; }
 
-  /* Feature 4: Slide Drawers with Drop Shadow Fix */
   .slide-drawer { position: fixed; top: 0; right: 0; width: 100%; max-width: 650px; height: 100vh; background: color-mix(in srgb, var(--void) 95%, transparent); backdrop-filter: blur(25px); border-left: 1px solid var(--line); z-index: 9999; transform: translateX(100%); transition: transform 0.6s cubic-bezier(0.77, 0, 0.175, 1), box-shadow 0.6s ease; overflow-y: auto; padding: 4rem 3rem; box-shadow: none; }
   .slide-drawer.active { transform: translateX(0); box-shadow: -20px 0 50px rgba(0,0,0,0.5); }
   .drawer-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); z-index: 9998; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; }
@@ -231,7 +239,6 @@
   .drawer-close { position: absolute; top: 2rem; right: 2.5rem; color: var(--dim); cursor: pointer; font-size: 1.5rem; transition: color 0.3s; z-index: 10; }
   .drawer-close:hover { color: var(--gold); }
 
-  /* FIX: Authentic Before/After Clip-Path Slider */
   .ba-container { position: relative; width: 100%; aspect-ratio: 16/9; overflow: hidden; border: 1px solid var(--line); border-radius: 4px; margin-top: 2.5rem; margin-bottom: 2.5rem; }
   .ba-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
   .ba-overlay { position: absolute; inset: 0; width: 100%; height: 100%; clip-path: inset(0 50% 0 0); transition: clip-path 0.1s ease-out; }
@@ -243,10 +250,10 @@
   .toast-container { position: fixed; bottom: 2rem; right: 2rem; z-index: 10000; display: flex; flex-direction: column; gap: 1rem; pointer-events: none; }
   .toast { background: var(--ink); color: var(--void); font-family: 'Space Mono', monospace; font-size: 0.8rem; padding: 1rem 1.5rem; border-radius: 4px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); transform: translateY(20px); opacity: 0; transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1); border: 1px solid var(--gold); pointer-events: auto; }
   .toast.show { transform: translateY(0); opacity: 1; }
-  .copy-btn { background: transparent; border: 1px solid var(--gold); color: var(--gold); padding: 0.3rem 0.8rem; font-size: 0.75rem; border-radius: 2px; cursor: pointer; transition: all 0.2s; font-family: 'Space Mono', monospace; }
+  .copy-btn { background: transparent; border: 1px solid var(--gold); color: var(--gold); padding: 0.3rem 0.8rem; font-size: 0.75rem; border-radius: 2px; cursor: pointer; transition: all 0.2s; font-family: 'Space Mono', monospace; z-index: 20; }
   .copy-btn:hover { background: var(--gold); color: #000; }
 
-  .signature-svg { width: 45px; height: 45px; color: var(--gold); stroke-dasharray: 200; stroke-dashoffset: 200; margin: 0 auto; display: block; opacity: 0.9; filter: drop-shadow(0 0 6px var(--gold)); }
+  .signature-svg { width: 45px; height: 45px; color: var(--gold); stroke-dasharray: 200; stroke-dashoffset: 200; margin: 0 auto 1rem auto; display: block; opacity: 0.9; filter: drop-shadow(0 0 6px var(--gold)); }
   .signature-svg.draw { animation: drawSig 2s ease-out forwards; }
   @keyframes drawSig { to { stroke-dashoffset: 0; } }
 
@@ -369,7 +376,6 @@
       <button type="button" id="audio-widget" class="hover-trigger" title="Toggle UI Audio">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
       </button>
-      <!-- Reintegrated Theme Button -->
       <button type="button" id="moon-widget" class="hover-trigger mr-4 md:mr-0" title="Toggle Light/Dark Theme" aria-label="Toggle Theme"></button>
     </div>
   </div>
@@ -388,7 +394,7 @@
     </h1>
 
     <p class="mx-auto max-w-2xl text-[1.15rem] leading-[1.8] text-[var(--dim)] font-serif italic anim-fade mb-12 vn-readable decay-target">
-      "<span class="magnify-text">I research and clean data,</span> <span class="magnify-text">document it precisely,</span> <span class="magnify-text">and analyze without any inefficacy.</span> <span class="magnify-text">No manufactured polish—</span><span class="magnify-text">just reproducible work and seamless hand-offs.</span>"
+      "<span class="magnify-text">I research and clean data,</span> <span class="magnify-text">document it precisely,</span> <span class="magnify-text">and build analytical tools without any inefficacy.</span> <span class="magnify-text">No manufactured polish—</span><span class="magnify-text">just reproducible work and perfect hand-offs.</span>"
     </p>
 
     <!-- PERFECTLY SPACED AND RENAMED RESUME BUTTON -->
@@ -399,7 +405,6 @@
   </div>
 </header>
 
-<!-- Thinner, sleeker marquee with added terms and Easter Egg (click 5 times to speed up, slows down after 5s) -->
 <div class="marquee-container" id="marquee-cont">
   <div class="marquee-track" id="marquee">
     <span>Data Hygiene</span> <span class="!text-[var(--gold)] !-webkit-text-stroke-0">✠</span> 
@@ -441,7 +446,8 @@
       </p>
       
       <p class="label mb-6">Daily Drivers</p>
-      <div class="tool-grid">
+      <!-- Generous bottom margin added so icons don't crowd the card below -->
+      <div class="tool-grid mb-24">
         <a href="https://www.apple.com/macos/" target="_blank" rel="noopener" class="tool-icon hover-trigger magnetic-hover" title="Mac OS">⌘</a>
         <a href="https://www.python.org/" target="_blank" rel="noopener" class="tool-icon hover-trigger magnetic-hover" title="Python">Py</a>
         <a href="https://posit.co/products/open-source/rstudio/" target="_blank" rel="noopener" class="tool-icon hover-trigger magnetic-hover" title="R Studio">R</a>
@@ -541,8 +547,8 @@
       <p class="text-[var(--dim)] max-w-lg mx-auto font-serif text-[1.25rem] decay-target">A curated dossier of deployment-ready deliverables.</p>
     </div>
     
-    <!-- Filterable Project Grid Bar properly spaced -->
-    <div class="flex flex-wrap justify-center gap-4 w-full max-w-4xl mx-auto mt-8 mb-20">
+    <!-- Filterable Project Grid Bar properly spaced to not "kiss" the boxes -->
+    <div class="flex flex-wrap justify-center gap-4 w-full max-w-4xl mx-auto mt-8 mb-28">
       <button class="filter-btn sort-btn active !bg-[var(--gold)] !text-[var(--void)] hover-trigger" data-filter="all">All</button>
       <button class="filter-btn sort-btn hover-trigger" data-filter="sql">Data / SQL</button>
       <button class="filter-btn sort-btn hover-trigger" data-filter="ml">Machine Learning</button>
@@ -551,78 +557,90 @@
     </div>
   </div>
 
-  <div class="grid md:grid-cols-2 gap-16" id="projects-grid">
-    <article class="ui-card spotlight anim-section flex flex-col proj-card hover-trigger magnetic-hover project-item" data-category="sql" data-img="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop">
-      <div class="flex items-center justify-between mb-8">
-        <span class="proj-num">01</span><span class="label !text-[0.7rem] opacity-70">Data Cleaning</span>
+  <!-- PERFECTLY ALIGNED HORIZONTAL PROJECT CARDS (Screenshot 1 Match) -->
+  <div class="flex flex-col gap-16" id="projects-grid">
+    
+    <article class="ui-card spotlight anim-section proj-card hover-trigger magnetic-hover project-item" data-category="sql">
+      <div class="proj-info-left">
+        <span class="proj-num">01</span>
+        <span class="proj-cat">Data Cleaning</span>
       </div>
-      <h3 class="h-display text-4xl lg:text-5xl text-[var(--ink)] mb-8">NGO Applicant Records</h3>
-      <p class="text-[var(--dim)] leading-[1.8] font-serif text-[1.2rem] mb-10 flex-grow vn-readable">
-        Standardized, validated, and scrubbed 350 applicant records during an intensive operational internship—normalizing formats and resolving encoding corruptions.
-      </p>
-      <div class="mt-auto">
-        <div class="overflow-x-auto mb-10">
-          <table class="data-preview-table !mt-0">
-            <thead><tr><th>Record_ID</th><th>Status</th></tr></thead>
-            <tbody><tr><td>#NS-301</td><td>Verified</td></tr><tr><td>#NS-302</td><td>Normalized</td></tr></tbody>
-          </table>
-        </div>
-        <div class="flex gap-4">
-          <button class="btn-ghost hover-trigger text-[0.75rem]" onclick="openDrawer('drawer-ngo')">View Case Study</button>
-        </div>
+      <div class="proj-info-center">
+        <h3 class="proj-title">NGO Applicant<br>Records</h3>
+        <p class="proj-desc vn-readable">
+          Standardized, validated, and scrubbed 350 applicant records during an intensive operational internship—normalizing formats and resolving encoding corruptions.
+        </p>
       </div>
-    </article>
-
-    <article class="ui-card spotlight anim-section flex flex-col proj-card hover-trigger magnetic-hover project-item" data-category="strategy" data-img="https://images.unsplash.com/photo-1601597111158-2fceff292cdc?q=80&w=800&auto=format&fit=crop">
-      <div class="flex items-center justify-between mb-8">
-        <span class="proj-num">02</span><span class="label !text-[0.7rem] opacity-70">Game Theory</span>
-      </div>
-      <h3 class="h-display text-4xl lg:text-5xl text-[var(--ink)] mb-8">Quick-Commerce Strategy</h3>
-      <p class="text-[var(--dim)] leading-[1.8] font-serif text-[1.2rem] mb-10 flex-grow vn-readable">
-        A comparative presentation applying game theory models to competitive dynamics within the quick-commerce industry, analyzing strategies of Blinkit, Zepto, and Swiggy Instamart.
-      </p>
-      <div class="mt-auto pt-8 border-t border-[var(--line)] flex gap-4">
-        <!-- Replaced modal trigger with Drawer for proper case study view -->
-        <button class="btn-ghost hover-trigger" onclick="openDrawer('drawer-matrix')">View Matrix Logic</button>
+      <div class="proj-action-right">
+        <table class="data-preview-table w-full mb-6">
+          <thead><tr><th>Record_ID</th><th>Status</th></tr></thead>
+          <tbody><tr><td>#NS-301</td><td>Verified</td></tr><tr><td>#NS-302</td><td>Normalized</td></tr></tbody>
+        </table>
+        <button class="btn-ghost hover-trigger text-[0.8rem]" onclick="openDrawer('drawer-ngo')">View Case Study</button>
       </div>
     </article>
 
-    <article class="ui-card spotlight anim-section flex flex-col proj-card hover-trigger magnetic-hover project-item" data-category="ml" data-img="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop">
-      <div class="flex items-center justify-between mb-8">
-        <span class="proj-num">03</span><span class="label !text-[0.7rem] opacity-70">Machine Learning</span>
+    <article class="ui-card spotlight anim-section proj-card hover-trigger magnetic-hover project-item" data-category="strategy">
+      <div class="proj-info-left">
+        <span class="proj-num">02</span>
+        <span class="proj-cat">Game Theory</span>
       </div>
-      <h3 class="h-display text-4xl lg:text-5xl text-[var(--ink)] mb-8">Credit Card Fraud Detection</h3>
-      <p class="text-[var(--dim)] leading-[1.8] font-serif text-[1.2rem] mb-10 flex-grow vn-readable">
-        Tackled a heavily imbalanced dataset (0.17% fraud rate across 284k cases) using Python. Applied SMOTE to generate synthetic minority samples, stabilizing model accuracy. Evaluated distributions dynamically via matplotlib.
-      </p>
-      <div class="mt-auto pt-8 border-t border-[var(--line)] flex gap-4">
-        <button class="btn-ghost hover-trigger" onclick="openDrawer('drawer-fraud')">View Analysis Pipeline</button>
+      <div class="proj-info-center">
+        <h3 class="proj-title">Quick-Commerce<br>Strategy</h3>
+        <p class="proj-desc vn-readable">
+          A comparative presentation applying game theory models to competitive dynamics within the quick-commerce industry, analyzing strategies of Blinkit, Zepto, and Swiggy Instamart.
+        </p>
+      </div>
+      <div class="proj-action-right">
+        <button class="btn-ghost hover-trigger text-[0.8rem]" onclick="openDrawer('drawer-matrix')">View Matrix Logic</button>
       </div>
     </article>
 
-    <article class="ui-card spotlight anim-section flex flex-col proj-card hover-trigger magnetic-hover project-item" data-category="viz" data-img="https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=800&auto=format&fit=crop">
-      <div class="flex items-center justify-between mb-8">
-        <span class="proj-num">04</span><span class="label !text-[0.7rem] opacity-70">Interactive Analytics</span>
+    <article class="ui-card spotlight anim-section proj-card hover-trigger magnetic-hover project-item" data-category="ml">
+      <div class="proj-info-left">
+        <span class="proj-num">03</span>
+        <span class="proj-cat">Machine Learning</span>
       </div>
-      <h3 class="h-display text-4xl lg:text-5xl text-[var(--ink)] mb-8">Spatial Real Estate Heatmap</h3>
-      <p class="text-[var(--dim)] leading-[1.8] font-serif text-[1.2rem] mb-10 flex-grow vn-readable">
-        Engineered an interactive dashboard for Navi Mumbai evaluating real estate density. Leveraged functional state hooks to construct dynamic radius filtering and a regression matrix tracking price per m² correlations.
-      </p>
-      <div class="mt-auto pt-8 border-t border-[var(--line)] flex gap-4">
-        <button class="btn-ghost hover-trigger" onclick="openDrawer('drawer-heatmap')">Launch Dashboard</button>
+      <div class="proj-info-center">
+        <h3 class="proj-title">Credit Card<br>Fraud Detection</h3>
+        <p class="proj-desc vn-readable">
+          Tackled a heavily imbalanced dataset (0.17% fraud rate across 284k cases) using Python. Applied SMOTE to generate synthetic minority samples, stabilizing model accuracy. Evaluated distributions dynamically via matplotlib.
+        </p>
+      </div>
+      <div class="proj-action-right">
+        <button class="btn-ghost hover-trigger text-[0.8rem]" onclick="openDrawer('drawer-fraud')">View Analysis Pipeline</button>
+      </div>
+    </article>
+
+    <article class="ui-card spotlight anim-section proj-card hover-trigger magnetic-hover project-item" data-category="viz">
+      <div class="proj-info-left">
+        <span class="proj-num">04</span>
+        <span class="proj-cat">Interactive Analytics</span>
+      </div>
+      <div class="proj-info-center">
+        <h3 class="proj-title">Spatial Real<br>Estate Heatmap</h3>
+        <p class="proj-desc vn-readable">
+          Engineered an interactive dashboard for Navi Mumbai evaluating real estate density. Leveraged functional state hooks to construct dynamic radius filtering and a regression matrix tracking price per m² correlations.
+        </p>
+      </div>
+      <div class="proj-action-right">
+        <button class="btn-ghost hover-trigger text-[0.8rem]" onclick="openDrawer('drawer-heatmap')">Launch Dashboard</button>
       </div>
     </article>
 
     <!-- Failed Experiments Addition -->
-    <article class="ui-card spotlight anim-section flex flex-col proj-card hover-trigger magnetic-hover project-item" data-category="ml" style="border-color: color-mix(in srgb, var(--gold) 30%, transparent);">
-      <div class="flex items-center justify-between mb-8">
-        <span class="proj-num" style="color:var(--dim)">05</span><span class="label !text-[0.7rem] opacity-70">Failed Experiment</span>
+    <article class="ui-card spotlight anim-section proj-card hover-trigger magnetic-hover project-item" data-category="ml" style="border-color: color-mix(in srgb, var(--gold) 30%, transparent);">
+      <div class="proj-info-left">
+        <span class="proj-num" style="color:var(--dim)">05</span>
+        <span class="proj-cat">Failed Experiment</span>
       </div>
-      <h3 class="h-display text-4xl lg:text-5xl text-[var(--ink)] mb-8">Predictive Connectomics</h3>
-      <p class="text-[var(--dim)] leading-[1.8] font-serif text-[1.2rem] mb-10 flex-grow vn-readable">
-        Attempted to map simulated neural pathways to predict LLM hallucinations. Failed due to compute constraints and dimensionality explosion. Learned the absolute necessity of feature selection over brute-force scaling.
-      </p>
-      <div class="mt-auto pt-8 border-t border-[var(--line)] flex gap-4">
+      <div class="proj-info-center">
+        <h3 class="proj-title">Predictive<br>Connectomics</h3>
+        <p class="proj-desc vn-readable">
+          Attempted to map simulated neural pathways to predict LLM hallucinations. Failed due to compute constraints and dimensionality explosion. Learned the absolute necessity of feature selection over brute-force scaling.
+        </p>
+      </div>
+      <div class="proj-action-right">
         <span class="label !text-[0.65rem] text-[var(--dim)]">Archived / Post-Mortem Only</span>
       </div>
     </article>
@@ -675,120 +693,120 @@
     </p>
   </div>
 
-  <div class="cert-grid cert-list anim-section border-t border-[var(--line)]">
-    <a href="https://coursera.org/verify/professional-cert/D20TWD198382" target="_blank" rel="noopener" class="cert-item hover-trigger" data-img="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=800&auto=format&fit=crop">
+  <div class="cert-grid cert-list anim-section border-t border-[var(--line)] pt-8">
+    <a href="https://coursera.org/verify/professional-cert/D20TWD198382" target="_blank" rel="noopener" class="cert-item hover-trigger">
       <div>
         <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">Google AI Professional Certificate</span>
         <span class="label !text-[0.6rem] text-[var(--dim)] mt-1">Google</span>
       </div>
       <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">Jul 6, 2026 ↗</span>
     </a>
-    <a href="https://coursera.org/verify/2OIY80FRZGQN" target="_blank" rel="noopener" class="cert-item hover-trigger" data-img="https://images.unsplash.com/photo-1601597111158-2fceff292cdc?q=80&w=800&auto=format&fit=crop">
+    <a href="https://coursera.org/verify/2OIY80FRZGQN" target="_blank" rel="noopener" class="cert-item hover-trigger">
       <div>
         <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">AI for App Building</span>
         <span class="label !text-[0.6rem] text-[var(--dim)] mt-1">Google</span>
       </div>
       <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">Jul 6, 2026 ↗</span>
     </a>
-    <a href="https://coursera.org/verify/62JOVFOST4YO" target="_blank" rel="noopener" class="cert-item hover-trigger" data-img="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=800&auto=format&fit=crop">
+    <a href="https://coursera.org/verify/62JOVFOST4YO" target="_blank" rel="noopener" class="cert-item hover-trigger">
       <div>
         <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">AI for Content Creation</span>
         <span class="label !text-[0.6rem] text-[var(--dim)] mt-1">Google</span>
       </div>
       <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">Jul 6, 2026 ↗</span>
     </a>
-    <a href="https://coursera.org/verify/6G3P6R907SMA" target="_blank" rel="noopener" class="cert-item hover-trigger" data-img="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop">
+    <a href="https://coursera.org/verify/6G3P6R907SMA" target="_blank" rel="noopener" class="cert-item hover-trigger">
       <div>
         <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">AI for Data Analysis</span>
         <span class="label !text-[0.6rem] text-[var(--dim)] mt-1">Google</span>
       </div>
       <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">Jul 6, 2026 ↗</span>
     </a>
-    <a href="https://coursera.org/verify/C8IDWFQ2B38C" target="_blank" rel="noopener" class="cert-item hover-trigger" data-img="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=800&auto=format&fit=crop">
+    <a href="https://coursera.org/verify/C8IDWFQ2B38C" target="_blank" rel="noopener" class="cert-item hover-trigger">
       <div>
         <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">AI for Brainstorming and Planning</span>
         <span class="label !text-[0.6rem] text-[var(--dim)] mt-1">Google</span>
       </div>
       <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">Jul 5, 2026 ↗</span>
     </a>
-    <a href="https://coursera.org/verify/YBW2BYO2NGWC" target="_blank" rel="noopener" class="cert-item hover-trigger" data-img="https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=800&auto=format&fit=crop">
+    <a href="https://coursera.org/verify/YBW2BYO2NGWC" target="_blank" rel="noopener" class="cert-item hover-trigger">
       <div>
         <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">AI for Research and Insights</span>
         <span class="label !text-[0.6rem] text-[var(--dim)] mt-1">Google</span>
       </div>
       <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">Jul 5, 2026 ↗</span>
     </a>
-    <a href="https://coursera.org/verify/JUOLOYE3XL31" target="_blank" rel="noopener" class="cert-item hover-trigger" data-img="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=800&auto=format&fit=crop">
+    <a href="https://coursera.org/verify/JUOLOYE3XL31" target="_blank" rel="noopener" class="cert-item hover-trigger">
       <div>
         <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">AI for Writing and Communicating</span>
         <span class="label !text-[0.6rem] text-[var(--dim)] mt-1">Google</span>
       </div>
       <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">Jul 5, 2026 ↗</span>
     </a>
-    <a href="https://coursera.org/verify/816ZSIY7JQ2Y" target="_blank" rel="noopener" class="cert-item hover-trigger" data-img="https://images.unsplash.com/photo-1555949963-aa79dcee981c?q=80&w=800&auto=format&fit=crop">
+    <a href="https://coursera.org/verify/816ZSIY7JQ2Y" target="_blank" rel="noopener" class="cert-item hover-trigger">
       <div>
         <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">AI Fundamentals</span>
         <span class="label !text-[0.6rem] text-[var(--dim)] mt-1">Google</span>
       </div>
       <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">Jul 5, 2026 ↗</span>
     </a>
-    <a href="https://coursera.org/verify/1E1100ABDTDP" target="_blank" rel="noopener" class="cert-item hover-trigger" data-img="https://images.unsplash.com/photo-1589330694653-ded6df03f754?q=80&w=800&auto=format&fit=crop">
+    <a href="https://coursera.org/verify/1E1100ABDTDP" target="_blank" rel="noopener" class="cert-item hover-trigger">
       <div>
         <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">Data Science Methodology</span>
         <span class="label !text-[0.6rem] text-[var(--dim)] mt-1">IBM</span>
       </div>
       <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">Jul 5, 2026 ↗</span>
     </a>
-    <a href="https://coursera.org/verify/8LLOVUI816GV" target="_blank" rel="noopener" class="cert-item hover-trigger" data-img="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=800&auto=format&fit=crop">
+    <a href="https://coursera.org/verify/8LLOVUI816GV" target="_blank" rel="noopener" class="cert-item hover-trigger">
       <div>
         <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">What is Data Science?</span>
         <span class="label !text-[0.6rem] text-[var(--dim)] mt-1">IBM</span>
       </div>
       <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">Jun 3, 2026 ↗</span>
     </a>
-    <a href="https://coursera.org/verify/2LK3BMDH5L10" target="_blank" rel="noopener" class="cert-item hover-trigger" data-img="https://images.unsplash.com/photo-1528164344705-47542687000d?q=80&w=800&auto=format&fit=crop">
+    <a href="https://coursera.org/verify/2LK3BMDH5L10" target="_blank" rel="noopener" class="cert-item hover-trigger">
       <div>
         <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">Tools for Data Science</span>
         <span class="label !text-[0.6rem] text-[var(--dim)] mt-1">IBM</span>
       </div>
       <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">Jun 20, 2026 ↗</span>
     </a>
-    <a href="https://coursera.org/verify/9FNW7ECSJOOD" target="_blank" rel="noopener" class="cert-item hover-trigger" data-img="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop">
+    <a href="https://coursera.org/verify/9FNW7ECSJOOD" target="_blank" rel="noopener" class="cert-item hover-trigger">
       <div>
         <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">Python for Data Science, AI & Dev</span>
         <span class="label !text-[0.6rem] text-[var(--dim)] mt-1">IBM</span>
       </div>
       <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">May 22, 2026 ↗</span>
     </a>
-    <a href="https://coursera.org/verify/4B176SBS1FUC" target="_blank" rel="noopener" class="cert-item hover-trigger" data-img="https://images.unsplash.com/photo-1616077168712-fc6c788db4fa?q=80&w=800&auto=format&fit=crop">
+    <a href="https://coursera.org/verify/4B176SBS1FUC" target="_blank" rel="noopener" class="cert-item hover-trigger">
       <div>
         <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">Excel Basics for Data Analysis</span>
         <span class="label !text-[0.6rem] text-[var(--dim)] mt-1">IBM</span>
       </div>
       <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">May 22, 2026 ↗</span>
     </a>
-    <a href="https://coursera.org/verify/35BF0N944583" target="_blank" rel="noopener" class="cert-item hover-trigger" data-img="https://images.unsplash.com/photo-1555949963-aa79dcee981c?q=80&w=800&auto=format&fit=crop">
+    <a href="https://coursera.org/verify/35BF0N944583" target="_blank" rel="noopener" class="cert-item hover-trigger">
       <div>
         <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">Programming for Everybody (Python)</span>
         <span class="label !text-[0.6rem] text-[var(--dim)] mt-1">Univ. of Michigan</span>
       </div>
       <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">May 20, 2026 ↗</span>
     </a>
-    <a href="https://coursera.org/verify/2IMXO38ZVMVO" target="_blank" rel="noopener" class="cert-item hover-trigger" data-img="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=800&auto=format&fit=crop">
+    <a href="https://coursera.org/verify/2IMXO38ZVMVO" target="_blank" rel="noopener" class="cert-item hover-trigger">
       <div>
         <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">Generative AI: Prompt Engineering</span>
         <span class="label !text-[0.6rem] text-[var(--dim)] mt-1">IBM</span>
       </div>
       <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">May 13, 2026 ↗</span>
     </a>
-    <a href="https://coursera.org/verify/Z4F077T14PVG" target="_blank" rel="noopener" class="cert-item hover-trigger" data-img="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=800&auto=format&fit=crop">
+    <a href="https://coursera.org/verify/Z4F077T14PVG" target="_blank" rel="noopener" class="cert-item hover-trigger">
       <div>
         <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">Leveraging AI for Content Creation</span>
         <span class="label !text-[0.6rem] text-[var(--dim)] mt-1">Coursera</span>
       </div>
       <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">May 3, 2026 ↗</span>
     </a>
-    <a href="https://coursera.org/verify/GPRAZ1HU9HET" target="_blank" rel="noopener" class="cert-item hover-trigger" data-img="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=800&auto=format&fit=crop">
+    <a href="https://coursera.org/verify/GPRAZ1HU9HET" target="_blank" rel="noopener" class="cert-item hover-trigger">
       <div>
         <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">How to Get Into AI</span>
         <span class="label !text-[0.6rem] text-[var(--dim)] mt-1">Univ. of Leeds</span>
@@ -797,8 +815,6 @@
     </a>
   </div>
 </section>
-
-<div id="hover-preview"><img src="" alt="Preview"></div>
 
 <div class="container-w"><div class="rule"></div></div>
 
@@ -809,6 +825,7 @@
   </div>
   
   <div class="grid md:grid-cols-3 gap-16">
+    <!-- "Now" section card added -->
     <div class="border-t border-[var(--gold)] pt-10 anim-section relative">
       <p class="label !text-[0.65rem] mb-4 text-[var(--gold)] tracking-[0.25em]">CURRENTLY (NOW PAGE)</p>
       <h4 class="text-2xl text-[var(--ink)] font-serif mb-4">Focus & Directives</h4>
@@ -866,8 +883,8 @@
 
 <footer class="border-t border-[var(--line)] py-20 relative z-20 overflow-hidden">
   <div class="container-w footer-stack">
-    <!-- Distinctly Spaced Signature -->
-    <div class="mb-8 mt-16">
+    <!-- Distinctly Spaced Signature with extra top margin -->
+    <div class="mt-24 mb-16">
       <svg class="signature-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
         <path d="M50 10 L50 90 M10 30 L90 30 M40 10 L60 10 M40 90 L60 90 M10 20 L10 40 M90 20 L90 40" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="square"/>
       </svg>
@@ -911,6 +928,7 @@
   <p class="text-[var(--dim)] text-sm font-serif italic mt-4 mb-10 text-center">Drag slider to compare dataset structure.</p>
 </div>
 
+<!-- Strategy Drawer (Clean text without matrix conflict) -->
 <div class="slide-drawer" id="drawer-matrix">
   <span class="drawer-close hover-trigger" onclick="closeAllDrawers()" role="button" tabindex="0">✕</span>
   <p class="label mb-4">Case Study 02</p>
@@ -919,15 +937,10 @@
     A comparative presentation applying game theory models to competitive dynamics within the quick-commerce industry. We analyzed Nash Equilibriums mapping out the aggressive market strategies of Blinkit, Zepto, and Swiggy Instamart.
   </p>
   
-  <div class="terminal-window !max-w-full !p-0 !border-none !shadow-none !h-[300px] !mb-8 relative rounded-none border-y border-[var(--gold)]">
-    <!-- Matrix Canvas -->
-    <canvas id="matrix-canvas" style="position:absolute; top:0; left:0; width:100%; height:100%; z-index:1; opacity:0.6;"></canvas>
-    
-    <!-- Code Overlay with fading gradient background for perfect readability -->
-    <div class="relative z-10 p-6 bg-gradient-to-b from-[rgba(0,0,0,0.85)] to-[rgba(0,0,0,0.95)] h-full w-full">
-      <div class="flex justify-between items-center border-b border-[#333] pb-2 mb-4">
-        <span class="text-[#888] font-mono text-sm">~/sql/strategy_extraction.sql</span>
-      </div>
+  <div class="terminal-window !max-w-full !border-[var(--gold)] !shadow-none relative rounded">
+    <div class="flex justify-between items-center border-b border-[#333] pb-2 mb-4">
+      <span class="text-[#888] font-mono text-sm">~/sql/strategy_extraction.sql</span>
+    </div>
 <pre class="font-mono text-[#4ade80] text-sm leading-relaxed"><code><span class="text-[#888]">-- Extracting Optimization Matrix Data</span>
 <span class="text-[#d1b794]">SELECT</span> 
     strategy_id, 
@@ -941,7 +954,6 @@
 <span class="text-[#d1b794]">GROUP BY</span> 
     strategy_id;
 <span class="text-white mt-4 block">Execution Time: 0.04s <span class="animate-pulse">_</span></span></code></pre>
-    </div>
   </div>
 </div>
 
@@ -949,20 +961,23 @@
   <span class="drawer-close hover-trigger" onclick="closeAllDrawers()" role="button" tabindex="0">✕</span>
   <p class="label mb-4">Machine Learning Pipeline</p>
   <h2 class="h-display text-4xl text-[var(--ink)] mb-6">Credit Card Fraud Detection</h2>
+  
+  <!-- Heavy margin spacing applied here to prevent overlap -->
   <div class="text-[var(--dim)] font-serif text-[1.05rem] leading-[1.8] space-y-6">
     <p>Step 1. Import the libraries and import the csv file to be used as training data.</p>
-    <div class="terminal-window !p-4 !mb-6 w-full !text-[0.75rem] relative">
+    <div class="terminal-window !p-6 !mt-6 !mb-10 w-full !text-[0.8rem] relative">
       <button class="copy-btn hover-trigger absolute top-3 right-3" onclick="copyCode(this)">Copy Source</button>
-      <pre><code>import pandas as pd
+      <pre class="overflow-x-auto"><code>import pandas as pd
 from imblearn.over_sampling import SMOTE
 df = pd.read_csv("/Users/nabhya/Downloads/creditcard.csv")
 print(df.shape)
 # Output: (284807, 31)</code></pre>
     </div>
+    
     <p>Only 492 Frauds in 284k cases. Fraud percentage = 0.1727%. We check for correlations against the 'Class' column, removing self-correlation, and order from most negative to most positive.</p>
-    <div class="terminal-window !p-4 !mb-6 w-full !text-[0.75rem] relative">
+    <div class="terminal-window !p-6 !mt-6 !mb-10 w-full !text-[0.8rem] relative">
       <button class="copy-btn hover-trigger absolute top-3 right-3" onclick="copyCode(this)">Copy Source</button>
-      <pre><code>correlations = df.corr()['Class'].drop('Class').sort_values()
+      <pre class="overflow-x-auto"><code>correlations = df.corr()['Class'].drop('Class').sort_values()
 X = df.drop('Class', axis=1) # Full dataset minus label
 y = df['Class']
 
@@ -971,10 +986,11 @@ scaler = StandardScaler()
 X['Amount'] = scaler.fit_transform(X[['Amount']])
 X['Time'] = scaler.fit_transform(X[['Time']])</code></pre>
     </div>
+    
     <p>Splitting the data: <code>test_size=0.2</code> means 20% of rows go to the test set, 80% to training. <code>stratify=y</code> guarantees the fraud ratio (0.17%) is preserved in both splits proportionally.</p>
-    <div class="terminal-window !p-4 !mb-6 w-full !text-[0.75rem] relative">
+    <div class="terminal-window !p-6 !mt-6 !mb-10 w-full !text-[0.8rem] relative">
       <button class="copy-btn hover-trigger absolute top-3 right-3" onclick="copyCode(this)">Copy Source</button>
-      <pre><code>smote = SMOTE(random_state=42)
+      <pre class="overflow-x-auto"><code>smote = SMOTE(random_state=42)
 X_train_resampled, y_train_resampled = smote.fit_resample(X_train, y_train)
 
 print(f"Before SMOTE: {y_train.value_counts().to_dict()}")
@@ -983,6 +999,7 @@ print(f"Before SMOTE: {y_train.value_counts().to_dict()}")
 print(f"After SMOTE: {pd.Series(y_train_resampled).value_counts().to_dict()}")
 # Output: {0: 227451, 1: 227451}</code></pre>
     </div>
+    
     <p>SMOTE looks at each fraud example in your training set, finds its nearest neighbors among other fraud examples, and generates new synthetic fraud rows. They're realistic but not exact duplicates.</p>
   </div>
 </div>
@@ -1091,6 +1108,7 @@ print(f"After SMOTE: {pd.Series(y_train_resampled).value_counts().to_dict()}")
       <li><span class="inline-block w-28 text-[var(--gold)]">Candlelight</span> Press <kbd class="px-2 py-1 rounded border border-[#333]">N</kbd> to ignite the dark academia theme.</li>
       <li><span class="inline-block w-28 text-[var(--gold)]">Terminal</span> Press <kbd class="px-2 py-1 rounded border border-[#333]">Cmd+K</kbd> to view raw JSON system data.</li>
       <li><span class="inline-block w-28 text-[var(--gold)]">TouchNodes</span> Press <kbd class="px-2 py-1 rounded border border-[#333]">T</kbd> for interactive physics nodes in the background.</li>
+      <li><span class="inline-block w-28 text-[var(--gold)]">Matrix O/R</span> Press <kbd class="px-2 py-1 rounded border border-[#333]">M</kbd> to initiate the terminal rain.</li>
       <li><span class="inline-block w-28 text-[var(--gold)]">God Mode</span> Press <kbd class="px-2 py-1 rounded border border-[#333]">G</kbd> for system performance metrics.</li>
       <li><span class="inline-block w-28 text-[var(--gold)]">Time Shift</span> Click the clock in the nav to toggle Japanese standard time.</li>
       <li><span class="inline-block w-28 text-[var(--gold)]">Data Decay</span> Go completely idle for 60 seconds and watch the data corrupt.</li>
@@ -1137,6 +1155,17 @@ const_rhs <span class="syn-k"><-</span> <span class="syn-f">c</span>(<span class
 solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class="syn-s">"max"</span>, obj_coeff, const_mat, const_dir, const_rhs)
 <span class="syn-f">print</span>(solution$solution)
 </code></pre>
+  </div>
+</div>
+
+<!-- THE "M" SHORTCUT TERMINAL RAIN EASTER EGG (Fully decoupled from drawer) -->
+<div class="modal-overlay" id="modal-matrix">
+  <div class="terminal-window !max-w-full !h-[80vh] !w-[90vw] !m-0 !p-0 !border-[var(--gold)] relative overflow-hidden">
+    <canvas id="matrix-canvas-modal" style="position:absolute; top:0; left:0; width:100%; height:100%; z-index:1; opacity:0.8;"></canvas>
+    <button class="close-modal absolute top-6 right-6 text-white hover:text-[var(--gold)] text-2xl z-50 hover-trigger">✕</button>
+    <div class="absolute inset-0 z-10 p-10 bg-gradient-to-b from-[rgba(0,0,0,0.4)] to-[rgba(0,0,0,0.8)] pointer-events-none">
+      <pre class="font-mono text-[#4ade80] text-lg"><code>SYSTEM OVERRIDE INITIATED...</code></pre>
+    </div>
   </div>
 </div>
 
@@ -1274,22 +1303,16 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
     playClick();
     
     // Explicit sizing for canvases so they never render as 0x0
-    if(id === 'drawer-matrix') {
-        matrixMode = true; 
-        setTimeout(() => {
-            initMatrix(); 
-            clearInterval(matrixInterval); 
-            matrixInterval = setInterval(drawMatrix, 33);
-        }, 300);
-    }
     if(id === 'drawer-heatmap') {
         setTimeout(initHeatmap, 300); 
     }
   };
   
+  // ROBUST CLOSE ALL FUNCTION
   window.closeAllDrawers = function() {
     $('#drawer-overlay').classList.remove('active');
     $$('.slide-drawer').forEach(d => d.classList.remove('active'));
+    $$('.modal-overlay').forEach(overlay => overlay.classList.remove('active'));
     clearInterval(matrixInterval);
     matrixMode = false;
     playClick();
@@ -1353,16 +1376,11 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
   let coffeeMode = false; let screenPlayMode = false; let matrixMode = false; let nodesActive = false; let tdRaf; let tdNodes = []; let candleMode = false;
   
   window.addEventListener('keydown', e => {
+    // 100% ROBUST ESCAPE HANDLER
     if (e.key === 'Escape') {
       if (isVnMode) exitVnMode();
       closeAllDrawers();
-      $$('.modal-overlay').forEach(overlay => {
-        if(overlay.classList.contains('active')) {
-          overlay.classList.remove('active');
-          if (overlay.id === 'modal-rhythm') endRhythm(false);
-        }
-      });
-      clearInterval(matrixInterval); matrixMode = false; return;
+      return;
     }
     
     if(e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
@@ -1391,6 +1409,16 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
     }
     if(e.key.toLowerCase() === 'g') { const gm = $('#god-mode'); if(gm) { gm.classList.toggle('active'); playClick(); unlockSecret('godmode'); } }
     if(e.metaKey && e.key === 'k') { e.preventDefault(); const tMod = $('#modal-terminal'); if(tMod){ tMod.classList.add('active'); playClick(); unlockSecret('terminal'); } }
+    
+    // M KEY NOW CORRECTLY OPENS THE EASTER EGG MATRIX MODAL
+    if(e.key.toLowerCase() === 'm') {
+      matrixMode = !matrixMode; const tModal = $('#modal-matrix');
+      if(tModal) {
+        if(matrixMode) { tModal.classList.add('active'); initMatrix(); clearInterval(matrixInterval); matrixInterval = setInterval(drawMatrix, 33); playSecretSound(); unlockSecret('matrix'); } 
+        else { tModal.classList.remove('active'); clearInterval(matrixInterval); }
+      }
+    }
+    
     if(e.key.toLowerCase() === 't') {
       nodesActive = !nodesActive;
       if(nodesActive) {
@@ -1543,18 +1571,17 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
       fTime.innerHTML = `✠ © ${new Date().getFullYear()} · Life isnt always black and white. ✠`;
   }
 
-  // Safe Explicit Canvas Setup for Matrix Drawer
+  // Safe Explicit Canvas Setup for Easter Egg Matrix Modal
   let mWidth, mHeight, columns, drops; const chars = "SELECT * FROM DATA WHERE NOISE = 0".split(""); let matrixInterval;
   function initMatrix() {
-    const mCanvas = document.getElementById('matrix-canvas');
+    const mCanvas = document.getElementById('matrix-canvas-modal');
     if(!mCanvas) return;
     const mCtx = mCanvas.getContext('2d');
-    // Hardcode sizes to prevent 0x0 off-screen rendering
-    mWidth = mCanvas.width = 600; mHeight = mCanvas.height = 300;
+    mWidth = mCanvas.width = window.innerWidth; mHeight = mCanvas.height = window.innerHeight;
     columns = mWidth / 14; drops = []; for(let x = 0; x < columns; x++) drops[x] = 1;
   }
   function drawMatrix() {
-    const mCanvas = document.getElementById('matrix-canvas');
+    const mCanvas = document.getElementById('matrix-canvas-modal');
     if(!mCanvas) return;
     const mCtx = mCanvas.getContext('2d');
     mCtx.fillStyle = "rgba(0, 0, 0, 0.05)"; mCtx.fillRect(0, 0, mWidth, mHeight); mCtx.fillStyle = "#4ade80"; mCtx.font = "14px monospace";
@@ -1625,7 +1652,7 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
   
   $$('.modal-overlay').forEach(overlay => {
     overlay.addEventListener('click', e => {
-      if(e.target === overlay || e.target.classList.contains('close-modal')) { overlay.classList.remove('active'); playClick(); if(overlay.id === 'modal-rhythm') endRhythm(false); }
+      if(e.target === overlay || e.target.classList.contains('close-modal')) { overlay.classList.remove('active'); clearInterval(matrixInterval); matrixMode = false; playClick(); if(overlay.id === 'modal-rhythm') endRhythm(false); }
     });
   });
 
