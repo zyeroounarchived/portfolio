@@ -6,6 +6,16 @@
 <title>Nabhya Bawankar — Portfolio</title>
 <meta name="description" content="Data analyst & builder. A short, honest dossier of early work." />
 
+<!-- Meta Tags & Open Graph (Issue 9) -->
+<meta property="og:title" content="Nabhya Bawankar — Portfolio" />
+<meta property="og:description" content="Data analyst & builder. A short, honest dossier of early work." />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="theme-color" content="#0a0908" />
+
+<!-- Inline SVG Favicon -->
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✠</text></svg>">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Allura&family=Pinyon+Script&family=Cinzel:wght@500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Newsreader:ital,wght@0,300;0,400;1,400&family=Space+Mono:wght@400&display=swap" rel="stylesheet">
@@ -14,7 +24,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lenis/1.1.13/lenis.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
   :root{
@@ -25,6 +34,19 @@
   html.light-mode{
     --void:#e3dfd5; --ink:#2b2927; --dim:#756f63; --line:rgba(43,41,39,0.12); --gold:#9a7b50;
     --card-bg:linear-gradient(180deg, rgba(43,41,39,0.03), rgba(43,41,39,0.01));
+  }
+
+  /* Feature 15: Candle Flicker Mode */
+  html.candle-mode {
+    --void: #140e0b; --ink: #e8d5c4; --dim: #a37c58; --line: rgba(212,171,113,0.1); --gold: #d97736;
+    --card-bg: linear-gradient(180deg, rgba(217,119,54,0.03), transparent);
+  }
+  html.candle-mode body {
+    animation: candleAmbient 4s infinite alternate ease-in-out;
+  }
+  @keyframes candleAmbient {
+    0% { text-shadow: 0 0 12px color-mix(in srgb, var(--gold) 10%, transparent); }
+    100% { text-shadow: 0 0 20px color-mix(in srgb, var(--gold) 25%, transparent); }
   }
   
   *{box-sizing:border-box;}
@@ -97,15 +119,26 @@
 
   #topnav{ position: fixed !important; top: 0; width: 100%; backdrop-filter:blur(12px); background:color-mix(in srgb, var(--void) 85%, transparent); border-bottom:1px solid var(--line); z-index: 1000; }
   .absolute-nav-wrapper { position: relative; width: 95%; max-width: 1600px; height: 4.5rem; display: flex; align-items: center; justify-content: space-between; margin: 0 auto; }
-  .nav-logo-locked { position: relative; }
+  .nav-logo-locked { position: relative; z-index: 1002; }
   .nav-logo-locked a { color: var(--ink); }
   .nav-links-locked { display: flex; gap: 3.5rem; }
   .nav-links-locked a { color: var(--dim); transition: color 0.3s ease; }
   .nav-links-locked a:hover { color: var(--ink); }
-  .nav-tools-locked { display: flex; align-items: center; gap: 1.5rem; }
+  .nav-tools-locked { display: flex; align-items: center; gap: 1.5rem; z-index: 1002; }
   .nav-tools-locked button, .nav-tools-locked span { color: var(--dim); transition: color 0.3s ease; }
   .nav-tools-locked button:hover, .nav-tools-locked span:hover { color: var(--ink); }
-  @media (max-width: 768px) { .nav-links-locked { display: none; } }
+  
+  /* Hamburger Nav */
+  .hamburger { display: none; background: transparent; border: none; color: var(--dim); cursor: pointer; font-size: 1.5rem; z-index: 1002; }
+  #mobile-nav-overlay { position: fixed; inset: 0; background: color-mix(in srgb, var(--void) 98%, transparent); backdrop-filter: blur(15px); z-index: 1001; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 2.5rem; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; }
+  #mobile-nav-overlay.active { opacity: 1; pointer-events: auto; }
+  #mobile-nav-overlay a { font-family: 'Cormorant Garamond', serif; font-size: 2rem; color: var(--ink); transition: color 0.3s; }
+  #mobile-nav-overlay a:hover { color: var(--gold); }
+  
+  @media (max-width: 768px) { 
+    .nav-links-locked, #dispatch-time, #audio-widget { display: none; } 
+    .hamburger { display: block; }
+  }
 
   .btn-primary{ font-family:'Space Mono', monospace; font-size:0.8rem; letter-spacing:0.12em; text-transform:uppercase; background:var(--ink); color:var(--void); padding:1.2rem 3rem; border-radius:100px; transition:transform .35s cubic-bezier(.2,.8,.2,1), background .35s ease, box-shadow .35s ease; display:inline-flex; align-items: center; justify-content: center; border:1px solid var(--ink); text-align:center; appearance: none; -webkit-appearance: none; cursor: pointer;}
   .btn-primary:hover{ transform:translateY(-2px); background:var(--gold); border-color:var(--gold); box-shadow:0 12px 35px -8px rgba(209,183,148,0.35); }
@@ -166,7 +199,6 @@
   html.light-mode #audio-widget { color: var(--dim); }
   html.light-mode #audio-widget:hover { color: var(--gold); }
   
-  /* Bolder Cursor + Soft Transparent Bleed Trail */
   #ink-cursor{ 
     position:fixed; top:0; left:0; color: var(--gold); font-size: 32px; line-height: 1; text-align: center; 
     pointer-events:none; z-index:9999; transition: font-size .2s cubic-bezier(.2,.8,.2,1), color .2s ease; 
@@ -201,11 +233,11 @@
   .terminal-content { position: relative; z-index: 10; background: rgba(0,0,0,0.7); padding: 1rem; border-radius: 4px;}
   .terminal-window, .terminal-window * { font-family: 'Courier New', Courier, monospace !important; font-size: 12px !important; line-height: 1.6 !important; letter-spacing: normal !important; text-transform: none !important; }
 
-  .slide-drawer { position: fixed; top: 0; right: 0; width: 100%; max-width: 650px; height: 100vh; background: color-mix(in srgb, var(--void) 95%, transparent); backdrop-filter: blur(25px); border-left: 1px solid var(--line); z-index: 9999; transform: translateX(100%); transition: transform 0.6s cubic-bezier(0.77, 0, 0.175, 1), box-shadow 0.6s ease; overflow-y: auto; padding: 4rem 3rem; box-shadow: none; }
+  .slide-drawer { position: fixed; top: 0; right: 0; width: 100%; max-width: 650px; height: 100vh; background: color-mix(in srgb, var(--void) 95%, transparent); backdrop-filter: blur(25px); border-left: 1px solid var(--line); z-index: 9999; transform: translateX(100%); transition: transform 0.6s cubic-bezier(0.77, 0, 0.175, 1); overflow-y: auto; padding: 4rem 3rem; box-shadow: none; }
   .slide-drawer.active { transform: translateX(0); box-shadow: -20px 0 50px rgba(0,0,0,0.5); }
   .drawer-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); z-index: 9998; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; }
   .drawer-overlay.active { opacity: 1; pointer-events: auto; }
-  .drawer-close { position: absolute; top: 2rem; right: 2.5rem; color: var(--dim); cursor: pointer; font-size: 1.5rem; transition: color 0.3s; }
+  .drawer-close { position: absolute; top: 2rem; right: 2.5rem; color: var(--dim); cursor: pointer; font-size: 1.5rem; transition: color 0.3s; z-index: 10; }
   .drawer-close:hover { color: var(--gold); }
 
   .ba-container { position: relative; width: 100%; aspect-ratio: 16/9; overflow: hidden; border: 1px solid var(--line); border-radius: 4px; margin-top: 2.5rem; margin-bottom: 2.5rem; }
@@ -215,8 +247,8 @@
   .ba-slider { position: absolute; inset: 0; width: 100%; opacity: 0; cursor: ew-resize; z-index: 10; }
   .ba-badge { position: absolute; top: 1rem; padding: 0.2rem 0.6rem; background: rgba(0,0,0,0.7); border: 1px solid var(--gold); color: var(--gold); font-family: 'Space Mono', monospace; font-size: 0.7rem; border-radius: 2px; }
 
-  .toast-container { position: fixed; bottom: 2rem; right: 2rem; z-index: 10000; display: flex; flex-direction: column; gap: 1rem; }
-  .toast { background: var(--ink); color: var(--void); font-family: 'Space Mono', monospace; font-size: 0.8rem; padding: 1rem 1.5rem; border-radius: 4px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); transform: translateY(20px); opacity: 0; transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1); border: 1px solid var(--gold); }
+  .toast-container { position: fixed; bottom: 2rem; right: 2rem; z-index: 10000; display: flex; flex-direction: column; gap: 1rem; pointer-events: none; }
+  .toast { background: var(--ink); color: var(--void); font-family: 'Space Mono', monospace; font-size: 0.8rem; padding: 1rem 1.5rem; border-radius: 4px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); transform: translateY(20px); opacity: 0; transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1); border: 1px solid var(--gold); pointer-events: auto; }
   .toast.show { transform: translateY(0); opacity: 1; }
   .copy-btn { background: transparent; border: 1px solid var(--gold); color: var(--gold); padding: 0.3rem 0.8rem; font-size: 0.75rem; border-radius: 2px; cursor: pointer; transition: all 0.2s; font-family: 'Space Mono', monospace; }
   .copy-btn:hover { background: var(--gold); color: #000; }
@@ -271,11 +303,22 @@
   #god-mode { position: fixed; bottom: 1rem; right: 1rem; background: rgba(0,0,0,0.85); border: 1px solid #4ade80; color: #4ade80; font-family: 'Courier New', Courier, monospace; font-size: 12px; padding: 1rem; z-index: 10000; border-radius: 4px; pointer-events: none; display: none; backdrop-filter: blur(5px); }
   #god-mode.active { display: block; }
   
+  /* Back to Top Button */
+  #btt-btn { position: fixed; bottom: 2rem; right: 2rem; z-index: 8000; width: 40px; height: 40px; border-radius: 50%; background: var(--void); border: 1px solid var(--line); color: var(--gold); display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: all 0.3s ease; cursor: pointer; }
+  #btt-btn.visible { opacity: 0.7; pointer-events: auto; }
+  #btt-btn:hover { opacity: 1; border-color: var(--gold); transform: translateY(-3px); box-shadow: 0 5px 15px rgba(209,183,148,0.2); }
+
+  /* Achievement Display inside Tips Modal */
+  .achievement-box { background: rgba(0,0,0,0.3); border: 1px solid #333; padding: 1rem; border-radius: 4px; margin-top: 1rem; font-family: 'Courier New', monospace; font-size: 12px; }
+  .ach-bar { height: 4px; background: #222; margin-top: 0.5rem; border-radius: 2px; overflow: hidden; }
+  .ach-fill { height: 100%; background: var(--gold); width: 0%; transition: width 1s ease; }
+  
   @media (max-width: 768px) {
     .hero-title { font-size: clamp(2.5rem, 10vw, 4rem) !important; }
     .hero-initial { font-size: 1.25em; padding: 0.1em 0.2em 0.1em 0.2em; margin: -0.1em -0.1em -0.1em -0.2em; }
     .ui-card { padding: 2rem !important; }
     .cert-grid { gap: 2rem; }
+    #btt-btn { bottom: 1rem; right: 1rem; }
   }
 </style>
 </head>
@@ -306,6 +349,15 @@
   <div>THEME: <span id="theme-status">DARK</span></div>
 </div>
 
+<!-- Mobile Navigation Overlay -->
+<div id="mobile-nav-overlay">
+  <a href="#about" class="hover-trigger" onclick="closeMobileNav()">Dossier</a>
+  <a href="#work" class="hover-trigger" onclick="closeMobileNav()">Exhibits</a>
+  <a href="#creative" class="hover-trigger" onclick="closeMobileNav()">Creative</a>
+  <a href="#notes" class="hover-trigger" onclick="closeMobileNav()">Notes</a>
+  <a href="#contact" class="hover-trigger" onclick="closeMobileNav()">Socials</a>
+</div>
+
 <nav id="topnav" class="transition-colors duration-500">
   <div class="w-full max-w-[1600px] mx-auto absolute-nav-wrapper px-8 md:px-12">
     <div class="nav-logo-locked">
@@ -320,7 +372,8 @@
       <a href="#contact" class="label transition-colors hover-trigger">Socials</a>
     </div>
     <div class="nav-tools-locked">
-      <button type="button" class="btn-ghost hover-trigger modal-trigger" data-target="modal-tips">TIPS ?</button>
+      <button class="hamburger hover-trigger" id="hamburger-btn" aria-label="Menu" onclick="toggleMobileNav()">☰</button>
+      <button type="button" class="btn-ghost hover-trigger modal-trigger hidden md:inline-flex" data-target="modal-tips">TIPS ?</button>
       <span id="dispatch-time" class="label hidden sm:block opacity-70 whitespace-nowrap hover-trigger cursor-pointer" aria-live="polite">--:--</span>
       <!-- Clean Vector Audio Icon -->
       <button type="button" id="audio-widget" class="hover-trigger" title="Toggle UI Audio">
@@ -334,7 +387,8 @@
 <header class="relative min-h-[75vh] flex flex-col justify-center items-center pt-48 pb-20">
   <div class="container-w w-full relative z-10 text-center max-w-5xl">
     
-    <div class="inline-flex items-center gap-3 border border-[var(--line)] rounded-full px-5 py-2 mb-10 bg-color-mix(in srgb, var(--void) 50%, transparent) anim-fade">
+    <!-- Fixed Tailwind bg-[color-mix...] syntax -->
+    <div class="inline-flex items-center gap-3 border border-[var(--line)] rounded-full px-5 py-2 mb-10 bg-[color-mix(in_srgb,var(--void)_50%,transparent)] anim-fade">
       <div class="text-[var(--gold)] text-xs">✠</div>
       <p class="label !text-[0.68rem]">ITM Skills University — Business Analytics</p>
     </div>
@@ -520,11 +574,26 @@
         <button class="btn-ghost hover-trigger modal-trigger" data-target="modal-heatmap">Launch Dashboard</button>
       </div>
     </article>
+
+    <!-- Failed Experiments Addition -->
+    <article class="ui-card spotlight anim-section flex flex-col proj-card hover-trigger magnetic-hover" style="border-color: color-mix(in srgb, var(--gold) 30%, transparent);">
+      <div class="flex items-center justify-between mb-8">
+        <span class="proj-num" style="color:var(--dim)">05</span><span class="label !text-[0.7rem] opacity-70">Failed Experiment</span>
+      </div>
+      <h3 class="h-display text-4xl lg:text-5xl text-[var(--ink)] mb-8">Predictive Connectomics</h3>
+      <p class="text-[var(--dim)] leading-[1.8] font-serif text-[1.2rem] mb-10 flex-grow vn-readable">
+        Attempted to map simulated neural pathways to predict LLM hallucinations. Failed due to compute constraints and dimensionality explosion. Learned the absolute necessity of feature selection over brute-force scaling.
+      </p>
+      <div class="mt-auto pt-8 border-t border-[var(--line)] flex gap-4">
+        <span class="label !text-[0.65rem] text-[var(--dim)]">Archived / Post-Mortem Only</span>
+      </div>
+    </article>
   </div>
 </section>
 
 <div class="container-w"><div class="rule"></div></div>
 
+<!-- Rebuilt Creative Engineering Section exactly matching the Screenshot 2 layout with keyboard a11y -->
 <section id="creative" class="container-w py-32 md:py-40">
   <div class="ui-card spotlight anim-section p-10 md:p-16 relative border-t-4 border-t-[var(--gold)]">
     <div class="mb-12 border-b border-[var(--line)] pb-6">
@@ -533,21 +602,22 @@
     </div>
     
     <div class="space-y-12">
-      <div class="cursor-pointer group hover-trigger" onclick="openDrawer('drawer-giving-up')">
+      <!-- Essays that open reading drawers with accessibility attributes -->
+      <div class="cursor-pointer group hover-trigger" role="button" tabindex="0" onclick="openDrawer('drawer-giving-up')" onkeydown="if(event.key==='Enter'||event.key===' ') openDrawer('drawer-giving-up')">
         <h4 class="text-xl md:text-2xl text-[var(--ink)] font-serif mb-4 group-hover:text-[var(--gold)] transition-colors">The Art of Giving Up <span class="text-[var(--gold)] opacity-0 group-hover:opacity-100 transition-opacity ml-1">↗</span></h4>
         <p class="text-[var(--dim)] text-[1.1rem] leading-[1.8] font-serif max-w-4xl">
           "To give up is not to stop living, it's to start living differently." An essay exploring the paradox of quitting as an act of authentic alignment rather than defeat.
         </p>
       </div>
 
-      <div class="cursor-pointer group hover-trigger" onclick="openDrawer('drawer-ouroboros')">
+      <div class="cursor-pointer group hover-trigger" role="button" tabindex="0" onclick="openDrawer('drawer-ouroboros')" onkeydown="if(event.key==='Enter'||event.key===' ') openDrawer('drawer-ouroboros')">
         <h4 class="text-xl md:text-2xl text-[var(--ink)] font-serif mb-4 group-hover:text-[var(--gold)] transition-colors">The Ouroboros of Ignorance <span class="text-[var(--gold)] opacity-0 group-hover:opacity-100 transition-opacity ml-1">↗</span></h4>
         <p class="text-[var(--dim)] text-[1.1rem] leading-[1.8] font-serif max-w-4xl">
           "The constant echoing chamber of knowledge births an ouroboros of ignorance." Analyzing the intersection of late-stage capitalism, AI, and intellectual decline.
         </p>
       </div>
 
-      <div class="cursor-pointer group hover-trigger" onclick="openDrawer('drawer-constitution')">
+      <div class="cursor-pointer group hover-trigger" role="button" tabindex="0" onclick="openDrawer('drawer-constitution')" onkeydown="if(event.key==='Enter'||event.key===' ') openDrawer('drawer-constitution')">
         <h4 class="text-xl md:text-2xl text-[var(--ink)] font-serif mb-4 group-hover:text-[var(--gold)] transition-colors">An Essay on Constitutional Erosion <span class="text-[var(--gold)] opacity-0 group-hover:opacity-100 transition-opacity ml-1">↗</span></h4>
         <p class="text-[var(--dim)] text-[1.1rem] leading-[1.8] font-serif max-w-4xl">
           A critical evaluation of the Indian Constitution, detailing the friction between Fundamental Rights and Directive Principles, the Puttaswamy privacy judgment, and the boundaries of judicial activism.
@@ -702,6 +772,15 @@
   </div>
   
   <div class="grid md:grid-cols-3 gap-16">
+    <!-- "Now" section card added -->
+    <div class="border-t border-[var(--gold)] pt-10 anim-section">
+      <p class="label !text-[0.65rem] mb-4 text-[var(--gold)]">Currently (Now Page)</p>
+      <h4 class="text-2xl text-[var(--ink)] font-serif mb-4">Focus & Directives</h4>
+      <p class="text-[var(--dim)] text-[1.15rem] leading-[1.8] font-serif vn-readable decay-target">
+        Deep-diving into C++ for systems programming, exploring non-Euclidean geometry, and actively avoiding web framework fatigue. Writing scripts for upcoming club theatricals.
+      </p>
+    </div>
+
     <div class="border-t border-[var(--line)] pt-10 anim-section">
       <p class="label !text-[0.65rem] mb-4 text-[var(--dim)]">2026-04</p>
       <h4 class="text-2xl text-[var(--ink)] font-serif mb-4">On Pearson's Skewness</h4>
@@ -717,14 +796,6 @@
         Utilizing optimization packages in R to solve linear programming matrices. The setup takes longer than the solve.
       </p>
       <button class="btn-ghost hover-trigger modal-trigger" data-target="modal-code">View R Snippet</button>
-    </div>
-    
-    <div class="border-t border-[var(--line)] pt-10 anim-section">
-      <p class="label !text-[0.65rem] mb-4 text-[var(--dim)]">2026-01</p>
-      <h4 class="text-2xl text-[var(--ink)] font-serif mb-4">Japanese Syntax</h4>
-      <p class="text-[var(--dim)] text-[1.15rem] leading-[1.8] font-serif vn-readable decay-target">
-        Actively focusing on writing proficiency and character recognition for Hiragana, Katakana, and frequently used Kanji. Consistency beats intensity.
-      </p>
     </div>
   </div>
 </section>
@@ -773,17 +844,22 @@
       <p class="h-sub font-calligraphy-accent text-4xl text-[var(--ink)] mb-2">Nabhya Bawankar</p>
       <p class="label !text-[0.65rem] text-[var(--dim)]">Built with Vanilla JS, GSAP, Tailwind.</p>
     </div>
-    <div class="flex flex-col items-center gap-3 mt-2">
-      <p class="label !text-[0.65rem] text-[var(--dim)]" id="footer-time">✠ © 2026 · Life isnt always black and white. ✠</p>
+    <div class="flex flex-col items-center gap-3 mt-4">
+      <a href="#" onclick="openDrawer('drawer-colophon'); return false;" class="label !text-[0.65rem] hover:text-[var(--gold)] transition-colors">View Colophon</a>
+      <p class="label !text-[0.65rem] text-[var(--dim)] mt-2">VISITORS: <span id="visitor-count" class="text-[var(--gold)] tracking-widest">000000</span></p>
+      <p class="label !text-[0.65rem] text-[var(--dim)]" id="footer-time">✠ © Life isnt always black and white. ✠</p>
     </div>
   </div>
 </footer>
+
+<!-- Floating Back to Top -->
+<button id="btt-btn" class="hover-trigger" onclick="window.scrollTo({top:0, behavior:'smooth'})" aria-label="Back to top">↑</button>
 
 <!-- OVERLAYS & SLIDE DRAWERS -->
 <div class="drawer-overlay" id="drawer-overlay" onclick="closeAllDrawers()"></div>
 
 <div class="slide-drawer" id="drawer-ngo">
-  <span class="drawer-close hover-trigger" onclick="closeAllDrawers()">✕</span>
+  <span class="drawer-close hover-trigger" onclick="closeAllDrawers()" role="button" tabindex="0">✕</span>
   <p class="label mb-4">Case Study 01</p>
   <h2 class="h-display text-4xl text-[var(--ink)] mb-4">Data Cleaning Protocol</h2>
   <p class="text-[var(--dim)] font-serif text-[1.1rem] leading-[1.8] mb-8">
@@ -804,7 +880,7 @@
 
 <!-- Creative Drawers for Snippets -->
 <div class="slide-drawer" id="drawer-giving-up">
-  <span class="drawer-close hover-trigger" onclick="closeAllDrawers()">✕</span>
+  <span class="drawer-close hover-trigger" onclick="closeAllDrawers()" role="button" tabindex="0">✕</span>
   <p class="label mb-4">Creative Essay</p>
   <h2 class="h-display text-4xl text-[var(--ink)] mb-6">The art of giving up.</h2>
   <div class="text-[var(--dim)] font-serif text-[1.1rem] leading-[1.9] space-y-6">
@@ -816,7 +892,7 @@
 </div>
 
 <div class="slide-drawer" id="drawer-ouroboros">
-  <span class="drawer-close hover-trigger" onclick="closeAllDrawers()">✕</span>
+  <span class="drawer-close hover-trigger" onclick="closeAllDrawers()" role="button" tabindex="0">✕</span>
   <p class="label mb-4">Philosophical Snippet</p>
   <h2 class="h-display text-4xl text-[var(--ink)] mb-6">The Ouroboros of Ignorance</h2>
   <div class="text-[var(--dim)] font-serif text-[1.1rem] leading-[1.9] space-y-6">
@@ -827,7 +903,7 @@
 </div>
 
 <div class="slide-drawer" id="drawer-constitution">
-  <span class="drawer-close hover-trigger" onclick="closeAllDrawers()">✕</span>
+  <span class="drawer-close hover-trigger" onclick="closeAllDrawers()" role="button" tabindex="0">✕</span>
   <p class="label mb-4">Analytical Documentation</p>
   <h2 class="h-display text-4xl text-[var(--ink)] mb-6">Constitutional Erosion</h2>
   <div class="text-[var(--dim)] font-serif text-[1.1rem] leading-[1.9] space-y-6">
@@ -838,6 +914,19 @@
   </div>
 </div>
 
+<div class="slide-drawer" id="drawer-colophon">
+  <span class="drawer-close hover-trigger" onclick="closeAllDrawers()" role="button" tabindex="0">✕</span>
+  <p class="label mb-4">Colophon</p>
+  <h2 class="h-display text-4xl text-[var(--ink)] mb-6">About this Site</h2>
+  <div class="text-[var(--dim)] font-serif text-[1.1rem] leading-[1.9] space-y-6">
+    <p>This portfolio was architected to be heavily interactive while avoiding modern framework fatigue. It is built entirely in a single HTML file without React, Next.js, or heavy bundlers.</p>
+    <p><strong>Stack:</strong> Vanilla JavaScript, HTML5, Tailwind CSS via CDN.<br>
+       <strong>Motion:</strong> GSAP (GreenSock) for layout animations, custom WebGL/Canvas for the matrix and heatmaps.<br>
+       <strong>Typography:</strong> Newsreader for editorial reading, Cormorant Garamond for display headers, and Space Mono for technical UI elements.</p>
+    <p>It contains multiple themes (Dark, Light, Coffee, Candle) and over 10 hidden keyboard shortcuts/secrets intended to reward exploration. The design language is an intersection of vintage editorial dark-academia and rigorous software engineering.</p>
+  </div>
+</div>
+
 <!-- Hidden Modals & Terminals -->
 <div class="modal-overlay" id="modal-tips">
   <div class="terminal-window !bg-[var(--void)] !border-[var(--gold)] !text-[var(--ink)] max-w-3xl">
@@ -845,11 +934,21 @@
       <div class="text-[var(--gold)]">Dossier Secrets</div>
       <button class="close-modal hover:text-[var(--gold)] hover-trigger">✕</button>
     </div>
+    
+    <div class="achievement-box mb-8 border border-[var(--gold)] !bg-transparent">
+      <div class="flex justify-between text-[var(--gold)] mb-2">
+        <span>ARCHIVIST PROGRESS</span>
+        <span id="ach-text">0/10 SECRETS FOUND</span>
+      </div>
+      <div class="ach-bar"><div class="ach-fill" id="ach-fill"></div></div>
+    </div>
+
     <ul class="space-y-6">
       <li><span class="inline-block w-28 text-[var(--gold)]">Konami Code</span> Press <kbd class="px-2 py-1 rounded border border-[#333]">↑ ↑ ↓ ↓ ← → ← → B A</kbd> to launch the Rhythm Minigame.</li>
       <li><span class="inline-block w-28 text-[var(--gold)]">Screenplay</span> Press <kbd class="px-2 py-1 rounded border border-[#333]">S</kbd> to strip the DOM into a raw script format.</li>
       <li><span class="inline-block w-28 text-[var(--gold)]">Visual Nov</span> Press <kbd class="px-2 py-1 rounded border border-[#333]">V</kbd> to convert the dossier into a Ren'Py interface.</li>
       <li><span class="inline-block w-28 text-[var(--gold)]">Coffee Brk</span> Press <kbd class="px-2 py-1 rounded border border-[#333]">C</kbd> to brew a coffee theme.</li>
+      <li><span class="inline-block w-28 text-[var(--gold)]">Candlelight</span> Press <kbd class="px-2 py-1 rounded border border-[#333]">N</kbd> to ignite the dark academia theme.</li>
       <li><span class="inline-block w-28 text-[var(--gold)]">Terminal</span> Press <kbd class="px-2 py-1 rounded border border-[#333]">Cmd+K</kbd> to view raw JSON system data.</li>
       <li><span class="inline-block w-28 text-[var(--gold)]">TouchNodes</span> Press <kbd class="px-2 py-1 rounded border border-[#333]">T</kbd> for interactive physics nodes in the background.</li>
       <li><span class="inline-block w-28 text-[var(--gold)]">Matrix O/R</span> Press <kbd class="px-2 py-1 rounded border border-[#333]">M</kbd> to initiate the terminal rain.</li>
@@ -857,6 +956,25 @@
       <li><span class="inline-block w-28 text-[var(--gold)]">Time Shift</span> Click the clock in the nav to toggle Japanese standard time.</li>
       <li><span class="inline-block w-28 text-[var(--gold)]">Data Decay</span> Go completely idle for 60 seconds and watch the data corrupt.</li>
     </ul>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-terminal">
+  <div class="terminal-window">
+    <div class="terminal-header flex justify-between items-center">
+      <span>guest@bawankar-os:~$ cat resume.json</span>
+      <button class="close-modal hover:text-white hover-trigger">✕</button>
+    </div>
+<pre><code>{
+  <span class="syn-s">"name"</span>: <span class="syn-s">"Nabhya Bawankar"</span>,
+  <span class="syn-s">"program"</span>: <span class="syn-s">"BBA Business Analytics."</span>,
+  <span class="syn-s">"institution"</span>: <span class="syn-s">"ITM Skills University"</span>,
+  <span class="syn-s">"graduation"</span>: <span class="syn-s">2028</span>,
+  <span class="syn-s">"skills"</span>: [<span class="syn-s">"Python"</span>, <span class="syn-s">"SQL"</span>, <span class="syn-s">"R"</span>, <span class="syn-s">"Spreadsheets"</span>],
+  <span class="syn-s">"interests"</span>: [<span class="syn-s">"Languages"</span>, <span class="syn-s">"Data Analytics"</span>, <span class="syn-s">"Video Games"</span>]
+}
+<span class="text-white mt-4 block term-text">guest@bawankar-os:~$ <span class="animate-pulse">_</span></span>
+</code></pre>
   </div>
 </div>
 
@@ -968,6 +1086,12 @@ X_train_resampled, y_train_resampled = smote.fit_resample(X_train, y_train)
   const $$ = (s,c=document)=>[...c.querySelectorAll(s)];
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  // OS Theme Detection
+  if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
+    document.documentElement.classList.add('light-mode');
+  }
+
+  // Audio Logic
   let isMuted = false;
   const AudioContext = window.AudioContext || window.webkitAudioContext;
   let audioCtx;
@@ -1013,6 +1137,33 @@ X_train_resampled, y_train_resampled = smote.fit_resample(X_train, y_train)
     });
   }
 
+  // Achievement Logic
+  function unlockSecret(id) {
+    let unlocked = JSON.parse(localStorage.getItem('nabhya_secrets') || '[]');
+    if(!unlocked.includes(id)) {
+      unlocked.push(id);
+      localStorage.setItem('nabhya_secrets', JSON.stringify(unlocked));
+      showToast(`🏆 SECRET UNLOCKED: ${id.toUpperCase()}`);
+      updateAchievementUI();
+    }
+  }
+  function updateAchievementUI() {
+    let unlocked = JSON.parse(localStorage.getItem('nabhya_secrets') || '[]');
+    const textEl = $('#ach-text'); const fillEl = $('#ach-fill');
+    if(textEl) textEl.textContent = `${unlocked.length}/10 SECRETS FOUND`;
+    if(fillEl) fillEl.style.width = `${(unlocked.length / 10) * 100}%`;
+  }
+  updateAchievementUI();
+
+  // Mock Visitor Counter
+  let vCount = localStorage.getItem('v_count');
+  if(!vCount) vCount = Math.floor(Math.random() * 1000) + 12050;
+  vCount = parseInt(vCount) + 1;
+  localStorage.setItem('v_count', vCount);
+  const vCountEl = $('#visitor-count');
+  if(vCountEl) vCountEl.textContent = String(vCount).padStart(6, '0');
+
+  // UI Utilities
   window.showToast = function(msg) {
     const container = document.getElementById('toast-container');
     const toast = document.createElement('div');
@@ -1046,6 +1197,16 @@ X_train_resampled, y_train_resampled = smote.fit_resample(X_train, y_train)
   $('#drawer-overlay').addEventListener('click', closeAllDrawers);
   window.updateSlider = function(val) { $('#ba-overlay').style.width = val + '%'; };
 
+  window.toggleMobileNav = function() {
+    const nav = $('#mobile-nav-overlay');
+    nav.classList.toggle('active');
+    playClick();
+  };
+  window.closeMobileNav = function() {
+    $('#mobile-nav-overlay').classList.remove('active');
+    playClick();
+  }
+
   $$('.ui-card').forEach(card => {
     card.addEventListener('mousemove', e => {
       const rect = card.getBoundingClientRect();
@@ -1054,13 +1215,16 @@ X_train_resampled, y_train_resampled = smote.fit_resample(X_train, y_train)
     });
   });
 
-  const sk = $('#page-skeleton');
-  if(sk) {
-    setTimeout(() => { sk.style.opacity = '0'; setTimeout(()=>sk.remove(), 800); }, 1500);
-    window.addEventListener('load', () => { sk.style.opacity = '0'; setTimeout(()=>sk.remove(), 800); });
-  }
+  // Accurate Loader Timing
+  window.addEventListener('load', () => {
+    const sk = $('#page-skeleton');
+    if(sk) { sk.style.opacity = '0'; setTimeout(()=>sk.remove(), 800); }
+  });
+  // Failsafe loader removal
+  setTimeout(() => { const sk = $('#page-skeleton'); if(sk) { sk.style.opacity = '0'; setTimeout(()=>sk.remove(), 800); } }, 3000);
 
-  let coffeeMode = false; let screenPlayMode = false; let matrixMode = false; let nodesActive = false; let tdRaf; let tdNodes = [];
+  // Master Keydown Controller (Merged)
+  let coffeeMode = false; let screenPlayMode = false; let matrixMode = false; let nodesActive = false; let tdRaf; let tdNodes = []; let candleMode = false;
   
   window.addEventListener('keydown', e => {
     if (e.key === 'Escape') {
@@ -1074,10 +1238,15 @@ X_train_resampled, y_train_resampled = smote.fit_resample(X_train, y_train)
       });
       clearInterval(matrixInterval); matrixMode = false; return;
     }
-    if(e.key.toLowerCase() === 'v' && !isVnMode) { startVnMode(); playClick(); }
-    if(e.key.toLowerCase() === 's') { screenPlayMode = !screenPlayMode; document.body.classList.toggle('screenplay-mode'); playClick(); }
+    
+    // Bypass if typing in an input (not relevant here but good practice)
+    if(e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+
+    if(e.key.toLowerCase() === 'v' && !isVnMode) { startVnMode(); playClick(); unlockSecret('vn'); }
+    if(e.key.toLowerCase() === 's') { screenPlayMode = !screenPlayMode; document.body.classList.toggle('screenplay-mode'); playClick(); unlockSecret('screenplay'); }
     if(e.key.toLowerCase() === 'c') {
       coffeeMode = !coffeeMode;
+      document.documentElement.classList.remove('candle-mode'); candleMode = false;
       if(coffeeMode) {
         document.documentElement.style.setProperty('--void', '#16110c'); document.documentElement.style.setProperty('--ink', '#d6c8b8'); 
         document.documentElement.style.setProperty('--line', 'rgba(214, 200, 184, 0.1)'); document.documentElement.style.setProperty('--gold', '#c29a6b');
@@ -1085,14 +1254,22 @@ X_train_resampled, y_train_resampled = smote.fit_resample(X_train, y_train)
         document.documentElement.style.removeProperty('--void'); document.documentElement.style.removeProperty('--ink');
         document.documentElement.style.removeProperty('--line'); document.documentElement.style.removeProperty('--gold');
       }
-      playSecretSound();
+      playSecretSound(); unlockSecret('coffee');
     }
-    if(e.key.toLowerCase() === 'g') { const gm = $('#god-mode'); if(gm) { gm.classList.toggle('active'); playClick(); } }
-    if(e.metaKey && e.key === 'k') { e.preventDefault(); const tMod = $('#modal-terminal'); if(tMod){ tMod.classList.add('active'); playClick(); } }
+    if(e.key.toLowerCase() === 'n') {
+      candleMode = !candleMode;
+      document.documentElement.style.removeProperty('--void'); document.documentElement.style.removeProperty('--ink');
+      document.documentElement.style.removeProperty('--line'); document.documentElement.style.removeProperty('--gold');
+      coffeeMode = false;
+      document.documentElement.classList.toggle('candle-mode');
+      playSecretSound(); unlockSecret('candle');
+    }
+    if(e.key.toLowerCase() === 'g') { const gm = $('#god-mode'); if(gm) { gm.classList.toggle('active'); playClick(); unlockSecret('godmode'); } }
+    if(e.metaKey && e.key === 'k') { e.preventDefault(); const tMod = $('#modal-terminal'); if(tMod){ tMod.classList.add('active'); playClick(); unlockSecret('terminal'); } }
     if(e.key.toLowerCase() === 'm') {
       matrixMode = !matrixMode; const tModal = $('#modal-matrix');
       if(tModal) {
-        if(matrixMode) { tModal.classList.add('active'); initMatrix(); clearInterval(matrixInterval); matrixInterval = setInterval(drawMatrix, 33); playSecretSound(); } 
+        if(matrixMode) { tModal.classList.add('active'); initMatrix(); clearInterval(matrixInterval); matrixInterval = setInterval(drawMatrix, 33); playSecretSound(); unlockSecret('matrix'); } 
         else { tModal.classList.remove('active'); clearInterval(matrixInterval); }
       }
     }
@@ -1118,18 +1295,26 @@ X_train_resampled, y_train_resampled = smote.fit_resample(X_train, y_train)
           });
           tdRaf = requestAnimationFrame(drawTD);
         }
-        drawTD(); playSecretSound();
+        drawTD(); playSecretSound(); unlockSecret('touchnodes');
       } else { cancelAnimationFrame(tdRaf); const c = document.getElementById('td-nodes'); if(c) c.remove(); }
     }
   });
 
+  // Wired God Mode
   let frameCount = 0; let lastTime = performance.now();
-  const godModeEl = $('#god-mode'); const fpsEl = $('#fps-counter'); const scrollYEl = $('#scroll-y');
+  const godModeEl = $('#god-mode'); const fpsEl = $('#fps-counter'); const scrollYEl = $('#scroll-y'); const memEl = $('#mem-counter'); const themeEl = $('#theme-status');
   function updateGodMode() {
     if(godModeEl && godModeEl.classList.contains('active')) {
       frameCount++; const now = performance.now();
       if(now - lastTime >= 1000) { if(fpsEl) fpsEl.textContent = frameCount; frameCount = 0; lastTime = now; }
       if(scrollYEl) scrollYEl.textContent = Math.floor(window.scrollY);
+      if(memEl && performance.memory) { memEl.textContent = (performance.memory.usedJSHeapSize / 1048576).toFixed(1) + 'MB'; }
+      if(themeEl) {
+        if(document.documentElement.classList.contains('light-mode')) themeEl.textContent = 'LIGHT';
+        else if(document.documentElement.classList.contains('candle-mode')) themeEl.textContent = 'CANDLE';
+        else if(coffeeMode) themeEl.textContent = 'COFFEE';
+        else themeEl.textContent = 'DARK';
+      }
     }
     requestAnimationFrame(updateGodMode);
   }
@@ -1186,7 +1371,6 @@ X_train_resampled, y_train_resampled = smote.fit_resample(X_train, y_train)
     });
   }
 
-  // Proper 3D Tilt Logic Fix (Mapped perspective to GSAP, avoiding clipping issues)
   $$('.magnetic-hover').forEach(card => {
     card.addEventListener('mousemove', (event) => {
       if (reduceMotion) return;
@@ -1200,7 +1384,6 @@ X_train_resampled, y_train_resampled = smote.fit_resample(X_train, y_train)
     });
   });
 
-  // Feature: Large Ink Cursor & Ink Trail Bleed 
   const cursor = $('#ink-cursor'); const trail = $('#ink-cursor-trail');
   if(!reduceMotion && matchMedia('(hover:hover)').matches && cursor){
     let cx=innerWidth/2, cy=innerHeight/2, tx=cx, ty=cy;
@@ -1233,6 +1416,12 @@ X_train_resampled, y_train_resampled = smote.fit_resample(X_train, y_train)
     dispatchTime.addEventListener('click', () => { isJapaneseTime = !isJapaneseTime; playClick(); });
     function tick(){ const timeStr = new Date().toLocaleTimeString('en-GB',{hour12:false,timeZone:'Asia/Kolkata'}); dispatchTime.textContent = isJapaneseTime ? timeStr.replace(':', '時').replace(':', '分') + '秒' : timeStr; }
     tick(); setInterval(tick,1000);
+  }
+  
+  // Set Footer Year
+  const fTime = $('#footer-time');
+  if(fTime) {
+      fTime.innerHTML = `✠ © ${new Date().getFullYear()} · Life isnt always black and white. ✠`;
   }
 
   const mCanvas = $('#matrix-canvas'); const mCtx = mCanvas ? mCanvas.getContext('2d') : null;
@@ -1294,10 +1483,18 @@ X_train_resampled, y_train_resampled = smote.fit_resample(X_train, y_train)
   }
   if(hmRadiusSlider) { hmRadiusSlider.addEventListener('input', drawHeatmap); }
   
+  // Modal Triggers fixed for Matrix integration
   $$('.modal-trigger').forEach(btn => {
     btn.addEventListener('click', e => {
       const targetId = e.currentTarget.dataset.target; const target = targetId ? $('#' + targetId) : null;
-      if(target) { target.classList.add('active'); playClick(); if(targetId === 'modal-heatmap') setTimeout(initHeatmap, 50); }
+      if(target) { 
+        target.classList.add('active'); 
+        playClick(); 
+        if(targetId === 'modal-heatmap') setTimeout(initHeatmap, 50); 
+        if(targetId === 'modal-matrix') {
+          matrixMode = true; initMatrix(); clearInterval(matrixInterval); matrixInterval = setInterval(drawMatrix, 33);
+        }
+      }
     });
   });
   
@@ -1322,9 +1519,18 @@ X_train_resampled, y_train_resampled = smote.fit_resample(X_train, y_train)
         const scrollableHeight = document.documentElement.scrollHeight - window.innerHeight;
         if (scrollableHeight > 0) { const scrollPercent = window.scrollY / scrollableHeight; const maxTop = minimap.offsetHeight - minimapThumb.offsetHeight; minimapThumb.style.transform = `translateY(${scrollPercent * maxTop}px)`; }
     }
+    
+    // Back to top button logic
+    const btt = $('#btt-btn');
+    if(btt) {
+        if(window.scrollY > window.innerHeight) btt.classList.add('visible');
+        else btt.classList.remove('visible');
+    }
   });
 
   window.addEventListener('mousemove', handleInteraction);
+  window.addEventListener('touchstart', handleInteraction, {passive:true});
+  window.addEventListener('touchmove', handleInteraction, {passive:true});
 
   let isDraggingThumb = false;
   if(minimapThumb && minimap) {
@@ -1366,7 +1572,7 @@ X_train_resampled, y_train_resampled = smote.fit_resample(X_train, y_train)
       marqueeClicks++; playClick();
       if(marqueeClicks === 5) {
         gsap.to(marqueeTween, { timeScale: isScrollingDown ? 12 : -12, duration: 2, ease: "power2.in" });
-        showToast("🏆 ACHIEVEMENT UNLOCKED: OVERCLOCKER"); playSecretSound();
+        unlockSecret('overclocker'); playSecretSound();
         clearTimeout(timeoutId);
         timeoutId = setTimeout(() => { 
           gsap.to(marqueeTween, { timeScale: isScrollingDown ? 1 : -1, duration: 3, ease: "power3.out" }); 
@@ -1460,7 +1666,7 @@ X_train_resampled, y_train_resampled = smote.fit_resample(X_train, y_train)
     }
     if(e.key === konami[kIdx]) {
       kIdx++;
-      if(kIdx === konami.length) { if(rhythmModal) rhythmModal.classList.add('active'); resetRhythmGame(); playSecretSound(); kIdx = 0; }
+      if(kIdx === konami.length) { if(rhythmModal) rhythmModal.classList.add('active'); resetRhythmGame(); unlockSecret('konami'); playSecretSound(); kIdx = 0; }
     } else { kIdx = 0; }
   });
 
@@ -1471,7 +1677,6 @@ X_train_resampled, y_train_resampled = smote.fit_resample(X_train, y_train)
 
   window.addEventListener('resize', ()=>ScrollTrigger.refresh());
 
-  // Visual Novel Logic Safe Re-Init
   const vnOverlay = $('#vn-overlay'); const vnText = $('#vn-text');
   let isVnMode = false; let vnNodes = []; let vnCurrentIdx = 0; let vnTypeInterval;
   function startVnMode() { if(!vnOverlay || !vnText) return; isVnMode = true; vnOverlay.classList.add('active'); vnNodes = $$('.vn-readable'); vnCurrentIdx = 0; typeVnText(); }
