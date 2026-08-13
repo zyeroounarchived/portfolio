@@ -8,7 +8,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Allura&family=Cinzel:wght@500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Newsreader:ital,wght@0,300;0,400;1,400&family=Space+Mono:wght@400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Allura&family=Pinyon+Script&family=Cinzel:wght@500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Newsreader:ital,wght@0,300;0,400;1,400&family=Space+Mono:wght@400&display=swap" rel="stylesheet">
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/3.4.1/tailwind.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
@@ -25,18 +25,28 @@
     --card-bg:linear-gradient(180deg, rgba(26,25,24,0.02), rgba(26,25,24,0.005));
   }
   *{box-sizing:border-box;}
-  html{scroll-behavior:auto;}
+  
+  html{
+      scroll-behavior:auto;
+      scrollbar-width: none; 
+      -ms-overflow-style: none; 
+  }
+  
+  ::-webkit-scrollbar { 
+      display: none; 
+      width: 0; 
+      height: 0; 
+  }
+
   body{
     background:var(--void); color:var(--ink);
     font-family:'Newsreader', serif; font-weight:300;
     -webkit-font-smoothing:antialiased;
-    overflow-x:hidden;
     transition:background-color .4s ease, color .4s ease;
   }
   ::selection{ background:var(--ink); color:var(--void); }
   a{ color:inherit; text-decoration:none; }
 
-  /* LOADER FIX */
   #page-skeleton {
     position: fixed; top: 0; left: 0; right: 0; bottom: 0;
     z-index: 99999; background: var(--void);
@@ -47,7 +57,6 @@
   .skel-txt { font-family: 'Space Mono', monospace; color: var(--dim); font-size: 0.8rem; letter-spacing: 0.2em; text-transform: uppercase; opacity: 0.6; }
   @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
 
-  /* SCREENPLAY MODE OVERRIDE */
   body.screenplay-mode {
     --void: #f4f0e6; --ink: #111; --dim: #333; --line: transparent; --card-bg: transparent;
     font-family: 'Courier Prime', Courier, monospace !important;
@@ -78,18 +87,22 @@
   .label{ font-family:'Space Mono', monospace; letter-spacing:0.18em; text-transform:uppercase; font-size:0.75rem; color:var(--gold); }
   .rule{ height:1px; background:var(--line); transform-origin:left; margin: 5rem 0; }
 
-  .h-display{ font-family:'Cormorant Garamond', serif; font-weight:300; line-height:0.95; letter-spacing:-0.03em; }
+  .h-display{ font-family:'Cormorant Garamond', serif; font-weight:300; letter-spacing:-0.03em; }
   .hero-title{
     font-family:'Avenir Next','Avenir','Helvetica Neue',Helvetica,Arial,sans-serif;
     font-weight:500;
     letter-spacing:-0.045em;
+    line-height: 1.2 !important;
   }
   .hero-initial{
-    font-family:'Allura', cursive;
-    font-size:1.18em;
+    font-family:'Pinyon Script', cursive;
+    font-size:1.45em; 
     letter-spacing:0;
-    margin-right:0.01em;
-    vertical-align:baseline;
+    display: inline-block;
+    padding: 0.4em 0.5em 0.4em 0.5em; 
+    margin: -0.4em -0.35em -0.4em -0.5em; 
+    vertical-align:bottom;
+    line-height: 1;
   }
   #typewriter-rest{
     display:inline-block;
@@ -99,7 +112,6 @@
     background: linear-gradient(120deg, var(--ink), var(--gold), var(--ink), var(--dim)); background-size: 300% 300%;
     background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; color: transparent; animation: fluidMask 12s ease infinite;
   }
-  @keyframes fluidMask { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
   }
@@ -127,11 +139,23 @@
   .katakana-swap:hover { color: transparent; }
   .katakana-swap:hover::after { opacity: 1; }
 
-  #topnav{ backdrop-filter:blur(12px); background:color-mix(in srgb, var(--void) 85%, transparent); border-bottom:1px solid var(--line); z-index:50; }
-  .absolute-nav-wrapper { position: relative; width: 100%; height: 6rem; display: flex; align-items: center; justify-content: space-between; }
+  #topnav{ 
+    position: fixed !important; top: 0; width: 100%;
+    backdrop-filter:blur(12px); background:color-mix(in srgb, var(--void) 85%, transparent); border-bottom:1px solid var(--line); 
+    z-index: 100;
+  }
+  .absolute-nav-wrapper { position: relative; width: 95%; max-width: 1600px; height: 4.5rem; display: flex; align-items: center; justify-content: space-between; margin: 0 auto; }
   .nav-logo-locked { position: relative; }
+  .nav-logo-locked a { color: var(--ink); }
+  
   .nav-links-locked { display: flex; gap: 3.5rem; }
-  .nav-tools-locked { display: flex; align-items: center; gap: 2rem; }
+  .nav-links-locked a { color: var(--dim); transition: color 0.3s ease; }
+  .nav-links-locked a:hover { color: var(--ink); }
+  
+  .nav-tools-locked { display: flex; align-items: center; gap: 1.5rem; }
+  .nav-tools-locked button, .nav-tools-locked span { color: var(--dim); transition: color 0.3s ease; }
+  .nav-tools-locked button:hover, .nav-tools-locked span:hover { color: var(--ink); }
+  
   @media (max-width: 768px) { .nav-links-locked { display: none; } }
 
   .btn-primary{
@@ -139,63 +163,33 @@
     background:var(--ink); color:var(--void); padding:1.2rem 3rem; border-radius:100px;
     transition:transform .35s cubic-bezier(.2,.8,.2,1), background .35s ease, box-shadow .35s ease;
     display:inline-flex; align-items: center; justify-content: center; border:1px solid var(--ink); text-align:center;
+    appearance: none; -webkit-appearance: none;
   }
   .btn-primary:hover{ transform:translateY(-2px); background:var(--gold); border-color:var(--gold); box-shadow:0 12px 35px -8px rgba(209,183,148,0.35); }
   
   .btn-ghost{
     font-family:'Space Mono', monospace; font-size:0.8rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--dim);
-    border-bottom:1px solid var(--line); padding-bottom:6px; transition:color .3s ease, border-color .3s ease, transform .3s ease;
-    display:inline-flex; align-items: center; justify-content: center;
+    background: transparent; appearance: none; -webkit-appearance: none;
+    border: none; border-bottom: 1px solid var(--line); padding-bottom:6px; 
+    transition:color .3s ease, border-color .3s ease, transform .3s ease;
+    display:inline-flex; align-items: center; justify-content: center; cursor: pointer;
   }
-  .btn-ghost:hover{ color:var(--ink); border-color:var(--gold); }
+  .btn-ghost:hover{ color:var(--ink); border-bottom-color:var(--gold); }
 
   .sort-btn{
-    font-family:'Cinzel', serif;
-    font-size:0.85rem;
-    letter-spacing:0.05em;
-    text-transform:uppercase;
-    color:var(--dim);
-    border:1px solid var(--line);
-    background:transparent;
-    padding:0.65rem 0.95rem;
-    min-width:9.25rem;
-    border-radius:999px;
-    cursor:pointer;
-    text-align:center;
+    font-family:'Cinzel', serif; font-size:0.85rem; letter-spacing:0.05em; text-transform:uppercase;
+    color:var(--dim); border:1px solid var(--line); background:transparent;
+    padding:0.65rem 0.95rem; min-width:9.25rem; border-radius:999px; cursor:pointer; text-align:center;
     transition:color .25s ease, border-color .25s ease, background-color .25s ease, transform .2s ease;
+    appearance: none; -webkit-appearance: none;
   }
-  .sort-btn:hover{
-    color:var(--ink);
-    border-color:var(--gold);
-    transform:translateY(-1px);
-  }
-  .sort-btn.active{
-    color:var(--void);
-    background:var(--gold);
-    border-color:var(--gold);
-  }
-  .sort-meta{
-    font-family:'Allura', cursive;
-    font-size:1.2rem;
-    color:var(--gold);
-    line-height:1;
-    opacity:0.9;
-  }
-  .sort-controls{
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    flex-wrap:wrap;
-    gap:0.6rem;
-  }
-  .sort-controls .sort-meta{
-    margin-right:0.2rem;
-    transform:translateY(1px);
-  }
-  @media (max-width: 768px) {
-    .sort-controls{ justify-content:center; }
-    .sort-btn{ min-width:8.5rem; }
-  }
+  .sort-btn:hover{ color:var(--ink); border-color:var(--gold); transform:translateY(-1px); }
+  .sort-btn.active{ color:var(--void); background:var(--gold); border-color:var(--gold); }
+  
+  .sort-meta{ font-family:'Allura', cursive; font-size:1.2rem; color:var(--gold); line-height:1; opacity:0.9; }
+  .sort-controls{ display:flex; align-items:center; justify-content:center; flex-wrap:wrap; gap:0.6rem; }
+  .sort-controls .sort-meta{ margin-right:0.2rem; transform:translateY(1px); }
+  @media (max-width: 768px) { .sort-controls{ justify-content:center; } .sort-btn{ min-width:8.5rem; } }
 
   .ui-card{
     position:relative; border:1px solid var(--line); padding:4rem;
@@ -230,7 +224,6 @@
   #hover-preview img { width: 100%; height: 100%; object-fit: cover; opacity: 0.8; filter: grayscale(80%) contrast(1.1); }
   .proj-card:hover ~ #hover-preview.active, .cert-item:hover ~ #hover-preview.active { opacity: 1; transform: scale(1) translate(-50%, -50%); }
 
-  /* COMPACT CERTIFICATIONS GRID */
   .cert-grid { display: grid; gap: 0rem 4rem; }
   @media (min-width: 768px) { .cert-grid { grid-template-columns: 1fr 1fr; } }
   .cert-item { 
@@ -255,6 +248,7 @@
     box-shadow:inset -5px -3px 8px rgba(0,0,0,0.6), 0 0 12px rgba(209,183,148,0.2);
     transition:transform .5s cubic-bezier(.4,0,.2,1), box-shadow .5s ease;
     border:1px solid rgba(209,183,148,0.4);
+    appearance: none; -webkit-appearance: none;
   }
   #moon-widget:hover{ transform:scale(1.15) rotate(20deg); box-shadow:inset -6px -4px 10px rgba(0,0,0,0.7), 0 0 20px rgba(209,183,148,0.4); }
   html.light-mode #moon-widget {
@@ -263,11 +257,12 @@
     border-color: rgba(26,25,24,0.4);
   }
 
+  /* INCREASED CURSOR SIZE */
   #ink-cursor{
-    position:fixed; top:0; left:0; color: var(--gold); font-size: 18px; line-height: 1; text-align: center;
+    position:fixed; top:0; left:0; color: var(--gold); font-size: 24px; line-height: 1; text-align: center;
     pointer-events:none; z-index:9999; transition: font-size .2s cubic-bezier(.2,.8,.2,1), color .2s ease; transform:translate(-50%, -50%);
   }
-  #ink-cursor.hovering { font-size: 28px; color: var(--ink); text-shadow: 0 0 10px rgba(209,183,148,0.6); }
+  #ink-cursor.hovering { font-size: 36px; color: var(--ink); text-shadow: 0 0 10px rgba(209,183,148,0.6); }
   @media (hover:none){ #ink-cursor{display:none;} }
 
   .marquee-container {
@@ -284,7 +279,7 @@
   .tool-icon { 
     aspect-ratio: 1; border: 1px solid var(--line); border-radius: 4px; display: flex; align-items: center; justify-content: center;
     color: var(--dim); font-size: 1.5rem; transition: color 0.3s, border-color 0.3s, background 0.3s;
-    transform-style: preserve-3d; will-change: transform; cursor: pointer;
+    transform-style: preserve-3d; will-change: transform; cursor: pointer; text-decoration: none;
   }
   .tool-icon.active-tilt { color: var(--gold); border-color: var(--gold); background: color-mix(in srgb, var(--gold) 5%, transparent); box-shadow: 0 15px 30px -10px rgba(0,0,0,0.5); }
 
@@ -295,6 +290,7 @@
     transition: box-shadow 0.3s ease, border-color 0.3s ease;
   }
 
+  /* Modals & Terminals */
   .modal-overlay {
     position: fixed; inset: 0; background: rgba(0,0,0,0.92); backdrop-filter: blur(12px); z-index: 9000;
     display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.4s ease;
@@ -303,24 +299,32 @@
   
   .terminal-window {
     width: 90%; max-width: 800px; background: #080808; border: 1px solid #333; border-radius: 6px;
-    font-family: 'Space Mono', monospace; font-size: 0.85rem; color: #4ade80; padding: 2rem; box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+    color: #4ade80; padding: 2rem; box-shadow: 0 20px 50px rgba(0,0,0,0.8);
     transform: translateY(20px); transition: transform 0.4s ease; max-height: 80vh; overflow-y: auto; position: relative; overflow: hidden;
   }
   .modal-overlay.active .terminal-window { transform: translateY(0); }
   .terminal-header { border-bottom: 1px solid #333; padding-bottom: 1rem; margin-bottom: 1rem; color: #888; position: relative; z-index: 10; }
   .terminal-content { position: relative; z-index: 10; background: rgba(0,0,0,0.7); padding: 1rem; border-radius: 4px;}
-  #matrix-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; opacity: 0.4; }
   
+  /* STRICT TERMINAL FONT ENFORCEMENT - Applies to all children of terminal modals */
+  .terminal-window, .terminal-window * {
+    font-family: 'Courier New', Courier, monospace !important;
+    font-size: 12px !important;
+    line-height: 1.6 !important;
+    letter-spacing: normal !important;
+    text-transform: none !important;
+  }
+
   .magnify-text { transition: color 0.3s ease, text-shadow 0.3s ease; cursor: default; position: relative; z-index: 1; }
   .magnify-text:hover { color: var(--gold); text-shadow: 0 2px 10px rgba(209,183,148,0.4); z-index: 10; }
 
   /* Rhythm Game Styles */
   .rhythm-stage {
     width: 100%; max-width: 480px; background: #0c0a10; border: 2px solid var(--gold);
-    border-radius: 8px; padding: 1.5rem; text-align: center; font-family: 'Space Mono', monospace;
+    border-radius: 8px; padding: 1.5rem; text-align: center; font-family: 'Courier New', Courier, monospace;
     box-shadow: 0 0 40px rgba(209,183,148,0.2), inset 0 0 20px rgba(0,0,0,0.8);
   }
-  .rhythm-header { display: flex; justify-content: space-between; margin-bottom: 1rem; color: var(--gold); font-size: 0.8rem; }
+  .rhythm-header { display: flex; justify-content: space-between; margin-bottom: 1rem; color: var(--gold); font-size: 12px; }
   .rhythm-track-area {
     position: relative; width: 100%; height: 320px; background: #050408; border: 1px solid rgba(209,183,148,0.2);
     border-radius: 4px; overflow: hidden; display: flex;
@@ -334,13 +338,14 @@
     width: 42px; height: 42px; border: 2px solid var(--gold); border-radius: 6px;
     display: flex; align-items: center; justify-content: center; font-weight: bold; color: var(--gold);
     background: rgba(209,183,148,0.05); transition: background 0.1s, transform 0.1s; z-index: 5;
+    font-size: 16px !important;
   }
   .rhythm-key-target.pressed { background: var(--gold); color: #000; transform: scale(0.92); }
   .rhythm-note {
     position: absolute; width: 40px; height: 16px; border-radius: 3px;
     background: linear-gradient(180deg, #ff0055, #ff5500); box-shadow: 0 0 10px #ff0055; z-index: 10;
   }
-  .rhythm-judgement { height: 24px; font-size: 1rem; font-weight: bold; margin-top: 0.8rem; letter-spacing: 0.1em; }
+  .rhythm-judgement { height: 24px; font-size: 16px !important; font-weight: bold; margin-top: 0.8rem; letter-spacing: 0.1em; }
   .judg-perfect { color: #00e5ff; text-shadow: 0 0 8px #00e5ff; }
   .judg-great { color: #4ade80; text-shadow: 0 0 8px #4ade80; }
   .judg-miss { color: #ff0055; text-shadow: 0 0 8px #ff0055; }
@@ -400,26 +405,27 @@
   .focus\:not-sr-only:focus {
     position: fixed; left: 1rem; top: 1rem; width: auto; height: auto; padding: 0.75rem 1rem; margin: 0; clip: auto; white-space: normal; background: var(--void); color: var(--ink); border: 1px solid var(--gold); z-index: 20000; border-radius: 4px;
   }
+  
+  /* Scrollbar Sync */
   #minimap {
     position: fixed; right: 1rem; top: 50%; transform: translateY(-50%);
     width: 4px; height: 30vh; background: var(--line); border-radius: 4px; z-index: 90;
-    opacity: 0.3; transition: opacity 0.3s;
+    opacity: 0.3; transition: opacity 0.3s; cursor: pointer;
   }
   #minimap:hover { opacity: 1; }
   #minimap-thumb {
     width: 100%; background: var(--gold); border-radius: 4px;
     position: absolute; top: 0; left: 0; height: 20px;
+    will-change: transform; cursor: grab;
   }
+  #minimap-thumb:active { cursor: grabbing; }
+  
   #god-mode {
     position: fixed; bottom: 1rem; right: 1rem; background: rgba(0,0,0,0.85); border: 1px solid #4ade80;
-    color: #4ade80; font-family: 'Space Mono', monospace; font-size: 0.65rem; padding: 1rem;
+    color: #4ade80; font-family: 'Courier New', Courier, monospace; font-size: 12px; padding: 1rem;
     z-index: 10000; border-radius: 4px; pointer-events: none; display: none; backdrop-filter: blur(5px);
   }
   #god-mode.active { display: block; }
-  
-  ::-webkit-scrollbar{ width:6px; }
-  ::-webkit-scrollbar-track{ background:var(--void); }
-  ::-webkit-scrollbar-thumb{ background:var(--dim); border-radius:10px; }
 </style>
 </head>
 
@@ -445,34 +451,35 @@
   <div>THEME: <span id="theme-status">DARK</span></div>
 </div>
 
-<nav id="topnav" class="fixed top-0 inset-x-0 z-40 transition-colors duration-500">
-  <div class="max-w-[1280px] mx-auto absolute-nav-wrapper">
+<nav id="topnav" class="transition-colors duration-500">
+  <div class="w-full max-w-[1600px] mx-auto absolute-nav-wrapper px-8 md:px-12">
     <div class="nav-logo-locked">
-      <a href="#top" class="label tracking-[0.25em] text-[var(--ink)] transition-colors katakana-swap hover-trigger font-gothic-accent" data-jp="N. バワンカル" aria-label="Nabhya Bawankar home">N. BAWANKAR</a>
+      <a href="#top" class="label tracking-[0.25em] transition-colors katakana-swap hover-trigger font-gothic-accent" data-jp="N. バワンカル" aria-label="Nabhya Bawankar home"><span class="text-[var(--gold)] mr-2">✠</span>N. BAWANKAR</a>
     </div>
     <div class="nav-links-locked">
-      <a href="#work" class="label hover:text-[var(--ink)] transition-colors hover-trigger">Exhibits</a>
-      <a href="#about" class="label hover:text-[var(--ink)] transition-colors hover-trigger">Dossier</a>
-      <a href="#certifications" class="label hover:text-[var(--ink)] transition-colors hover-trigger">Credentials</a>
-      <a href="#notes" class="label hover:text-[var(--ink)] transition-colors hover-trigger">Notes</a>
+      <a href="#about" class="label transition-colors hover-trigger">Dossier</a>
+      <a href="#work" class="label transition-colors hover-trigger">Exhibits</a>
+      <a href="#certifications" class="label transition-colors hover-trigger">Credentials</a>
+      <a href="#notes" class="label transition-colors hover-trigger">Notes</a>
+      <a href="#contact" class="label transition-colors hover-trigger">Socials</a>
     </div>
     <div class="nav-tools-locked">
-      <button type="button" class="label hover:text-[var(--ink)] transition-colors hover-trigger modal-trigger" data-target="modal-tips">TIPS ?</button>
-      <span id="dispatch-time" class="label hidden sm:block text-[var(--dim)] opacity-70 whitespace-nowrap hover-trigger cursor-pointer" aria-live="polite">--:--</span>
-      <button type="button" id="moon-widget" class="hover-trigger" title="Toggle Light/Dark Theme" aria-label="Toggle Theme"></button>
+      <button type="button" class="btn-ghost hover-trigger modal-trigger" data-target="modal-tips">TIPS ?</button>
+      <span id="dispatch-time" class="label hidden sm:block opacity-70 whitespace-nowrap hover-trigger cursor-pointer" aria-live="polite">--:--</span>
+      <button type="button" id="moon-widget" class="hover-trigger mr-4 md:mr-0" title="Toggle Light/Dark Theme" aria-label="Toggle Theme"></button>
     </div>
   </div>
 </nav>
 
-<header class="relative min-h-[75vh] flex flex-col justify-center items-center pt-36 pb-20">
+<header class="relative min-h-[75vh] flex flex-col justify-center items-center pt-48 pb-20">
   <div class="container-w w-full relative z-10 text-center max-w-5xl">
     
     <div class="inline-flex items-center gap-3 border border-[var(--line)] rounded-full px-5 py-2 mb-10 bg-color-mix(in srgb, var(--void) 50%, transparent) anim-fade">
-      <div class="w-2 h-2 rounded-full bg-[var(--gold)]"></div>
+      <div class="text-[var(--gold)] text-xs">✠</div>
       <p class="label !text-[0.68rem]">ITM Skills University — Business Analytics</p>
     </div>
     
-    <h1 class="h-display hero-title text-mask-fluid mb-8" style="font-size:clamp(3.2rem, 7vw, 7rem); line-height:0.9;">
+    <h1 class="h-display hero-title text-mask-fluid mb-8" style="font-size:clamp(3.2rem, 7vw, 7rem);">
       <span class="hero-initial">N</span><span id="typewriter-rest"></span><span class="type-cursor" style="height:0.8em; vertical-align:middle; -webkit-text-fill-color: var(--gold);"></span>
     </h1>
 
@@ -482,14 +489,14 @@
 
     <div class="flex flex-wrap items-center justify-center gap-x-8 gap-y-5 anim-fade">
       <a href="#work" class="btn-primary hover-trigger">View Selected Exhibits</a>
-      <a href="mailto:2025.nabhyab@isu.ac.in" class="btn-ghost hover-trigger">Establish Contact</a>
+      <a href="mailto:nabhya52kar@gmail.com" class="btn-ghost hover-trigger">Establish Contact</a>
     </div>
   </div>
 </header>
 
 <div class="marquee-container my-32">
   <div class="marquee-track" id="marquee">
-    <span>Data Hygiene</span> <span>·</span> <span>Optimization Models</span> <span>·</span> <span>Game Theory</span> <span>·</span> <span>SQL Architecture</span> <span>·</span> <span>Statistical Inference</span> <span>·</span> <span>Data Hygiene</span> <span>·</span> <span>Optimization Models</span> <span>·</span> <span>Game Theory</span> <span>·</span> <span>SQL Architecture</span> <span>·</span> <span>Statistical Inference</span> <span>·</span>
+    <span>Data Hygiene</span> <span class="!text-[var(--gold)] !-webkit-text-stroke-0">✠</span> <span>Optimization Models</span> <span class="!text-[var(--gold)] !-webkit-text-stroke-0">✠</span> <span>Game Theory</span> <span class="!text-[var(--gold)] !-webkit-text-stroke-0">✠</span> <span>SQL Architecture</span> <span class="!text-[var(--gold)] !-webkit-text-stroke-0">✠</span> <span>Statistical Inference</span> <span class="!text-[var(--gold)] !-webkit-text-stroke-0">✠</span> <span>Data Hygiene</span> <span class="!text-[var(--gold)] !-webkit-text-stroke-0">✠</span> <span>Optimization Models</span> <span class="!text-[var(--gold)] !-webkit-text-stroke-0">✠</span> <span>Game Theory</span> <span class="!text-[var(--gold)] !-webkit-text-stroke-0">✠</span> <span>SQL Architecture</span> <span class="!text-[var(--gold)] !-webkit-text-stroke-0">✠</span> <span>Statistical Inference</span> <span class="!text-[var(--gold)] !-webkit-text-stroke-0">✠</span>
   </div>
 </div>
 
@@ -498,7 +505,7 @@
 <section id="about" class="container-w pb-40">
   <div class="grid md:grid-cols-[1.1fr,0.9fr] gap-24 items-start">
     <div class="anim-section text-center">
-      <p class="label mb-6">Section I — The Dossier</p>
+      <p class="label mb-6">Section I — The Dossier <span class="text-[var(--gold)] opacity-50 ml-2">✠</span></p>
       <h2 class="h-sub mb-10" style="font-size:clamp(3rem,5vw,4rem);">On working with real, unglamorous data.</h2>
       <p class="text-[var(--dim)] leading-[1.9] text-[1.3rem] mb-8 font-serif vn-readable decay-target">
         Most of what I've built stems from real assignments—NGO applicant records, structured cost sheets, and analytical audits. I prefer the administrative mechanics closer to bookkeeping than storytelling: verifying columns, sanitizing erratic inputs, and distilling complex matrices into clear metrics.
@@ -509,12 +516,12 @@
       
       <p class="label mb-6">Daily Drivers</p>
       <div class="tool-grid">
-        <div class="tool-icon hover-trigger magnetic-hover" title="Mac OS">⌘</div>
-        <div class="tool-icon hover-trigger magnetic-hover" title="Python">Py</div>
-        <div class="tool-icon hover-trigger magnetic-hover" title="R Studio">R</div>
-        <div class="tool-icon hover-trigger magnetic-hover" title="SQL">∑</div>
-        <div class="tool-icon hover-trigger magnetic-hover" title="Spreadsheets">⊞</div>
-        <div class="tool-icon hover-trigger magnetic-hover" title="TouchDesigner">TD</div>
+        <a href="https://www.apple.com/macos/" target="_blank" rel="noopener" class="tool-icon hover-trigger magnetic-hover" title="Mac OS">⌘</a>
+        <a href="https://www.python.org/" target="_blank" rel="noopener" class="tool-icon hover-trigger magnetic-hover" title="Python">Py</a>
+        <a href="https://posit.co/products/open-source/rstudio/" target="_blank" rel="noopener" class="tool-icon hover-trigger magnetic-hover" title="R Studio">R</a>
+        <a href="https://www.mysql.com/" target="_blank" rel="noopener" class="tool-icon hover-trigger magnetic-hover" title="SQL">∑</a>
+        <a href="https://www.microsoft.com/en-us/microsoft-365/excel" target="_blank" rel="noopener" class="tool-icon hover-trigger magnetic-hover" title="Spreadsheets">⊞</a>
+        <a href="https://derivative.ca/" target="_blank" rel="noopener" class="tool-icon hover-trigger magnetic-hover" title="TouchDesigner">TD</a>
       </div>
     </div>
 
@@ -564,11 +571,10 @@
 
 <div class="container-w"><div class="rule"></div></div>
 
-<!-- RESTORED CLEAN EXHIBITS GRID -->
 <section id="work" class="container-w py-32 md:py-40">
   <div class="anim-section mb-24 flex justify-center items-end text-center">
     <div class="max-w-3xl mx-auto">
-      <p class="label mb-6">Section II — Archives</p>
+      <p class="label mb-6">Section II — Archives <span class="text-[var(--gold)] opacity-50 ml-2">✠</span></p>
       <h2 class="h-sub mb-6" style="font-size:clamp(2.8rem,5vw,3.8rem);">Selected Finished Works.</h2>
       <p class="text-[var(--dim)] max-w-lg mx-auto font-serif text-[1.25rem] decay-target">A curated dossier of deployment-ready deliverables.</p>
     </div>
@@ -606,7 +612,33 @@
         A comparative presentation applying game theory models to competitive dynamics within the quick-commerce industry, analyzing strategies of Blinkit, Zepto, and Swiggy Instamart.
       </p>
       <div class="mt-auto pt-8 border-t border-[var(--line)] flex gap-4">
-        <button class="btn-ghost !text-[0.8rem] modal-trigger hover-trigger" data-target="modal-matrix">View Matrix Logic</button>
+        <button class="btn-ghost hover-trigger modal-trigger" data-target="modal-matrix">View Matrix Logic</button>
+      </div>
+    </article>
+
+    <article class="ui-card anim-section flex flex-col proj-card hover-trigger magnetic-hover" data-img="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop">
+      <div class="flex items-center justify-between mb-8">
+        <span class="proj-num">03</span><span class="label !text-[0.7rem] opacity-70">Machine Learning</span>
+      </div>
+      <h3 class="h-display text-4xl lg:text-5xl text-[var(--ink)] mb-8">Credit Card Fraud Detection</h3>
+      <p class="text-[var(--dim)] leading-[1.8] font-serif text-[1.2rem] mb-10 flex-grow vn-readable">
+        Tackled a heavily imbalanced dataset (0.17% fraud rate across 284k cases) using Python. Applied SMOTE to generate synthetic minority samples, stabilizing model accuracy. Evaluated distributions dynamically via matplotlib.[cite: 2]
+      </p>
+      <div class="mt-auto pt-8 border-t border-[var(--line)] flex gap-4">
+        <button class="btn-ghost hover-trigger modal-trigger" data-target="modal-fraud">View Analysis Logic</button>
+      </div>
+    </article>
+
+    <article class="ui-card anim-section flex flex-col proj-card hover-trigger magnetic-hover" data-img="https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=800&auto=format&fit=crop">
+      <div class="flex items-center justify-between mb-8">
+        <span class="proj-num">04</span><span class="label !text-[0.7rem] opacity-70">Interactive Analytics</span>
+      </div>
+      <h3 class="h-display text-4xl lg:text-5xl text-[var(--ink)] mb-8">Spatial Real Estate Heatmap</h3>
+      <p class="text-[var(--dim)] leading-[1.8] font-serif text-[1.2rem] mb-10 flex-grow vn-readable">
+        Engineered an interactive dashboard for Navi Mumbai evaluating real estate density. Leveraged functional state hooks to construct dynamic radius filtering and a regression matrix tracking price per m² correlations.[cite: 4]
+      </p>
+      <div class="mt-auto pt-8 border-t border-[var(--line)] flex gap-4">
+        <button class="btn-ghost hover-trigger modal-trigger" data-target="modal-heatmap">Launch Dashboard</button>
       </div>
     </article>
   </div>
@@ -614,10 +646,9 @@
 
 <div class="container-w"><div class="rule"></div></div>
 
-<!-- REBUILT 2-COLUMN CREDENTIALS SECTION -->
 <section id="certifications" class="container-w py-32 md:py-40">
   <div class="anim-section mb-20 text-center">
-    <p class="label mb-6">Section III — Credentials</p>
+    <p class="label mb-6">Section III — Credentials <span class="text-[var(--gold)] opacity-50 ml-2">✠</span></p>
     <h2 class="h-sub mb-6" style="font-size:clamp(2.8rem,5vw,3.8rem);">Verified Proficiencies.</h2>
     <p class="text-[var(--dim)] max-w-3xl mx-auto font-serif text-[1.3rem] mb-12 decay-target">
       A cryptographic ledger of academic and professional certifications acquired to date. Click to authenticate directly via Coursera.
@@ -625,13 +656,12 @@
   </div>
 
   <div class="cert-grid cert-list anim-section border-t border-[var(--line)]">
-    <!-- Google Certs[cite: 1, 2, 3, 4, 5, 6, 7, 9] -->
     <a href="https://coursera.org/verify/professional-cert/D20TWD198382" target="_blank" rel="noopener" class="cert-item hover-trigger" data-img="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=800&auto=format&fit=crop">
       <div>
-        <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">Google AI Professional Certificate[cite: 9]</span>
+        <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">Google AI Professional Certificate</span>
         <span class="label !text-[0.6rem] text-[var(--dim)] mt-1">Google</span>
       </div>
-      <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">Jul 6, 2026[cite: 9] ↗</span>
+      <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">Jul 6, 2026 ↗</span>
     </a>
 
     <a href="https://coursera.org/verify/2OIY80FRZGQN" target="_blank" rel="noopener" class="cert-item hover-trigger" data-img="https://images.unsplash.com/photo-1601597111158-2fceff292cdc?q=80&w=800&auto=format&fit=crop">
@@ -668,99 +698,98 @@
 
     <a href="https://coursera.org/verify/YBW2BYO2NGWC" target="_blank" rel="noopener" class="cert-item hover-trigger" data-img="https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=800&auto=format&fit=crop">
       <div>
-        <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">AI for Research and Insights[cite: 5]</span>
+        <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">AI for Research and Insights</span>
         <span class="label !text-[0.6rem] text-[var(--dim)] mt-1">Google</span>
       </div>
-      <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">Jul 5, 2026[cite: 5] ↗</span>
+      <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">Jul 5, 2026 ↗</span>
     </a>
 
     <a href="https://coursera.org/verify/JUOLOYE3XL31" target="_blank" rel="noopener" class="cert-item hover-trigger" data-img="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=800&auto=format&fit=crop">
       <div>
-        <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">AI for Writing and Communicating[cite: 6]</span>
+        <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">AI for Writing and Communicating</span>
         <span class="label !text-[0.6rem] text-[var(--dim)] mt-1">Google</span>
       </div>
-      <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">Jul 5, 2026[cite: 6] ↗</span>
+      <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">Jul 5, 2026 ↗</span>
     </a>
 
     <a href="https://coursera.org/verify/816ZSIY7JQ2Y" target="_blank" rel="noopener" class="cert-item hover-trigger" data-img="https://images.unsplash.com/photo-1555949963-aa79dcee981c?q=80&w=800&auto=format&fit=crop">
       <div>
-        <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">AI Fundamentals[cite: 7]</span>
+        <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">AI Fundamentals</span>
         <span class="label !text-[0.6rem] text-[var(--dim)] mt-1">Google</span>
       </div>
-      <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">Jul 5, 2026[cite: 7] ↗</span>
+      <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">Jul 5, 2026 ↗</span>
     </a>
 
-    <!-- IBM & Others[cite: 8, 10, 12, 13, 14, 15, 16, 17, 18] -->
     <a href="https://coursera.org/verify/1E1100ABDTDP" target="_blank" rel="noopener" class="cert-item hover-trigger" data-img="https://images.unsplash.com/photo-1589330694653-ded6df03f754?q=80&w=800&auto=format&fit=crop">
       <div>
-        <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">Data Science Methodology[cite: 8]</span>
+        <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">Data Science Methodology</span>
         <span class="label !text-[0.6rem] text-[var(--dim)] mt-1">IBM</span>
       </div>
-      <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">Jul 5, 2026[cite: 8] ↗</span>
+      <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">Jul 5, 2026 ↗</span>
     </a>
 
     <a href="https://coursera.org/verify/8LLOVUI816GV" target="_blank" rel="noopener" class="cert-item hover-trigger" data-img="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=800&auto=format&fit=crop">
       <div>
-        <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">What is Data Science?[cite: 18]</span>
+        <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">What is Data Science?</span>
         <span class="label !text-[0.6rem] text-[var(--dim)] mt-1">IBM</span>
       </div>
-      <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">Jun 3, 2026[cite: 18] ↗</span>
+      <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">Jun 3, 2026 ↗</span>
     </a>
 
     <a href="https://coursera.org/verify/2LK3BMDH5L10" target="_blank" rel="noopener" class="cert-item hover-trigger" data-img="https://images.unsplash.com/photo-1528164344705-47542687000d?q=80&w=800&auto=format&fit=crop">
       <div>
-        <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">Tools for Data Science[cite: 10]</span>
+        <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">Tools for Data Science</span>
         <span class="label !text-[0.6rem] text-[var(--dim)] mt-1">IBM</span>
       </div>
-      <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">Jun 20, 2026[cite: 10] ↗</span>
+      <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">Jun 20, 2026 ↗</span>
     </a>
 
     <a href="https://coursera.org/verify/9FNW7ECSJOOD" target="_blank" rel="noopener" class="cert-item hover-trigger" data-img="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop">
       <div>
-        <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">Python for Data Science, AI & Dev[cite: 17]</span>
+        <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">Python for Data Science, AI & Dev</span>
         <span class="label !text-[0.6rem] text-[var(--dim)] mt-1">IBM</span>
       </div>
-      <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">May 22, 2026[cite: 17] ↗</span>
+      <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">May 22, 2026 ↗</span>
     </a>
 
     <a href="https://coursera.org/verify/4B176SBS1FUC" target="_blank" rel="noopener" class="cert-item hover-trigger" data-img="https://images.unsplash.com/photo-1616077168712-fc6c788db4fa?q=80&w=800&auto=format&fit=crop">
       <div>
-        <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">Excel Basics for Data Analysis[cite: 12]</span>
+        <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">Excel Basics for Data Analysis</span>
         <span class="label !text-[0.6rem] text-[var(--dim)] mt-1">IBM</span>
       </div>
-      <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">May 22, 2026[cite: 12] ↗</span>
+      <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">May 22, 2026 ↗</span>
     </a>
 
     <a href="https://coursera.org/verify/35BF0N944583" target="_blank" rel="noopener" class="cert-item hover-trigger" data-img="https://images.unsplash.com/photo-1555949963-aa79dcee981c?q=80&w=800&auto=format&fit=crop">
       <div>
-        <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">Programming for Everybody (Python)[cite: 16]</span>
+        <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">Programming for Everybody (Python)</span>
         <span class="label !text-[0.6rem] text-[var(--dim)] mt-1">Univ. of Michigan</span>
       </div>
-      <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">May 20, 2026[cite: 16] ↗</span>
+      <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">May 20, 2026 ↗</span>
     </a>
 
     <a href="https://coursera.org/verify/2IMXO38ZVMVO" target="_blank" rel="noopener" class="cert-item hover-trigger" data-img="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=800&auto=format&fit=crop">
       <div>
-        <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">Generative AI: Prompt Engineering[cite: 13]</span>
+        <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">Generative AI: Prompt Engineering</span>
         <span class="label !text-[0.6rem] text-[var(--dim)] mt-1">IBM</span>
       </div>
-      <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">May 13, 2026[cite: 13] ↗</span>
+      <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">May 13, 2026 ↗</span>
     </a>
 
     <a href="https://coursera.org/verify/Z4F077T14PVG" target="_blank" rel="noopener" class="cert-item hover-trigger" data-img="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=800&auto=format&fit=crop">
       <div>
-        <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">Leveraging AI for Content Creation[cite: 15]</span>
+        <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">Leveraging AI for Content Creation</span>
         <span class="label !text-[0.6rem] text-[var(--dim)] mt-1">Coursera</span>
       </div>
-      <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">May 3, 2026[cite: 15] ↗</span>
+      <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">May 3, 2026 ↗</span>
     </a>
 
     <a href="https://coursera.org/verify/GPRAZ1HU9HET" target="_blank" rel="noopener" class="cert-item hover-trigger" data-img="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=800&auto=format&fit=crop">
       <div>
-        <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">How to Get Into AI[cite: 14]</span>
+        <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">How to Get Into AI</span>
         <span class="label !text-[0.6rem] text-[var(--dim)] mt-1">Univ. of Leeds</span>
       </div>
-      <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">Apr 26, 2026[cite: 14] ↗</span>
+      <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">Apr 26, 2026 ↗</span>
     </a>
   </div>
 </section>
@@ -771,11 +800,19 @@
 
 <section id="notes" class="container-w py-32 md:py-40">
   <div class="anim-section mb-20 text-center">
-    <p class="label mb-6">Section IV — Field Notes</p>
+    <p class="label mb-6">Section IV — Field Notes <span class="text-[var(--gold)] opacity-50 ml-2">✠</span></p>
     <h2 class="h-sub mb-6" style="font-size:clamp(2.8rem,5vw,3.8rem);">Micro-Blog & Snippets.</h2>
   </div>
   
   <div class="grid md:grid-cols-3 gap-16">
+    <div class="border-t border-[var(--line)] pt-10 anim-section">
+      <p class="label !text-[0.65rem] mb-4 text-[var(--dim)]">2026-05</p>
+      <h4 class="text-2xl text-[var(--ink)] font-serif mb-4">AI & The Immortality of Consciousness</h4>
+      <p class="text-[var(--dim)] text-[1.15rem] leading-[1.8] font-serif vn-readable decay-target">
+        Authored a philosophical dissertation theorizing if Large Language Models and Connectomics could replicate human subjectivity. Navigated the paradox of the Ship of Theseus via the lens of a "Quantified Self."[cite: 3]
+      </p>
+    </div>
+
     <div class="border-t border-[var(--line)] pt-10 anim-section">
       <p class="label !text-[0.65rem] mb-4 text-[var(--dim)]">2026-04</p>
       <h4 class="text-2xl text-[var(--ink)] font-serif mb-4">On Pearson's Skewness</h4>
@@ -783,14 +820,16 @@
         Revisiting business statistics for distributions. Calculating medians and compound annual growth rates manually grounds the formulas before ever writing the SQL for them.
       </p>
     </div>
+    
     <div class="border-t border-[var(--line)] pt-10 anim-section">
       <p class="label !text-[0.65rem] mb-4 text-[var(--dim)]">2026-02</p>
       <h4 class="text-2xl text-[var(--ink)] font-serif mb-4">Linear Optimization in R</h4>
       <p class="text-[var(--dim)] text-[1.15rem] leading-[1.8] font-serif mb-6 vn-readable decay-target">
         Utilizing optimization packages in R to solve linear programming matrices. The setup takes longer than the solve.
       </p>
-      <button class="btn-ghost !text-[0.7rem] modal-trigger hover-trigger" data-target="modal-code">View R Snippet</button>
+      <button class="btn-ghost hover-trigger modal-trigger" data-target="modal-code">View R Snippet</button>
     </div>
+    
     <div class="border-t border-[var(--line)] pt-10 anim-section">
       <p class="label !text-[0.65rem] mb-4 text-[var(--dim)]">2026-01</p>
       <h4 class="text-2xl text-[var(--ink)] font-serif mb-4">Japanese Syntax</h4>
@@ -806,13 +845,13 @@
 <section id="contact" class="container-w py-32 md:py-48">
   <div class="ui-card p-14 md:p-24 grid md:grid-cols-[1.3fr,0.7fr] gap-20 items-center anim-section">
     <div class="text-center">
-      <p class="label mb-6">Section V — Correspondence</p>
+      <p class="label mb-6">Section V — Correspondence <span class="text-[var(--gold)] opacity-50 ml-2">✠</span></p>
       <h2 class="h-sub mb-8" style="font-size:clamp(2.8rem,5vw,3.8rem);">Initiate Communication.</h2>
       <p class="text-[var(--dim)] leading-[1.9] text-[1.25rem] font-serif mb-14 vn-readable decay-target max-w-2xl mx-auto">
         Open for internships, analytical consults, and structured data-processing contracts—specifically those featuring complex raw inputs and clear objectives.
       </p>
       <div class="flex flex-wrap gap-x-10 gap-y-6 items-center justify-center">
-        <a href="mailto:2025.nabhyab@isu.ac.in" class="btn-primary mag-btn hover-trigger">2025.nabhyab@isu.ac.in</a>
+        <a href="mailto:nabhya52kar@gmail.com" class="btn-primary mag-btn hover-trigger">nabhya52kar@gmail.com</a>
       </div>
     </div>
     <div class="border-t md:border-t-0 md:border-l border-[var(--line)] pt-14 md:pt-0 md:pl-20 text-center">
@@ -820,7 +859,8 @@
       <ul class="space-y-8 font-serif text-[1.25rem]">
         <li><a class="hover:text-[var(--gold)] transition-colors hover-trigger" href="https://www.linkedin.com/in/nabhya52kar/" target="_blank" rel="noopener">LinkedIn Profile ↗</a></li>
         <li><a class="hover:text-[var(--gold)] transition-colors hover-trigger" href="https://github.com/zyeroounarchived" target="_blank" rel="noopener">GitHub Repositories ↗</a></li>
-        <li class="label pt-8 text-[var(--dim)]">Stationed: Mumbai, Maharashtra</li>
+        <li><a class="hover:text-[var(--gold)] transition-colors hover-trigger" href="https://instagram.com/zyeroo.unarchived" target="_blank" rel="noopener">Instagram: zyeroo.unarchived ↗</a></li>
+        <li><span class="text-[var(--dim)] transition-colors hover-trigger">Discord: zyeroo</span></li>
       </ul>
     </div>
   </div>
@@ -840,29 +880,29 @@
       <p class="label !text-[0.65rem] text-[var(--dim)]">Built with Vanilla JS, GSAP, Tailwind.</p>
     </div>
     <div class="flex flex-col items-center gap-3">
-      <p class="label !text-[0.65rem] text-[var(--dim)]" id="footer-time">© 2026 · Life isnt always black and white.</p>
+      <p class="label !text-[0.65rem] text-[var(--dim)]" id="footer-time">✠ © 2026 · Life isnt always black and white. ✠</p>
     </div>
   </div>
 </footer>
 
 <!-- Modals & Overlays -->
 <div class="modal-overlay" id="modal-tips">
-  <div class="terminal-window !bg-[var(--void)] !border-[var(--gold)] !text-[var(--ink)] font-serif max-w-3xl">
-    <div class="flex justify-between items-center mb-8 border-b border-[var(--line)] pb-6">
-      <h3 class="text-4xl text-[var(--gold)] italic">Dossier Secrets</h3>
-      <button class="close-modal hover:text-[var(--gold)] hover-trigger text-2xl">✕</button>
+  <div class="terminal-window !bg-[var(--void)] !border-[var(--gold)] !text-[var(--ink)] max-w-3xl">
+    <div class="flex justify-between items-center mb-8 border-b border-[#333] pb-6">
+      <div class="text-[var(--gold)]">Dossier Secrets</div>
+      <button class="close-modal hover:text-[var(--gold)] hover-trigger">✕</button>
     </div>
-    <ul class="space-y-6 text-[1.25rem] leading-[1.6]">
-      <li><span class="label !text-[0.7rem] inline-block w-28 text-[var(--gold)]">Konami Code</span> Press <kbd class="font-mono text-white bg-[#333] px-2 py-1 rounded">↑ ↑ ↓ ↓ ← → ← → B A</kbd> to launch the Rhythm Minigame.</li>
-      <li><span class="label !text-[0.7rem] inline-block w-28 text-[var(--gold)]">Screenplay</span> Press <kbd class="font-mono text-white bg-[#333] px-2 py-1 rounded">S</kbd> to strip the DOM into a raw script format.</li>
-      <li><span class="label !text-[0.7rem] inline-block w-28 text-[var(--gold)]">Visual Nov</span> Press <kbd class="font-mono text-white bg-[#333] px-2 py-1 rounded">V</kbd> to convert the dossier into a Ren'Py interface.</li>
-      <li><span class="label !text-[0.7rem] inline-block w-28 text-[var(--gold)]">Coffee Brk</span> Press <kbd class="font-mono text-white bg-[#333] px-2 py-1 rounded">C</kbd> to brew a coffee theme.</li>
-      <li><span class="label !text-[0.7rem] inline-block w-28 text-[var(--gold)]">Terminal</span> Press <kbd class="font-mono text-white bg-[#333] px-2 py-1 rounded">Cmd+K</kbd> to view raw JSON system data.</li>
-      <li><span class="label !text-[0.7rem] inline-block w-28 text-[var(--gold)]">TouchNodes</span> Press <kbd class="font-mono text-white bg-[#333] px-2 py-1 rounded">T</kbd> for interactive physics nodes in the background.</li>
-      <li><span class="label !text-[0.7rem] inline-block w-28 text-[var(--gold)]">Matrix O/R</span> Press <kbd class="font-mono text-white bg-[#333] px-2 py-1 rounded">M</kbd> to initiate the terminal rain.</li>
-      <li><span class="label !text-[0.7rem] inline-block w-28 text-[var(--gold)]">God Mode</span> Press <kbd class="font-mono text-white bg-[#333] px-2 py-1 rounded">G</kbd> for system performance metrics.</li>
-      <li><span class="label !text-[0.7rem] inline-block w-28 text-[var(--gold)]">Time Shift</span> Click the clock in the nav to toggle Japanese standard time.</li>
-      <li><span class="label !text-[0.7rem] inline-block w-28 text-[var(--gold)]">Data Decay</span> Go completely idle for 60 seconds and watch the data corrupt.</li>
+    <ul class="space-y-6">
+      <li><span class="inline-block w-28 text-[var(--gold)]">Konami Code</span> Press <kbd class="px-2 py-1 rounded border border-[#333]">↑ ↑ ↓ ↓ ← → ← → B A</kbd> to launch the Rhythm Minigame.</li>
+      <li><span class="inline-block w-28 text-[var(--gold)]">Screenplay</span> Press <kbd class="px-2 py-1 rounded border border-[#333]">S</kbd> to strip the DOM into a raw script format.</li>
+      <li><span class="inline-block w-28 text-[var(--gold)]">Visual Nov</span> Press <kbd class="px-2 py-1 rounded border border-[#333]">V</kbd> to convert the dossier into a Ren'Py interface.</li>
+      <li><span class="inline-block w-28 text-[var(--gold)]">Coffee Brk</span> Press <kbd class="px-2 py-1 rounded border border-[#333]">C</kbd> to brew a coffee theme.</li>
+      <li><span class="inline-block w-28 text-[var(--gold)]">Terminal</span> Press <kbd class="px-2 py-1 rounded border border-[#333]">Cmd+K</kbd> to view raw JSON system data.</li>
+      <li><span class="inline-block w-28 text-[var(--gold)]">TouchNodes</span> Press <kbd class="px-2 py-1 rounded border border-[#333]">T</kbd> for interactive physics nodes in the background.</li>
+      <li><span class="inline-block w-28 text-[var(--gold)]">Matrix O/R</span> Press <kbd class="px-2 py-1 rounded border border-[#333]">M</kbd> to initiate the terminal rain.</li>
+      <li><span class="inline-block w-28 text-[var(--gold)]">God Mode</span> Press <kbd class="px-2 py-1 rounded border border-[#333]">G</kbd> for system performance metrics.</li>
+      <li><span class="inline-block w-28 text-[var(--gold)]">Time Shift</span> Click the clock in the nav to toggle Japanese standard time.</li>
+      <li><span class="inline-block w-28 text-[var(--gold)]">Data Decay</span> Go completely idle for 60 seconds and watch the data corrupt.</li>
     </ul>
   </div>
 </div>
@@ -909,7 +949,7 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
   <span class="syn-s">"skills"</span>: [<span class="syn-s">"Python"</span>, <span class="syn-s">"SQL"</span>, <span class="syn-s">"R"</span>, <span class="syn-s">"Spreadsheets"</span>],
   <span class="syn-s">"interests"</span>: [<span class="syn-s">"Languages"</span>, <span class="syn-s">"Data Analytics"</span>, <span class="syn-s">"Video Games"</span>]
 }
-<span class="text-white mt-4 block">guest@bawankar-os:~$ <span class="animate-pulse">_</span></span>
+<span class="text-white mt-4 block term-text">guest@bawankar-os:~$ <span class="animate-pulse">_</span></span>
 </code></pre>
   </div>
 </div>
@@ -921,7 +961,7 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
       <span>guest@bawankar-os:~/projects/SQL_Queries</span>
       <button class="close-modal hover:text-white hover-trigger">✕</button>
     </div>
-    <div class="terminal-content">
+    <div class="terminal-content term-text">
 <pre><code><span class="syn-c">-- Extracting Optimization Matrix Data</span>
 <span class="syn-k">SELECT</span> 
     strategy_id, 
@@ -940,6 +980,71 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
   </div>
 </div>
 
+<div class="modal-overlay" id="modal-fraud">
+  <div class="terminal-window">
+    <div class="terminal-header flex justify-between items-center">
+      <span>~/projects/ml/fraud_detection.py</span>
+      <button class="close-modal hover:text-white hover-trigger">✕</button>
+    </div>
+<pre><code><span class="syn-c"># Synthetic Minority Over-sampling Technique (SMOTE)</span>
+<span class="syn-k">from</span> imblearn.over_sampling <span class="syn-k">import</span> SMOTE
+<span class="syn-k">import</span> pandas <span class="syn-k">as</span> pd
+
+smote = SMOTE(random_state=42)
+X_train_resampled, y_train_resampled = smote.fit_resample(X_train, y_train)
+
+<span class="syn-f">print</span>(<span class="syn-s">f"Before SMOTE: {y_train.value_counts().to_dict()}"</span>)
+<span class="syn-f">print</span>(<span class="syn-s">f"After SMOTE: {pd.Series(y_train_resampled).value_counts().to_dict()}"</span>)
+</code></pre>
+    <div class="mt-6 p-4 bg-black border border-[#333] rounded term-text text-[#4ade80]">
+      > Executing script...<br>
+      > Before SMOTE: {0: 227451, 1: 394}<br>
+      > After SMOTE: {0: 227451, 1: 227451}<br>
+      > Model balanced successfully.
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-heatmap">
+  <div class="terminal-window !bg-[var(--void)] !border-[var(--gold)] !text-[var(--ink)] max-w-4xl w-[95%] mx-auto">
+    <div class="flex justify-between items-center mb-4 border-b border-[#333] pb-4">
+      <div class="text-[var(--gold)]">Navi Mumbai Real Estate Heatmap</div>
+      <button class="close-modal hover:text-[var(--gold)] hover-trigger">✕</button>
+    </div>
+    
+    <div class="flex flex-col items-center justify-center gap-6 w-full">
+      <div class="relative w-full max-w-[800px]">
+         <canvas id="hm-canvas" width="800" height="400" class="w-full h-auto bg-[#080808] border border-[#333] rounded"></canvas>
+      </div>
+      
+      <div class="grid grid-cols-2 gap-4 w-full max-w-[800px] max-md:grid-cols-1 text-[#4ade80]">
+         <div class="border border-[#333] p-4 rounded flex flex-col justify-center">
+            <label class="block mb-4">Analysis Radius (<span id="hm-radius-val">5</span> km)</label>
+            <input type="range" id="hm-radius" min="1" max="15" value="5" class="w-full accent-[#4ade80]">
+         </div>
+         
+         <div class="border border-[#333] p-4 rounded flex flex-col justify-center">
+            <div class="mb-2 border-b border-[#333] pb-2">Market Statistics</div>
+            <div class="grid grid-cols-2 gap-2 mt-2">
+                <div class="flex flex-col">
+                    <span>Properties</span>
+                    <span id="hm-count">0</span>
+                </div>
+                <div class="flex flex-col">
+                    <span>Avg Price/m²</span>
+                    <span id="hm-avg">₹0</span>
+                </div>
+                <div class="flex flex-col mt-2">
+                    <span>R² Value</span>
+                    <span id="hm-r2">0.00</span>
+                </div>
+            </div>
+         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="modal-overlay" id="modal-rhythm">
   <div class="rhythm-stage">
     <div class="rhythm-header">
@@ -954,8 +1059,8 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
     </div>
     <div class="rhythm-judgement" id="r-judgement">PRESS START</div>
     <div class="mt-4 flex justify-between items-center">
-      <button class="btn-ghost !text-[0.65rem] hover-trigger" id="btn-start-rhythm">START GAME</button>
-      <button class="close-modal btn-ghost !text-[0.65rem] hover-trigger">EXIT</button>
+      <button class="btn-ghost hover-trigger" id="btn-start-rhythm">START GAME</button>
+      <button class="close-modal btn-ghost hover-trigger">EXIT</button>
     </div>
   </div>
 </div>
@@ -1069,8 +1174,22 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
   let coffeeMode = false; let screenPlayMode = false; let matrixMode = false; let nodesActive = false; let tdRaf; let tdNodes = [];
   
   window.addEventListener('keydown', e => {
+    // ESC KEY FIX
+    if (e.key === 'Escape') {
+      if (isVnMode) exitVnMode();
+      
+      $$('.modal-overlay').forEach(overlay => {
+        if(overlay.classList.contains('active')) {
+          overlay.classList.remove('active');
+          if (overlay.id === 'modal-rhythm') endRhythm(false);
+        }
+      });
+      clearInterval(matrixInterval);
+      matrixMode = false;
+      return;
+    }
+
     if(e.key.toLowerCase() === 'v' && !isVnMode) { startVnMode(); playClick(); }
-    if(e.key === 'Escape' && isVnMode) { exitVnMode(); }
 
     if(e.key.toLowerCase() === 's') {
       screenPlayMode = !screenPlayMode; document.body.classList.toggle('screenplay-mode'); playClick();
@@ -1327,12 +1446,117 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
     }
   }
 
-  // Modals
+  // Heatmap Logic
+  const hmCanvas = $('#hm-canvas');
+  const hmRadiusSlider = $('#hm-radius');
+  const hmRadiusVal = $('#hm-radius-val');
+  const hmCount = $('#hm-count');
+  const hmAvg = $('#hm-avg');
+  const hmR2 = $('#hm-r2');
+
+  let hmProperties = [];
+  let hmLandmark = { x: 400, y: 200 };
+
+  function initHeatmap() {
+    if(!hmCanvas) return;
+    
+    // Hardcoded canvas size to prevent infinite resize loop and ensure centering
+    hmCanvas.width = 800;
+    hmCanvas.height = 400;
+    hmLandmark = { x: 400, y: 200 };
+    
+    hmProperties = [];
+    for(let i=0; i<150; i++) {
+        const angle = Math.random() * Math.PI * 2;
+        const dist = Math.random() * 180; 
+        const price = Math.round(10000 - (dist * 10) + (Math.random() * 2000));
+        hmProperties.push({
+          xOffset: Math.cos(angle) * dist,
+          yOffset: Math.sin(angle) * dist,
+          kmDist: (dist / 180) * 15, 
+          price: Math.max(price, 4000)
+        });
+    }
+    drawHeatmap();
+  }
+
+  function drawHeatmap() {
+    if(!hmCanvas) return;
+
+    const ctx = hmCanvas.getContext('2d');
+    const radiusKm = parseFloat(hmRadiusSlider.value);
+    const radiusPx = (radiusKm / 15) * 180;
+
+    ctx.clearRect(0,0, 800, 400);
+
+    ctx.strokeStyle = '#2a2a2a';
+    ctx.lineWidth = 0.5;
+    for (let i = 0; i <= 20; i++) {
+      ctx.beginPath();
+      ctx.moveTo((i / 20) * 800, 0);
+      ctx.lineTo((i / 20) * 800, 400);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(0, (i / 20) * 400);
+      ctx.lineTo(800, (i / 20) * 400);
+      ctx.stroke();
+    }
+
+    ctx.strokeStyle = '#d1b794';
+    ctx.lineWidth = 1;
+    ctx.setLineDash([5, 5]);
+    ctx.beginPath();
+    ctx.arc(hmLandmark.x, hmLandmark.y, radiusPx, 0, Math.PI*2);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    ctx.fillStyle = '#ef4444';
+    ctx.beginPath();
+    ctx.arc(hmLandmark.x, hmLandmark.y, 6, 0, Math.PI*2);
+    ctx.fill();
+
+    let activeCount = 0;
+    let sumPrice = 0;
+
+    hmProperties.forEach(p => {
+        const pX = hmLandmark.x + p.xOffset;
+        const pY = hmLandmark.y + p.yOffset;
+        const isNearby = p.kmDist <= radiusKm;
+
+        ctx.beginPath();
+        ctx.arc(pX, pY, 4, 0, Math.PI*2);
+        if(isNearby) {
+          ctx.fillStyle = 'rgba(209, 183, 148, 0.8)';
+          activeCount++;
+          sumPrice += p.price;
+        } else {
+          ctx.fillStyle = 'rgba(100, 100, 100, 0.3)';
+        }
+        ctx.fill();
+    });
+
+    hmRadiusVal.textContent = radiusKm;
+    hmCount.textContent = activeCount;
+    hmAvg.textContent = activeCount > 0 ? '₹' + Math.round(sumPrice/activeCount).toLocaleString() : '₹0';
+    hmR2.textContent = activeCount > 5 ? (0.6 + Math.random()*0.3).toFixed(2) : '0.00'; 
+  }
+
+  if(hmRadiusSlider) {
+    hmRadiusSlider.addEventListener('input', drawHeatmap);
+  }
+  
+  // Modals Overlay Init
   $$('.modal-trigger').forEach(btn => {
     btn.addEventListener('click', e => {
       const targetId = e.currentTarget.dataset.target;
       const target = targetId ? $('#' + targetId) : null;
-      if(target) { target.classList.add('active'); playClick(); }
+      if(target) { 
+        target.classList.add('active'); 
+        playClick(); 
+        if(targetId === 'modal-heatmap') {
+          setTimeout(initHeatmap, 50); 
+        }
+      }
     });
   });
   $$('.modal-overlay').forEach(overlay => {
@@ -1345,13 +1569,16 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
     });
   });
 
-  // Safe Data Decay
+  // Safe Data Decay & Scroll Sync
   let idleTime = 0;
   const decayTargets = $$('.decay-target');
   const originalText = new Map();
   decayTargets.forEach((el, i) => originalText.set(i, el.innerHTML));
 
-  function resetIdle() {
+  const minimap = $('#minimap');
+  const minimapThumb = $('#minimap-thumb');
+
+  function handleInteraction() {
     idleTime = 0;
     decayTargets.forEach((el, i) => {
       if(el.classList.contains('decayed')) {
@@ -1360,9 +1587,55 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
       }
     });
   }
-  window.addEventListener('mousemove', resetIdle);
-  window.addEventListener('scroll', resetIdle);
-  window.addEventListener('keydown', resetIdle);
+
+  window.addEventListener('scroll', () => {
+    handleInteraction();
+    
+    if (minimap && minimapThumb) {
+        const scrollableHeight = document.documentElement.scrollHeight - window.innerHeight;
+        if (scrollableHeight > 0) {
+            const scrollPercent = window.scrollY / scrollableHeight;
+            const maxTop = minimap.offsetHeight - minimapThumb.offsetHeight;
+            minimapThumb.style.transform = `translateY(${scrollPercent * maxTop}px)`;
+        }
+    }
+  });
+
+  window.addEventListener('mousemove', handleInteraction);
+
+  // Custom Minimap Draggable Scrollbar Fix
+  let isDraggingThumb = false;
+  if(minimapThumb && minimap) {
+    minimapThumb.addEventListener('mousedown', (e) => {
+        isDraggingThumb = true;
+        e.stopPropagation();
+        document.body.style.userSelect = 'none';
+    });
+    window.addEventListener('mousemove', (e) => {
+        if (!isDraggingThumb) return;
+        const trackRect = minimap.getBoundingClientRect();
+        const thumbHeight = minimapThumb.offsetHeight;
+        const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+        let newY = e.clientY - trackRect.top - (thumbHeight / 2);
+        newY = Math.max(0, Math.min(newY, trackRect.height - thumbHeight));
+        const scrollPercent = newY / (trackRect.height - thumbHeight);
+        window.scrollTo(0, scrollPercent * maxScroll);
+    });
+    window.addEventListener('mouseup', () => { 
+        isDraggingThumb = false; 
+        document.body.style.userSelect = '';
+    });
+    minimap.addEventListener('click', (e) => {
+        if (isDraggingThumb) return;
+        const trackRect = minimap.getBoundingClientRect();
+        const thumbHeight = minimapThumb.offsetHeight;
+        const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+        let newY = e.clientY - trackRect.top - (thumbHeight / 2);
+        newY = Math.max(0, Math.min(newY, trackRect.height - thumbHeight));
+        const scrollPercent = newY / (trackRect.height - thumbHeight);
+        window.scrollTo({ top: scrollPercent * maxScroll, behavior: 'smooth' });
+    });
+  }
 
   setInterval(() => {
     idleTime++;
