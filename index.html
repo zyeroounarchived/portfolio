@@ -32,13 +32,14 @@
   }
   
   html.light-mode{
-    --void:#e3dfd5; --ink:#2b2927; --dim:#756f63; --line:rgba(43,41,39,0.12); --gold:#9a7b50;
-    --card-bg:linear-gradient(180deg, rgba(43,41,39,0.03), rgba(43,41,39,0.01));
+    --void:#d5cfc1; --ink:#2b2927; --dim:#756f63; --line:rgba(43,41,39,0.14); --gold:#8a6c42;
+    --card-bg:linear-gradient(180deg, rgba(43,41,39,0.04), rgba(43,41,39,0.015));
   }
 
+  /* Refined, Muted Crimson Candle Mode */
   html.candle-mode {
-    --void: #0f0704; --ink: #ffebc7; --dim: #d46f2c; --line: rgba(255, 106, 0, 0.15); --gold: #ff6a00;
-    --card-bg: linear-gradient(180deg, rgba(255, 106, 0, 0.03), rgba(0,0,0,0.6));
+    --void: #140808; --ink: #f2e1e1; --dim: #a34747; --line: rgba(179, 54, 54, 0.15); --gold: #b33636;
+    --card-bg: linear-gradient(180deg, rgba(179, 54, 54, 0.04), rgba(0,0,0,0.6));
   }
   html.candle-mode body { animation: candleAmbient 3.5s infinite alternate ease-in-out; }
   @keyframes candleAmbient {
@@ -66,7 +67,7 @@
   #page-skeleton {
     position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 99999; background: var(--void);
     display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1rem;
-    transition: opacity 0.8s ease; pointer-events: none;
+    transition: opacity 0.6s ease; pointer-events: none;
   }
   .skel-jp { font-family: 'Space Mono', monospace; color: var(--gold); font-size: 2rem; animation: pulse 1.5s ease-in-out infinite; }
   .skel-txt { font-family: 'Space Mono', monospace; color: var(--dim); font-size: 0.8rem; letter-spacing: 0.2em; text-transform: uppercase; opacity: 0.6; }
@@ -81,7 +82,7 @@
   body.screenplay-mode .marquee-container { display: none; }
   body.screenplay-mode #grain, body.screenplay-mode #vignette { display: none; }
 
-  #grain{ position:fixed; inset:-60px; z-index:998; pointer-events:none; opacity:0.035; mix-blend-mode:overlay; background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>"); }
+  #grain{ position:fixed; inset:-60px; z-index:998; pointer-events:none; opacity:0.035; mix-blend-mode:overlay; background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>"); transform: scale(calc(1 + var(--grain-boost, 0) * 0.06)); transition: opacity 0.25s ease; }
   #vignette{ position:fixed; inset:0; z-index:997; pointer-events:none; background:radial-gradient(120% 85% at 50% 15%, transparent 35%, rgba(0,0,0,0.7) 100%); mix-blend-mode:multiply; transition:opacity .3s ease; }
   html.light-mode #vignette{ opacity:0.08; }
 
@@ -93,9 +94,12 @@
   .ink-bleed:hover { color: transparent; text-shadow: 0 0 16px var(--ink); filter: blur(1.5px); }
 
   .h-display{ font-family:'Cormorant Garamond', serif; font-weight:300; letter-spacing:-0.03em; }
-  .hero-title{ font-family:'Avenir Next','Avenir',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Helvetica,Arial,sans-serif; font-weight:500; letter-spacing:-0.045em; line-height: 1.2 !important; font-size: clamp(3.2rem, 7vw, 7rem); text-shadow: 0 0 25px color-mix(in srgb, var(--gold) 35%, transparent); }
+  
+  .hero-title{ font-family:'Avenir Next','Avenir',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Helvetica,Arial,sans-serif; font-weight:500; letter-spacing:-0.045em; line-height: 1.2 !important; font-size: clamp(3.2rem, 7vw, 7rem); }
   .hero-initial{ font-family:'Pinyon Script', cursive; font-size:1.45em; letter-spacing:0; display: inline-block; padding: 0.4em 0.5em 0.4em 0.5em; margin: -0.4em -0.35em -0.4em -0.5em; vertical-align:bottom; line-height: 1; }
   #typewriter-rest{ display:inline-block; letter-spacing:-0.055em; }
+  
+  .hero-cross{ font-size:0.3em; vertical-align:-0.08em; margin-left:-0.28em; margin-right:0.05em; display:inline-block; }
   
   .type-cursor::after {
       content: ''; display: inline-block; width: 3px; height: 0.8em; background-color: var(--gold);
@@ -103,7 +107,9 @@
   }
   @keyframes blinkCursor { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
-  .text-mask-fluid { background: linear-gradient(120deg, var(--ink), var(--gold), var(--ink), var(--dim)); background-size: 300% 300%; background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; color: transparent; animation: fluidMask 12s ease infinite; }
+  /* Removed text-shadow to fix WebKit background clipping bug */
+  .text-mask-fluid { background: linear-gradient(120deg, var(--ink), var(--gold), var(--ink), var(--dim)); background-size: 300% 300%; background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; color: transparent; animation: fluidMask 12s ease infinite; text-shadow: none !important; }
+  @keyframes fluidMask { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
   
   @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; } }
   a:focus-visible, button:focus-visible, [role="button"]:focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; border-radius: 4px; }
@@ -120,7 +126,7 @@
   #topnav{ position: fixed !important; top: 0; width: 100%; backdrop-filter:blur(12px); background:color-mix(in srgb, var(--void) 85%, transparent); border-bottom:1px solid var(--line); z-index: 1000; }
   .absolute-nav-wrapper { position: relative; width: 95%; max-width: 1600px; height: 4.5rem; display: flex; align-items: center; justify-content: space-between; margin: 0 auto; }
   .nav-logo-locked { position: relative; z-index: 1002; }
-  .nav-logo-locked a { color: var(--ink); }
+  .nav-logo-locked a { color: var(--ink); white-space: nowrap; }
   .nav-links-locked { display: flex; gap: 3.5rem; }
   .nav-links-locked a { color: var(--dim); transition: color 0.3s ease; }
   .nav-links-locked a:hover { color: var(--ink); }
@@ -147,7 +153,6 @@
   .sort-meta{ font-family:'Allura', cursive; font-size:1.2rem; color:var(--gold); line-height:1; opacity:0.9; }
   .sort-controls{ display:flex; align-items:center; justify-content:center; flex-wrap:wrap; gap:0.6rem; }
   .sort-controls .sort-meta{ margin-right:0.2rem; transform:translateY(1px); }
-  @media (max-width: 768px) { .sort-controls{ justify-content:center; } .sort-btn{ min-width:8.5rem; } }
 
   .ui-card{ position:relative; border:1px solid var(--line); padding:4rem; background:var(--card-bg); border-radius: 4px; transition:border-color .5s ease, box-shadow .5s ease; overflow: hidden; }
   .spotlight::before { content:''; position:absolute; inset:0; pointer-events:none; background:radial-gradient(800px circle at var(--mouse-x) var(--mouse-y), rgba(209,183,148,0.06), transparent 40%); opacity:0; transition:opacity 0.5s ease; z-index: 0; }
@@ -211,18 +216,19 @@
   #ink-cursor.hovering { font-size: 48px; color: var(--ink); text-shadow: 0 0 12px rgba(209,183,148,0.8); }
   
   #ink-cursor-trail {
-    position: fixed; top: 0; left: 0; width: 30px; height: 30px; background: var(--gold);
+    position: fixed; top: 0; left: 0; width: 26px; height: 26px; background: var(--gold);
     border-radius: 50%; pointer-events: none; z-index: 9998; 
-    filter: blur(16px); opacity: 0.15;
+    filter: blur(16px); opacity: 0.08;
     transform: translate(-50%, -50%); transition: transform 0.15s ease-out, opacity 0.3s, width 0.3s, height 0.3s;
   }
-  #ink-cursor.hovering ~ #ink-cursor-trail { opacity: 0.3; width: 50px; height: 50px; filter: blur(20px); }
+  #ink-cursor.hovering ~ #ink-cursor-trail { opacity: 0.16; width: 40px; height: 40px; filter: blur(20px); }
+  #ink-particles { position: fixed; inset: 0; pointer-events: none; z-index: 9997; }
 
-  @media (hover:none){ #ink-cursor, #ink-cursor-trail {display:none;} }
+  @media (hover:none){ #ink-cursor, #ink-cursor-trail, #ink-particles {display:none;} }
 
   .no-stroke { -webkit-text-stroke: 0px !important; }
 
-  .marquee-container { width: 100%; overflow: hidden; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 0.4rem 0; background: color-mix(in srgb, var(--void) 95%, var(--gold)); cursor: crosshair; display: flex; white-space: nowrap; align-items: center; margin-top: 3rem; margin-bottom: 4rem; }
+  .marquee-container { width: 100%; overflow: hidden; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 0.4rem 0; background: color-mix(in srgb, var(--void) 95%, var(--gold)); cursor: crosshair; display: flex; white-space: nowrap; align-items: center; margin-top: 3rem; margin-bottom: 4rem; user-select: none; -webkit-user-select: none;}
   .marquee-track { display: flex; gap: 3rem; font-family: 'Space Mono', monospace; text-transform: uppercase; font-size: 0.85rem; color: transparent; -webkit-text-stroke: 1px var(--gold); opacity: 0.6; }
 
   .tool-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: 1rem; perspective: 800px; }
@@ -239,6 +245,7 @@
   .terminal-header { border-bottom: 1px solid #333; padding-bottom: 1rem; margin-bottom: 1rem; color: #888; position: relative; z-index: 10; }
   .terminal-content { position: relative; z-index: 10; background: rgba(0,0,0,0.7); padding: 1rem; border-radius: 4px;}
   .terminal-window, .terminal-window * { font-family: 'Courier New', Courier, monospace !important; font-size: 13px !important; line-height: 1.6 !important; letter-spacing: normal !important; text-transform: none !important; }
+  .terminal-window pre { overflow-x: auto; white-space: pre; }
 
   .slide-drawer { position: fixed; top: 0; right: 0; width: 100%; max-width: 650px; height: 100vh; background: color-mix(in srgb, var(--void) 95%, transparent); backdrop-filter: blur(25px); border-left: 1px solid var(--line); z-index: 9999; transform: translateX(100%); transition: transform 0.6s cubic-bezier(0.77, 0, 0.175, 1), box-shadow 0.6s ease; overflow-y: auto; padding: 4rem 3rem; box-shadow: none; }
   .slide-drawer.active { transform: translateX(0); box-shadow: -20px 0 50px rgba(0,0,0,0.5); }
@@ -261,7 +268,8 @@
   .copy-btn { background: transparent; border: 1px solid var(--gold); color: var(--gold); padding: 0.3rem 0.8rem; font-size: 0.75rem; border-radius: 2px; cursor: pointer; transition: all 0.2s; font-family: 'Space Mono', monospace; z-index: 20; }
   .copy-btn:hover { background: var(--gold); color: #000; }
 
-  .signature-svg { width: 45px; height: 45px; color: var(--gold); stroke-dasharray: 200; stroke-dashoffset: 200; margin: 0 auto 1rem auto; display: block; opacity: 0.9; filter: drop-shadow(0 0 6px var(--gold)); }
+  .signature-svg { width: 45px; height: 45px; color: var(--gold); stroke-dasharray: 200; stroke-dashoffset: 200; margin: 0 auto 1rem auto; display: block; opacity: 0.9; filter: drop-shadow(0 0 6px var(--gold)); transition: transform 0.4s cubic-bezier(.2,.8,.2,1), filter 0.4s ease; cursor: default; }
+  .signature-svg:hover { transform: rotate(90deg) scale(1.15); filter: drop-shadow(0 0 14px var(--gold)); }
   .signature-svg.draw { animation: drawSig 2s ease-out forwards; }
   @keyframes drawSig { to { stroke-dashoffset: 0; } }
 
@@ -291,13 +299,19 @@
 
   .gh-graph { display: flex; gap: 4px; overflow-x: auto; padding-bottom: 1rem; }
   .gh-col { display: flex; flex-direction: column; gap: 4px; }
-  .gh-cell { width: 12px; height: 12px; border-radius: 2px; background: var(--line); transition: background 0.3s; }
+  .gh-cell { width: 12px; height: 12px; border-radius: 2px; background: var(--line); transition: background 0.3s, transform 0.25s ease, box-shadow 0.25s ease; }
+  .gh-cell:hover { transform: scale(1.35); box-shadow: 0 0 8px var(--gold); }
   .gh-cell[data-level="1"] { background: color-mix(in srgb, var(--gold) 25%, transparent); }
   .gh-cell[data-level="2"] { background: color-mix(in srgb, var(--gold) 50%, transparent); }
   .gh-cell[data-level="3"] { background: color-mix(in srgb, var(--gold) 75%, transparent); }
   .gh-cell[data-level="4"] { background: var(--gold); }
   .repo-activity-wrap{ display:flex; flex-direction:column; align-items:center; text-align:center; width:100%; }
-  #gh-grid{ display:flex; justify-content:center; width:fit-content; max-width:100%; margin-left:auto; margin-right:auto; }
+  #gh-grid{ display:flex; justify-content:center; width:fit-content; max-width:100%; margin-left:auto; margin-right:auto; overflow-x:auto; padding-bottom:2px; }
+  @media (max-width: 640px) {
+    .gh-col { gap: 3px; }
+    .gh-cell { width: 8px; height: 8px; }
+    #gh-grid { justify-content:flex-start; }
+  }
   .footer-stack{ display:flex; flex-direction:column; align-items:center; justify-content:center; gap:0.75rem; text-align:center; }
 
   .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
@@ -319,12 +333,40 @@
   .ach-bar { height: 4px; background: #222; margin-top: 0.5rem; border-radius: 2px; overflow: hidden; }
   .ach-fill { height: 100%; background: var(--gold); width: 0%; transition: width 1s ease; }
   
+  .proj-card, .cert-item { cursor: none; }
+  #hover-preview { position: fixed; top: 0; left: 0; width: 300px; height: 200px; pointer-events: none; z-index: 100; opacity: 0; visibility: hidden; transform: scale(0.8) translate(-50%, -50%); transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.4s cubic-bezier(.2,.8,.2,1); border: 1px solid var(--gold); border-radius: 4px; overflow: hidden; background: var(--void); box-shadow: 0 20px 40px rgba(0,0,0,0.5); }
+  #hover-preview img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(80%) contrast(1.1); }
+  #hover-preview.active { opacity: 1; visibility: visible; transform: scale(1) translate(-50%, -50%); }
+
+  @media (max-width: 1024px) {
+    #hover-preview { display: none !important; }
+    .proj-card { flex-direction: column; align-items: flex-start; gap: 2rem; padding: 2.5rem !important; }
+    .proj-info-left, .proj-info-center, .proj-action-right { width: 100%; align-items: flex-start; padding-right: 0;}
+    .proj-action-right { border-top: 1px solid var(--line); padding-top: 1.5rem; align-items: flex-start; }
+  }
+
   @media (max-width: 768px) {
+    .container-w { padding-left: 1.25rem; padding-right: 1.25rem; }
+    .ui-card { padding: 1.5rem !important; }
+    .slide-drawer { padding: 3rem 1.5rem !important; }
+    .terminal-window { padding: 1rem !important; }
+    .terminal-window pre { font-size: 0.7rem !important; }
     .hero-title { font-size: clamp(2.5rem, 10vw, 4rem) !important; }
     .hero-initial { font-size: 1.25em; padding: 0.1em 0.2em 0.1em 0.2em; margin: -0.1em -0.1em -0.1em -0.2em; }
-    .ui-card { padding: 2rem !important; }
-    .cert-grid { gap: 2rem; }
+    .h-sub { font-size: clamp(2.2rem, 8vw, 3rem) !important; }
+    .proj-title { font-size: 1.8rem; }
+    .cert-grid { gap: 1rem; }
+    .cert-title { font-size: 1rem; }
+    .grid.gap-24 { gap: 4rem; }
+    .grid.gap-16 { gap: 3rem; }
+    .mb-28 { margin-bottom: 3rem; }
+    .mt-24 { margin-top: 3rem; }
+    .sort-btn { min-width: auto !important; padding: 0.5rem 1rem !important; font-size: 0.75rem !important; }
+    .sort-controls { gap: 0.4rem; }
+    .data-preview-table { font-size: 0.65rem; }
+    .data-preview-table th, .data-preview-table td { padding: 0.5rem; }
     #btt-btn { bottom: 1rem; right: 1rem; }
+    #modal-rhythm .rhythm-stage { width: 95%; padding: 1rem; }
   }
 </style>
 </head>
@@ -333,9 +375,9 @@
 <div id="grain" aria-hidden="true"></div>
 <div id="vignette" aria-hidden="true"></div>
 
-<!-- Enhanced Cursor & Softer Ink Trail -->
 <div id="ink-cursor" aria-hidden="true">✠</div>
 <div id="ink-cursor-trail" aria-hidden="true"></div>
+<canvas id="ink-particles" aria-hidden="true"></canvas>
 
 <div class="toast-container" id="toast-container"></div>
 <div id="minimap" aria-hidden="true"><div id="minimap-thumb"></div></div>
@@ -367,7 +409,7 @@
 </div>
 
 <nav id="topnav" class="transition-colors duration-500">
-  <div class="w-full max-w-[1600px] mx-auto absolute-nav-wrapper px-8 md:px-12">
+  <div class="w-full max-w-[1600px] mx-auto absolute-nav-wrapper px-8 md:px-12 flex-nowrap">
     <div class="nav-logo-locked">
       <a href="#top" class="label tracking-[0.25em] transition-colors katakana-swap hover-trigger font-gothic-accent" data-jp="N. バワンカル" aria-label="Nabhya Bawankar home"><span class="text-[var(--gold)] mr-2">✠</span>N. BAWANKAR</a>
     </div>
@@ -382,22 +424,18 @@
     <div class="nav-tools-locked">
       <button class="hamburger hover-trigger" id="hamburger-btn" aria-label="Menu" onclick="toggleMobileNav()">☰</button>
       <button type="button" class="btn-ghost hover-trigger modal-trigger hidden md:inline-flex" data-target="modal-tips">TIPS ?</button>
-      <!-- Visible on md+ screens -->
       <span id="dispatch-time" class="label hidden md:block opacity-70 whitespace-nowrap hover-trigger cursor-pointer" aria-live="polite">--:--</span>
-      <!-- Clean Vector Audio Icon -->
       <button type="button" id="audio-widget" class="hover-trigger" title="Toggle UI Audio">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
       </button>
-      <!-- Reintegrated Theme Button -->
       <button type="button" id="moon-widget" class="hover-trigger mr-4 md:mr-0" title="Toggle Light/Dark Theme" aria-label="Toggle Theme"></button>
     </div>
   </div>
 </nav>
 
-<header class="relative min-h-[75vh] flex flex-col justify-center items-center pt-48 pb-20">
-  <div class="container-w w-full relative z-10 text-center max-w-5xl">
+<header class="relative min-h-[75vh] flex flex-col justify-center items-center md:items-start pt-48 pb-20">
+  <div class="container-w w-full relative z-10 text-center md:text-left max-w-5xl md:mx-0 md:ml-4 lg:ml-12">
     
-    <!-- Fixed Tailwind bg-[color-mix...] syntax -->
     <div class="inline-flex items-center gap-3 border border-[var(--line)] rounded-full px-5 py-2 mb-10 bg-[color-mix(in_srgb,var(--void)_50%,transparent)] anim-fade">
       <div class="text-[var(--gold)] text-xs">✠</div>
       <p class="label !text-[0.68rem]">ITM Skills University — Business Analytics</p>
@@ -407,11 +445,11 @@
       <span class="hero-initial">N</span><span id="typewriter-rest"></span><span class="type-cursor" style="height:0.8em; vertical-align:middle; -webkit-text-fill-color: var(--gold);"></span>
     </h1>
 
-    <p class="mx-auto max-w-2xl text-[1.15rem] leading-[1.8] text-[var(--dim)] font-serif italic anim-fade mb-12 vn-readable decay-target">
+    <p class="mx-auto md:mx-0 max-w-2xl text-[1.15rem] leading-[1.8] text-[var(--dim)] font-serif italic anim-fade mb-12 vn-readable decay-target">
       "<span class="magnify-text">I clean data,</span> <span class="magnify-text">document it honestly,</span> <span class="magnify-text">and build analytical tools with precision.</span> <span class="magnify-text">No manufactured polish—</span><span class="magnify-text">just reproducible work and seamless hand-offs.</span>"
     </p>
 
-    <div class="flex flex-wrap items-center justify-center gap-x-12 gap-y-5 anim-fade mt-4">
+    <div class="flex flex-wrap items-center justify-center md:justify-start gap-x-8 md:gap-x-24 gap-y-5 anim-fade mt-8">
       <a href="#contact" class="btn-ghost hover-trigger tracking-[0.25em] text-[0.85rem]">ESTABLISH CONTACT</a>
       <a href="Resume.pdf" download class="btn-ghost hover-trigger tracking-[0.25em] text-[0.85rem]">RESUME</a>
     </div>
@@ -430,7 +468,6 @@
     <span>Predictive Analytics</span> <span class="!text-[var(--gold)] no-stroke">✠</span> 
     <span>Connectomics</span> <span class="!text-[var(--gold)] no-stroke">✠</span> 
     <span>Deep Learning</span> <span class="!text-[var(--gold)] no-stroke">✠</span>
-    <!-- Duplicated to ensure seamless loop width -->
     <span>Data Hygiene</span> <span class="!text-[var(--gold)] no-stroke">✠</span> 
     <span>Large Language Models</span> <span class="!text-[var(--gold)] no-stroke">✠</span> 
     <span>Optimization Models</span> <span class="!text-[var(--gold)] no-stroke">✠</span> 
@@ -447,7 +484,7 @@
 <main id="main-content" class="relative z-10">
 
 <section id="about" class="container-w pb-40">
-  <div class="grid md:grid-cols-[1.1fr,0.9fr] gap-24 items-start">
+  <div class="grid md:grid-cols-[1.1fr,0.9fr] gap-16 md:gap-24 items-start">
     <div class="anim-section text-center">
       <p class="label mb-6">Section I — The Dossier <span class="text-[var(--gold)] opacity-50 ml-2">✠</span></p>
       <h2 class="h-sub mb-10 ink-bleed" style="font-size:clamp(3rem,5vw,4rem);">On working with real, unglamorous data.</h2>
@@ -459,7 +496,6 @@
       </p>
       
       <p class="label mb-6">Daily Drivers</p>
-      <!-- Generous bottom margin added so icons don't crowd the card below -->
       <div class="tool-grid mb-24">
         <a href="https://www.apple.com/macos/" target="_blank" rel="noopener" class="tool-icon hover-trigger magnetic-hover" title="Mac OS">⌘</a>
         <a href="https://www.python.org/" target="_blank" rel="noopener" class="tool-icon hover-trigger magnetic-hover" title="Python">Py</a>
@@ -560,8 +596,7 @@
       <p class="text-[var(--dim)] max-w-lg mx-auto font-serif text-[1.25rem] decay-target">A curated dossier of deployment-ready deliverables.</p>
     </div>
     
-    <!-- Filterable Project Grid Bar - Spacing Increased -->
-    <div class="flex flex-wrap justify-center gap-4 w-full max-w-4xl mx-auto mt-8 mb-28">
+    <div class="flex flex-wrap justify-center gap-4 w-full max-w-4xl mx-auto mt-8 mb-16 md:mb-28">
       <button class="filter-btn sort-btn active !bg-[var(--gold)] !text-[var(--void)] hover-trigger" data-filter="all">All</button>
       <button class="filter-btn sort-btn hover-trigger" data-filter="sql">Data / SQL</button>
       <button class="filter-btn sort-btn hover-trigger" data-filter="ml">Machine Learning</button>
@@ -570,7 +605,6 @@
     </div>
   </div>
 
-  <!-- PERFECTLY ALIGNED HORIZONTAL PROJECT CARDS -->
   <div class="flex flex-col gap-16" id="projects-grid">
     
     <article class="ui-card spotlight anim-section proj-card hover-trigger magnetic-hover project-item" data-category="sql">
@@ -827,7 +861,7 @@
   </div>
 </section>
 
-<div id="hover-preview"><img src="" alt="Preview"></div>
+<div id="hover-preview"><img src="" alt=""></div>
 
 <div class="container-w"><div class="rule"></div></div>
 
@@ -837,7 +871,7 @@
     <h2 class="h-sub mb-6 ink-bleed" style="font-size:clamp(2.8rem,5vw,3.8rem);">Micro-Blog & Snippets.</h2>
   </div>
   
-  <div class="grid md:grid-cols-3 gap-16">
+  <div class="grid md:grid-cols-3 gap-8 md:gap-16">
     <div class="border-t border-[var(--gold)] pt-10 anim-section relative">
       <p class="label !text-[0.65rem] mb-4 text-[var(--gold)] tracking-[0.25em]">CURRENTLY (NOW PAGE)</p>
       <h4 class="text-2xl text-[var(--ink)] font-serif mb-4">Focus & Directives</h4>
@@ -860,7 +894,7 @@
       <p class="text-[var(--dim)] text-[1.15rem] leading-[1.8] font-serif mb-6 vn-readable decay-target">
         Utilizing optimization packages in R to solve linear programming matrices. The setup takes longer than the solve.
       </p>
-      <button class="btn-ghost hover-trigger modal-trigger" data-target="modal-code">View R Snippet</button>
+      <button class="btn-ghost hover-trigger" onclick="openDrawer('drawer-r')">View R Snippet</button>
     </div>
   </div>
 </section>
@@ -868,7 +902,7 @@
 <div class="container-w"><div class="rule"></div></div>
 
 <section id="contact" class="container-w py-32 md:py-48">
-  <div class="ui-card spotlight p-14 md:p-24 grid md:grid-cols-[1.3fr,0.7fr] gap-20 items-center anim-section">
+  <div class="ui-card spotlight p-14 md:p-24 grid md:grid-cols-[1.3fr,0.7fr] gap-10 md:gap-20 items-center anim-section">
     <div class="text-center">
       <p class="label mb-6">Section VI — Correspondence <span class="text-[var(--gold)] opacity-50 ml-2">✠</span></p>
       <h2 class="h-sub mb-8 ink-bleed" style="font-size:clamp(2.8rem,5vw,3.8rem);">Initiate Communication.</h2>
@@ -894,18 +928,21 @@
 </main>
 
 <footer class="border-t border-[var(--line)] py-20 relative z-20 overflow-hidden">
-  <div class="container-w footer-stack">
-    <!-- Distinctly Spaced Signature with extra top margin -->
-    <div class="mt-24 mb-16">
-      <svg class="signature-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <div class="container-w footer-stack" style="gap:1.1rem;">
+    <!-- Distinctly Spaced Signature -->
+    <div class="mt-24 mb-3">
+      <svg class="signature-svg hover-trigger" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
         <path d="M50 10 L50 90 M10 30 L90 30 M40 10 L60 10 M40 90 L60 90 M10 20 L10 40 M90 20 L90 40" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="square"/>
       </svg>
     </div>
     <div>
       <p class="h-sub font-calligraphy-accent text-4xl text-[var(--ink)] mb-2">Nabhya Bawankar</p>
-      <p class="label !text-[0.65rem] text-[var(--dim)]">Built with Vanilla JS, GSAP, Tailwind.</p>
+      <p class="label !text-[0.65rem] text-[var(--dim)]">Built with Vanilla JS, GSAP, Tailwind <span class="text-[var(--gold)]">✠</span></p>
     </div>
-    <div class="flex flex-col items-center gap-3 mt-4">
+    <div class="w-full flex flex-col items-center mt-6 mb-2">
+      <div id="gh-grid"></div>
+    </div>
+    <div class="flex flex-col items-center gap-3 mt-6">
       <a href="#" onclick="openDrawer('drawer-colophon'); return false;" class="label !text-[0.65rem] hover:text-[var(--gold)] transition-colors hover-trigger">View Colophon</a>
       <p class="label !text-[0.65rem] text-[var(--dim)] mt-2">VISITORS: <span id="visitor-count" class="text-[var(--gold)] tracking-widest">000000</span></p>
       <p class="label !text-[0.65rem] text-[var(--dim)]" id="footer-time">✠ © Life isnt always black and white. ✠</p>
@@ -949,10 +986,14 @@
     A comparative presentation applying game theory models to competitive dynamics within the quick-commerce industry. We analyzed Nash Equilibriums mapping out the aggressive market strategies of Blinkit, Zepto, and Swiggy Instamart.
   </p>
   
-  <div class="terminal-window !max-w-full !border-[var(--gold)] !shadow-none relative rounded">
-    <div class="flex justify-between items-center border-b border-[#333] pb-2 mb-4">
-      <span class="text-[#888] font-mono text-sm">~/sql/strategy_extraction.sql</span>
-    </div>
+  <div class="terminal-window !max-w-full !p-0 !border-none !shadow-none !h-[300px] !mb-8 relative rounded-none border-y border-[var(--gold)]">
+    <!-- Inner Matrix Canvas (just for the drawer) -->
+    <canvas id="matrix-canvas-drawer" style="position:absolute; top:0; left:0; width:100%; height:100%; z-index:1; opacity:0.6;"></canvas>
+    
+    <div class="relative z-10 p-6 bg-gradient-to-b from-[rgba(0,0,0,0.85)] to-[rgba(0,0,0,0.95)] h-full w-full">
+      <div class="flex justify-between items-center border-b border-[#333] pb-2 mb-4">
+        <span class="text-[#888] font-mono text-sm">~/sql/strategy_extraction.sql</span>
+      </div>
 <pre class="font-mono text-[#4ade80] text-sm leading-relaxed"><code><span class="text-[#888]">-- Extracting Optimization Matrix Data</span>
 <span class="text-[#d1b794]">SELECT</span> 
     strategy_id, 
@@ -966,6 +1007,7 @@
 <span class="text-[#d1b794]">GROUP BY</span> 
     strategy_id;
 <span class="text-white mt-4 block">Execution Time: 0.04s <span class="animate-pulse">_</span></span></code></pre>
+    </div>
   </div>
 </div>
 
@@ -974,12 +1016,11 @@
   <p class="label mb-4">Machine Learning Pipeline</p>
   <h2 class="h-display text-4xl text-[var(--ink)] mb-6">Credit Card Fraud Detection</h2>
   
-  <!-- Heavy margin spacing applied here to prevent overlap -->
   <div class="text-[var(--dim)] font-serif text-[1.05rem] leading-[1.8] space-y-6">
     <p>Step 1. Import the libraries and import the csv file to be used as training data.</p>
     <div class="terminal-window !p-6 !mt-6 !mb-10 w-full !text-[0.8rem] relative">
       <button class="copy-btn hover-trigger absolute top-3 right-3" onclick="copyCode(this)">Copy Source</button>
-      <pre class="overflow-x-auto"><code>import pandas as pd
+      <pre><code>import pandas as pd
 from imblearn.over_sampling import SMOTE
 df = pd.read_csv("/Users/nabhya/Downloads/creditcard.csv")
 print(df.shape)
@@ -989,7 +1030,7 @@ print(df.shape)
     <p>Only 492 Frauds in 284k cases. Fraud percentage = 0.1727%. We check for correlations against the 'Class' column, removing self-correlation, and order from most negative to most positive.</p>
     <div class="terminal-window !p-6 !mt-6 !mb-10 w-full !text-[0.8rem] relative">
       <button class="copy-btn hover-trigger absolute top-3 right-3" onclick="copyCode(this)">Copy Source</button>
-      <pre class="overflow-x-auto"><code>correlations = df.corr()['Class'].drop('Class').sort_values()
+      <pre><code>correlations = df.corr()['Class'].drop('Class').sort_values()
 X = df.drop('Class', axis=1) # Full dataset minus label
 y = df['Class']
 
@@ -1002,7 +1043,7 @@ X['Time'] = scaler.fit_transform(X[['Time']])</code></pre>
     <p>Splitting the data: <code>test_size=0.2</code> means 20% of rows go to the test set, 80% to training. <code>stratify=y</code> guarantees the fraud ratio (0.17%) is preserved in both splits proportionally.</p>
     <div class="terminal-window !p-6 !mt-6 !mb-10 w-full !text-[0.8rem] relative">
       <button class="copy-btn hover-trigger absolute top-3 right-3" onclick="copyCode(this)">Copy Source</button>
-      <pre class="overflow-x-auto"><code>smote = SMOTE(random_state=42)
+      <pre><code>smote = SMOTE(random_state=42)
 X_train_resampled, y_train_resampled = smote.fit_resample(X_train, y_train)
 
 print(f"Before SMOTE: {y_train.value_counts().to_dict()}")
@@ -1041,6 +1082,28 @@ print(f"After SMOTE: {pd.Series(y_train_resampled).value_counts().to_dict()}")
                 <div class="flex flex-col mt-2"><span>R² Value</span><span id="hm-r2">0.00</span></div>
             </div>
         </div>
+    </div>
+  </div>
+</div>
+
+<div class="slide-drawer" id="drawer-r">
+  <span class="drawer-close hover-trigger" onclick="closeAllDrawers()" role="button" tabindex="0">✕</span>
+  <p class="label mb-4">R Optimization Code</p>
+  <h2 class="h-display text-4xl text-[var(--ink)] mb-6">Linear Programming</h2>
+  <div class="text-[var(--dim)] font-serif text-[1.05rem] leading-[1.8] space-y-6">
+    <p>Code snippet demonstrating optimization constraint solving in R Studio.</p>
+    <div class="terminal-window !p-6 !mt-6 !mb-10 w-full !text-[0.8rem] relative">
+      <button class="copy-btn hover-trigger absolute top-3 right-3" onclick="copyCode(this)">Copy Source</button>
+      <pre><code><span class="text-[#888]"># Objective: Maximize profit given resource constraints</span>
+library(lpSolve)
+
+obj_coeff <- c(40, 30) 
+const_mat <- matrix(c(2, 1, 1, 2, 1, 1), nrow=3, byrow=TRUE)
+const_dir <- c("<=", "<=", "<=")
+const_rhs <- c(100, 80, 50)
+
+solution <- lp("max", obj_coeff, const_mat, const_dir, const_rhs)
+print(solution$solution)</code></pre>
     </div>
   </div>
 </div>
@@ -1101,7 +1164,7 @@ print(f"After SMOTE: {pd.Series(y_train_resampled).value_counts().to_dict()}")
   <div class="terminal-window !bg-[var(--void)] !border-[var(--gold)] !text-[var(--ink)] max-w-3xl !mt-[5vh]">
     <div class="flex justify-between items-center mb-8 border-b border-[#333] pb-6">
       <div class="text-[var(--gold)]">Dossier Secrets</div>
-      <button class="close-modal hover:text-[var(--gold)] hover-trigger">✕</button>
+      <button class="close-modal hover:text-[var(--gold)] hover-trigger" onclick="closeAllDrawers()">✕</button>
     </div>
     
     <div class="achievement-box mb-8 border border-[var(--gold)] !bg-transparent">
@@ -1131,7 +1194,7 @@ print(f"After SMOTE: {pd.Series(y_train_resampled).value_counts().to_dict()}")
   <div class="terminal-window !mt-[15vh]">
     <div class="terminal-header flex justify-between items-center">
       <span>guest@bawankar-os:~$ cat resume.json</span>
-      <button class="close-modal hover:text-white hover-trigger">✕</button>
+      <button class="close-modal hover:text-white hover-trigger" onclick="closeAllDrawers()">✕</button>
     </div>
 <pre><code>{
   <span class="syn-s">"name"</span>: <span class="syn-s">"Nabhya Bawankar"</span>,
@@ -1152,19 +1215,19 @@ print(f"After SMOTE: {pd.Series(y_train_resampled).value_counts().to_dict()}")
       <span>~/projects/optimization/linear_prog.R</span>
       <div class="flex gap-4 items-center">
         <button class="copy-btn hover-trigger" onclick="copyCode(this)">Copy Source</button>
-        <button class="close-modal hover:text-white hover-trigger">✕</button>
+        <button class="close-modal hover:text-white hover-trigger" onclick="closeAllDrawers()">✕</button>
       </div>
     </div>
 <pre id="r-source-code"><code><span class="syn-c"># Objective: Maximize profit given resource constraints</span>
 <span class="syn-f">library</span>(lpSolve)
 
-obj_coeff <span class="syn-k"><-</span> <span class="syn-f">c</span>(<span class="syn-s">40</span>, <span class="syn-s">30</span>) 
-const_mat <span class="syn-k"><-</span> <span class="syn-f">matrix</span>(<span class="syn-f">c</span>(<span class="syn-s">2</span>, <span class="syn-s">1</span>, <span class="syn-s">1</span>, <span class="syn-s">2</span>, <span class="syn-s">1</span>, <span class="syn-s">1</span>), nrow=<span class="syn-s">3</span>, byrow=<span class="syn-k">TRUE</span>)
-const_dir <span class="syn-k"><-</span> <span class="syn-f">c</span>(<span class="syn-s">"<="</span>, <span class="syn-s">"<="</span>, <span class="syn-s">"<="</span>)
-const_rhs <span class="syn-k"><-</span> <span class="syn-f">c</span>(<span class="syn-s">100</span>, <span class="syn-s">80</span>, <span class="syn-s">50</span>)
+obj_coeff <- c(40, 30) 
+const_mat <- matrix(c(2, 1, 1, 2, 1, 1), nrow=3, byrow=TRUE)
+const_dir <- c("<=", "<=", "<=")
+const_rhs <- c(100, 80, 50)
 
-solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class="syn-s">"max"</span>, obj_coeff, const_mat, const_dir, const_rhs)
-<span class="syn-f">print</span>(solution$solution)
+solution <- lp("max", obj_coeff, const_mat, const_dir, const_rhs)
+print(solution$solution)
 </code></pre>
   </div>
 </div>
@@ -1192,7 +1255,7 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
     <div class="rhythm-judgement" id="r-judgement">PRESS START</div>
     <div class="mt-4 flex justify-between items-center">
       <button class="btn-ghost hover-trigger" id="btn-start-rhythm">START GAME</button>
-      <button class="close-modal btn-ghost hover-trigger">EXIT</button>
+      <button class="close-modal btn-ghost hover-trigger" onclick="closeAllDrawers()">EXIT</button>
     </div>
   </div>
 </div>
@@ -1286,7 +1349,18 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
   vCount = parseInt(vCount) + 1;
   localStorage.setItem('v_count', vCount);
   const vCountEl = $('#visitor-count');
-  if(vCountEl) vCountEl.textContent = String(vCount).padStart(6, '0');
+  if(vCountEl) {
+    if(reduceMotion) {
+      vCountEl.textContent = String(vCount).padStart(6, '0');
+    } else {
+      const counter = { val: 0 };
+      gsap.to(counter, {
+        val: vCount, duration: 1.8, ease: 'power2.out', snap: { val: 1 },
+        scrollTrigger: { trigger: '#visitor-count', start: 'top 95%' },
+        onUpdate: () => { vCountEl.textContent = String(Math.floor(counter.val)).padStart(6, '0'); }
+      });
+    }
+  }
 
   // UI Utilities
   window.showToast = function(msg) {
@@ -1302,7 +1376,6 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
     playClick();
   };
   
-  // Safe Copy Logic finding the closest PRE element
   window.copyCode = function(btn) {
     const container = btn.closest('.terminal-window');
     const pre = container ? container.querySelector('pre') : null;
@@ -1322,18 +1395,26 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
     }
   };
   
-  // 100% ROBUST CLOSE ALL FUNCTION
+  // ROBUST CLOSE ALL FUNCTION
   window.closeAllDrawers = function() {
     $('#drawer-overlay').classList.remove('active');
     $$('.slide-drawer').forEach(d => d.classList.remove('active'));
     $$('.modal-overlay').forEach(overlay => overlay.classList.remove('active'));
     clearInterval(matrixInterval);
+    clearInterval(matrixDrawerInterval);
     matrixMode = false;
     if(window.endRhythmGame) window.endRhythmGame();
     playClick();
   };
 
   $('#drawer-overlay').addEventListener('click', closeAllDrawers);
+  $$('.modal-overlay').forEach(overlay => {
+    overlay.addEventListener('click', e => {
+      if(e.target === overlay) { 
+        closeAllDrawers(); 
+      }
+    });
+  });
   
   window.updateSlider = function(val) { 
     $('#ba-overlay').style.clipPath = `inset(0 ${100 - val}% 0 0)`; 
@@ -1362,9 +1443,9 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
       
       cards.forEach(card => {
         if(filter === 'all' || card.dataset.category.includes(filter)) {
-          gsap.to(card, { scale: 1, opacity: 1, display: 'flex', duration: 0.4, ease: 'power2.out' });
+          gsap.to(card, { scale: 1, opacity: 1, display: 'flex', duration: 0.4, ease: 'power2.out', overwrite: "auto" });
         } else {
-          gsap.to(card, { scale: 0.9, opacity: 0, display: 'none', duration: 0.4, ease: 'power2.out' });
+          gsap.to(card, { scale: 0.9, opacity: 0, display: 'none', duration: 0.4, ease: 'power2.out', overwrite: "auto" });
         }
       });
       setTimeout(() => ScrollTrigger.refresh(), 450);
@@ -1379,12 +1460,12 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
     });
   });
 
-  // Accurate Loader Timing
+  // Fast Loader Timing
   window.addEventListener('load', () => {
     const sk = $('#page-skeleton');
-    if(sk) { sk.style.opacity = '0'; setTimeout(()=>sk.remove(), 800); }
+    if(sk) { sk.style.opacity = '0'; setTimeout(()=>sk.remove(), 600); }
   });
-  setTimeout(() => { const sk = $('#page-skeleton'); if(sk) { sk.style.opacity = '0'; setTimeout(()=>sk.remove(), 800); } }, 3000);
+  setTimeout(() => { const sk = $('#page-skeleton'); if(sk) { sk.style.opacity = '0'; setTimeout(()=>sk.remove(), 600); } }, 1200);
 
   // Master Keydown Controller
   let coffeeMode = false; let screenPlayMode = false; let matrixMode = false; let nodesActive = false; let tdRaf; let tdNodes = []; let candleMode = false;
@@ -1392,11 +1473,13 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
   window.addEventListener('keydown', e => {
     // FORCE CLOSE ALL ON ESCAPE
     if (e.key === 'Escape') {
+      e.preventDefault();
       if (isVnMode) exitVnMode();
       closeAllDrawers();
       return;
     }
     
+    // Allow inputs to function normally without blocking all other keys after focus loss
     if(e.target.tagName === 'TEXTAREA' || (e.target.tagName === 'INPUT' && e.target.type !== 'range')) return;
 
     if(e.key.toLowerCase() === 'v' && !isVnMode) { startVnMode(); playClick(); unlockSecret('vn'); }
@@ -1485,6 +1568,16 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
     function raf(t){ lenis.raf(t); requestAnimationFrame(raf); }
     requestAnimationFrame(raf);
     lenis.on('scroll', ()=>ScrollTrigger.update());
+
+    // Grain reacts to scroll velocity: quick scrolls briefly intensify the film-grain texture
+    const grainEl = $('#grain');
+    if(grainEl) {
+      lenis.on('scroll', (e) => {
+        const boost = Math.min(Math.abs(e.velocity || 0) / 6, 1);
+        grainEl.style.setProperty('--grain-boost', boost);
+        grainEl.style.opacity = (0.035 + boost * 0.05).toFixed(3);
+      });
+    }
   }
   gsap.registerPlugin(ScrollTrigger);
 
@@ -1492,8 +1585,11 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
   
   const twEl = $('#typewriter-rest');
   if(twEl) {
-    const phrase = 'abhya Bawankar.'; let i=0;
-    (function typeStep(){ if(i<=phrase.length){ twEl.textContent = phrase.slice(0,i); i++; setTimeout(typeStep, 60+Math.random()*60); } })();
+    const phrase = 'abhya Bawankar '; let i=0;
+    (function typeStep(){
+      if(i<=phrase.length){ twEl.textContent = phrase.slice(0,i); i++; setTimeout(typeStep, 60+Math.random()*60); }
+      else if(!twEl.querySelector('.hero-cross')){ twEl.insertAdjacentHTML('beforeend', '<span class="hero-cross">✠</span>'); }
+    })();
   }
 
   if(!reduceMotion){
@@ -1523,26 +1619,35 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
     $$('.skill-row').forEach(row=>{ const fill = $('.skill-fill', row); if(fill) gsap.to(fill, {width:row.dataset.prof+'%', duration:1.5, ease:'power3.out', scrollTrigger:{ trigger:row, start:'top 90%' } }); });
   }, 1000);
 
-  const preview = $('#hover-preview'); const previewImg = preview ? preview.querySelector('img') : null;
+  // PROPER HOVER PREVIEW DESKTOP-ONLY EVENT LISTENERS
+  const preview = $('#hover-preview'); 
+  const previewImg = preview ? preview.querySelector('img') : null;
   if(preview && previewImg) {
     $$('.proj-card, .cert-item').forEach(card => {
-      card.addEventListener('mouseenter', e => { if(reduceMotion || !card.dataset.img) return; previewImg.src = card.dataset.img; preview.classList.add('active'); playClick(); });
-      card.addEventListener('mousemove', e => { if(reduceMotion || !card.dataset.img) return; gsap.to(preview, {left: e.clientX, top: e.clientY, duration:0.4, ease:'power3.out'}); });
+      card.addEventListener('mouseenter', e => { 
+        if(reduceMotion || !card.dataset.img || window.innerWidth <= 1024) return; 
+        previewImg.src = card.dataset.img; 
+        preview.classList.add('active'); 
+        playClick(); 
+      });
+      card.addEventListener('mousemove', e => { 
+        if(reduceMotion || !card.dataset.img || window.innerWidth <= 1024) return; 
+        gsap.to(preview, {left: e.clientX, top: e.clientY, duration:0.4, ease:'power3.out', overwrite: "auto"}); 
+      });
       card.addEventListener('mouseleave', () => preview.classList.remove('active'));
     });
   }
 
-  // Proper 3D Tilt Logic Fix (Mapped perspective to GSAP, avoiding clipping issues)
   $$('.magnetic-hover').forEach(card => {
     card.addEventListener('mousemove', (event) => {
       if (reduceMotion) return;
       const rect = card.getBoundingClientRect();
       const x = ((event.clientX - rect.left) / rect.width - 0.5) * 2; 
       const y = ((event.clientY - rect.top) / rect.height - 0.5) * 2;
-      gsap.to(card, { rotationY: x * 6, rotationX: -y * 6, scale: 1.02, transformPerspective: 1000, duration: 0.3, ease: 'power2.out' });
+      gsap.to(card, { rotationY: x * 5, rotationX: -y * 5, scale: 1.02, transformPerspective: 1000, duration: 0.3, ease: 'power2.out', overwrite: "auto" });
     });
     card.addEventListener('mouseleave', () => { 
-      gsap.to(card, { rotationX: 0, rotationY: 0, scale: 1, duration: 0.7, ease: 'elastic.out(1, 0.35)' }); 
+      gsap.to(card, { rotationX: 0, rotationY: 0, scale: 1, duration: 0.7, ease: 'elastic.out(1, 0.35)', overwrite: "auto" }); 
     });
   });
 
@@ -1563,6 +1668,43 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
       else cursor.classList.remove('hovering'); 
     });
     document.addEventListener('mousedown', playClick);
+
+    // Ink particle trail: spawns drifting flecks, pools softly when the cursor goes idle
+    const pCanvas = $('#ink-particles');
+    if(pCanvas) {
+      const pCtx = pCanvas.getContext('2d');
+      let pW, pH, dpr = Math.min(window.devicePixelRatio || 1, 2);
+      function sizeParticles(){ pW = pCanvas.width = innerWidth * dpr; pH = pCanvas.height = innerHeight * dpr; pCanvas.style.width = innerWidth+'px'; pCanvas.style.height = innerHeight+'px'; }
+      sizeParticles(); window.addEventListener('resize', sizeParticles);
+      function hexToRgb(hex){ hex=hex.trim().replace('#',''); if(hex.length===3) hex=hex.split('').map(c=>c+c).join(''); const n=parseInt(hex,16); return isNaN(n)?'209,183,148':`${(n>>16)&255},${(n>>8)&255},${n&255}`; }
+      let goldRGB = hexToRgb(getComputedStyle(document.documentElement).getPropertyValue('--gold'));
+      new MutationObserver(()=>{ goldRGB = hexToRgb(getComputedStyle(document.documentElement).getPropertyValue('--gold')); }).observe(document.documentElement, { attributes:true, attributeFilter:['class'] });
+      let particles = [];
+      let lastMoveAt = performance.now(); let lastSpawnAt = 0; let poolAt = 0;
+      window.addEventListener('mousemove', () => { lastMoveAt = performance.now(); });
+      (function particleLoop(){
+        const now = performance.now();
+        const idleFor = now - lastMoveAt;
+        if(idleFor < 250 && now - lastSpawnAt > 55) {
+          lastSpawnAt = now;
+          particles.push({ x: tx, y: ty, r: 1 + Math.random()*1.3, vx: (Math.random()-0.5)*0.4, vy: (Math.random()-0.5)*0.4, life: 1, decay: 0.02 + Math.random()*0.012, pool:false });
+        } else if(idleFor > 700 && now - poolAt > 1400) {
+          poolAt = now;
+          particles.push({ x: tx, y: ty, r: 2, vx:0, vy:0, life: 1, decay: 0.016, pool:true, maxR: 16 + Math.random()*8 });
+        }
+        pCtx.clearRect(0,0,pW,pH);
+        particles = particles.filter(p => p.life > 0);
+        particles.forEach(p=>{
+          p.x += p.vx; p.y += p.vy; p.life -= p.decay;
+          if(p.pool){ p.r += (p.maxR - p.r) * 0.05; }
+          pCtx.beginPath();
+          pCtx.fillStyle = `rgba(${goldRGB}, ${Math.max(p.life,0) * (p.pool ? 0.09 : 0.22)})`;
+          pCtx.arc(p.x*dpr, p.y*dpr, p.r*dpr, 0, Math.PI*2);
+          pCtx.fill();
+        });
+        requestAnimationFrame(particleLoop);
+      })();
+    }
   } else { 
     if(cursor) cursor.style.display='none'; 
     if(trail) trail.style.display='none'; 
@@ -1610,6 +1752,28 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
       mCtx.fillText(text, i * 14, drops[i] * 14);
       if(drops[i] * 14 > mHeight && Math.random() > 0.975) drops[i] = 0;
       drops[i]++;
+    }
+  }
+
+  // Matrix logic for the Drawer explicitly
+  let mDrawerWidth, mDrawerHeight, columnsDrawer, dropsDrawer; let matrixDrawerInterval;
+  function initMatrixDrawer() {
+    const mCanvas = document.getElementById('matrix-canvas-drawer');
+    if(!mCanvas) return;
+    const mCtx = mCanvas.getContext('2d');
+    mDrawerWidth = mCanvas.width = 600; mDrawerHeight = mCanvas.height = 300;
+    columnsDrawer = mDrawerWidth / 14; dropsDrawer = []; for(let x = 0; x < columnsDrawer; x++) dropsDrawer[x] = 1;
+  }
+  function drawMatrixDrawer() {
+    const mCanvas = document.getElementById('matrix-canvas-drawer');
+    if(!mCanvas) return;
+    const mCtx = mCanvas.getContext('2d');
+    mCtx.fillStyle = "rgba(0, 0, 0, 0.05)"; mCtx.fillRect(0, 0, mDrawerWidth, mDrawerHeight); mCtx.fillStyle = "#4ade80"; mCtx.font = "14px monospace";
+    for(let i = 0; i < dropsDrawer.length; i++) {
+      const text = chars[Math.floor(Math.random() * chars.length)];
+      mCtx.fillText(text, i * 14, dropsDrawer[i] * 14);
+      if(dropsDrawer[i] * 14 > mDrawerHeight && Math.random() > 0.975) dropsDrawer[i] = 0;
+      dropsDrawer[i]++;
     }
   }
 
@@ -1663,13 +1827,6 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
   const mainSlider = document.getElementById('hm-radius');
   if(mainSlider) { mainSlider.addEventListener('input', drawHeatmap); }
   
-  $$('.modal-trigger').forEach(btn => {
-    btn.addEventListener('click', e => {
-      const targetId = e.currentTarget.dataset.target; const target = targetId ? $('#' + targetId) : null;
-      if(target) { target.classList.add('active'); playClick(); }
-    });
-  });
-
   let idleTime = 0; const decayTargets = $$('.decay-target'); const originalText = new Map();
   decayTargets.forEach((el, i) => originalText.set(i, el.innerHTML));
   const minimap = $('#minimap'); const minimapThumb = $('#minimap-thumb');
@@ -1728,18 +1885,33 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
 
   // Safe Marquee Overclocker
   const marquee = $('#marquee'); const marqueeCont = $('#marquee-cont');
-  let isScrollingDown = true; let marqueeClicks = 0; let timeoutId;
+  let isScrollingDown = true; let marqueeClicks = 0; let timeoutId; let isOverclocked = false; let tsTween;
   if(!reduceMotion && marquee && marqueeCont) {
     let marqueeTween = gsap.to(marquee, { xPercent: -50, ease: "none", duration: 35, repeat: -1 });
-    ScrollTrigger.create({ trigger: "body", start: "top top", end: "bottom bottom", onUpdate: (self) => { isScrollingDown = self.direction === 1; gsap.to(marqueeTween, { timeScale: isScrollingDown ? 1 : -1, duration: 0.5 }); } });
+    ScrollTrigger.create({ 
+        trigger: "body", 
+        start: "top top", 
+        end: "bottom bottom", 
+        onUpdate: (self) => { 
+            isScrollingDown = self.direction === 1; 
+            if (!isOverclocked) {
+                if(tsTween) tsTween.kill();
+                tsTween = gsap.to(marqueeTween, { timeScale: isScrollingDown ? 1 : -1, duration: 0.5 }); 
+            }
+        } 
+    });
     marqueeCont.addEventListener('click', () => {
       marqueeClicks++; playClick();
       if(marqueeClicks === 5) {
-        gsap.to(marqueeTween, { timeScale: isScrollingDown ? 12 : -12, duration: 2, ease: "power2.in" });
+        isOverclocked = true;
+        if(tsTween) tsTween.kill();
+        tsTween = gsap.to(marqueeTween, { timeScale: isScrollingDown ? 12 : -12, duration: 2, ease: "power2.in" });
         unlockSecret('overclocker'); playSecretSound();
         clearTimeout(timeoutId);
         timeoutId = setTimeout(() => { 
-          gsap.to(marqueeTween, { timeScale: isScrollingDown ? 1 : -1, duration: 3, ease: "power3.out" }); 
+          isOverclocked = false;
+          if(tsTween) tsTween.kill();
+          tsTween = gsap.to(marqueeTween, { timeScale: isScrollingDown ? 1 : -1, duration: 3, ease: "power3.out" }); 
           marqueeClicks = 0; 
         }, 5000);
       }
@@ -1748,14 +1920,25 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
 
   const ghGrid = $('#gh-grid');
   if(ghGrid) {
+    const ghCells = [];
     for(let w=0; w<24; w++) {
       const col = document.createElement('div'); col.className = 'gh-col';
       for(let d=0; d<7; d++) {
         const cell = document.createElement('div'); cell.className = 'gh-cell hover-trigger';
         const level = Math.random() > 0.6 ? Math.floor(Math.random() * 5) : 0;
-        cell.dataset.level = level; col.appendChild(cell);
+        cell.dataset.level = level; col.appendChild(cell); ghCells.push(cell);
       }
       ghGrid.appendChild(col);
+    }
+    if(reduceMotion) {
+      ghCells.forEach(c => c.style.opacity = 1);
+    } else {
+      gsap.set(ghCells, { opacity: 0, scale: 0.4 });
+      gsap.to(ghCells, {
+        opacity: 1, scale: 1, duration: 0.5, ease: 'back.out(2)',
+        stagger: { each: 0.008, from: 'start' },
+        scrollTrigger: { trigger: ghGrid, start: 'top 92%' }
+      });
     }
   }
 
@@ -1781,7 +1964,6 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
     if(showResult) setJudge('END • SCORE ' + String(rhythmScoreValue).padStart(4, '0'), 'judg-great');
   }
   
-  // Expose endRhythm globally so closeAllDrawers can fire it correctly
   window.endRhythmGame = function() {
       if(rhythmRunning) endRhythm(false);
   }
@@ -1871,7 +2053,14 @@ solution <span class="syn-k"><-</span> <span class="syn-f">lp</span>(<span class
     });
   }
 
-  gsap.to('.signature-svg', { scrollTrigger: { trigger: 'footer', start: 'top 90%' }, onStart: () => document.querySelector('.signature-svg').classList.add('draw') });
+  ScrollTrigger.create({
+    trigger: 'footer', start: 'top 90%',
+    onEnter: () => replaySignature(), onEnterBack: () => replaySignature()
+  });
+  function replaySignature(){
+    const sig = document.querySelector('.signature-svg'); if(!sig) return;
+    sig.classList.remove('draw'); void sig.offsetWidth; sig.classList.add('draw');
+  }
 
 })();
 </script>
