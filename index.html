@@ -36,7 +36,6 @@
     --card-bg:linear-gradient(180deg, rgba(43,41,39,0.04), rgba(43,41,39,0.015));
   }
 
-  /* Fixed Safari Cursor Lag: Static Text Glow + Hardware Accelerated Overlay Flicker */
   html.candle-mode {
     --void: #140808; --ink: #f2e1e1; --dim: #a34747; --line: rgba(179, 54, 54, 0.15); --gold: #b33636;
     --card-bg: linear-gradient(180deg, rgba(179, 54, 54, 0.04), rgba(0,0,0,0.6));
@@ -121,8 +120,8 @@
   .katakana-swap:hover { color: transparent; }
   .katakana-swap:hover::after { opacity: 1; }
 
-  /* Precision Styled UI Close Buttons */
-  .btn-close-minimal { position: absolute; top: 1.5rem; right: 1.5rem; width: 44px; height: 44px; background: transparent; border: 1px solid var(--line); border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.3s, border-color 0.3s, transform 0.3s; z-index: 50; }
+  /* Universal Precision Styled UI Close Buttons */
+  .btn-close-minimal { position: absolute; top: 1.5rem; right: 1.5rem; width: 44px; height: 44px; background: transparent; border: 1px solid var(--line); border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.3s, border-color 0.3s, transform 0.3s; z-index: 50; appearance: none; -webkit-appearance: none; padding: 0; outline: none; }
   .btn-close-minimal:hover { background: color-mix(in srgb, var(--gold) 10%, transparent); border-color: var(--gold); transform: scale(1.05); }
   .btn-close-minimal::before, .btn-close-minimal::after { content: ''; position: absolute; width: 18px; height: 1px; background-color: var(--dim); transition: background-color 0.3s, transform 0.3s; }
   .btn-close-minimal::before { transform: rotate(45deg); }
@@ -177,12 +176,6 @@
   .proj-title { font-family:'Cormorant Garamond', serif; font-size: 2.3rem; color:var(--ink); margin-bottom: 0.75rem; line-height: 1.1; font-weight: 400;}
   .proj-desc { font-family:'Newsreader', serif; color:var(--dim); font-size:1.05rem; line-height: 1.6; }
   .proj-action-right { width: 25%; display: flex; flex-direction: column; align-items: flex-end; justify-content: center; flex-shrink: 0;}
-  
-  @media (max-width: 1024px) {
-    .proj-card { flex-direction: column; align-items: flex-start; gap: 2rem; padding: 2.5rem !important; }
-    .proj-info-left, .proj-info-center, .proj-action-right { width: 100%; align-items: flex-start; padding-right: 0;}
-    .proj-action-right { border-top: 1px solid var(--line); padding-top: 1.5rem; align-items: flex-start; }
-  }
 
   .skills-list { display: flex; flex-direction: column; gap: 2.5rem; }
   .skill-row { transition: transform 0.5s ease, opacity 0.5s ease; }
@@ -215,7 +208,6 @@
   html.light-mode #audio-widget { color: var(--dim); }
   html.light-mode #audio-widget:hover { color: var(--gold); }
   
-  /* Fix Safari Cursor Lag: Swapped heavy filter: blur() for lightweight radial-gradient */
   #ink-cursor{ 
     position:fixed; top:0; left:0; color: var(--gold); font-size: 32px; line-height: 1; text-align: center; 
     pointer-events:none; z-index:9999; transition: font-size .2s cubic-bezier(.2,.8,.2,1), color .2s ease; 
@@ -406,6 +398,7 @@
 </div>
 
 <div id="mobile-nav-overlay">
+  <!-- Precision Styled Mobile Close Button -->
   <button class="btn-close-minimal" onclick="closeMobileNav()" aria-label="Close menu"></button>
   <a href="#about" class="hover-trigger mobile-link">Dossier</a>
   <a href="#work" class="hover-trigger mobile-link">Exhibits</a>
@@ -434,7 +427,9 @@
     <div class="nav-tools-locked">
       <button class="hamburger hover-trigger" id="hamburger-btn" aria-label="Menu" onclick="toggleMobileNav()">☰</button>
       <button type="button" class="btn-ghost hover-trigger modal-trigger hidden md:inline-flex" data-target="modal-tips">TIPS ?</button>
+      <!-- Visible on md+ screens -->
       <span id="dispatch-time" class="label hidden md:block opacity-70 whitespace-nowrap hover-trigger cursor-pointer" aria-live="polite">--:--</span>
+      <!-- Clean Vector Audio Icon -->
       <button type="button" id="audio-widget" class="hover-trigger" title="Toggle UI Audio">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
       </button>
@@ -446,6 +441,7 @@
 <header class="relative min-h-[75vh] flex flex-col justify-center items-center md:items-start pt-48 pb-20">
   <div class="container-w w-full relative z-10 text-center md:text-left max-w-5xl md:mx-0 md:ml-4 lg:ml-12">
     
+    <!-- Fixed Tailwind bg-[color-mix...] syntax -->
     <div class="inline-flex items-center gap-3 border border-[var(--line)] rounded-full px-5 py-2 mb-10 bg-[color-mix(in_srgb,var(--void)_50%,transparent)] anim-fade">
       <div class="text-[var(--gold)] text-xs">✠</div>
       <p class="label !text-[0.68rem]">ITM Skills University — Business Analytics</p>
@@ -478,6 +474,7 @@
     <span>Predictive Analytics</span> <span class="!text-[var(--gold)] no-stroke">✠</span> 
     <span>Connectomics</span> <span class="!text-[var(--gold)] no-stroke">✠</span> 
     <span>Deep Learning</span> <span class="!text-[var(--gold)] no-stroke">✠</span>
+    <!-- Duplicated to ensure seamless loop width -->
     <span>Data Hygiene</span> <span class="!text-[var(--gold)] no-stroke">✠</span> 
     <span>Large Language Models</span> <span class="!text-[var(--gold)] no-stroke">✠</span> 
     <span>Optimization Models</span> <span class="!text-[var(--gold)] no-stroke">✠</span> 
@@ -516,6 +513,7 @@
       </div>
     </div>
 
+    <!-- Spotlight applied here -->
     <div class="ui-card spotlight anim-section">
       <div class="flex flex-col items-center gap-6 mb-16 text-center">
         <p class="label text-[var(--ink)]">Analytical Instruments</p>
@@ -957,10 +955,10 @@
   </div>
 </footer>
 
-<button id="btt-btn" class="hover-trigger" aria-label="Back to top">↑</button>
+<a href="#top" id="btt-btn" class="hover-trigger" aria-label="Back to top">↑</a>
 
 <!-- OVERLAYS & SLIDE DRAWERS -->
-<div class="drawer-overlay" id="drawer-overlay"></div>
+<div class="drawer-overlay" id="drawer-overlay" onclick="closeAllDrawers()"></div>
 
 <div class="slide-drawer" id="drawer-ngo">
   <button class="btn-close-minimal drawer-close hover-trigger" aria-label="Close drawer"></button>
@@ -1169,9 +1167,9 @@ print(solution$solution)</code></pre>
 <!-- Easter Egg Modals & Terminals -->
 <div class="modal-overlay" id="modal-tips">
   <div class="terminal-window !bg-[var(--void)] !border-[var(--gold)] !text-[var(--ink)] max-w-3xl !mt-[5vh] !mb-0">
+    <button class="btn-close-minimal close-modal hover-trigger" aria-label="Close modal"></button>
     <div class="flex justify-between items-center mb-8 border-b border-[#333] pb-6">
       <div class="text-[var(--gold)]">Dossier Secrets</div>
-      <button class="close-modal hover:text-[var(--gold)] hover-trigger transition-colors font-sans text-xl" onclick="closeAllDrawers()">✕</button>
     </div>
     
     <div class="achievement-box mb-8 border border-[var(--gold)] !bg-transparent">
@@ -1199,9 +1197,9 @@ print(solution$solution)</code></pre>
 
 <div class="modal-overlay" id="modal-terminal">
   <div class="terminal-window !mt-[15vh]">
-    <div class="terminal-header flex justify-between items-center">
+    <button class="btn-close-minimal close-modal hover-trigger" aria-label="Close modal"></button>
+    <div class="terminal-header flex justify-between items-center mt-2">
       <span>guest@bawankar-os:~$ cat resume.json</span>
-      <button class="close-modal hover:text-white hover-trigger transition-colors font-sans text-xl" onclick="closeAllDrawers()">✕</button>
     </div>
 <pre><code>{
   <span class="syn-s">"name"</span>: <span class="syn-s">"Nabhya Bawankar"</span>,
@@ -1216,11 +1214,34 @@ print(solution$solution)</code></pre>
   </div>
 </div>
 
+<div class="modal-overlay" id="modal-code">
+  <div class="terminal-window">
+    <button class="btn-close-minimal close-modal hover-trigger" aria-label="Close modal"></button>
+    <div class="terminal-header flex justify-between items-center mt-2">
+      <span>~/projects/optimization/linear_prog.R</span>
+      <div class="flex gap-4 items-center mr-12">
+        <button class="copy-btn hover-trigger" onclick="copyCode(this)">Copy Source</button>
+      </div>
+    </div>
+<pre id="r-source-code"><code><span class="syn-c"># Objective: Maximize profit given resource constraints</span>
+<span class="syn-f">library</span>(lpSolve)
+
+obj_coeff <- c(40, 30) 
+const_mat <- matrix(c(2, 1, 1, 2, 1, 1), nrow=3, byrow=TRUE)
+const_dir <- c("<=", "<=", "<=")
+const_rhs <- c(100, 80, 50)
+
+solution <- lp("max", obj_coeff, const_mat, const_dir, const_rhs)
+print(solution$solution)
+</code></pre>
+  </div>
+</div>
+
 <!-- DECOUPLED FULL SCREEN MATRIX EASTER EGG -->
 <div class="modal-overlay" id="modal-matrix">
   <div class="terminal-window !max-w-full !h-full !w-full !m-0 !p-0 !border-none !rounded-none relative overflow-hidden">
     <canvas id="matrix-canvas-modal" style="position:absolute; top:0; left:0; width:100%; height:100%; z-index:1; opacity:0.9;"></canvas>
-    <button class="close-modal absolute top-8 right-8 text-white hover:text-[var(--gold)] text-3xl z-50 hover-trigger cursor-pointer font-sans transition-colors" onclick="closeAllDrawers()">✕</button>
+    <button class="btn-close-minimal close-modal hover-trigger" style="top: 2rem; right: 2rem; border-color: rgba(255,255,255,0.2);" aria-label="Close modal"></button>
     <div class="absolute inset-0 z-10 p-10 bg-[rgba(0,0,0,0.1)] pointer-events-none flex flex-col justify-center items-center">
       <pre class="font-mono text-[#4ade80] text-xl"><code>SYSTEM OVERRIDE INITIATED...</code></pre>
     </div>
@@ -1228,7 +1249,7 @@ print(solution$solution)</code></pre>
 </div>
 
 <div class="modal-overlay" id="modal-rhythm">
-  <div class="rhythm-stage relative">
+  <div class="rhythm-stage">
     <div class="rhythm-header"><span>SCORE: <span id="r-score">0000</span></span><span>COMBO: <span id="r-combo">0</span>x</span></div>
     <div class="rhythm-track-area" id="rhythm-track-area">
       <div class="rhythm-lane" data-key="d"><div class="rhythm-key-target" id="kt-0">D</div></div>
@@ -1481,12 +1502,12 @@ print(solution$solution)</code></pre>
     });
   });
 
-  // Fast Loader Timing
+  // Accurate Loader Timing
   window.addEventListener('load', () => {
     const sk = $('#page-skeleton');
-    if(sk) { sk.style.opacity = '0'; setTimeout(()=>sk.remove(), 600); }
+    if(sk) { sk.style.opacity = '0'; setTimeout(()=>sk.remove(), 800); }
   });
-  setTimeout(() => { const sk = $('#page-skeleton'); if(sk) { sk.style.opacity = '0'; setTimeout(()=>sk.remove(), 600); } }, 1200);
+  setTimeout(() => { const sk = $('#page-skeleton'); if(sk) { sk.style.opacity = '0'; setTimeout(()=>sk.remove(), 800); } }, 3000);
 
   // Master Keydown Controller
   let coffeeMode = false; let screenPlayMode = false; let matrixMode = false; let nodesActive = false; let tdRaf; let tdNodes = []; let candleMode = false;
@@ -1715,6 +1736,43 @@ print(solution$solution)</code></pre>
       else cursor.classList.remove('hovering'); 
     });
     document.addEventListener('mousedown', playClick);
+
+    // Ink particle trail: spawns drifting flecks, pools softly when the cursor goes idle
+    const pCanvas = $('#ink-particles');
+    if(pCanvas) {
+      const pCtx = pCanvas.getContext('2d');
+      let pW, pH, dpr = Math.min(window.devicePixelRatio || 1, 2);
+      function sizeParticles(){ pW = pCanvas.width = innerWidth * dpr; pH = pCanvas.height = innerHeight * dpr; pCanvas.style.width = innerWidth+'px'; pCanvas.style.height = innerHeight+'px'; }
+      sizeParticles(); window.addEventListener('resize', sizeParticles);
+      function hexToRgb(hex){ hex=hex.trim().replace('#',''); if(hex.length===3) hex=hex.split('').map(c=>c+c).join(''); const n=parseInt(hex,16); return isNaN(n)?'209,183,148':`${(n>>16)&255},${(n>>8)&255},${n&255}`; }
+      let goldRGB = hexToRgb(getComputedStyle(document.documentElement).getPropertyValue('--gold'));
+      new MutationObserver(()=>{ goldRGB = hexToRgb(getComputedStyle(document.documentElement).getPropertyValue('--gold')); }).observe(document.documentElement, { attributes:true, attributeFilter:['class'] });
+      let particles = [];
+      let lastMoveAt = performance.now(); let lastSpawnAt = 0; let poolAt = 0;
+      window.addEventListener('mousemove', () => { lastMoveAt = performance.now(); });
+      (function particleLoop(){
+        const now = performance.now();
+        const idleFor = now - lastMoveAt;
+        if(idleFor < 250 && now - lastSpawnAt > 55) {
+          lastSpawnAt = now;
+          particles.push({ x: tx, y: ty, r: 1 + Math.random()*1.3, vx: (Math.random()-0.5)*0.4, vy: (Math.random()-0.5)*0.4, life: 1, decay: 0.02 + Math.random()*0.012, pool:false });
+        } else if(idleFor > 700 && now - poolAt > 1400) {
+          poolAt = now;
+          particles.push({ x: tx, y: ty, r: 2, vx:0, vy:0, life: 1, decay: 0.016, pool:true, maxR: 16 + Math.random()*8 });
+        }
+        pCtx.clearRect(0,0,pW,pH);
+        particles = particles.filter(p => p.life > 0);
+        particles.forEach(p=>{
+          p.x += p.vx; p.y += p.vy; p.life -= p.decay;
+          if(p.pool){ p.r += (p.maxR - p.r) * 0.05; }
+          pCtx.beginPath();
+          pCtx.fillStyle = `rgba(${goldRGB}, ${Math.max(p.life,0) * (p.pool ? 0.09 : 0.22)})`;
+          pCtx.arc(p.x*dpr, p.y*dpr, p.r*dpr, 0, Math.PI*2);
+          pCtx.fill();
+        });
+        requestAnimationFrame(particleLoop);
+      })();
+    }
   } else { 
     if(cursor) cursor.style.display='none'; 
     if(trail) trail.style.display='none'; 
