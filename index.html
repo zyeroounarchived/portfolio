@@ -36,7 +36,6 @@
     --card-bg:linear-gradient(180deg, rgba(43,41,39,0.04), rgba(43,41,39,0.015));
   }
 
-  /* Refined, Muted Crimson Candle Mode */
   html.candle-mode {
     --void: #140808; --ink: #f2e1e1; --dim: #a34747; --line: rgba(179, 54, 54, 0.15); --gold: #b33636;
     --card-bg: linear-gradient(180deg, rgba(179, 54, 54, 0.04), rgba(0,0,0,0.6));
@@ -107,7 +106,6 @@
   }
   @keyframes blinkCursor { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
-  /* Removed text-shadow to fix WebKit background clipping bug */
   .text-mask-fluid { background: linear-gradient(120deg, var(--ink), var(--gold), var(--ink), var(--dim)); background-size: 300% 300%; background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; color: transparent; animation: fluidMask 12s ease infinite; text-shadow: none !important; }
   @keyframes fluidMask { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
   
@@ -254,6 +252,7 @@
   .drawer-close { position: absolute; top: 2rem; right: 2.5rem; color: var(--dim); cursor: pointer; font-size: 1.5rem; transition: color 0.3s; z-index: 10; }
   .drawer-close:hover { color: var(--gold); }
 
+  /* UPDATED Before/After Slider CSS */
   .ba-container { position: relative; width: 100%; aspect-ratio: 16/9; overflow: hidden; border: 1px solid var(--line); border-radius: 4px; margin-top: 2.5rem; margin-bottom: 2.5rem; }
   .ba-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
   .ba-overlay { position: absolute; inset: 0; width: 100%; height: 100%; clip-path: inset(0 50% 0 0); transition: clip-path 0.1s ease-out; }
@@ -325,7 +324,7 @@
   #god-mode { position: fixed; bottom: 1rem; right: 1rem; background: rgba(0,0,0,0.85); border: 1px solid #4ade80; color: #4ade80; font-family: 'Courier New', Courier, monospace; font-size: 12px; padding: 1rem; z-index: 10000; border-radius: 4px; pointer-events: none; display: none; backdrop-filter: blur(5px); }
   #god-mode.active { display: block; }
   
-  #btt-btn { position: fixed; bottom: 2rem; right: 2rem; z-index: 8000; width: 40px; height: 40px; border-radius: 50%; background: var(--void); border: 1px solid var(--line); color: var(--gold); display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: all 0.3s ease; cursor: pointer; }
+  #btt-btn { position: fixed; bottom: 2rem; right: 2rem; z-index: 9500; width: 40px; height: 40px; border-radius: 50%; background: var(--void); border: 1px solid var(--line); color: var(--gold); display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: all 0.3s ease; cursor: pointer; }
   #btt-btn.visible { opacity: 0.7; pointer-events: auto; }
   #btt-btn:hover { opacity: 1; border-color: var(--gold); transform: translateY(-3px); box-shadow: 0 5px 15px rgba(209,183,148,0.2); }
 
@@ -398,12 +397,14 @@
 </div>
 
 <div id="mobile-nav-overlay">
-  <a href="#about" class="hover-trigger" onclick="closeMobileNav()">Dossier</a>
-  <a href="#work" class="hover-trigger" onclick="closeMobileNav()">Exhibits</a>
-  <a href="#certifications" class="hover-trigger" onclick="closeMobileNav()">Credentials</a>
-  <a href="#creative" class="hover-trigger" onclick="closeMobileNav()">Creative</a>
-  <a href="#notes" class="hover-trigger" onclick="closeMobileNav()">Notes</a>
-  <a href="#contact" class="hover-trigger" onclick="closeMobileNav()">Socials</a>
+  <button class="absolute top-8 right-8 text-3xl text-[var(--dim)] hover:text-[var(--gold)] transition-colors p-4" onclick="closeMobileNav()" aria-label="Close menu">✕</button>
+  <a href="#about" class="hover-trigger mobile-link">Dossier</a>
+  <a href="#work" class="hover-trigger mobile-link">Exhibits</a>
+  <a href="#certifications" class="hover-trigger mobile-link">Credentials</a>
+  <a href="#creative" class="hover-trigger mobile-link">Creative</a>
+  <a href="#notes" class="hover-trigger mobile-link">Notes</a>
+  <a href="#contact" class="hover-trigger mobile-link">Socials</a>
+  <a href="#" class="hover-trigger modal-trigger mobile-link" data-target="modal-tips">Secrets & Tips</a>
   <span id="dispatch-time-mobile" class="label mt-8 opacity-70 hover-trigger cursor-pointer text-center block">--:--</span>
   <p class="label !text-[0.5rem] opacity-50 text-center">Tap clock for JP Time</p>
 </div>
@@ -861,8 +862,6 @@
   </div>
 </section>
 
-<div id="hover-preview"><img src="" alt=""></div>
-
 <div class="container-w"><div class="rule"></div></div>
 
 <section id="notes" class="container-w py-32 md:py-40">
@@ -894,7 +893,7 @@
       <p class="text-[var(--dim)] text-[1.15rem] leading-[1.8] font-serif mb-6 vn-readable decay-target">
         Utilizing optimization packages in R to solve linear programming matrices. The setup takes longer than the solve.
       </p>
-      <button class="btn-ghost hover-trigger" onclick="openDrawer('drawer-r')">View R Snippet</button>
+      <button class="btn-ghost hover-trigger modal-trigger" data-target="modal-code">View R Snippet</button>
     </div>
   </div>
 </section>
@@ -950,10 +949,10 @@
   </div>
 </footer>
 
-<button id="btt-btn" class="hover-trigger" onclick="window.scrollTo({top:0, behavior:'smooth'})" aria-label="Back to top">↑</button>
+<a href="#top" id="btt-btn" class="hover-trigger" aria-label="Back to top">↑</a>
 
 <!-- OVERLAYS & SLIDE DRAWERS -->
-<div class="drawer-overlay" id="drawer-overlay" onclick="closeAllDrawers()"></div>
+<div class="drawer-overlay" id="drawer-overlay"></div>
 
 <div class="slide-drawer" id="drawer-ngo">
   <span class="drawer-close hover-trigger" onclick="closeAllDrawers()" role="button" tabindex="0">✕</span>
@@ -1020,7 +1019,7 @@
     <p>Step 1. Import the libraries and import the csv file to be used as training data.</p>
     <div class="terminal-window !p-6 !mt-6 !mb-10 w-full !text-[0.8rem] relative">
       <button class="copy-btn hover-trigger absolute top-3 right-3" onclick="copyCode(this)">Copy Source</button>
-      <pre><code>import pandas as pd
+      <pre class="overflow-x-auto"><code>import pandas as pd
 from imblearn.over_sampling import SMOTE
 df = pd.read_csv("/Users/nabhya/Downloads/creditcard.csv")
 print(df.shape)
@@ -1030,7 +1029,7 @@ print(df.shape)
     <p>Only 492 Frauds in 284k cases. Fraud percentage = 0.1727%. We check for correlations against the 'Class' column, removing self-correlation, and order from most negative to most positive.</p>
     <div class="terminal-window !p-6 !mt-6 !mb-10 w-full !text-[0.8rem] relative">
       <button class="copy-btn hover-trigger absolute top-3 right-3" onclick="copyCode(this)">Copy Source</button>
-      <pre><code>correlations = df.corr()['Class'].drop('Class').sort_values()
+      <pre class="overflow-x-auto"><code>correlations = df.corr()['Class'].drop('Class').sort_values()
 X = df.drop('Class', axis=1) # Full dataset minus label
 y = df['Class']
 
@@ -1043,7 +1042,7 @@ X['Time'] = scaler.fit_transform(X[['Time']])</code></pre>
     <p>Splitting the data: <code>test_size=0.2</code> means 20% of rows go to the test set, 80% to training. <code>stratify=y</code> guarantees the fraud ratio (0.17%) is preserved in both splits proportionally.</p>
     <div class="terminal-window !p-6 !mt-6 !mb-10 w-full !text-[0.8rem] relative">
       <button class="copy-btn hover-trigger absolute top-3 right-3" onclick="copyCode(this)">Copy Source</button>
-      <pre><code>smote = SMOTE(random_state=42)
+      <pre class="overflow-x-auto"><code>smote = SMOTE(random_state=42)
 X_train_resampled, y_train_resampled = smote.fit_resample(X_train, y_train)
 
 print(f"Before SMOTE: {y_train.value_counts().to_dict()}")
@@ -1094,7 +1093,7 @@ print(f"After SMOTE: {pd.Series(y_train_resampled).value_counts().to_dict()}")
     <p>Code snippet demonstrating optimization constraint solving in R Studio.</p>
     <div class="terminal-window !p-6 !mt-6 !mb-10 w-full !text-[0.8rem] relative">
       <button class="copy-btn hover-trigger absolute top-3 right-3" onclick="copyCode(this)">Copy Source</button>
-      <pre><code><span class="text-[#888]"># Objective: Maximize profit given resource constraints</span>
+      <pre class="overflow-x-auto"><code><span class="text-[#888]"># Objective: Maximize profit given resource constraints</span>
 library(lpSolve)
 
 obj_coeff <- c(40, 30) 
@@ -1390,12 +1389,10 @@ print(solution$solution)
     $('#' + id).classList.add('active');
     playClick();
     
-    if(id === 'drawer-heatmap') {
-        setTimeout(initHeatmap, 300); 
-    }
+    if(id === 'drawer-heatmap') { setTimeout(initHeatmap, 300); }
   };
   
-  // ROBUST CLOSE ALL FUNCTION
+  // 100% ROBUST CLOSE ALL FUNCTION
   window.closeAllDrawers = function() {
     $('#drawer-overlay').classList.remove('active');
     $$('.slide-drawer').forEach(d => d.classList.remove('active'));
@@ -1407,12 +1404,18 @@ print(solution$solution)
     playClick();
   };
 
+  $$('.modal-trigger').forEach(btn => {
+    btn.addEventListener('click', e => {
+      const targetId = e.currentTarget.dataset.target; 
+      const target = targetId ? $('#' + targetId) : null;
+      if(target) { target.classList.add('active'); playClick(); }
+    });
+  });
+
   $('#drawer-overlay').addEventListener('click', closeAllDrawers);
   $$('.modal-overlay').forEach(overlay => {
     overlay.addEventListener('click', e => {
-      if(e.target === overlay) { 
-        closeAllDrawers(); 
-      }
+      if(e.target === overlay) { closeAllDrawers(); }
     });
   });
   
@@ -1430,6 +1433,11 @@ print(solution$solution)
     $('#mobile-nav-overlay').classList.remove('active');
     playClick();
   }
+  
+  // Bind mobile links to close the nav automatically
+  $$('.mobile-link').forEach(link => {
+      link.addEventListener('click', closeMobileNav);
+  });
 
   // Filterable Grid Logic
   $$('.filter-btn').forEach(btn => {
@@ -1563,13 +1571,15 @@ print(solution$solution)
   }
   updateGodMode();
 
+  let lenis;
   if(!reduceMotion && window.Lenis){
-    const lenis = new Lenis({ duration:1.2, easing:t=>Math.min(1, 1.001 - Math.pow(2, -10 * t)), smoothWheel:true });
+    lenis = new Lenis({ duration:1.2, easing:t=>Math.min(1, 1.001 - Math.pow(2, -10 * t)), smoothWheel:true });
+    window.lenis = lenis; // Expose to global for buttons
     function raf(t){ lenis.raf(t); requestAnimationFrame(raf); }
     requestAnimationFrame(raf);
     lenis.on('scroll', ()=>ScrollTrigger.update());
 
-    // Grain reacts to scroll velocity: quick scrolls briefly intensify the film-grain texture
+    // Grain reacts to scroll velocity
     const grainEl = $('#grain');
     if(grainEl) {
       lenis.on('scroll', (e) => {
@@ -1580,6 +1590,19 @@ print(solution$solution)
     }
   }
   gsap.registerPlugin(ScrollTrigger);
+
+  const bttBtn = $('#btt-btn');
+  if(bttBtn) {
+      bttBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          playClick();
+          if(window.lenis) {
+              window.lenis.scrollTo(0, {duration: 1.2});
+          } else {
+              window.scrollTo({top: 0, behavior: 'smooth'});
+          }
+      });
+  }
 
   gsap.from('.anim-fade', { y:40, opacity:0, duration:1.4, ease:'power3.out', stagger:0.15, delay:0.4 });
   
@@ -1896,7 +1919,7 @@ print(solution$solution)
             isScrollingDown = self.direction === 1; 
             if (!isOverclocked) {
                 if(tsTween) tsTween.kill();
-                tsTween = gsap.to(marqueeTween, { timeScale: isScrollingDown ? 1 : -1, duration: 0.5 }); 
+                tsTween = gsap.to(marqueeTween, { timeScale: isScrollingDown ? 1 : -1, duration: 0.5, overwrite: "auto" }); 
             }
         } 
     });
@@ -1905,13 +1928,13 @@ print(solution$solution)
       if(marqueeClicks === 5) {
         isOverclocked = true;
         if(tsTween) tsTween.kill();
-        tsTween = gsap.to(marqueeTween, { timeScale: isScrollingDown ? 12 : -12, duration: 2, ease: "power2.in" });
+        tsTween = gsap.to(marqueeTween, { timeScale: isScrollingDown ? 12 : -12, duration: 2, ease: "power2.in", overwrite: true });
         unlockSecret('overclocker'); playSecretSound();
         clearTimeout(timeoutId);
         timeoutId = setTimeout(() => { 
           isOverclocked = false;
           if(tsTween) tsTween.kill();
-          tsTween = gsap.to(marqueeTween, { timeScale: isScrollingDown ? 1 : -1, duration: 3, ease: "power3.out" }); 
+          tsTween = gsap.to(marqueeTween, { timeScale: isScrollingDown ? 1 : -1, duration: 3, ease: "power3.out", overwrite: true }); 
           marqueeClicks = 0; 
         }, 5000);
       }
