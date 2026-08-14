@@ -53,10 +53,9 @@
   html{ scroll-behavior:auto; scrollbar-width: none; -ms-overflow-style: none; overflow-x: hidden; }
   ::-webkit-scrollbar { display: none; width: 0; height: 0; }
 
-  /* Removed slow transition to prevent GPU thrashing on theme switch */
   body{
     background:var(--void); color:var(--ink); font-family:'Newsreader', serif; font-weight:300;
-    -webkit-font-smoothing:antialiased; transition:background-color 0.15s ease-out, color 0.15s ease-out; overflow-x: hidden;
+    -webkit-font-smoothing:antialiased; transition:background-color .4s ease, color .4s ease; overflow-x: hidden;
     text-shadow: 0 0 1px color-mix(in srgb, currentColor 15%, transparent);
   }
   
@@ -278,7 +277,7 @@
 
   .rhythm-stage { width: 100%; max-width: 480px; background: #0c0a10; border: 2px solid var(--gold); border-radius: 8px; padding: 1.5rem; text-align: center; font-family: 'Courier New', Courier, monospace; box-shadow: 0 0 40px rgba(209,183,148,0.2), inset 0 0 20px rgba(0,0,0,0.8); }
   .rhythm-header { display: flex; justify-content: space-between; margin-bottom: 1rem; color: var(--gold); font-size: 12px; }
-  .rhythm-track-area { position: relative; width: 100%; height: 320px; background: #050408; border: 1px solid rgba(209,183,148,0.2); border-radius: 4px; overflow: hidden; display: flex; }
+  .rhythm-track-area { relative; width: 100%; height: 320px; background: #050408; border: 1px solid rgba(209,183,148,0.2); border-radius: 4px; overflow: hidden; display: flex; }
   .rhythm-lane { flex: 1; border-right: 1px solid rgba(255,255,255,0.05); position: relative; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; padding-bottom: 8px; }
   .rhythm-lane:last-child { border-right: none; }
   .rhythm-key-target { width: 42px; height: 42px; border: 2px solid var(--gold); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-weight: bold; color: var(--gold); background: rgba(209,183,148,0.05); transition: background 0.1s, transform 0.1s; z-index: 5; font-size: 16px !important; }
@@ -328,15 +327,9 @@
   .achievement-box { background: rgba(0,0,0,0.3); border: 1px solid #333; padding: 1rem; border-radius: 4px; margin-top: 1rem; font-family: 'Courier New', monospace; font-size: 12px; }
   .ach-bar { height: 4px; background: #222; margin-top: 0.5rem; border-radius: 2px; overflow: hidden; }
   .ach-fill { height: 100%; background: var(--gold); width: 0%; transition: width 1s ease; }
-  
-  .proj-card, .cert-item { cursor: none; }
-  #hover-preview { position: fixed; top: 0; left: 0; width: 300px; height: 200px; pointer-events: none; z-index: 100; opacity: 0; visibility: hidden; transform: scale(0.8) translate(-50%, -50%); transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.4s cubic-bezier(.2,.8,.2,1); border: 1px solid var(--gold); border-radius: 4px; overflow: hidden; background: var(--void); box-shadow: 0 20px 40px rgba(0,0,0,0.5); }
-  #hover-preview img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(80%) contrast(1.1); }
-  #hover-preview.active { opacity: 1; visibility: visible; transform: scale(1) translate(-50%, -50%); }
 
   /* EXPLICIT MOBILE CSS PERFORMANCE OVERRIDES */
   @media (max-width: 1024px) {
-    #hover-preview { display: none !important; }
     .proj-card { flex-direction: column; align-items: flex-start; gap: 2rem; padding: 2.5rem !important; }
     .proj-info-left, .proj-info-center, .proj-action-right { width: 100%; align-items: flex-start; padding-right: 0;}
     .proj-action-right { border-top: 1px solid var(--line); padding-top: 1.5rem; align-items: flex-start; }
@@ -477,7 +470,6 @@
     <span>Predictive Analytics</span> <span class="!text-[var(--gold)] no-stroke">✠</span> 
     <span>Connectomics</span> <span class="!text-[var(--gold)] no-stroke">✠</span> 
     <span>Deep Learning</span> <span class="!text-[var(--gold)] no-stroke">✠</span>
-    <!-- Duplicated to ensure seamless loop width -->
     <span>Data Hygiene</span> <span class="!text-[var(--gold)] no-stroke">✠</span> 
     <span>Large Language Models</span> <span class="!text-[var(--gold)] no-stroke">✠</span> 
     <span>Optimization Models</span> <span class="!text-[var(--gold)] no-stroke">✠</span> 
@@ -902,7 +894,7 @@
       <p class="text-[var(--dim)] text-[1.15rem] leading-[1.8] font-serif mb-6 vn-readable decay-target">
         Utilizing optimization packages in R to solve linear programming matrices. The setup takes longer than the solve.
       </p>
-      <button class="btn-ghost hover-trigger" onclick="openDrawer('drawer-r')">View R Snippet</button>
+      <button class="btn-ghost hover-trigger modal-trigger" data-target="modal-code">View R Snippet</button>
     </div>
   </div>
 </section>
@@ -1310,42 +1302,48 @@ print(solution$solution)</code></pre>
     });
   }
 
-  // Achievement Logic
+  // Achievement Logic (Safeguarded for Safari Security Restrictions)
   function unlockSecret(id) {
-    let unlocked = JSON.parse(localStorage.getItem('nabhya_secrets') || '[]');
-    if(!unlocked.includes(id)) {
-      unlocked.push(id);
-      localStorage.setItem('nabhya_secrets', JSON.stringify(unlocked));
-      showToast(`🏆 SECRET UNLOCKED: ${id.toUpperCase()}`);
-      updateAchievementUI();
-    }
+    try {
+      let unlocked = JSON.parse(localStorage.getItem('nabhya_secrets') || '[]');
+      if(!unlocked.includes(id)) {
+        unlocked.push(id);
+        localStorage.setItem('nabhya_secrets', JSON.stringify(unlocked));
+        showToast(`🏆 SECRET UNLOCKED: ${id.toUpperCase()}`);
+        updateAchievementUI();
+      }
+    } catch(e) { console.warn("Storage restricted."); }
   }
   function updateAchievementUI() {
-    let unlocked = JSON.parse(localStorage.getItem('nabhya_secrets') || '[]');
-    const textEl = $('#ach-text'); const fillEl = $('#ach-fill');
-    if(textEl) textEl.textContent = `${unlocked.length}/10 SECRETS FOUND`;
-    if(fillEl) fillEl.style.width = `${(unlocked.length / 10) * 100}%`;
+    try {
+      let unlocked = JSON.parse(localStorage.getItem('nabhya_secrets') || '[]');
+      const textEl = $('#ach-text'); const fillEl = $('#ach-fill');
+      if(textEl) textEl.textContent = `${unlocked.length}/10 SECRETS FOUND`;
+      if(fillEl) fillEl.style.width = `${(unlocked.length / 10) * 100}%`;
+    } catch(e) {}
   }
   updateAchievementUI();
 
-  // Mock Visitor Counter
-  let vCount = localStorage.getItem('v_count');
-  if(!vCount) vCount = Math.floor(Math.random() * 1000) + 12050;
-  vCount = parseInt(vCount) + 1;
-  localStorage.setItem('v_count', vCount);
-  const vCountEl = $('#visitor-count');
-  if(vCountEl) {
-    if(reduceMotion) {
-      vCountEl.textContent = String(vCount).padStart(6, '0');
-    } else {
-      const counter = { val: 0 };
-      gsap.to(counter, {
-        val: vCount, duration: 1.8, ease: 'power2.out', snap: { val: 1 },
-        scrollTrigger: { trigger: '#visitor-count', start: 'top 95%' },
-        onUpdate: () => { vCountEl.textContent = String(Math.floor(counter.val)).padStart(6, '0'); }
-      });
+  // Mock Visitor Counter (Safeguarded)
+  try {
+    let vCount = localStorage.getItem('v_count');
+    if(!vCount) vCount = Math.floor(Math.random() * 1000) + 12050;
+    vCount = parseInt(vCount) + 1;
+    localStorage.setItem('v_count', vCount);
+    const vCountEl = $('#visitor-count');
+    if(vCountEl) {
+      if(reduceMotion) {
+        vCountEl.textContent = String(vCount).padStart(6, '0');
+      } else {
+        const counter = { val: 0 };
+        gsap.to(counter, {
+          val: vCount, duration: 1.8, ease: 'power2.out', snap: { val: 1 },
+          scrollTrigger: { trigger: '#visitor-count', start: 'top 95%' },
+          onUpdate: () => { vCountEl.textContent = String(Math.floor(counter.val)).padStart(6, '0'); }
+        });
+      }
     }
-  }
+  } catch(e) {}
 
   // UI Utilities
   window.showToast = function(msg) {
@@ -1388,7 +1386,7 @@ print(solution$solution)</code></pre>
     }
   };
   
-  // ROBUST CLOSE ALL FUNCTION
+  // 100% ROBUST CLOSE ALL FUNCTION
   window.closeAllDrawers = function() {
     $('#drawer-overlay').classList.remove('active');
     $$('.slide-drawer').forEach(d => d.classList.remove('active'));
@@ -1400,7 +1398,21 @@ print(solution$solution)</code></pre>
     playClick();
   };
 
+  $$('.modal-trigger').forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.preventDefault();
+      const targetId = e.currentTarget.dataset.target; 
+      const target = targetId ? $('#' + targetId) : null;
+      if(target) { target.classList.add('active'); playClick(); }
+    });
+  });
+
   $('#drawer-overlay').addEventListener('click', closeAllDrawers);
+  $$('.modal-overlay').forEach(overlay => {
+    overlay.addEventListener('click', e => {
+      if(e.target === overlay) { closeAllDrawers(); }
+    });
+  });
   
   window.updateSlider = function(val) { 
     $('#ba-overlay').style.clipPath = `inset(0 ${100 - val}% 0 0)`; 
@@ -1419,7 +1431,10 @@ print(solution$solution)</code></pre>
   
   // Bind mobile links to close the nav automatically
   $$('.mobile-link').forEach(link => {
-      link.addEventListener('click', closeMobileNav);
+      link.addEventListener('click', (e) => {
+          if(link.getAttribute('href') === '#') e.preventDefault();
+          closeMobileNav();
+      });
   });
 
   // Filterable Grid Logic
