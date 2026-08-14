@@ -1,9 +1,6 @@
 N. BAWANKAR — THE DOSSIER
 
-"I clean data, document it honestly, and build analytical tools with precision. No manufactured polish—just reproducible work and seamless hand-offs."
-
-An architecture built to house matrices, optimize constraints, and strip the noise from the signal. This is not a standard portfolio; it is a static ledger of past operations, designed to mimic the raw, unglamorous mechanics of data analysis itself.
-THE ARCHITECTURE
+Digital Portfolio.
 
 Built entirely without heavy JavaScript frameworks to preserve structural integrity and ensure absolute performance.
 
@@ -13,7 +10,7 @@ Built entirely without heavy JavaScript frameworks to preserve structural integr
 
     Kinetics: GSAP & ScrollTrigger
 
-    Physics: Lenis Smooth Scroll
+    Physics: Lenis
 
     Sensory: Web Audio API
 
@@ -35,15 +32,12 @@ The environment monitors global keystroke inputs. The interface will react if th
 
     [ M ] — Drop the veil
 
+    [ N ] - Candle Mode
+    
     [ Up Up Down Down Left Right Left Right B A ] — Initiate rhythm sequence
-
-Note: Absolute stasis for sixty seconds will result in data corruption.
-INITIALIZATION
-
-Zero build steps. Zero dependencies.
 
     Clone the repository.
 
-Open [nabhya52kar.vercel.app](nabhya52kar.vercel.app)
+Open https://nabhya52kar.vercel.app
 
     ---------------------------------------------------------------------------------------------------
