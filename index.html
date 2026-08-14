@@ -120,7 +120,6 @@
   .katakana-swap:hover { color: transparent; }
   .katakana-swap:hover::after { opacity: 1; }
 
-  /* Universal Precision Styled UI Close Buttons */
   .btn-close-minimal { position: absolute; top: 1.5rem; right: 1.5rem; width: 44px; height: 44px; background: transparent; border: 1px solid var(--line); border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.3s, border-color 0.3s, transform 0.3s; z-index: 50; appearance: none; -webkit-appearance: none; padding: 0; outline: none; }
   .btn-close-minimal:hover { background: color-mix(in srgb, var(--gold) 10%, transparent); border-color: var(--gold); transform: scale(1.05); }
   .btn-close-minimal::before, .btn-close-minimal::after { content: ''; position: absolute; width: 18px; height: 1px; background-color: var(--dim); transition: background-color 0.3s, transform 0.3s; }
@@ -176,6 +175,12 @@
   .proj-title { font-family:'Cormorant Garamond', serif; font-size: 2.3rem; color:var(--ink); margin-bottom: 0.75rem; line-height: 1.1; font-weight: 400;}
   .proj-desc { font-family:'Newsreader', serif; color:var(--dim); font-size:1.05rem; line-height: 1.6; }
   .proj-action-right { width: 25%; display: flex; flex-direction: column; align-items: flex-end; justify-content: center; flex-shrink: 0;}
+  
+  @media (max-width: 1024px) {
+    .proj-card { flex-direction: column; align-items: flex-start; gap: 2rem; padding: 2.5rem !important; }
+    .proj-info-left, .proj-info-center, .proj-action-right { width: 100%; align-items: flex-start; padding-right: 0;}
+    .proj-action-right { border-top: 1px solid var(--line); padding-top: 1.5rem; align-items: flex-start; }
+  }
 
   .skills-list { display: flex; flex-direction: column; gap: 2.5rem; }
   .skill-row { transition: transform 0.5s ease, opacity 0.5s ease; }
@@ -427,9 +432,7 @@
     <div class="nav-tools-locked">
       <button class="hamburger hover-trigger" id="hamburger-btn" aria-label="Menu" onclick="toggleMobileNav()">☰</button>
       <button type="button" class="btn-ghost hover-trigger modal-trigger hidden md:inline-flex" data-target="modal-tips">TIPS ?</button>
-      <!-- Visible on md+ screens -->
       <span id="dispatch-time" class="label hidden md:block opacity-70 whitespace-nowrap hover-trigger cursor-pointer" aria-live="polite">--:--</span>
-      <!-- Clean Vector Audio Icon -->
       <button type="button" id="audio-widget" class="hover-trigger" title="Toggle UI Audio">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
       </button>
@@ -441,7 +444,6 @@
 <header class="relative min-h-[75vh] flex flex-col justify-center items-center md:items-start pt-48 pb-20">
   <div class="container-w w-full relative z-10 text-center md:text-left max-w-5xl md:mx-0 md:ml-4 lg:ml-12">
     
-    <!-- Fixed Tailwind bg-[color-mix...] syntax -->
     <div class="inline-flex items-center gap-3 border border-[var(--line)] rounded-full px-5 py-2 mb-10 bg-[color-mix(in_srgb,var(--void)_50%,transparent)] anim-fade">
       <div class="text-[var(--gold)] text-xs">✠</div>
       <p class="label !text-[0.68rem]">ITM Skills University — Business Analytics</p>
@@ -474,7 +476,6 @@
     <span>Predictive Analytics</span> <span class="!text-[var(--gold)] no-stroke">✠</span> 
     <span>Connectomics</span> <span class="!text-[var(--gold)] no-stroke">✠</span> 
     <span>Deep Learning</span> <span class="!text-[var(--gold)] no-stroke">✠</span>
-    <!-- Duplicated to ensure seamless loop width -->
     <span>Data Hygiene</span> <span class="!text-[var(--gold)] no-stroke">✠</span> 
     <span>Large Language Models</span> <span class="!text-[var(--gold)] no-stroke">✠</span> 
     <span>Optimization Models</span> <span class="!text-[var(--gold)] no-stroke">✠</span> 
@@ -513,7 +514,6 @@
       </div>
     </div>
 
-    <!-- Spotlight applied here -->
     <div class="ui-card spotlight anim-section">
       <div class="flex flex-col items-center gap-6 mb-16 text-center">
         <p class="label text-[var(--ink)]">Analytical Instruments</p>
@@ -1098,7 +1098,7 @@ print(f"After SMOTE: {pd.Series(y_train_resampled).value_counts().to_dict()}")
   <div class="text-[var(--dim)] font-serif text-[1.05rem] leading-[1.8] space-y-6">
     <p>Code snippet demonstrating optimization constraint solving in R Studio.</p>
     <div class="terminal-window !p-6 !mt-6 !mb-10 w-full !text-[0.8rem] relative">
-      <button class="copy-btn hover-trigger absolute top-3 right-3" onclick="copyCode(this)">Copy Source</button>
+      <button class="copy-btn hover-trigger absolute top-3 right-3 mr-12" onclick="copyCode(this)">Copy Source</button>
       <pre class="overflow-x-auto"><code><span class="text-[#888]"># Objective: Maximize profit given resource constraints</span>
 library(lpSolve)
 
@@ -1166,7 +1166,7 @@ print(solution$solution)</code></pre>
 
 <!-- Easter Egg Modals & Terminals -->
 <div class="modal-overlay" id="modal-tips">
-  <div class="terminal-window !bg-[var(--void)] !border-[var(--gold)] !text-[var(--ink)] max-w-3xl !mt-[5vh] !mb-0">
+  <div class="terminal-window !bg-[var(--void)] !border-[var(--gold)] !text-[var(--ink)] max-w-3xl !mt-[5vh] !mb-0 relative">
     <button class="btn-close-minimal close-modal hover-trigger" aria-label="Close modal"></button>
     <div class="flex justify-between items-center mb-8 border-b border-[#333] pb-6">
       <div class="text-[var(--gold)]">Dossier Secrets</div>
@@ -1196,7 +1196,7 @@ print(solution$solution)</code></pre>
 </div>
 
 <div class="modal-overlay" id="modal-terminal">
-  <div class="terminal-window !mt-[15vh]">
+  <div class="terminal-window !mt-[15vh] relative">
     <button class="btn-close-minimal close-modal hover-trigger" aria-label="Close modal"></button>
     <div class="terminal-header flex justify-between items-center mt-2">
       <span>guest@bawankar-os:~$ cat resume.json</span>
@@ -1215,7 +1215,7 @@ print(solution$solution)</code></pre>
 </div>
 
 <div class="modal-overlay" id="modal-code">
-  <div class="terminal-window">
+  <div class="terminal-window relative">
     <button class="btn-close-minimal close-modal hover-trigger" aria-label="Close modal"></button>
     <div class="terminal-header flex justify-between items-center mt-2">
       <span>~/projects/optimization/linear_prog.R</span>
@@ -1249,7 +1249,7 @@ print(solution$solution)
 </div>
 
 <div class="modal-overlay" id="modal-rhythm">
-  <div class="rhythm-stage">
+  <div class="rhythm-stage relative">
     <div class="rhythm-header"><span>SCORE: <span id="r-score">0000</span></span><span>COMBO: <span id="r-combo">0</span>x</span></div>
     <div class="rhythm-track-area" id="rhythm-track-area">
       <div class="rhythm-lane" data-key="d"><div class="rhythm-key-target" id="kt-0">D</div></div>
@@ -1955,7 +1955,7 @@ print(solution$solution)
   const marquee = $('#marquee'); const marqueeCont = $('#marquee-cont');
   let isScrollingDown = true; let marqueeClicks = 0; let timeoutId; let isOverclocked = false; let tsTween;
   if(!reduceMotion && marquee && marqueeCont) {
-    let marqueeTween = gsap.to(marquee, { xPercent: -50, ease: "none", duration: 35, repeat: -1 });
+    let marqueeTween = gsap.to(marquee, { xPercent: -50, ease: "none", duration: 35, repeat: -1 }).progress(0.5);
     ScrollTrigger.create({ 
         trigger: "body", 
         start: "top top", 
@@ -1964,7 +1964,7 @@ print(solution$solution)
             if(self.direction !== 0) isScrollingDown = self.direction === 1; 
             if (!isOverclocked) {
                 if(tsTween) tsTween.kill();
-                tsTween = gsap.to(marqueeTween, { timeScale: isScrollingDown ? 1 : -1, duration: 0.5, overwrite: true }); 
+                tsTween = gsap.to(marqueeTween, { timeScale: isScrollingDown ? 1 : -1, duration: 0.5 }); 
             }
         } 
     });
@@ -1973,7 +1973,7 @@ print(solution$solution)
       if(marqueeClicks === 5) {
         isOverclocked = true;
         if(tsTween) tsTween.kill();
-        tsTween = gsap.to(marqueeTween, { timeScale: isScrollingDown ? 12 : -12, duration: 2, ease: "power2.in", overwrite: true });
+        tsTween = gsap.to(marqueeTween, { timeScale: isScrollingDown ? 12 : -12, duration: 2, ease: "power2.in" });
         unlockSecret('overclocker'); playSecretSound();
         clearTimeout(timeoutId);
         timeoutId = setTimeout(() => { 
@@ -1981,8 +1981,7 @@ print(solution$solution)
           tsTween = gsap.to(marqueeTween, { 
               timeScale: isScrollingDown ? 1 : -1, 
               duration: 3, 
-              ease: "power3.out", 
-              overwrite: true,
+              ease: "power3.out",
               onComplete: () => {
                   isOverclocked = false;
                   marqueeClicks = 0;
