@@ -53,9 +53,10 @@
   html{ scroll-behavior:auto; scrollbar-width: none; -ms-overflow-style: none; overflow-x: hidden; }
   ::-webkit-scrollbar { display: none; width: 0; height: 0; }
 
+  /* Removed slow transition to prevent GPU thrashing on theme switch */
   body{
     background:var(--void); color:var(--ink); font-family:'Newsreader', serif; font-weight:300;
-    -webkit-font-smoothing:antialiased; transition:background-color .4s ease, color .4s ease; overflow-x: hidden;
+    -webkit-font-smoothing:antialiased; transition:background-color 0.15s ease-out, color 0.15s ease-out; overflow-x: hidden;
     text-shadow: 0 0 1px color-mix(in srgb, currentColor 15%, transparent);
   }
   
@@ -121,7 +122,16 @@
   .katakana-swap:hover { color: transparent; }
   .katakana-swap:hover::after { opacity: 1; }
 
-  #topnav{ position: fixed !important; top: 0; width: 100%; backdrop-filter:blur(12px); background:color-mix(in srgb, var(--void) 85%, transparent); border-bottom:1px solid var(--line); z-index: 1000; }
+  /* Precision Styled UI Close Buttons */
+  .btn-close-minimal { position: absolute; top: 1.5rem; right: 1.5rem; width: 44px; height: 44px; background: transparent; border: 1px solid var(--line); border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.3s, border-color 0.3s, transform 0.3s; z-index: 50; }
+  .btn-close-minimal:hover { background: color-mix(in srgb, var(--gold) 10%, transparent); border-color: var(--gold); transform: scale(1.05); }
+  .btn-close-minimal::before, .btn-close-minimal::after { content: ''; position: absolute; width: 18px; height: 1px; background-color: var(--dim); transition: background-color 0.3s, transform 0.3s; }
+  .btn-close-minimal::before { transform: rotate(45deg); }
+  .btn-close-minimal::after { transform: rotate(-45deg); }
+  .btn-close-minimal:hover::before, .btn-close-minimal:hover::after { background-color: var(--gold); }
+  #mobile-nav-overlay .btn-close-minimal { top: 2rem; right: 2rem; border-color: transparent; }
+
+  #topnav{ position: fixed !important; top: 0; width: 100%; backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); background:color-mix(in srgb, var(--void) 85%, transparent); border-bottom:1px solid var(--line); z-index: 1000; }
   .absolute-nav-wrapper { position: relative; width: 95%; max-width: 1600px; height: 4.5rem; display: flex; align-items: center; justify-content: space-between; margin: 0 auto; }
   .nav-logo-locked { position: relative; z-index: 1002; }
   .nav-logo-locked a { color: var(--ink); white-space: nowrap; }
@@ -133,7 +143,7 @@
   .nav-tools-locked button:hover, .nav-tools-locked span:hover { color: var(--ink); }
   
   .hamburger { display: none; background: transparent; border: none; color: var(--dim); cursor: pointer; font-size: 1.5rem; z-index: 1002; }
-  #mobile-nav-overlay { position: fixed; inset: 0; background: color-mix(in srgb, var(--void) 98%, transparent); backdrop-filter: blur(15px); z-index: 1001; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 2.5rem; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; }
+  #mobile-nav-overlay { position: fixed; inset: 0; background: color-mix(in srgb, var(--void) 98%, transparent); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); z-index: 1001; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 2.5rem; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; transform: translateZ(0); height: 100dvh; }
   #mobile-nav-overlay.active { opacity: 1; pointer-events: auto; }
   #mobile-nav-overlay a { font-family: 'Cormorant Garamond', serif; font-size: 2rem; color: var(--ink); transition: color 0.3s; }
   #mobile-nav-overlay a:hover { color: var(--gold); }
@@ -168,12 +178,6 @@
   .proj-title { font-family:'Cormorant Garamond', serif; font-size: 2.3rem; color:var(--ink); margin-bottom: 0.75rem; line-height: 1.1; font-weight: 400;}
   .proj-desc { font-family:'Newsreader', serif; color:var(--dim); font-size:1.05rem; line-height: 1.6; }
   .proj-action-right { width: 25%; display: flex; flex-direction: column; align-items: flex-end; justify-content: center; flex-shrink: 0;}
-  
-  @media (max-width: 1024px) {
-    .proj-card { flex-direction: column; align-items: flex-start; gap: 2rem; padding: 2.5rem !important; }
-    .proj-info-left, .proj-info-center, .proj-action-right { width: 100%; align-items: flex-start; padding-right: 0;}
-    .proj-action-right { border-top: 1px solid var(--line); padding-top: 1.5rem; align-items: flex-start; }
-  }
 
   .skills-list { display: flex; flex-direction: column; gap: 2.5rem; }
   .skill-row { transition: transform 0.5s ease, opacity 0.5s ease; }
@@ -235,7 +239,7 @@
 
   .magnetic-hover { will-change: transform; transition: box-shadow 0.3s ease, border-color 0.3s ease; }
 
-  .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.92); backdrop-filter: blur(12px); z-index: 9000; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; }
+  .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.92); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); z-index: 9000; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; transform: translateZ(0); }
   .modal-overlay.active { opacity: 1; pointer-events: auto; }
   
   .terminal-window { width: 90%; max-width: 800px; background: #080808; border: 1px solid #333; border-radius: 6px; color: #4ade80; padding: 2rem; box-shadow: 0 20px 50px rgba(0,0,0,0.8); transform: translateY(20px); transition: transform 0.4s ease; overflow-y: auto; position: relative; overflow: hidden; margin-bottom: 2rem; margin-top: 1rem; }
@@ -243,16 +247,13 @@
   .terminal-header { border-bottom: 1px solid #333; padding-bottom: 1rem; margin-bottom: 1rem; color: #888; position: relative; z-index: 10; }
   .terminal-content { position: relative; z-index: 10; background: rgba(0,0,0,0.7); padding: 1rem; border-radius: 4px;}
   .terminal-window, .terminal-window * { font-family: 'Courier New', Courier, monospace !important; font-size: 13px !important; line-height: 1.6 !important; letter-spacing: normal !important; text-transform: none !important; }
-  .terminal-window pre { overflow-x: auto; white-space: pre; }
+  .terminal-window pre { overflow-x: auto; white-space: pre; -webkit-overflow-scrolling: touch; }
 
-  .slide-drawer { position: fixed; top: 0; right: 0; width: 100%; max-width: 650px; height: 100vh; background: color-mix(in srgb, var(--void) 95%, transparent); backdrop-filter: blur(25px); border-left: 1px solid var(--line); z-index: 9999; transform: translateX(100%); transition: transform 0.6s cubic-bezier(0.77, 0, 0.175, 1), box-shadow 0.6s ease; overflow-y: auto; padding: 4rem 3rem; box-shadow: none; }
+  .slide-drawer { position: fixed; top: 0; right: 0; width: 100%; max-width: 650px; height: 100dvh; background: color-mix(in srgb, var(--void) 95%, transparent); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border-left: 1px solid var(--line); z-index: 9999; transform: translateX(100%); transition: transform 0.6s cubic-bezier(0.77, 0, 0.175, 1), box-shadow 0.6s ease; overflow-y: auto; padding: 4rem 3rem; box-shadow: none; }
   .slide-drawer.active { transform: translateX(0); box-shadow: -20px 0 50px rgba(0,0,0,0.5); }
-  .drawer-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); z-index: 9998; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; }
+  .drawer-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); z-index: 9998; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; transform: translateZ(0); }
   .drawer-overlay.active { opacity: 1; pointer-events: auto; }
-  .drawer-close { position: absolute; top: 2rem; right: 2.5rem; color: var(--dim); cursor: pointer; font-size: 1.5rem; transition: color 0.3s; z-index: 10; }
-  .drawer-close:hover { color: var(--gold); }
 
-  /* UPDATED Before/After Slider CSS */
   .ba-container { position: relative; width: 100%; aspect-ratio: 16/9; overflow: hidden; border: 1px solid var(--line); border-radius: 4px; margin-top: 2.5rem; margin-bottom: 2.5rem; }
   .ba-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
   .ba-overlay { position: absolute; inset: 0; width: 100%; height: 100%; clip-path: inset(0 50% 0 0); transition: clip-path 0.1s ease-out; }
@@ -290,7 +291,7 @@
 
   #vn-overlay { position: fixed; inset: 0; z-index: 9500; pointer-events: none; opacity: 0; transition: opacity 0.5s ease; background: linear-gradient(180deg, rgba(10,9,8,0) 40%, rgba(10,9,8,0.95) 100%); }
   #vn-overlay.active { opacity: 1; pointer-events: auto; }
-  #vn-dialogue-box { position: absolute; bottom: 3rem; left: 50%; transform: translateX(-50%); width: 90%; max-width: 900px; background: rgba(15,13,18,0.85); border: 2px solid var(--gold); border-radius: 8px; padding: 2.5rem; backdrop-filter: blur(10px); box-shadow: 0 20px 50px rgba(0,0,0,0.8); cursor: pointer; }
+  #vn-dialogue-box { position: absolute; bottom: 3rem; left: 50%; transform: translateX(-50%); width: 90%; max-width: 900px; background: rgba(15,13,18,0.85); border: 2px solid var(--gold); border-radius: 8px; padding: 2.5rem; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); box-shadow: 0 20px 50px rgba(0,0,0,0.8); cursor: pointer; }
   #vn-name { font-family: 'Space Mono', monospace; color: var(--gold); font-size: 1.2rem; margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.1em; }
   #vn-text { font-family: 'Newsreader', serif; font-size: 1.5rem; color: #fff; line-height: 1.6; min-height: 4.8rem; }
   #vn-next { position: absolute; bottom: 1.5rem; right: 2rem; color: var(--gold); font-family: 'Space Mono'; animation: bounceX 1s infinite; }
@@ -306,11 +307,7 @@
   .gh-cell[data-level="4"] { background: var(--gold); }
   .repo-activity-wrap{ display:flex; flex-direction:column; align-items:center; text-align:center; width:100%; }
   #gh-grid{ display:flex; justify-content:center; width:fit-content; max-width:100%; margin-left:auto; margin-right:auto; overflow-x:auto; padding-bottom:2px; }
-  @media (max-width: 640px) {
-    .gh-col { gap: 3px; }
-    .gh-cell { width: 8px; height: 8px; }
-    #gh-grid { justify-content:flex-start; }
-  }
+  
   .footer-stack{ display:flex; flex-direction:column; align-items:center; justify-content:center; gap:0.75rem; text-align:center; }
 
   .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
@@ -321,7 +318,7 @@
   #minimap-thumb { width: 100%; background: var(--gold); border-radius: 4px; position: absolute; top: 0; left: 0; height: 20px; will-change: transform; cursor: grab; }
   #minimap-thumb:active { cursor: grabbing; }
   
-  #god-mode { position: fixed; bottom: 1rem; right: 1rem; background: rgba(0,0,0,0.85); border: 1px solid #4ade80; color: #4ade80; font-family: 'Courier New', Courier, monospace; font-size: 12px; padding: 1rem; z-index: 10000; border-radius: 4px; pointer-events: none; display: none; backdrop-filter: blur(5px); }
+  #god-mode { position: fixed; bottom: 1rem; right: 1rem; background: rgba(0,0,0,0.85); border: 1px solid #4ade80; color: #4ade80; font-family: 'Courier New', Courier, monospace; font-size: 12px; padding: 1rem; z-index: 10000; border-radius: 4px; pointer-events: none; display: none; backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); }
   #god-mode.active { display: block; }
   
   #btt-btn { position: fixed; bottom: 2rem; right: 2rem; z-index: 9500; width: 40px; height: 40px; border-radius: 50%; background: var(--void); border: 1px solid var(--line); color: var(--gold); display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: all 0.3s ease; cursor: pointer; }
@@ -337,6 +334,7 @@
   #hover-preview img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(80%) contrast(1.1); }
   #hover-preview.active { opacity: 1; visibility: visible; transform: scale(1) translate(-50%, -50%); }
 
+  /* EXPLICIT MOBILE CSS PERFORMANCE OVERRIDES */
   @media (max-width: 1024px) {
     #hover-preview { display: none !important; }
     .proj-card { flex-direction: column; align-items: flex-start; gap: 2rem; padding: 2.5rem !important; }
@@ -345,10 +343,15 @@
   }
 
   @media (max-width: 768px) {
+    #grain { display: none !important; }
+    body { text-shadow: none !important; transition: none !important; } /* Instant snap for mobile theme change */
+    html.candle-mode body { animation: none !important; text-shadow: 0 0 10px color-mix(in srgb, var(--gold) 20%, transparent) !important; }
+    #vignette { display: none !important; } /* Kill heavy layer on mobile */
+
     .container-w { padding-left: 1.25rem; padding-right: 1.25rem; }
     .ui-card { padding: 1.5rem !important; }
-    .slide-drawer { padding: 3rem 1.5rem !important; }
-    .terminal-window { padding: 1rem !important; }
+    .slide-drawer { padding: 2rem 1.25rem !important; }
+    .terminal-window { padding: 1rem !important; width: 95vw !important; max-width: 95vw !important; }
     .terminal-window pre { font-size: 0.7rem !important; }
     .hero-title { font-size: clamp(2.5rem, 10vw, 4rem) !important; }
     .hero-initial { font-size: 1.25em; padding: 0.1em 0.2em 0.1em 0.2em; margin: -0.1em -0.1em -0.1em -0.2em; }
@@ -365,7 +368,11 @@
     .data-preview-table { font-size: 0.65rem; }
     .data-preview-table th, .data-preview-table td { padding: 0.5rem; }
     #btt-btn { bottom: 1rem; right: 1rem; }
-    #modal-rhythm .rhythm-stage { width: 95%; padding: 1rem; }
+    #modal-rhythm .rhythm-stage { width: 95vw !important; max-width: 480px; padding: 1rem; }
+    .rhythm-track-area { height: 250px !important; }
+    .gh-col { gap: 3px; }
+    .gh-cell { width: 8px; height: 8px; }
+    #gh-grid { justify-content:flex-start; }
   }
 </style>
 </head>
@@ -397,7 +404,8 @@
 </div>
 
 <div id="mobile-nav-overlay">
-  <button class="absolute top-8 right-8 text-3xl text-[var(--dim)] hover:text-[var(--gold)] transition-colors p-4" onclick="closeMobileNav()" aria-label="Close menu">✕</button>
+  <!-- Precision Styled Mobile Close Button -->
+  <button class="btn-close-minimal" onclick="closeMobileNav()" aria-label="Close menu"></button>
   <a href="#about" class="hover-trigger mobile-link">Dossier</a>
   <a href="#work" class="hover-trigger mobile-link">Exhibits</a>
   <a href="#certifications" class="hover-trigger mobile-link">Credentials</a>
@@ -469,6 +477,7 @@
     <span>Predictive Analytics</span> <span class="!text-[var(--gold)] no-stroke">✠</span> 
     <span>Connectomics</span> <span class="!text-[var(--gold)] no-stroke">✠</span> 
     <span>Deep Learning</span> <span class="!text-[var(--gold)] no-stroke">✠</span>
+    <!-- Duplicated to ensure seamless loop width -->
     <span>Data Hygiene</span> <span class="!text-[var(--gold)] no-stroke">✠</span> 
     <span>Large Language Models</span> <span class="!text-[var(--gold)] no-stroke">✠</span> 
     <span>Optimization Models</span> <span class="!text-[var(--gold)] no-stroke">✠</span> 
@@ -893,7 +902,7 @@
       <p class="text-[var(--dim)] text-[1.15rem] leading-[1.8] font-serif mb-6 vn-readable decay-target">
         Utilizing optimization packages in R to solve linear programming matrices. The setup takes longer than the solve.
       </p>
-      <button class="btn-ghost hover-trigger modal-trigger" data-target="modal-code">View R Snippet</button>
+      <button class="btn-ghost hover-trigger" onclick="openDrawer('drawer-r')">View R Snippet</button>
     </div>
   </div>
 </section>
@@ -952,10 +961,10 @@
 <a href="#top" id="btt-btn" class="hover-trigger" aria-label="Back to top">↑</a>
 
 <!-- OVERLAYS & SLIDE DRAWERS -->
-<div class="drawer-overlay" id="drawer-overlay"></div>
+<div class="drawer-overlay" id="drawer-overlay" onclick="closeAllDrawers()"></div>
 
 <div class="slide-drawer" id="drawer-ngo">
-  <span class="drawer-close hover-trigger" onclick="closeAllDrawers()" role="button" tabindex="0">✕</span>
+  <button class="btn-close-minimal" onclick="closeAllDrawers()" aria-label="Close drawer"></button>
   <p class="label mb-4">Case Study 01</p>
   <h2 class="h-display text-4xl text-[var(--ink)] mb-4">Data Cleaning Protocol</h2>
   <p class="text-[var(--dim)] font-serif text-[1.1rem] leading-[1.8] mb-8">
@@ -976,9 +985,9 @@
   <p class="text-[var(--dim)] text-sm font-serif italic mt-4 mb-10 text-center">Drag slider to compare dataset structure.</p>
 </div>
 
-<!-- Strategy Drawer (Clean text without matrix conflict) -->
+<!-- Strategy Drawer -->
 <div class="slide-drawer" id="drawer-matrix">
-  <span class="drawer-close hover-trigger" onclick="closeAllDrawers()" role="button" tabindex="0">✕</span>
+  <button class="btn-close-minimal" onclick="closeAllDrawers()" aria-label="Close drawer"></button>
   <p class="label mb-4">Case Study 02</p>
   <h2 class="h-display text-4xl text-[var(--ink)] mb-6">Game Theory & Commerce</h2>
   <p class="text-[var(--dim)] font-serif text-[1.1rem] leading-[1.8] mb-8">
@@ -1011,7 +1020,7 @@
 </div>
 
 <div class="slide-drawer" id="drawer-fraud">
-  <span class="drawer-close hover-trigger" onclick="closeAllDrawers()" role="button" tabindex="0">✕</span>
+  <button class="btn-close-minimal" onclick="closeAllDrawers()" aria-label="Close drawer"></button>
   <p class="label mb-4">Machine Learning Pipeline</p>
   <h2 class="h-display text-4xl text-[var(--ink)] mb-6">Credit Card Fraud Detection</h2>
   
@@ -1057,7 +1066,7 @@ print(f"After SMOTE: {pd.Series(y_train_resampled).value_counts().to_dict()}")
 </div>
 
 <div class="slide-drawer" id="drawer-heatmap">
-  <span class="drawer-close hover-trigger" onclick="closeAllDrawers()" role="button" tabindex="0">✕</span>
+  <button class="btn-close-minimal" onclick="closeAllDrawers()" aria-label="Close drawer"></button>
   <p class="label mb-4">Case Study 04</p>
   <h2 class="h-display text-4xl text-[var(--ink)] mb-4">Spatial Real Estate Heatmap</h2>
   <p class="text-[var(--dim)] font-serif text-[1.1rem] leading-[1.8] mb-8">
@@ -1086,7 +1095,7 @@ print(f"After SMOTE: {pd.Series(y_train_resampled).value_counts().to_dict()}")
 </div>
 
 <div class="slide-drawer" id="drawer-r">
-  <span class="drawer-close hover-trigger" onclick="closeAllDrawers()" role="button" tabindex="0">✕</span>
+  <button class="btn-close-minimal" onclick="closeAllDrawers()" aria-label="Close drawer"></button>
   <p class="label mb-4">R Optimization Code</p>
   <h2 class="h-display text-4xl text-[var(--ink)] mb-6">Linear Programming</h2>
   <div class="text-[var(--dim)] font-serif text-[1.05rem] leading-[1.8] space-y-6">
@@ -1108,7 +1117,7 @@ print(solution$solution)</code></pre>
 </div>
 
 <div class="slide-drawer" id="drawer-giving-up">
-  <span class="drawer-close hover-trigger" onclick="closeAllDrawers()" role="button" tabindex="0">✕</span>
+  <button class="btn-close-minimal" onclick="closeAllDrawers()" aria-label="Close drawer"></button>
   <p class="label mb-4">Creative Essay</p>
   <h2 class="h-display text-4xl text-[var(--ink)] mb-6">The art of giving up.</h2>
   <div class="text-[var(--dim)] font-serif text-[1.1rem] leading-[1.9] space-y-6">
@@ -1121,7 +1130,7 @@ print(solution$solution)</code></pre>
 </div>
 
 <div class="slide-drawer" id="drawer-ouroboros">
-  <span class="drawer-close hover-trigger" onclick="closeAllDrawers()" role="button" tabindex="0">✕</span>
+  <button class="btn-close-minimal" onclick="closeAllDrawers()" aria-label="Close drawer"></button>
   <p class="label mb-4">Philosophical Snippet</p>
   <h2 class="h-display text-4xl text-[var(--ink)] mb-6">The Ouroboros of Ignorance</h2>
   <div class="text-[var(--dim)] font-serif text-[1.1rem] leading-[1.9] space-y-6">
@@ -1133,7 +1142,7 @@ print(solution$solution)</code></pre>
 </div>
 
 <div class="slide-drawer" id="drawer-constitution">
-  <span class="drawer-close hover-trigger" onclick="closeAllDrawers()" role="button" tabindex="0">✕</span>
+  <button class="btn-close-minimal" onclick="closeAllDrawers()" aria-label="Close drawer"></button>
   <p class="label mb-4">Analytical Documentation</p>
   <h2 class="h-display text-4xl text-[var(--ink)] mb-6">Constitutional Erosion</h2>
   <div class="text-[var(--dim)] font-serif text-[1.1rem] leading-[1.9] space-y-6">
@@ -1146,7 +1155,7 @@ print(solution$solution)</code></pre>
 </div>
 
 <div class="slide-drawer" id="drawer-colophon">
-  <span class="drawer-close hover-trigger" onclick="closeAllDrawers()" role="button" tabindex="0">✕</span>
+  <button class="btn-close-minimal" onclick="closeAllDrawers()" aria-label="Close drawer"></button>
   <p class="label mb-4">Colophon</p>
   <h2 class="h-display text-4xl text-[var(--ink)] mb-6">About this Site</h2>
   <div class="text-[var(--dim)] font-serif text-[1.1rem] leading-[1.9] space-y-6">
@@ -1204,29 +1213,6 @@ print(solution$solution)</code></pre>
   <span class="syn-s">"interests"</span>: [<span class="syn-s">"Languages"</span>, <span class="syn-s">"Data Analytics"</span>, <span class="syn-s">"Video Games"</span>]
 }
 <span class="text-white mt-4 block term-text">guest@bawankar-os:~$ <span class="animate-pulse">_</span></span>
-</code></pre>
-  </div>
-</div>
-
-<div class="modal-overlay" id="modal-code">
-  <div class="terminal-window">
-    <div class="terminal-header flex justify-between items-center">
-      <span>~/projects/optimization/linear_prog.R</span>
-      <div class="flex gap-4 items-center">
-        <button class="copy-btn hover-trigger" onclick="copyCode(this)">Copy Source</button>
-        <button class="close-modal hover:text-white hover-trigger" onclick="closeAllDrawers()">✕</button>
-      </div>
-    </div>
-<pre id="r-source-code"><code><span class="syn-c"># Objective: Maximize profit given resource constraints</span>
-<span class="syn-f">library</span>(lpSolve)
-
-obj_coeff <- c(40, 30) 
-const_mat <- matrix(c(2, 1, 1, 2, 1, 1), nrow=3, byrow=TRUE)
-const_dir <- c("<=", "<=", "<=")
-const_rhs <- c(100, 80, 50)
-
-solution <- lp("max", obj_coeff, const_mat, const_dir, const_rhs)
-print(solution$solution)
 </code></pre>
   </div>
 </div>
@@ -1389,10 +1375,20 @@ print(solution$solution)
     $('#' + id).classList.add('active');
     playClick();
     
-    if(id === 'drawer-heatmap') { setTimeout(initHeatmap, 300); }
+    // Explicit sizing for canvases so they never render as 0x0
+    if(id === 'drawer-matrix') {
+        setTimeout(() => {
+            initMatrixDrawer(); 
+            clearInterval(matrixDrawerInterval); 
+            matrixDrawerInterval = setInterval(drawMatrixDrawer, 33);
+        }, 300);
+    }
+    if(id === 'drawer-heatmap') {
+        setTimeout(initHeatmap, 300); 
+    }
   };
   
-  // 100% ROBUST CLOSE ALL FUNCTION
+  // ROBUST CLOSE ALL FUNCTION
   window.closeAllDrawers = function() {
     $('#drawer-overlay').classList.remove('active');
     $$('.slide-drawer').forEach(d => d.classList.remove('active'));
@@ -1404,20 +1400,7 @@ print(solution$solution)
     playClick();
   };
 
-  $$('.modal-trigger').forEach(btn => {
-    btn.addEventListener('click', e => {
-      const targetId = e.currentTarget.dataset.target; 
-      const target = targetId ? $('#' + targetId) : null;
-      if(target) { target.classList.add('active'); playClick(); }
-    });
-  });
-
   $('#drawer-overlay').addEventListener('click', closeAllDrawers);
-  $$('.modal-overlay').forEach(overlay => {
-    overlay.addEventListener('click', e => {
-      if(e.target === overlay) { closeAllDrawers(); }
-    });
-  });
   
   window.updateSlider = function(val) { 
     $('#ba-overlay').style.clipPath = `inset(0 ${100 - val}% 0 0)`; 
@@ -1468,12 +1451,12 @@ print(solution$solution)
     });
   });
 
-  // Fast Loader Timing
+  // Accurate Loader Timing
   window.addEventListener('load', () => {
     const sk = $('#page-skeleton');
-    if(sk) { sk.style.opacity = '0'; setTimeout(()=>sk.remove(), 600); }
+    if(sk) { sk.style.opacity = '0'; setTimeout(()=>sk.remove(), 800); }
   });
-  setTimeout(() => { const sk = $('#page-skeleton'); if(sk) { sk.style.opacity = '0'; setTimeout(()=>sk.remove(), 600); } }, 1200);
+  setTimeout(() => { const sk = $('#page-skeleton'); if(sk) { sk.style.opacity = '0'; setTimeout(()=>sk.remove(), 800); } }, 3000);
 
   // Master Keydown Controller
   let coffeeMode = false; let screenPlayMode = false; let matrixMode = false; let nodesActive = false; let tdRaf; let tdNodes = []; let candleMode = false;
@@ -1579,10 +1562,11 @@ print(solution$solution)
     requestAnimationFrame(raf);
     lenis.on('scroll', ()=>ScrollTrigger.update());
 
-    // Grain reacts to scroll velocity
+    // Grain reacts to scroll velocity, disabled on mobile via CSS
     const grainEl = $('#grain');
     if(grainEl) {
       lenis.on('scroll', (e) => {
+        if(window.innerWidth <= 768) return;
         const boost = Math.min(Math.abs(e.velocity || 0) / 6, 1);
         grainEl.style.setProperty('--grain-boost', boost);
         grainEl.style.opacity = (0.035 + boost * 0.05).toFixed(3);
@@ -1661,6 +1645,7 @@ print(solution$solution)
     });
   }
 
+  // Proper 3D Tilt Logic Fix (Mapped perspective to GSAP, avoiding clipping issues)
   $$('.magnetic-hover').forEach(card => {
     card.addEventListener('mousemove', (event) => {
       if (reduceMotion) return;
