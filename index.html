@@ -36,17 +36,17 @@
     --card-bg:linear-gradient(180deg, rgba(43,41,39,0.04), rgba(43,41,39,0.015));
   }
 
+  /* Fixed Safari Cursor Lag: Static Text Glow + Hardware Accelerated Overlay Flicker */
   html.candle-mode {
     --void: #140808; --ink: #f2e1e1; --dim: #a34747; --line: rgba(179, 54, 54, 0.15); --gold: #b33636;
     --card-bg: linear-gradient(180deg, rgba(179, 54, 54, 0.04), rgba(0,0,0,0.6));
   }
-  html.candle-mode body { animation: candleAmbient 3.5s infinite alternate ease-in-out; }
-  @keyframes candleAmbient {
-    0% { text-shadow: 0 0 8px color-mix(in srgb, var(--gold) 15%, transparent); }
-    25% { text-shadow: 0 0 12px color-mix(in srgb, var(--gold) 25%, transparent); }
-    50% { text-shadow: 0 0 18px color-mix(in srgb, var(--gold) 45%, transparent); }
-    75% { text-shadow: 0 0 10px color-mix(in srgb, var(--gold) 20%, transparent); }
-    100% { text-shadow: 0 0 22px color-mix(in srgb, var(--gold) 50%, transparent); }
+  html.candle-mode body { text-shadow: 0 0 10px color-mix(in srgb, var(--gold) 20%, transparent); }
+  
+  #candle-flicker { display: none; position: fixed; inset: 0; z-index: 996; pointer-events: none; background: radial-gradient(circle at 50% 50%, rgba(179, 54, 54, 0.1), transparent 80%); mix-blend-mode: screen; }
+  html.candle-mode #candle-flicker { display: block; animation: flickerAmbient 4s infinite alternate ease-in-out; }
+  @keyframes flickerAmbient {
+    0% { opacity: 0.4; } 25% { opacity: 0.8; } 50% { opacity: 0.5; } 75% { opacity: 0.9; } 100% { opacity: 0.6; }
   }
   
   *{box-sizing:border-box;}
@@ -177,6 +177,12 @@
   .proj-title { font-family:'Cormorant Garamond', serif; font-size: 2.3rem; color:var(--ink); margin-bottom: 0.75rem; line-height: 1.1; font-weight: 400;}
   .proj-desc { font-family:'Newsreader', serif; color:var(--dim); font-size:1.05rem; line-height: 1.6; }
   .proj-action-right { width: 25%; display: flex; flex-direction: column; align-items: flex-end; justify-content: center; flex-shrink: 0;}
+  
+  @media (max-width: 1024px) {
+    .proj-card { flex-direction: column; align-items: flex-start; gap: 2rem; padding: 2.5rem !important; }
+    .proj-info-left, .proj-info-center, .proj-action-right { width: 100%; align-items: flex-start; padding-right: 0;}
+    .proj-action-right { border-top: 1px solid var(--line); padding-top: 1.5rem; align-items: flex-start; }
+  }
 
   .skills-list { display: flex; flex-direction: column; gap: 2.5rem; }
   .skill-row { transition: transform 0.5s ease, opacity 0.5s ease; }
@@ -209,6 +215,7 @@
   html.light-mode #audio-widget { color: var(--dim); }
   html.light-mode #audio-widget:hover { color: var(--gold); }
   
+  /* Fix Safari Cursor Lag: Swapped heavy filter: blur() for lightweight radial-gradient */
   #ink-cursor{ 
     position:fixed; top:0; left:0; color: var(--gold); font-size: 32px; line-height: 1; text-align: center; 
     pointer-events:none; z-index:9999; transition: font-size .2s cubic-bezier(.2,.8,.2,1), color .2s ease; 
@@ -217,12 +224,12 @@
   #ink-cursor.hovering { font-size: 48px; color: var(--ink); text-shadow: 0 0 12px rgba(209,183,148,0.8); }
   
   #ink-cursor-trail {
-    position: fixed; top: 0; left: 0; width: 26px; height: 26px; background: var(--gold);
-    border-radius: 50%; pointer-events: none; z-index: 9998; 
-    filter: blur(16px); opacity: 0.08;
+    position: fixed; top: 0; left: 0; width: 26px; height: 26px; 
+    background: radial-gradient(circle, var(--gold) 0%, transparent 70%);
+    border-radius: 50%; pointer-events: none; z-index: 9998; opacity: 0.15;
     transform: translate(-50%, -50%); transition: transform 0.15s ease-out, opacity 0.3s, width 0.3s, height 0.3s;
   }
-  #ink-cursor.hovering ~ #ink-cursor-trail { opacity: 0.16; width: 40px; height: 40px; filter: blur(20px); }
+  #ink-cursor.hovering ~ #ink-cursor-trail { opacity: 0.3; width: 40px; height: 40px; }
   #ink-particles { position: fixed; inset: 0; pointer-events: none; z-index: 9997; }
 
   @media (hover:none){ #ink-cursor, #ink-cursor-trail, #ink-particles {display:none;} }
@@ -277,7 +284,7 @@
 
   .rhythm-stage { width: 100%; max-width: 480px; background: #0c0a10; border: 2px solid var(--gold); border-radius: 8px; padding: 1.5rem; text-align: center; font-family: 'Courier New', Courier, monospace; box-shadow: 0 0 40px rgba(209,183,148,0.2), inset 0 0 20px rgba(0,0,0,0.8); }
   .rhythm-header { display: flex; justify-content: space-between; margin-bottom: 1rem; color: var(--gold); font-size: 12px; }
-  .rhythm-track-area { relative; width: 100%; height: 320px; background: #050408; border: 1px solid rgba(209,183,148,0.2); border-radius: 4px; overflow: hidden; display: flex; }
+  .rhythm-track-area { position: relative; width: 100%; height: 320px; background: #050408; border: 1px solid rgba(209,183,148,0.2); border-radius: 4px; overflow: hidden; display: flex; }
   .rhythm-lane { flex: 1; border-right: 1px solid rgba(255,255,255,0.05); position: relative; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; padding-bottom: 8px; }
   .rhythm-lane:last-child { border-right: none; }
   .rhythm-key-target { width: 42px; height: 42px; border: 2px solid var(--gold); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-weight: bold; color: var(--gold); background: rgba(209,183,148,0.05); transition: background 0.1s, transform 0.1s; z-index: 5; font-size: 16px !important; }
@@ -373,6 +380,8 @@
 <body id="top">
 <div id="grain" aria-hidden="true"></div>
 <div id="vignette" aria-hidden="true"></div>
+<!-- Hardware Accelerated Flicker Layer for Safari Candle Mode -->
+<div id="candle-flicker" aria-hidden="true"></div>
 
 <div id="ink-cursor" aria-hidden="true">✠</div>
 <div id="ink-cursor-trail" aria-hidden="true"></div>
@@ -397,7 +406,6 @@
 </div>
 
 <div id="mobile-nav-overlay">
-  <!-- Precision Styled Mobile Close Button -->
   <button class="btn-close-minimal" onclick="closeMobileNav()" aria-label="Close menu"></button>
   <a href="#about" class="hover-trigger mobile-link">Dossier</a>
   <a href="#work" class="hover-trigger mobile-link">Exhibits</a>
@@ -508,7 +516,6 @@
       </div>
     </div>
 
-    <!-- Spotlight applied here -->
     <div class="ui-card spotlight anim-section">
       <div class="flex flex-col items-center gap-6 mb-16 text-center">
         <p class="label text-[var(--ink)]">Analytical Instruments</p>
@@ -894,7 +901,7 @@
       <p class="text-[var(--dim)] text-[1.15rem] leading-[1.8] font-serif mb-6 vn-readable decay-target">
         Utilizing optimization packages in R to solve linear programming matrices. The setup takes longer than the solve.
       </p>
-      <button class="btn-ghost hover-trigger modal-trigger" data-target="modal-code">View R Snippet</button>
+      <button class="btn-ghost hover-trigger" onclick="openDrawer('drawer-r')">View R Snippet</button>
     </div>
   </div>
 </section>
@@ -950,13 +957,13 @@
   </div>
 </footer>
 
-<a href="#top" id="btt-btn" class="hover-trigger" aria-label="Back to top">↑</a>
+<button id="btt-btn" class="hover-trigger" aria-label="Back to top">↑</button>
 
 <!-- OVERLAYS & SLIDE DRAWERS -->
-<div class="drawer-overlay" id="drawer-overlay" onclick="closeAllDrawers()"></div>
+<div class="drawer-overlay" id="drawer-overlay"></div>
 
 <div class="slide-drawer" id="drawer-ngo">
-  <button class="btn-close-minimal" onclick="closeAllDrawers()" aria-label="Close drawer"></button>
+  <button class="btn-close-minimal drawer-close hover-trigger" aria-label="Close drawer"></button>
   <p class="label mb-4">Case Study 01</p>
   <h2 class="h-display text-4xl text-[var(--ink)] mb-4">Data Cleaning Protocol</h2>
   <p class="text-[var(--dim)] font-serif text-[1.1rem] leading-[1.8] mb-8">
@@ -979,7 +986,7 @@
 
 <!-- Strategy Drawer -->
 <div class="slide-drawer" id="drawer-matrix">
-  <button class="btn-close-minimal" onclick="closeAllDrawers()" aria-label="Close drawer"></button>
+  <button class="btn-close-minimal drawer-close hover-trigger" aria-label="Close drawer"></button>
   <p class="label mb-4">Case Study 02</p>
   <h2 class="h-display text-4xl text-[var(--ink)] mb-6">Game Theory & Commerce</h2>
   <p class="text-[var(--dim)] font-serif text-[1.1rem] leading-[1.8] mb-8">
@@ -1012,7 +1019,7 @@
 </div>
 
 <div class="slide-drawer" id="drawer-fraud">
-  <button class="btn-close-minimal" onclick="closeAllDrawers()" aria-label="Close drawer"></button>
+  <button class="btn-close-minimal drawer-close hover-trigger" aria-label="Close drawer"></button>
   <p class="label mb-4">Machine Learning Pipeline</p>
   <h2 class="h-display text-4xl text-[var(--ink)] mb-6">Credit Card Fraud Detection</h2>
   
@@ -1058,7 +1065,7 @@ print(f"After SMOTE: {pd.Series(y_train_resampled).value_counts().to_dict()}")
 </div>
 
 <div class="slide-drawer" id="drawer-heatmap">
-  <button class="btn-close-minimal" onclick="closeAllDrawers()" aria-label="Close drawer"></button>
+  <button class="btn-close-minimal drawer-close hover-trigger" aria-label="Close drawer"></button>
   <p class="label mb-4">Case Study 04</p>
   <h2 class="h-display text-4xl text-[var(--ink)] mb-4">Spatial Real Estate Heatmap</h2>
   <p class="text-[var(--dim)] font-serif text-[1.1rem] leading-[1.8] mb-8">
@@ -1087,7 +1094,7 @@ print(f"After SMOTE: {pd.Series(y_train_resampled).value_counts().to_dict()}")
 </div>
 
 <div class="slide-drawer" id="drawer-r">
-  <button class="btn-close-minimal" onclick="closeAllDrawers()" aria-label="Close drawer"></button>
+  <button class="btn-close-minimal drawer-close hover-trigger" aria-label="Close drawer"></button>
   <p class="label mb-4">R Optimization Code</p>
   <h2 class="h-display text-4xl text-[var(--ink)] mb-6">Linear Programming</h2>
   <div class="text-[var(--dim)] font-serif text-[1.05rem] leading-[1.8] space-y-6">
@@ -1109,7 +1116,7 @@ print(solution$solution)</code></pre>
 </div>
 
 <div class="slide-drawer" id="drawer-giving-up">
-  <button class="btn-close-minimal" onclick="closeAllDrawers()" aria-label="Close drawer"></button>
+  <button class="btn-close-minimal drawer-close hover-trigger" aria-label="Close drawer"></button>
   <p class="label mb-4">Creative Essay</p>
   <h2 class="h-display text-4xl text-[var(--ink)] mb-6">The art of giving up.</h2>
   <div class="text-[var(--dim)] font-serif text-[1.1rem] leading-[1.9] space-y-6">
@@ -1122,7 +1129,7 @@ print(solution$solution)</code></pre>
 </div>
 
 <div class="slide-drawer" id="drawer-ouroboros">
-  <button class="btn-close-minimal" onclick="closeAllDrawers()" aria-label="Close drawer"></button>
+  <button class="btn-close-minimal drawer-close hover-trigger" aria-label="Close drawer"></button>
   <p class="label mb-4">Philosophical Snippet</p>
   <h2 class="h-display text-4xl text-[var(--ink)] mb-6">The Ouroboros of Ignorance</h2>
   <div class="text-[var(--dim)] font-serif text-[1.1rem] leading-[1.9] space-y-6">
@@ -1134,7 +1141,7 @@ print(solution$solution)</code></pre>
 </div>
 
 <div class="slide-drawer" id="drawer-constitution">
-  <button class="btn-close-minimal" onclick="closeAllDrawers()" aria-label="Close drawer"></button>
+  <button class="btn-close-minimal drawer-close hover-trigger" aria-label="Close drawer"></button>
   <p class="label mb-4">Analytical Documentation</p>
   <h2 class="h-display text-4xl text-[var(--ink)] mb-6">Constitutional Erosion</h2>
   <div class="text-[var(--dim)] font-serif text-[1.1rem] leading-[1.9] space-y-6">
@@ -1147,7 +1154,7 @@ print(solution$solution)</code></pre>
 </div>
 
 <div class="slide-drawer" id="drawer-colophon">
-  <button class="btn-close-minimal" onclick="closeAllDrawers()" aria-label="Close drawer"></button>
+  <button class="btn-close-minimal drawer-close hover-trigger" aria-label="Close drawer"></button>
   <p class="label mb-4">Colophon</p>
   <h2 class="h-display text-4xl text-[var(--ink)] mb-6">About this Site</h2>
   <div class="text-[var(--dim)] font-serif text-[1.1rem] leading-[1.9] space-y-6">
@@ -1161,10 +1168,10 @@ print(solution$solution)</code></pre>
 
 <!-- Easter Egg Modals & Terminals -->
 <div class="modal-overlay" id="modal-tips">
-  <div class="terminal-window !bg-[var(--void)] !border-[var(--gold)] !text-[var(--ink)] max-w-3xl !mt-[5vh]">
+  <div class="terminal-window !bg-[var(--void)] !border-[var(--gold)] !text-[var(--ink)] max-w-3xl !mt-[5vh] !mb-0">
     <div class="flex justify-between items-center mb-8 border-b border-[#333] pb-6">
       <div class="text-[var(--gold)]">Dossier Secrets</div>
-      <button class="close-modal hover:text-[var(--gold)] hover-trigger" onclick="closeAllDrawers()">✕</button>
+      <button class="close-modal hover:text-[var(--gold)] hover-trigger transition-colors font-sans text-xl" onclick="closeAllDrawers()">✕</button>
     </div>
     
     <div class="achievement-box mb-8 border border-[var(--gold)] !bg-transparent">
@@ -1175,7 +1182,7 @@ print(solution$solution)</code></pre>
       <div class="ach-bar"><div class="ach-fill" id="ach-fill"></div></div>
     </div>
 
-    <ul class="space-y-6 font-mono text-sm">
+    <ul class="space-y-6 font-mono text-sm pb-8">
       <li><span class="inline-block w-28 text-[var(--gold)]">Konami Code</span> Press <kbd class="px-2 py-1 rounded border border-[#333]">↑ ↑ ↓ ↓ ← → ← → B A</kbd> to launch the Rhythm Minigame.</li>
       <li><span class="inline-block w-28 text-[var(--gold)]">Screenplay</span> Press <kbd class="px-2 py-1 rounded border border-[#333]">S</kbd> to strip the DOM into a raw script format.</li>
       <li><span class="inline-block w-28 text-[var(--gold)]">Visual Nov</span> Press <kbd class="px-2 py-1 rounded border border-[#333]">V</kbd> to convert the dossier into a Ren'Py interface.</li>
@@ -1194,7 +1201,7 @@ print(solution$solution)</code></pre>
   <div class="terminal-window !mt-[15vh]">
     <div class="terminal-header flex justify-between items-center">
       <span>guest@bawankar-os:~$ cat resume.json</span>
-      <button class="close-modal hover:text-white hover-trigger" onclick="closeAllDrawers()">✕</button>
+      <button class="close-modal hover:text-white hover-trigger transition-colors font-sans text-xl" onclick="closeAllDrawers()">✕</button>
     </div>
 <pre><code>{
   <span class="syn-s">"name"</span>: <span class="syn-s">"Nabhya Bawankar"</span>,
@@ -1213,7 +1220,7 @@ print(solution$solution)</code></pre>
 <div class="modal-overlay" id="modal-matrix">
   <div class="terminal-window !max-w-full !h-full !w-full !m-0 !p-0 !border-none !rounded-none relative overflow-hidden">
     <canvas id="matrix-canvas-modal" style="position:absolute; top:0; left:0; width:100%; height:100%; z-index:1; opacity:0.9;"></canvas>
-    <button class="close-modal absolute top-8 right-8 text-white hover:text-[var(--gold)] text-3xl z-50 hover-trigger cursor-pointer font-sans" onclick="closeAllDrawers()">✕</button>
+    <button class="close-modal absolute top-8 right-8 text-white hover:text-[var(--gold)] text-3xl z-50 hover-trigger cursor-pointer font-sans transition-colors" onclick="closeAllDrawers()">✕</button>
     <div class="absolute inset-0 z-10 p-10 bg-[rgba(0,0,0,0.1)] pointer-events-none flex flex-col justify-center items-center">
       <pre class="font-mono text-[#4ade80] text-xl"><code>SYSTEM OVERRIDE INITIATED...</code></pre>
     </div>
@@ -1221,7 +1228,7 @@ print(solution$solution)</code></pre>
 </div>
 
 <div class="modal-overlay" id="modal-rhythm">
-  <div class="rhythm-stage">
+  <div class="rhythm-stage relative">
     <div class="rhythm-header"><span>SCORE: <span id="r-score">0000</span></span><span>COMBO: <span id="r-combo">0</span>x</span></div>
     <div class="rhythm-track-area" id="rhythm-track-area">
       <div class="rhythm-lane" data-key="d"><div class="rhythm-key-target" id="kt-0">D</div></div>
@@ -1302,7 +1309,7 @@ print(solution$solution)</code></pre>
     });
   }
 
-  // Achievement Logic (Safeguarded for Safari Security Restrictions)
+  // Achievement Logic (Safeguarded)
   function unlockSecret(id) {
     try {
       let unlocked = JSON.parse(localStorage.getItem('nabhya_secrets') || '[]');
@@ -1370,7 +1377,8 @@ print(solution$solution)</code></pre>
   // Safe Drawers & Canvas Launching
   window.openDrawer = function(id) {
     $('#drawer-overlay').classList.add('active');
-    $('#' + id).classList.add('active');
+    const drawer = $('#' + id);
+    if(drawer) drawer.classList.add('active');
     playClick();
     
     // Explicit sizing for canvases so they never render as 0x0
@@ -1398,19 +1406,20 @@ print(solution$solution)</code></pre>
     playClick();
   };
 
-  $$('.modal-trigger').forEach(btn => {
-    btn.addEventListener('click', e => {
-      e.preventDefault();
-      const targetId = e.currentTarget.dataset.target; 
-      const target = targetId ? $('#' + targetId) : null;
-      if(target) { target.classList.add('active'); playClick(); }
+  // Bind close functionality to all generic close triggers
+  $$('.drawer-close, .close-modal').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        closeAllDrawers();
     });
   });
 
   $('#drawer-overlay').addEventListener('click', closeAllDrawers);
   $$('.modal-overlay').forEach(overlay => {
     overlay.addEventListener('click', e => {
-      if(e.target === overlay) { closeAllDrawers(); }
+      if(e.target === overlay) { 
+        closeAllDrawers(); 
+      }
     });
   });
   
@@ -1433,6 +1442,12 @@ print(solution$solution)</code></pre>
   $$('.mobile-link').forEach(link => {
       link.addEventListener('click', (e) => {
           if(link.getAttribute('href') === '#') e.preventDefault();
+          
+          if(link.classList.contains('modal-trigger')) {
+             const targetId = link.dataset.target;
+             const target = targetId ? $('#' + targetId) : null;
+             if(target) target.classList.add('active');
+          }
           closeMobileNav();
       });
   });
@@ -1466,12 +1481,12 @@ print(solution$solution)</code></pre>
     });
   });
 
-  // Accurate Loader Timing
+  // Fast Loader Timing
   window.addEventListener('load', () => {
     const sk = $('#page-skeleton');
-    if(sk) { sk.style.opacity = '0'; setTimeout(()=>sk.remove(), 800); }
+    if(sk) { sk.style.opacity = '0'; setTimeout(()=>sk.remove(), 600); }
   });
-  setTimeout(() => { const sk = $('#page-skeleton'); if(sk) { sk.style.opacity = '0'; setTimeout(()=>sk.remove(), 800); } }, 3000);
+  setTimeout(() => { const sk = $('#page-skeleton'); if(sk) { sk.style.opacity = '0'; setTimeout(()=>sk.remove(), 600); } }, 1200);
 
   // Master Keydown Controller
   let coffeeMode = false; let screenPlayMode = false; let matrixMode = false; let nodesActive = false; let tdRaf; let tdNodes = []; let candleMode = false;
@@ -1547,6 +1562,15 @@ print(solution$solution)</code></pre>
         drawTD(); playSecretSound(); unlockSecret('touchnodes');
       } else { cancelAnimationFrame(tdRaf); const c = document.getElementById('td-nodes'); if(c) c.remove(); }
     }
+  });
+
+  // Desktop Modal Triggers
+  $$('.modal-trigger').forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.preventDefault();
+      const targetId = e.currentTarget.dataset.target; const target = targetId ? $('#' + targetId) : null;
+      if(target) { target.classList.add('active'); playClick(); }
+    });
   });
 
   // Wired God Mode
@@ -1660,7 +1684,7 @@ print(solution$solution)</code></pre>
     });
   }
 
-  // Proper 3D Tilt Logic Fix (Mapped perspective to GSAP, avoiding clipping issues)
+  // Proper 3D Tilt Logic Fix
   $$('.magnetic-hover').forEach(card => {
     card.addEventListener('mousemove', (event) => {
       if (reduceMotion) return;
@@ -1691,43 +1715,6 @@ print(solution$solution)</code></pre>
       else cursor.classList.remove('hovering'); 
     });
     document.addEventListener('mousedown', playClick);
-
-    // Ink particle trail: spawns drifting flecks, pools softly when the cursor goes idle
-    const pCanvas = $('#ink-particles');
-    if(pCanvas) {
-      const pCtx = pCanvas.getContext('2d');
-      let pW, pH, dpr = Math.min(window.devicePixelRatio || 1, 2);
-      function sizeParticles(){ pW = pCanvas.width = innerWidth * dpr; pH = pCanvas.height = innerHeight * dpr; pCanvas.style.width = innerWidth+'px'; pCanvas.style.height = innerHeight+'px'; }
-      sizeParticles(); window.addEventListener('resize', sizeParticles);
-      function hexToRgb(hex){ hex=hex.trim().replace('#',''); if(hex.length===3) hex=hex.split('').map(c=>c+c).join(''); const n=parseInt(hex,16); return isNaN(n)?'209,183,148':`${(n>>16)&255},${(n>>8)&255},${n&255}`; }
-      let goldRGB = hexToRgb(getComputedStyle(document.documentElement).getPropertyValue('--gold'));
-      new MutationObserver(()=>{ goldRGB = hexToRgb(getComputedStyle(document.documentElement).getPropertyValue('--gold')); }).observe(document.documentElement, { attributes:true, attributeFilter:['class'] });
-      let particles = [];
-      let lastMoveAt = performance.now(); let lastSpawnAt = 0; let poolAt = 0;
-      window.addEventListener('mousemove', () => { lastMoveAt = performance.now(); });
-      (function particleLoop(){
-        const now = performance.now();
-        const idleFor = now - lastMoveAt;
-        if(idleFor < 250 && now - lastSpawnAt > 55) {
-          lastSpawnAt = now;
-          particles.push({ x: tx, y: ty, r: 1 + Math.random()*1.3, vx: (Math.random()-0.5)*0.4, vy: (Math.random()-0.5)*0.4, life: 1, decay: 0.02 + Math.random()*0.012, pool:false });
-        } else if(idleFor > 700 && now - poolAt > 1400) {
-          poolAt = now;
-          particles.push({ x: tx, y: ty, r: 2, vx:0, vy:0, life: 1, decay: 0.016, pool:true, maxR: 16 + Math.random()*8 });
-        }
-        pCtx.clearRect(0,0,pW,pH);
-        particles = particles.filter(p => p.life > 0);
-        particles.forEach(p=>{
-          p.x += p.vx; p.y += p.vy; p.life -= p.decay;
-          if(p.pool){ p.r += (p.maxR - p.r) * 0.05; }
-          pCtx.beginPath();
-          pCtx.fillStyle = `rgba(${goldRGB}, ${Math.max(p.life,0) * (p.pool ? 0.09 : 0.22)})`;
-          pCtx.arc(p.x*dpr, p.y*dpr, p.r*dpr, 0, Math.PI*2);
-          pCtx.fill();
-        });
-        requestAnimationFrame(particleLoop);
-      })();
-    }
   } else { 
     if(cursor) cursor.style.display='none'; 
     if(trail) trail.style.display='none'; 
@@ -1916,10 +1903,10 @@ print(solution$solution)</code></pre>
         start: "top top", 
         end: "bottom bottom", 
         onUpdate: (self) => { 
-            isScrollingDown = self.direction === 1; 
+            if(self.direction !== 0) isScrollingDown = self.direction === 1; 
             if (!isOverclocked) {
                 if(tsTween) tsTween.kill();
-                tsTween = gsap.to(marqueeTween, { timeScale: isScrollingDown ? 1 : -1, duration: 0.5, overwrite: "auto" }); 
+                tsTween = gsap.to(marqueeTween, { timeScale: isScrollingDown ? 1 : -1, duration: 0.5, overwrite: true }); 
             }
         } 
     });
@@ -1932,10 +1919,17 @@ print(solution$solution)</code></pre>
         unlockSecret('overclocker'); playSecretSound();
         clearTimeout(timeoutId);
         timeoutId = setTimeout(() => { 
-          isOverclocked = false;
           if(tsTween) tsTween.kill();
-          tsTween = gsap.to(marqueeTween, { timeScale: isScrollingDown ? 1 : -1, duration: 3, ease: "power3.out", overwrite: true }); 
-          marqueeClicks = 0; 
+          tsTween = gsap.to(marqueeTween, { 
+              timeScale: isScrollingDown ? 1 : -1, 
+              duration: 3, 
+              ease: "power3.out", 
+              overwrite: true,
+              onComplete: () => {
+                  isOverclocked = false;
+                  marqueeClicks = 0;
+              }
+          }); 
         }, 5000);
       }
     });
