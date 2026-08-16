@@ -1323,7 +1323,8 @@ print(solution$solution)</code></pre>
     <div class="border-t border-[#333] pt-4 flex gap-3 items-center">
       <span class="text-[#4ade80] font-bold">></span>
       <input type="text" id="gb-input" placeholder="Leave a trace (max 120 chars)..." maxlength="120" 
-             class="w-full bg-transparent border-none text-[var(--gold)] font-mono text-xs outline-none placeholder:text-[#333] focus:ring-0">
+             style="background: transparent; border: 1px solid var(--gold); color: var(--gold); font-family: 'Space Mono', monospace; outline: none;" 
+             class="w-full px-3 py-1 text-xs rounded font-mono placeholder:text-[#333] focus:bg-[rgba(209,183,148,0.1)] transition-colors focus:ring-0">
       <button onclick="submitGuestbook()" class="btn-ghost !text-xs !py-1 !px-4 hover:!text-[var(--ink)]">SEND</button>
     </div>
   </div>
