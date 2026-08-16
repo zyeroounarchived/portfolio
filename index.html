@@ -1670,6 +1670,7 @@ print(solution$solution)
       e.preventDefault();
       if (isVnMode) exitVnMode();
       closeAllDrawers();
+      closeMobileNav();
       return;
     }
     
@@ -2253,6 +2254,7 @@ print(solution$solution)
   }
 
   window.addEventListener('keydown', e => {
+    if(e.target.tagName === 'TEXTAREA' || (e.target.tagName === 'INPUT' && e.target.type !== 'range')) return;
     if(rhythmModal && rhythmModal.classList.contains('active')) {
       const key = e.key.toLowerCase(); const lane = laneKeys.indexOf(key);
       if(lane !== -1) { e.preventDefault(); judgeLanePress(lane); const target = keyTargets[lane]; if(target) target.classList.add('pressed'); }
