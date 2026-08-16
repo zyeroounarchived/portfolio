@@ -1,0 +1,7 @@
+{
+  "functions": {
+    "api/now-playing.js": {
+      "maxDuration": 10
+    }
+  }
+}
