@@ -2130,7 +2130,7 @@ print(solution$solution)
     
     const submitForm = document.getElementById('score-submit-form');
     if(submitForm) submitForm.style.display = 'none';
-}
+  }
 
   function spawnRhythmNote(now) {
     if(!rhythmArea) return;
@@ -2151,7 +2151,7 @@ print(solution$solution)
         const submitForm = document.getElementById('score-submit-form');
         if(submitForm) submitForm.style.display = 'flex';
     }
-}
+  }
   
   window.endRhythmGame = function() {
       if(rhythmRunning) endRhythm(false);
@@ -2210,7 +2210,7 @@ print(solution$solution)
           if(rhythmModal) {
               rhythmModal.classList.add('active');
               const lb = document.getElementById('konami-leaderboard');
-              if(lb) { lb.style.display = 'block'; loadLeaderboard(); }
+              if(lb) { lb.style.display = 'block'; window.loadLeaderboard(); }
           }
           resetRhythmGame(); 
           unlockSecret('konami'); 
@@ -2292,5 +2292,44 @@ print(solution$solution)
     setInterval(fetchSpotify, 30000);
   }
 
+  // --- LEADERBOARD LOGIC ---
+  window.loadLeaderboard = async function() {
+      try {
+          const res = await fetch('/api/leaderboard');
+          const scores = await res.json();
+          const list = document.getElementById('leaderboard-list');
+          if(list) {
+              list.innerHTML = scores.length ? '' : '<li>No scores yet. Be the first!</li>';
+              scores.forEach((entry, index) => {
+                  list.innerHTML += `<li class="flex justify-between px-4"><span>#${index + 1} ${entry.name}</span> <span class="text-[var(--gold)]">${entry.score} pts</span></li>`;
+              });
+          }
+      } catch (e) {
+          console.error('Failed to load leaderboard', e);
+      }
+  };
+
+  window.submitScore = async function() {
+      const nameInput = document.getElementById('player-name');
+      const name = nameInput ? nameInput.value.trim() || 'Anonymous' : 'Anonymous';
+      const score = window.rhythmScoreValue || 0;
+      try {
+          const res = await fetch('/api/leaderboard', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ name, score })
+          });
+          if (res.ok) {
+              const submitForm = document.getElementById('score-submit-form');
+              if(submitForm) submitForm.style.display = 'none';
+              window.loadLeaderboard();
+          }
+      } catch (e) {
+          console.error('Failed to submit score', e);
+      }
+  };
+
+})();
+</script>
 </body>
 </html>
