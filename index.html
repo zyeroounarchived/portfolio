@@ -420,10 +420,10 @@
 
 <nav id="topnav" class="transition-colors duration-500">
   <div class="w-full max-w-[1600px] mx-auto absolute-nav-wrapper px-8 md:px-12 flex-nowrap">
-    <div class="nav-logo-locked">
+    <div class="nav-logo-locked shrink-0">
       <a href="#top" class="label tracking-[0.25em] transition-colors katakana-swap hover-trigger font-gothic-accent" data-jp="N. バワンカル" aria-label="Nabhya Bawankar home"><span class="text-[var(--gold)] mr-2">✠</span>N. BAWANKAR</a>
     </div>
-    <div class="nav-links-locked">
+    <div class="nav-links-locked shrink-0">
       <a href="#about" class="label transition-colors hover-trigger">Dossier</a>
       <a href="#work" class="label transition-colors hover-trigger">Exhibits</a>
       <a href="#certifications" class="label transition-colors hover-trigger">Credentials</a>
@@ -431,25 +431,25 @@
       <a href="#notes" class="label transition-colors hover-trigger">Notes</a>
       <a href="#contact" class="label transition-colors hover-trigger">Socials</a>
     </div>
-    <div class="nav-tools-locked">
-      <button class="hamburger hover-trigger" id="hamburger-btn" aria-label="Menu" onclick="toggleMobileNav()">☰</button>
-      <button type="button" class="btn-ghost hover-trigger modal-trigger hidden md:inline-flex" data-target="modal-tips">TIPS ?</button>
+    <div class="nav-tools-locked min-w-0 shrink-0">
+      <button class="hamburger hover-trigger shrink-0" id="hamburger-btn" aria-label="Menu" onclick="toggleMobileNav()">☰</button>
+      <button type="button" class="btn-ghost hover-trigger modal-trigger hidden md:inline-flex shrink-0" data-target="modal-tips">TIPS ?</button>
       
-      <!-- Spotify Now Playing Widget -->
-      <a id="spotify-widget" href="#" target="_blank" rel="noopener" class="label hidden lg:flex items-center gap-2 opacity-60 hover:opacity-100 transition-opacity whitespace-nowrap hover-trigger" style="display: none;">
-        <span id="spotify-icon" class="text-[var(--gold)]">♫</span>
-        <span id="spotify-text" class="tracking-[0.1em]">Loading...</span>
+      <!-- Spotify Now Playing Widget (Truncated) -->
+      <a id="spotify-widget" href="#" target="_blank" rel="noopener" class="label hidden lg:flex items-center gap-2 opacity-60 hover:opacity-100 transition-opacity hover-trigger min-w-0" style="display: none;">
+        <span id="spotify-icon" class="text-[var(--gold)] shrink-0">♫</span>
+        <span id="spotify-text" class="tracking-[0.1em] truncate max-w-[120px] xl:max-w-[250px]">Loading...</span>
       </a>
 
-      <span id="dispatch-time" class="label hidden md:block opacity-70 whitespace-nowrap hover-trigger cursor-pointer" aria-live="polite">--:--</span>
-      <button type="button" id="audio-widget" class="hover-trigger" title="Toggle UI Audio">
+      <span id="dispatch-time" class="label hidden md:block opacity-70 whitespace-nowrap hover-trigger cursor-pointer shrink-0" aria-live="polite">--:--</span>
+      <button type="button" id="audio-widget" class="hover-trigger shrink-0" title="Toggle UI Audio">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
       </button>
-      <button type="button" id="moon-widget" class="hover-trigger mr-4 md:mr-0" title="Toggle Light/Dark Theme" aria-label="Toggle Theme"></button>
+      <button type="button" id="moon-widget" class="hover-trigger mr-4 md:mr-0 shrink-0" title="Toggle Light/Dark Theme" aria-label="Toggle Theme"></button>
     </div>
   </div>
 </nav>
-
+  
 <header class="relative min-h-[75vh] flex flex-col justify-center items-center md:items-start pt-48 pb-20">
   <div class="container-w w-full relative z-10 text-center md:text-left max-w-5xl md:mx-0 md:ml-4 lg:ml-12">
     
