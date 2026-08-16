@@ -14,7 +14,7 @@
 <meta name="theme-color" content="#0a0908" />
 
 <!-- Inline SVG Favicon -->
-<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text x=%2250%25%22 y=%2250%25%22 font-size=%2290%22 text-anchor=%22middle%22 dominant-baseline=%22central%22>✠</text></svg>">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect x=%2242%22 y=%2210%22 width=%2216%22 height=%2280%22 rx=%222%22 fill=%22%23d1b794%22/><rect x=%2210%22 y=%2242%22 width=%2280%22 height=%2216%22 rx=%222%22 fill=%22%23d1b794%22/></svg>">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -984,60 +984,28 @@
 
 </main>
 
-<footer class="border-t border-[var(--line)] py-16 md:py-20 relative z-20 overflow-hidden">
-  <div class="container-w">
-    <div class="grid grid-cols-1 lg:grid-cols-[1.2fr_0.8fr] gap-12 lg:gap-16 items-start">
-
-      <!-- LEFT COLUMN -->
-      <div class="flex flex-col items-center text-center lg:items-start lg:text-left" style="gap:1.1rem;">
-        <div class="mt-4 mb-2">
-          <svg class="signature-svg hover-trigger !mx-auto lg:!ml-0" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-            <path d="M50 10 L50 90 M10 30 L90 30 M40 10 L60 10 M40 90 L60 90 M10 20 L10 40 M90 20 L90 40" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="square"/>
-          </svg>
-        </div>
-        <div>
-          <p class="h-sub font-calligraphy-accent text-4xl text-[var(--ink)] mb-2">Nabhya Bawankar</p>
-          <p class="label !text-[0.65rem] text-[var(--dim)]">Built with Vanilla JS, GSAP, Tailwind <span class="text-[var(--gold)]">✠</span></p>
-        </div>
-
-        <div class="w-full flex flex-col items-center lg:items-start mt-4 mb-2 overflow-x-auto">
-          <div id="gh-grid"></div>
-        </div>
-
-        <div class="flex flex-col items-center lg:items-start gap-3 mt-4">
-          <div class="flex flex-wrap justify-center lg:justify-start gap-6">
-            <a href="#" onclick="openDrawer('drawer-colophon'); return false;" class="label !text-[0.65rem] hover:text-[var(--gold)] transition-colors hover-trigger">View Colophon</a>
-            <a href="#" onclick="openGuestbook(); return false;" class="label !text-[0.65rem] hover:text-[var(--gold)] transition-colors hover-trigger text-[var(--gold)]">~/guestbook.sh</a>
-          </div>
-          <p class="label !text-[0.65rem] text-[var(--dim)] mt-2">VISITORS: <span id="visitor-count" class="text-[var(--gold)] tracking-widest">000000</span></p>
-          <p class="label !text-[0.65rem] text-[var(--dim)]" id="footer-time">✠ © Life isnt always black and white. ✠</p>
-        </div>
+<footer class="border-t border-[var(--line)] py-20 relative z-20 overflow-hidden">
+  <div class="container-w footer-stack" style="gap:1.1rem;">
+    <!-- Distinctly Spaced Signature -->
+    <div class="mt-24 mb-3">
+      <svg class="signature-svg hover-trigger" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <path d="M50 10 L50 90 M10 30 L90 30 M40 10 L60 10 M40 90 L60 90 M10 20 L10 40 M90 20 L90 40" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="square"/>
+      </svg>
+    </div>
+    <div>
+      <p class="h-sub font-calligraphy-accent text-4xl text-[var(--ink)] mb-2">Nabhya Bawankar</p>
+      <p class="label !text-[0.65rem] text-[var(--dim)]">Built with Vanilla JS, GSAP, Tailwind <span class="text-[var(--gold)]">✠</span></p>
+    </div>
+    <div class="w-full flex flex-col items-center mt-6 mb-2">
+      <div id="gh-grid"></div>
+    </div>
+    <div class="flex flex-col items-center gap-3 mt-6">
+      <div class="flex gap-6">
+        <a href="#" onclick="openDrawer('drawer-colophon'); return false;" class="label !text-[0.65rem] hover:text-[var(--gold)] transition-colors hover-trigger">View Colophon</a>
+        <a href="#" onclick="openGuestbook(); return false;" class="label !text-[0.65rem] hover:text-[var(--gold)] transition-colors hover-trigger text-[var(--gold)]">~/guestbook.sh</a>
       </div>
-
-      <!-- RIGHT COLUMN: Compact Zoomable Radar Map -->
-      <div class="w-full bg-[#080808] border border-[var(--line)] p-4 md:p-5 rounded-lg relative overflow-hidden font-mono shadow-xl">
-        <div class="flex justify-between items-center mb-3 border-b border-[#222] pb-2">
-          <span class="text-[var(--gold)] text-[0.7rem] tracking-widest uppercase">GLOBAL_RADAR // ZOOMABLE</span>
-          <span class="text-[#666] text-[0.6rem]">SCROLL TO ZOOM</span>
-        </div>
-
-        <div id="radar-viewport" class="relative w-full aspect-[4/3] bg-[#050408] border border-[var(--line)] rounded overflow-hidden cursor-grab active:cursor-grabbing flex items-center justify-center touch-none">
-          <div class="absolute inset-0 bg-[radial-gradient(#d1b794_1px,transparent_1px)] [background-size:20px_20px] opacity-10 pointer-events-none"></div>
-
-          <div id="radar-canvas-group" class="absolute inset-0 w-full h-full transition-transform duration-75 ease-out origin-center" style="transform: scale(1) translate(0px, 0px);">
-            <svg viewBox="0 0 1000 500" class="w-full h-full opacity-30 text-[var(--dim)]">
-              <path fill="currentColor" d="M150,120 Q180,100 240,110 T300,160 T250,220 T180,240 T130,170 Z M220,260 Q260,270 280,330 T250,420 T210,390 T200,310 Z M460,110 Q540,80 600,120 T620,180 T560,200 T480,160 Z M480,210 Q550,210 570,270 T550,380 T490,370 T460,280 Z M640,100 Q780,80 850,140 T880,240 T780,260 T680,200 T630,140 Z M750,320 Q820,310 860,360 T830,420 T760,400 T730,350 Z" />
-            </svg>
-            <svg id="footer-pins-layer" viewBox="0 0 1000 500" class="absolute inset-0 w-full h-full pointer-events-none"></svg>
-          </div>
-        </div>
-
-        <div class="mt-3 flex justify-between items-center text-[0.65rem] text-[#888]">
-          <span id="radar-status-text">Active Nodes Loaded</span>
-          <button onclick="resetRadarZoom()" class="text-[var(--gold)] hover:underline">RESET VIEW</button>
-        </div>
-      </div>
-
+      <p class="label !text-[0.65rem] text-[var(--dim)] mt-2">VISITORS: <span id="visitor-count" class="text-[var(--gold)] tracking-widest">000000</span></p>
+      <p class="label !text-[0.65rem] text-[var(--dim)]" id="footer-time">✠ © Life isnt always black and white. ✠</p>
     </div>
   </div>
 </footer>
@@ -2500,124 +2468,6 @@ print(solution$solution)
           if(e.key === 'Enter') submitGuestbook();
       });
   }
-
-  // --- ZOOMABLE EMBEDDED FOOTER RADAR ---
-  let radarScale = 1;
-  let radarPanX = 0;
-  let radarPanY = 0;
-  let isDraggingRadar = false;
-  let radarStartX, radarStartY;
-
-  const radarViewport = document.getElementById('radar-viewport');
-  const radarCanvasGroup = document.getElementById('radar-canvas-group');
-
-  function updateRadarTransform() {
-      if (radarCanvasGroup) {
-          radarCanvasGroup.style.transform = `scale(${radarScale}) translate(${radarPanX / radarScale}px, ${radarPanY / radarScale}px)`;
-      }
-  }
-
-  if (radarViewport && radarCanvasGroup) {
-      radarViewport.addEventListener('wheel', (e) => {
-          e.preventDefault();
-          const zoomIntensity = 0.1;
-          if (e.deltaY < 0) {
-              radarScale = Math.min(radarScale + zoomIntensity, 3.5);
-          } else {
-              radarScale = Math.max(radarScale - zoomIntensity, 1);
-          }
-          if (radarScale === 1) { radarPanX = 0; radarPanY = 0; }
-          updateRadarTransform();
-      }, { passive: false });
-
-      radarViewport.addEventListener('mousedown', (e) => {
-          if (radarScale > 1) {
-              isDraggingRadar = true;
-              radarStartX = e.clientX - radarPanX;
-              radarStartY = e.clientY - radarPanY;
-          }
-      });
-
-      window.addEventListener('mousemove', (e) => {
-          if (!isDraggingRadar) return;
-          radarPanX = e.clientX - radarStartX;
-          radarPanY = e.clientY - radarStartY;
-          updateRadarTransform();
-      });
-
-      window.addEventListener('mouseup', () => { isDraggingRadar = false; });
-
-      // Touch support so mobile/tablet users can pinch-drag once zoomed
-      let radarTouchStartX, radarTouchStartY;
-      radarViewport.addEventListener('touchstart', (e) => {
-          if (radarScale > 1 && e.touches.length === 1) {
-              isDraggingRadar = true;
-              radarTouchStartX = e.touches[0].clientX - radarPanX;
-              radarTouchStartY = e.touches[0].clientY - radarPanY;
-          }
-      }, { passive: true });
-
-      radarViewport.addEventListener('touchmove', (e) => {
-          if (!isDraggingRadar || e.touches.length !== 1) return;
-          radarPanX = e.touches[0].clientX - radarTouchStartX;
-          radarPanY = e.touches[0].clientY - radarTouchStartY;
-          updateRadarTransform();
-      }, { passive: true });
-
-      radarViewport.addEventListener('touchend', () => { isDraggingRadar = false; });
-  }
-
-  window.resetRadarZoom = function() {
-      radarScale = 1;
-      radarPanX = 0;
-      radarPanY = 0;
-      updateRadarTransform();
-      playClick();
-  };
-
-  function projectCoords(lat, lng) {
-      const x = (lng + 180) * (1000 / 360);
-      const y = (90 - lat) * (500 / 180);
-      return { x, y };
-  }
-
-  async function loadFooterTelemetry() {
-      const pinsLayer = document.getElementById('footer-pins-layer');
-      const statusText = document.getElementById('radar-status-text');
-      if (!pinsLayer) return;
-
-      try {
-          const res = await fetch('/api/visits');
-          const visits = await res.json();
-          pinsLayer.innerHTML = '';
-
-          if (!visits || visits.length === 0) {
-              if (statusText) statusText.textContent = 'No active nodes found';
-              return;
-          }
-
-          if (statusText) statusText.textContent = `Tracking ${visits.length} recent pulses`;
-
-          visits.forEach((v) => {
-              if (v.lat !== 0 || v.lng !== 0) {
-                  const { x, y } = projectCoords(v.lat, v.lng);
-                  const pinGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-                  pinGroup.innerHTML = `
-                      <circle cx="${x}" cy="${y}" r="10" fill="none" stroke="var(--gold)" stroke-width="1.5" opacity="0.8">
-                          <animate attributeName="r" from="3" to="22" dur="2.5s" repeatCount="indefinite" />
-                          <animate attributeName="opacity" from="0.9" to="0" dur="2.5s" repeatCount="indefinite" />
-                      </circle>
-                      <circle cx="${x}" cy="${y}" r="3.5" fill="var(--gold)" />
-                  `;
-                  pinsLayer.appendChild(pinGroup);
-              }
-          });
-      } catch (e) {
-          if (statusText) statusText.textContent = 'Telemetry sync failed';
-      }
-  }
-
-  window.addEventListener('load', loadFooterTelemetry);
 
 })();
 </script>
