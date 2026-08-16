@@ -202,6 +202,66 @@
   .data-preview-table th, .data-preview-table td { padding: 1rem 1.25rem; border-bottom: 1px solid var(--line); text-align: left; color: var(--dim); }
   .data-preview-table th { color: var(--gold); font-weight: normal; background: color-mix(in srgb, var(--gold) 4%, transparent); }
 
+  /* Custom cross-browser range slider — native sliders render very differently
+     between macOS and Windows, so we fully reset and rebuild track + thumb
+     instead of relying on `accent-color`, which only tints the OS default. */
+  .hm-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 4px;
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    cursor: pointer;
+    outline: none;
+    vertical-align: middle;
+  }
+  .hm-slider::-webkit-slider-runnable-track {
+    height: 4px;
+    border-radius: 999px;
+    background: linear-gradient(to right, var(--gold) 0%, var(--gold) var(--fill, 0%), #333 var(--fill, 0%), #333 100%);
+  }
+  .hm-slider::-moz-range-track {
+    height: 4px;
+    border-radius: 999px;
+    background: #333;
+  }
+  .hm-slider::-moz-range-progress {
+    height: 4px;
+    border-radius: 999px;
+    background: var(--gold);
+  }
+  .hm-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--gold);
+    border: 2px solid #080808;
+    box-shadow: 0 0 0 1px var(--gold);
+    margin-top: -6px;
+    cursor: pointer;
+    transition: transform 0.15s ease;
+  }
+  .hm-slider::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--gold);
+    border: 2px solid #080808;
+    box-shadow: 0 0 0 1px var(--gold);
+    cursor: pointer;
+    transition: transform 0.15s ease;
+  }
+  .hm-slider::-webkit-slider-thumb:hover,
+  .hm-slider::-webkit-slider-thumb:active { transform: scale(1.15); }
+  .hm-slider::-moz-range-thumb:hover,
+  .hm-slider::-moz-range-thumb:active { transform: scale(1.15); }
+  .hm-slider:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 3px color-mix(in srgb, var(--gold) 40%, transparent); }
+  .hm-slider:focus-visible::-moz-range-thumb { box-shadow: 0 0 0 3px color-mix(in srgb, var(--gold) 40%, transparent); }
+
   #moon-widget{
     width:36px; height:36px; border-radius:50%; cursor:pointer; position:relative; flex-shrink: 0; display: flex; align-items: center; justify-content: center;
     background:radial-gradient(circle at 30% 30%, #f0ebd8 0%, #c2b59b 50%, #5c5445 100%);
@@ -216,6 +276,7 @@
   #audio-widget:hover { color: var(--gold); transform: scale(1.1) rotate(5deg); text-shadow: 0 0 12px var(--gold); }
   html.light-mode #audio-widget { color: var(--dim); }
   html.light-mode #audio-widget:hover { color: var(--gold); }
+  #nav-search-btn:hover { color: var(--gold); transform: scale(1.1); }
   
   #ink-cursor{ 
     position:fixed; top:0; left:0; color: var(--gold); font-size: 32px; line-height: 1; text-align: center; 
@@ -251,6 +312,51 @@
   
   .terminal-window { width: 90%; max-width: 800px; background: #080808; border: 1px solid #333; border-radius: 6px; color: #4ade80; padding: 2rem; box-shadow: 0 20px 50px rgba(0,0,0,0.8); transform: translateY(20px); transition: transform 0.4s ease; overflow-y: auto; position: relative; overflow: hidden; margin-bottom: 2rem; margin-top: 1rem; }
   .modal-overlay.active .terminal-window { transform: translateY(0); }
+
+  /* Matrix easter-egg needs a true full-viewport terminal, not the standard
+     90%-width dialog. Scoped override wins regardless of the inline Tailwind
+     utility classes, so it renders correctly even if the JIT class didn't compile. */
+  #modal-matrix .terminal-window {
+    width: 100vw;
+    height: 100dvh;
+    max-width: none;
+    max-height: none;
+    margin: 0;
+    padding: 0;
+    border: none;
+    border-radius: 0;
+  }
+
+  /* Global command palette / search */
+  #modal-search { align-items: flex-start; }
+  .search-palette {
+    width: 90%;
+    max-width: 640px;
+    margin-top: 12vh;
+    background: #0c0a10;
+    border: 1px solid var(--gold);
+    border-radius: 10px;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.85);
+    overflow: hidden;
+    transform: translateY(20px);
+    transition: transform 0.4s ease;
+  }
+  #modal-search.active .search-palette { transform: translateY(0); }
+  .search-palette-input-row { display: flex; align-items: center; gap: 0.75rem; padding: 1.1rem 1.4rem; border-bottom: 1px solid var(--line); }
+  .search-palette-prompt { color: var(--gold); font-family: 'Space Mono', monospace; font-size: 1rem; }
+  .search-palette-input { flex: 1; background: transparent; border: none; outline: none; color: var(--ink); font-family: 'Space Mono', monospace; font-size: 0.95rem; letter-spacing: 0.01em; }
+  .search-palette-input::placeholder { color: var(--dim); opacity: 0.6; }
+  .search-palette-esc { font-family: 'Space Mono', monospace; font-size: 0.65rem; color: var(--dim); border: 1px solid var(--line); border-radius: 4px; padding: 0.2rem 0.4rem; opacity: 0.7; }
+  .search-palette-results { max-height: 55vh; overflow-y: auto; padding: 0.5rem; }
+  .search-result-item { display: flex; flex-direction: column; gap: 0.2rem; padding: 0.8rem 1rem; border-radius: 6px; cursor: pointer; transition: background 0.15s ease; }
+  .search-result-item + .search-result-item { margin-top: 2px; }
+  .search-result-item:hover, .search-result-item.is-active { background: color-mix(in srgb, var(--gold) 12%, transparent); }
+  .search-result-title { font-family: 'Space Mono', monospace; font-size: 0.85rem; color: var(--ink); display: flex; align-items: center; gap: 0.6rem; }
+  .search-result-type { font-family: 'Space Mono', monospace; font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); border: 1px solid color-mix(in srgb, var(--gold) 40%, transparent); border-radius: 999px; padding: 0.1rem 0.5rem; flex-shrink: 0; }
+  .search-result-desc { font-family: 'Space Mono', monospace; font-size: 0.75rem; color: var(--dim); line-height: 1.5; }
+  .search-empty { padding: 2rem 1rem; text-align: center; color: var(--dim); font-family: 'Space Mono', monospace; font-size: 0.8rem; }
+  mark.search-hit { background: transparent; color: var(--gold); font-weight: bold; }
+
   .terminal-header { border-bottom: 1px solid #333; padding-bottom: 1rem; margin-bottom: 1rem; color: #888; position: relative; z-index: 10; }
   .terminal-content { position: relative; z-index: 10; background: rgba(0,0,0,0.7); padding: 1rem; border-radius: 4px;}
   .terminal-window, .terminal-window * { font-family: 'Courier New', Courier, monospace !important; font-size: 13px !important; line-height: 1.6 !important; letter-spacing: normal !important; text-transform: none !important; }
@@ -427,6 +533,7 @@
   <a href="#notes" class="hover-trigger mobile-link">Notes</a>
   <a href="#contact" class="hover-trigger mobile-link">Socials</a>
   <a href="#" class="hover-trigger modal-trigger mobile-link" data-target="modal-tips">Secrets & Tips</a>
+  <button type="button" id="nav-search-btn-mobile" class="hover-trigger mobile-link" style="background:none; border:none;">Search</button>
   <span id="dispatch-time-mobile" class="label mt-8 opacity-70 hover-trigger cursor-pointer text-center block">--:--</span>
   <p class="label !text-[0.5rem] opacity-50 text-center">Tap clock for JP Time</p>
 </div>
@@ -472,6 +579,10 @@
       
       <!-- TIPS button given a strict class so it stays hidden on mobile -->
       <button type="button" class="btn-ghost hover-trigger modal-trigger desktop-tips-btn hidden lg:inline-flex shrink-0" data-target="modal-tips">TIPS ?</button>
+
+      <button type="button" id="nav-search-btn" class="hover-trigger shrink-0" aria-label="Search" title="Search (⌘K)" style="color: var(--dim); background: transparent; border: none; display: flex; align-items: center; justify-content: center; padding: 0 0.5rem; cursor: pointer; transition: color 0.3s ease;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+      </button>
       
       <!-- Spotify Widget with absolute inline truncation protection -->
       <a id="spotify-widget" href="#" target="_blank" rel="noopener" class="label hidden lg:flex items-center gap-2 opacity-60 hover:opacity-100 transition-opacity hover-trigger shrink-0" style="display: none; max-width: 180px; overflow: hidden;" title="Now Playing">
@@ -1152,7 +1263,7 @@ print(f"After SMOTE: {pd.Series(y_train_resampled).value_counts().to_dict()}")
     <div class="grid grid-cols-2 gap-4 w-full max-w-[800px] max-md:grid-cols-1 text-[#4ade80] font-mono text-sm">
         <div class="border border-[#333] bg-[#080808] p-4 rounded flex flex-col justify-center">
             <label class="block mb-4">Analysis Radius (<span id="hm-radius-val">5</span> km)</label>
-            <input type="range" id="hm-radius" min="1" max="15" value="5" class="w-full accent-[var(--gold)]">
+            <input type="range" id="hm-radius" min="1" max="15" value="5" class="w-full hm-slider">
         </div>
         <div class="border border-[#333] bg-[#080808] p-4 rounded flex flex-col justify-center">
             <div class="mb-2 border-b border-[#333] pb-2 text-[var(--gold)]">Market Statistics</div>
@@ -1309,7 +1420,7 @@ print(solution$solution)</code></pre>
     <div class="achievement-box mb-8 border border-[var(--gold)] !bg-transparent">
       <div class="flex justify-between text-[var(--gold)] mb-2">
         <span>ARCHIVIST PROGRESS</span>
-        <span id="ach-text">0/10 SECRETS FOUND</span>
+        <span id="ach-text">0/11 SECRETS FOUND</span>
       </div>
       <div class="ach-bar"><div class="ach-fill" id="ach-fill"></div></div>
     </div>
@@ -1320,11 +1431,11 @@ print(solution$solution)</code></pre>
       <li><span class="inline-block w-28 text-[var(--gold)]">Visual Nov</span> Press <kbd class="px-2 py-1 rounded border border-[#333]">V</kbd> to convert the dossier into a Ren'Py interface.</li>
       <li><span class="inline-block w-28 text-[var(--gold)]">Coffee Brk</span> Press <kbd class="px-2 py-1 rounded border border-[#333]">C</kbd> to brew a coffee theme.</li>
       <li><span class="inline-block w-28 text-[var(--gold)]">Candlelight</span> Press <kbd class="px-2 py-1 rounded border border-[#333]">N</kbd> to ignite the dark academia theme.</li>
-      <li><span class="inline-block w-28 text-[var(--gold)]">Terminal</span> Press <kbd class="px-2 py-1 rounded border border-[#333]">Cmd+K</kbd> / <kbd class="px-2 py-1 rounded border border-[#333]">Ctrl+K</kbd> to view raw JSON system data.</li>
+      <li><span class="inline-block w-28 text-[var(--gold)]">Search</span> Press <kbd class="px-2 py-1 rounded border border-[#333]">Cmd+K</kbd> / <kbd class="px-2 py-1 rounded border border-[#333]">Ctrl+K</kbd> to open the command palette. Try typing "whoami".</li>
       <li><span class="inline-block w-28 text-[var(--gold)]">TouchNodes</span> Press <kbd class="px-2 py-1 rounded border border-[#333]">T</kbd> for interactive physics nodes in the background.</li>
       <li><span class="inline-block w-28 text-[var(--gold)]">Matrix O/R</span> Press <kbd class="px-2 py-1 rounded border border-[#333]">M</kbd> to initiate the terminal rain.</li>
       <li><span class="inline-block w-28 text-[var(--gold)]">God Mode</span> Press <kbd class="px-2 py-1 rounded border border-[#333]">G</kbd> for system performance metrics.</li>
-      <li><span class="inline-block w-28 text-[var(--gold)]">Overclocked</span> Rapidly click the marquee 5 times for an energy boost.</li>
+      <li><span class="inline-block w-28 text-[var(--gold)]">Time Shift</span> Click the clock in the nav to toggle Japanese standard time.</li>
     </ul>
   </div>
 </div>
@@ -1347,6 +1458,18 @@ print(solution$solution)</code></pre>
              class="w-full px-3 py-1 text-xs rounded font-mono placeholder:text-[#333] focus:bg-[rgba(209,183,148,0.1)] transition-colors focus:ring-0">
       <button onclick="submitGuestbook()" class="btn-ghost !text-xs !py-1 !px-4 hover:!text-[var(--ink)]">SEND</button>
     </div>
+  </div>
+</div>
+
+<!-- GLOBAL COMMAND PALETTE / SEARCH -->
+<div class="modal-overlay" id="modal-search">
+  <div class="search-palette" role="dialog" aria-modal="true" aria-label="Search">
+    <div class="search-palette-input-row">
+      <span class="search-palette-prompt">&gt;</span>
+      <input type="text" id="search-input" class="search-palette-input" placeholder="Search sections, case studies…" autocomplete="off" spellcheck="false">
+      <kbd class="search-palette-esc">ESC</kbd>
+    </div>
+    <div id="search-results" class="search-palette-results"></div>
   </div>
 </div>
 
@@ -1451,6 +1574,124 @@ print(solution$solution)
   const $$ = (s,c=document)=>[...c.querySelectorAll(s)];
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  // ================= GLOBAL COMMAND PALETTE / SEARCH =================
+  const searchIndex = [
+    { title: 'The Dossier — About', type: 'Section', desc: 'Working philosophy: real, unglamorous data, reproducible pipelines, and structural integrity.', action: () => scrollToTarget('#about') },
+    { title: 'Selected Finished Works', type: 'Section', desc: 'The curated dossier of deployment-ready deliverables.', action: () => scrollToTarget('#work') },
+    { title: 'Creative Engineering', type: 'Section', desc: 'Essays spanning philosophy, technology, and constitutional law.', action: () => scrollToTarget('#creative') },
+    { title: 'Verified Proficiencies', type: 'Section', desc: 'Certifications acquired to date, verifiable via Coursera.', action: () => scrollToTarget('#certifications') },
+    { title: 'Field Notes & Snippets', type: 'Section', desc: 'Micro-blog: current focus, statistics notes, and R optimization snippets.', action: () => scrollToTarget('#notes') },
+    { title: 'Contact / Socials', type: 'Section', desc: 'Get in touch or find social links.', action: () => scrollToTarget('#contact') },
+
+    { title: 'NGO Applicant Records', type: 'Case Study', desc: 'Standardized and scrubbed 350 applicant records, resolving data corruption.', action: () => openDrawer('drawer-ngo') },
+    { title: 'Quick-Commerce Strategy', type: 'Case Study', desc: 'Game theory applied to Blinkit, Zepto, and Swiggy Instamart competitive dynamics.', action: () => openDrawer('drawer-matrix') },
+    { title: 'Credit Card Fraud Detection', type: 'Case Study', desc: 'SMOTE on a 0.17% fraud rate across 284k cases to stabilize model accuracy.', action: () => openDrawer('drawer-fraud') },
+    { title: 'Data Deduplication Pipeline', type: 'Case Study', desc: 'SQLAlchemy + Neon Postgres with Jaro-Winkler similarity to merge fuzzy duplicates.', action: () => openDrawer('drawer-dedup') },
+    { title: 'Spatial Real Estate Heatmap', type: 'Case Study', desc: 'Interactive Navi Mumbai density dashboard with dynamic radius filtering.', action: () => openDrawer('drawer-heatmap') },
+    { title: "The Art of Giving Up", type: 'Essay', desc: 'Quitting as an act of authentic alignment rather than defeat.', action: () => openDrawer('drawer-giving-up') },
+    { title: 'The Ouroboros of Ignorance', type: 'Essay', desc: 'Late-stage capitalism, AI, and intellectual decline.', action: () => openDrawer('drawer-ouroboros') },
+    { title: 'An Essay on Constitutional Erosion', type: 'Essay', desc: 'Fundamental Rights, Directive Principles, and the Puttaswamy judgment.', action: () => openDrawer('drawer-constitution') },
+    { title: 'Linear Optimization in R', type: 'Note', desc: 'Solving linear programming matrices with R optimization packages.', action: () => openDrawer('drawer-r') },
+    { title: 'Colophon', type: 'Meta', desc: 'Typography, fonts, and the tools this site was built with.', action: () => openDrawer('drawer-colophon') },
+    { title: 'guest@bawankar-os', type: 'System', desc: 'cat resume.json — raw system data.', keywords: 'whoami sudo resume json terminal cat', action: () => { const m = $('#modal-terminal'); if(m) m.classList.add('active'); unlockSecret('terminal'); } },
+  ];
+
+  function scrollToTarget(selector) {
+    const el = $(selector);
+    if(el) el.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+  }
+
+  function escapeHtml(str) {
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  }
+
+  function highlightMatch(text, query) {
+    if(!query) return text;
+    const idx = text.toLowerCase().indexOf(query.toLowerCase());
+    if(idx === -1) return text;
+    return text.slice(0, idx) + '<mark class="search-hit">' + text.slice(idx, idx + query.length) + '</mark>' + text.slice(idx + query.length);
+  }
+
+  let searchActiveIndex = 0;
+  let searchCurrentResults = [];
+
+  function renderSearchResults(query) {
+    const resultsEl = $('#search-results');
+    if(!resultsEl) return;
+    const q = (query || '').trim().toLowerCase();
+    let matches;
+    if(!q) {
+      matches = searchIndex.filter(item => item.type !== 'System').slice(0, 8);
+    } else {
+      matches = searchIndex.filter(item => {
+        const haystack = (item.title + ' ' + item.desc + ' ' + (item.keywords || '')).toLowerCase();
+        return haystack.includes(q);
+      });
+    }
+    searchCurrentResults = matches;
+    searchActiveIndex = 0;
+    if(matches.length === 0) {
+      resultsEl.innerHTML = '<div class="search-empty">No results for "' + escapeHtml(query) + '". Try "heatmap", "fraud", or "contact".</div>';
+      return;
+    }
+    resultsEl.innerHTML = matches.map((item, i) => (
+      '<div class="search-result-item' + (i === 0 ? ' is-active' : '') + '" data-idx="' + i + '">' +
+        '<div class="search-result-title">' + highlightMatch(item.title, q) + '<span class="search-result-type">' + item.type + '</span></div>' +
+        '<div class="search-result-desc">' + item.desc + '</div>' +
+      '</div>'
+    )).join('');
+    $$('.search-result-item', resultsEl).forEach(el => {
+      el.addEventListener('click', () => activateSearchResult(parseInt(el.dataset.idx, 10)));
+    });
+  }
+
+  function setSearchActive(idx) {
+    const items = $$('.search-result-item');
+    if(items.length === 0) return;
+    searchActiveIndex = (idx + items.length) % items.length;
+    items.forEach((el, i) => el.classList.toggle('is-active', i === searchActiveIndex));
+    items[searchActiveIndex].scrollIntoView({ block: 'nearest' });
+  }
+
+  function activateSearchResult(idx) {
+    const item = searchCurrentResults[idx];
+    if(!item) return;
+    closeAllDrawers();
+    playClick();
+    unlockSecret('search');
+    setTimeout(item.action, 50);
+  }
+
+  window.openSearch = function() {
+    const modal = $('#modal-search');
+    if(!modal) return;
+    modal.classList.add('active');
+    playClick();
+    unlockSecret('search');
+    const input = $('#search-input');
+    renderSearchResults('');
+    if(input) { input.value = ''; setTimeout(() => input.focus(), 50); }
+  };
+
+  const searchInputEl = document.getElementById('search-input');
+  if(searchInputEl) {
+    searchInputEl.addEventListener('input', e => renderSearchResults(e.target.value));
+    searchInputEl.addEventListener('keydown', e => {
+      if(e.key === 'ArrowDown') { e.preventDefault(); setSearchActive(searchActiveIndex + 1); }
+      else if(e.key === 'ArrowUp') { e.preventDefault(); setSearchActive(searchActiveIndex - 1); }
+      else if(e.key === 'Enter') { e.preventDefault(); activateSearchResult(searchActiveIndex); }
+      else if(e.key === 'Escape') { e.preventDefault(); closeAllDrawers(); }
+    });
+  }
+
+  const navSearchBtn = document.getElementById('nav-search-btn');
+  if(navSearchBtn) navSearchBtn.addEventListener('click', window.openSearch);
+  const navSearchBtnMobile = document.getElementById('nav-search-btn-mobile');
+  if(navSearchBtnMobile) navSearchBtnMobile.addEventListener('click', () => { closeMobileNav(); window.openSearch(); });
+  // ================= END COMMAND PALETTE =================
+
   // OS Theme Detection
   if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
     document.documentElement.classList.add('light-mode');
@@ -1518,8 +1759,8 @@ print(solution$solution)
     try {
       let unlocked = JSON.parse(localStorage.getItem('nabhya_secrets') || '[]');
       const textEl = $('#ach-text'); const fillEl = $('#ach-fill');
-      if(textEl) textEl.textContent = `${unlocked.length}/10 SECRETS FOUND`;
-      if(fillEl) fillEl.style.width = `${(unlocked.length / 10) * 100}%`;
+      if(textEl) textEl.textContent = `${unlocked.length}/11 SECRETS FOUND`;
+      if(fillEl) fillEl.style.width = `${(unlocked.length / 11) * 100}%`;
     } catch(e) {}
   }
   updateAchievementUI();
@@ -1718,7 +1959,7 @@ print(solution$solution)
       playSecretSound(); unlockSecret('candle');
     }
     if(e.key.toLowerCase() === 'g') { const gm = $('#god-mode'); if(gm) { gm.classList.toggle('active'); playClick(); unlockSecret('godmode'); } }
-    if((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); const tMod = $('#modal-terminal'); if(tMod){ tMod.classList.add('active'); playClick(); unlockSecret('terminal'); } }
+    if((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); window.openSearch(); }
     
     // FULLY SEPARATED M KEY MATRIX EASTER EGG
     if(e.key.toLowerCase() === 'm') {
@@ -1981,6 +2222,7 @@ print(solution$solution)
     mWidth = mCanvas.width = window.innerWidth; mHeight = mCanvas.height = window.innerHeight;
     columns = mWidth / 14; drops = []; for(let x = 0; x < columns; x++) drops[x] = 1;
   }
+  window.addEventListener('resize', () => { if(matrixMode) initMatrix(); });
   function drawMatrix() {
     const mCanvas = document.getElementById('matrix-canvas-modal');
     if(!mCanvas) return;
@@ -2128,6 +2370,9 @@ print(solution$solution)
     const hmR2 = document.getElementById('hm-r2');
     
     const ctx = hmCanvas.getContext('2d'); const radiusKm = parseFloat(hmRadiusSlider.value); const radiusPx = (radiusKm / 15) * 180;
+    const hmMin = parseFloat(hmRadiusSlider.min) || 0; const hmMax = parseFloat(hmRadiusSlider.max) || 100;
+    const hmFillPct = ((radiusKm - hmMin) / (hmMax - hmMin)) * 100;
+    hmRadiusSlider.style.setProperty('--fill', hmFillPct + '%');
     ctx.clearRect(0,0, 800, 400);
     ctx.strokeStyle = '#2a2a2a'; ctx.lineWidth = 0.5;
     for (let i = 0; i <= 20; i++) {
