@@ -433,9 +433,11 @@
     </div>
     <div class="nav-tools-locked min-w-0 shrink-0">
       <button class="hamburger hover-trigger shrink-0" id="hamburger-btn" aria-label="Menu" onclick="toggleMobileNav()">☰</button>
-      <button type="button" class="btn-ghost hover-trigger modal-trigger hidden xl:inline-flex shrink-0" data-target="modal-tips">TIPS ?</button>
       
-      <!-- Spotify Now Playing Widget (Truncated safely) -->
+      <!-- TIPS button hidden on mobile/tablet, only shows on large desktop screens -->
+      <button type="button" class="btn-ghost hover-trigger modal-trigger hidden lg:inline-flex shrink-0" data-target="modal-tips">TIPS ?</button>
+      
+      <!-- Spotify Now Playing Widget -->
       <a id="spotify-widget" href="#" target="_blank" rel="noopener" class="label hidden lg:flex items-center gap-2 opacity-60 hover:opacity-100 transition-opacity hover-trigger max-w-[140px] xl:max-w-[200px]" style="display: none;">
         <span id="spotify-icon" class="text-[var(--gold)] shrink-0">♫</span>
         <span id="spotify-text" class="tracking-[0.1em] truncate">Loading...</span>
@@ -446,20 +448,6 @@
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
       </button>
       <button type="button" id="moon-widget" class="hover-trigger shrink-0" title="Toggle Light/Dark Theme" aria-label="Toggle Theme"></button>
-    </div>
-  </div>
-</nav>
-      <!-- Spotify Now Playing Widget (Truncated) -->
-      <a id="spotify-widget" href="#" target="_blank" rel="noopener" class="label hidden lg:flex items-center gap-2 opacity-60 hover:opacity-100 transition-opacity hover-trigger min-w-0" style="display: none;">
-        <span id="spotify-icon" class="text-[var(--gold)] shrink-0">♫</span>
-        <span id="spotify-text" class="tracking-[0.1em] truncate max-w-[120px] xl:max-w-[250px]">Loading...</span>
-      </a>
-
-      <span id="dispatch-time" class="label hidden md:block opacity-70 whitespace-nowrap hover-trigger cursor-pointer shrink-0" aria-live="polite">--:--</span>
-      <button type="button" id="audio-widget" class="hover-trigger shrink-0" title="Toggle UI Audio">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
-      </button>
-      <button type="button" id="moon-widget" class="hover-trigger mr-4 md:mr-0 shrink-0" title="Toggle Light/Dark Theme" aria-label="Toggle Theme"></button>
     </div>
   </div>
 </nav>
