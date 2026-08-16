@@ -666,9 +666,26 @@
       </div>
     </article>
 
-    <article class="ui-card spotlight anim-section proj-card hover-trigger magnetic-hover project-item" data-category="viz">
+    <article class="ui-card spotlight anim-section proj-card hover-trigger magnetic-hover project-item" data-category="sql">
       <div class="proj-info-left">
         <span class="proj-num">04</span>
+        <span class="proj-cat">Data Pipeline</span>
+      </div>
+      <div class="proj-info-center">
+        <h3 class="proj-title">Automated Entity<br>Resolution Engine</h3>
+        <p class="proj-desc vn-readable">
+          Engineered a Python-based automated data cleansing pipeline. Integrated SQLAlchemy with a live Neon PostgreSQL database to extract dirty CRM records, applying Jarowinkler similarity algorithms to resolve and merge fuzzy duplicates.
+        </p>
+      </div>
+      <div class="proj-action-right">
+        <span class="label !text-[0.65rem] text-[var(--dim)] block mb-4">Python · Pandas · RecordLinkage · PostgreSQL</span>
+        <button class="btn-ghost hover-trigger text-[0.8rem]" onclick="openDrawer('drawer-dedup')">View Case Study</button>
+      </div>
+    </article>
+
+    <article class="ui-card spotlight anim-section proj-card hover-trigger magnetic-hover project-item" data-category="viz">
+      <div class="proj-info-left">
+        <span class="proj-num">05</span>
         <span class="proj-cat">Interactive Analytics</span>
       </div>
       <div class="proj-info-center">
@@ -684,7 +701,7 @@
 
     <article class="ui-card spotlight anim-section proj-card hover-trigger magnetic-hover project-item" data-category="ml" style="border-color: color-mix(in srgb, var(--gold) 30%, transparent);">
       <div class="proj-info-left">
-        <span class="proj-num" style="color:var(--dim)">05</span>
+        <span class="proj-num" style="color:var(--dim)">06</span>
         <span class="proj-cat">Failed Experiment</span>
       </div>
       <div class="proj-info-center">
@@ -1087,6 +1104,65 @@ print(f"After SMOTE: {pd.Series(y_train_resampled).value_counts().to_dict()}")
                 <div class="flex flex-col mt-2"><span>R² Value</span><span id="hm-r2">0.00</span></div>
             </div>
         </div>
+    </div>
+  </div>
+</div>
+
+<div class="slide-drawer" id="drawer-dedup">
+  <button class="btn-close-minimal drawer-close hover-trigger" aria-label="Close drawer"></button>
+  <p class="label mb-4">Data Pipeline</p>
+  <h2 class="h-display text-4xl text-[var(--ink)] mb-6">Automated Entity Resolution Engine</h2>
+
+  <div class="text-[var(--dim)] font-serif text-[1.1rem] leading-[1.8] mb-10 space-y-6">
+    <p>The pipeline extracts 1,000 messy customer-lead rows from a live Neon Postgres database, applies fuzzy string-matching across names and emails to surface duplicate entities, then writes a clean, de-duplicated dataset back to production.</p>
+  </div>
+
+  <h3 class="label text-[var(--gold)] mb-4">Live Execution</h3>
+  <div class="w-full border border-[#333] rounded overflow-hidden">
+    <img src="data-dedup-pipeline/dedup-demo.gif" alt="Terminal capture of the entity resolution pipeline running" class="w-full block">
+  </div>
+  <p class="text-[var(--dim)] text-sm font-serif italic mt-4 mb-10 text-center">Terminal capture of the pipeline connecting to Neon, indexing by state, and resolving duplicates.</p>
+
+  <h3 class="label text-[var(--gold)] mb-4">Database State — Before &amp; After</h3>
+  <div class="flex flex-col gap-6 w-full mb-10">
+    <div>
+      <div class="w-full border border-[#333] rounded overflow-hidden">
+        <img src="data-dedup-pipeline/raw_leads.png" alt="Raw leads table in Neon Postgres" class="w-full block">
+      </div>
+      <p class="text-[var(--dim)] text-sm font-serif italic mt-3 text-center">raw_leads — 1,000 rows, fuzzy duplicates intact.</p>
+    </div>
+    <div>
+      <div class="w-full border border-[#333] rounded overflow-hidden">
+        <img src="data-dedup-pipeline/clean_leads.png" alt="Clean leads table in Neon Postgres" class="w-full block">
+      </div>
+      <p class="text-[var(--dim)] text-sm font-serif italic mt-3 text-center">clean_leads — 800 rows, resolved and merged.</p>
+    </div>
+  </div>
+
+  <h3 class="label text-[var(--gold)] mb-4">System Architecture</h3>
+  <div class="terminal-window !p-6 !mt-6 !mb-10 w-full !text-[0.8rem] relative">
+    <pre class="overflow-x-auto font-mono text-[#4ade80] leading-relaxed text-center"><code>RAW DATA <span class="text-[#888]">(Neon Postgres)</span>
+      │
+      ▼
+FUZZY LOGIC <span class="text-[#888]">(Python / Pandas / RecordLinkage)</span>
+      │
+      ▼
+CLEAN DATA <span class="text-[#888]">(Production DB)</span></code></pre>
+  </div>
+
+  <h3 class="label text-[var(--gold)] mb-4">Code Snippet</h3>
+  <div class="text-[var(--dim)] font-serif text-[1.05rem] leading-[1.8] space-y-6">
+    <p>Comparison logic: Jarowinkler similarity on name at an 0.85 threshold, combined with an exact match on email.</p>
+    <div class="terminal-window !p-6 !mt-6 !mb-10 w-full !text-[0.8rem] relative">
+      <button class="copy-btn hover-trigger absolute top-3 right-3" onclick="copyCode(this)">Copy Source</button>
+      <pre class="overflow-x-auto"><code>import recordlinkage
+
+compare = recordlinkage.Compare()
+compare.string('name', 'name', method='jarowinkler', threshold=0.85, label='name_score')
+compare.exact('email', 'email', label='email_score')
+
+features = compare.compute(candidate_links, df)
+matches = features[features.sum(axis=1) > 1]</code></pre>
     </div>
   </div>
 </div>
