@@ -1,6 +1,6 @@
-Project Title: Automated Entity Resolution Engine
-Objective: Eliminate duplicate and fuzzy (typo-ridden) CRM records to ensure data integrity for enterprise analytics.
-Tech Stack: Python, Pandas, RecordLinkage Toolkit, SQLAlchemy, Neon (Serverless PostgreSQL).
+# Data Deduplication Pipeline
+-Delete duplicate and fuzzy (typo-ridden) CRM records to ensure data integrity for business analytics.
+-Tech Stack: Python, Pandas, RecordLinkage Toolkit, SQL, Neon (Serverless PostgreSQL).
 The Workflow:
 
     Data Generation: Used the Faker library to generate 1,000 rows of synthetic, messy customer leads, deliberately injecting 200 fuzzy duplicates (e.g., slight name misspellings).
