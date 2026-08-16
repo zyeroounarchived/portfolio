@@ -1000,7 +1000,10 @@
       <div id="gh-grid"></div>
     </div>
     <div class="flex flex-col items-center gap-3 mt-6">
-      <a href="#" onclick="openDrawer('drawer-colophon'); return false;" class="label !text-[0.65rem] hover:text-[var(--gold)] transition-colors hover-trigger">View Colophon</a>
+      <div class="flex gap-6">
+        <a href="#" onclick="openDrawer('drawer-colophon'); return false;" class="label !text-[0.65rem] hover:text-[var(--gold)] transition-colors hover-trigger">View Colophon</a>
+        <a href="#" onclick="openGuestbook(); return false;" class="label !text-[0.65rem] hover:text-[var(--gold)] transition-colors hover-trigger text-[var(--gold)]">~/guestbook.sh</a>
+      </div>
       <p class="label !text-[0.65rem] text-[var(--dim)] mt-2">VISITORS: <span id="visitor-count" class="text-[var(--gold)] tracking-widest">000000</span></p>
       <p class="label !text-[0.65rem] text-[var(--dim)]" id="footer-time">✠ © Life isnt always black and white. ✠</p>
     </div>
@@ -1303,6 +1306,26 @@ print(solution$solution)</code></pre>
       <li><span class="inline-block w-28 text-[var(--gold)]">God Mode</span> Press <kbd class="px-2 py-1 rounded border border-[#333]">G</kbd> for system performance metrics.</li>
       <li><span class="inline-block w-28 text-[var(--gold)]">Time Shift</span> Click the clock in the nav to toggle Japanese standard time.</li>
     </ul>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-guestbook">
+  <div class="terminal-window relative">
+    <button class="btn-close-minimal close-modal hover-trigger" aria-label="Close modal"></button>
+    <div class="terminal-header flex justify-between items-center mt-2">
+      <span>guest@bawankar-os:~/archives/guestbook$ ./view.sh</span>
+    </div>
+    
+    <div id="guestbook-list" class="space-y-3 mb-6 min-h-[150px] max-h-[300px] overflow-y-auto font-mono text-[var(--dim)] text-xs pr-2">
+      <div>Loading secure relay...</div>
+    </div>
+
+    <div class="border-t border-[#333] pt-4 flex gap-3 items-center">
+      <span class="text-[#4ade80] font-bold">></span>
+      <input type="text" id="gb-input" placeholder="Leave a trace (max 120 chars)..." maxlength="120" 
+             class="w-full bg-transparent border-none text-[var(--gold)] font-mono text-xs outline-none placeholder:text-[#333] focus:ring-0">
+      <button onclick="submitGuestbook()" class="btn-ghost !text-xs !py-1 !px-4 hover:!text-[var(--ink)]">SEND</button>
+    </div>
   </div>
 </div>
 
@@ -2363,16 +2386,87 @@ print(solution$solution)
       }
   };
 
+  // --- GUESTBOOK LOGIC ---
+  let gbLoading = false;
+
+  window.openGuestbook = async function() {
+      const modal = document.getElementById('modal-guestbook');
+      if(modal) modal.classList.add('active');
+      playClick();
+      await loadGuestbook();
+  };
+
+  async function loadGuestbook() {
+      const list = document.getElementById('guestbook-list');
+      if(!list) return;
+      try {
+          const res = await fetch('/api/guestbook');
+          const entries = await res.json();
+          list.innerHTML = '';
+          
+          if(entries.length === 0) {
+              list.innerHTML = '<div class="opacity-50">No traces found. Be the first.</div>';
+              return;
+          }
+
+          entries.forEach(entry => {
+              const date = new Date(entry.ts);
+              const timestamp = `[${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,'0')}-${String(date.getDate()).padStart(2,'0')} ${String(date.getHours()).padStart(2,'0')}:${String(date.getMinutes()).padStart(2,'0')}]`;
+              const loc = entry.loc !== '??' ? ` [${entry.loc}]` : '';
+              
+              const row = document.createElement('div');
+              row.innerHTML = `<span class="text-[#888]">${timestamp}${loc}</span> <span class="text-[#4ade80] ml-2">"<span class="text-[var(--ink)]">${entry.text}</span>"</span>`;
+              list.appendChild(row);
+          });
+          list.scrollTop = 0;
+      } catch(e) {
+          list.innerHTML = '<div class="text-[#ff0055]">Failed to connect to relay.</div>';
+      }
+  }
+
+  window.submitGuestbook = async function() {
+      if(gbLoading) return;
+      const input = document.getElementById('gb-input');
+      if(!input) return;
+      const text = input.value.trim();
+      if(!text) return;
+      
+      gbLoading = true;
+      input.disabled = true;
+      
+      try {
+          const res = await fetch('/api/guestbook', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ text })
+          });
+          
+          if (res.ok) {
+              input.value = '';
+              await loadGuestbook();
+              showToast('Transmission received.');
+          } else if (res.status === 429) {
+              showToast('Rate limit hit. Wait 10 minutes.');
+          } else {
+              showToast('Transmission failed.');
+          }
+      } catch (e) {
+          showToast('Network error.');
+      } finally {
+          gbLoading = false;
+          input.disabled = false;
+          input.focus();
+      }
+  };
+
+  const gbInputEl = document.getElementById('gb-input');
+  if(gbInputEl) {
+      gbInputEl.addEventListener('keypress', (e) => {
+          if(e.key === 'Enter') submitGuestbook();
+      });
+  }
+
 })();
 </script>
-
-<!-- Vercel Web Analytics -->
-<script>
-  window.va = window.va || function () { 
-    (window.vaq = window.vaq || []).push(arguments); 
-  };
-</script>
-<script defer src="/_vercel/insights/script.js"></script>
-
 </body>
 </html>
