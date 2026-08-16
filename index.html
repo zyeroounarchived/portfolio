@@ -418,11 +418,33 @@
   <p class="label !text-[0.5rem] opacity-50 text-center">Tap clock for JP Time</p>
 </div>
 
+<style>
+  /* --- REFINED NAV OVERRIDES --- */
+  #topnav{ position: fixed !important; top: 0; width: 100%; backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); background:color-mix(in srgb, var(--void) 85%, transparent); border-bottom:1px solid var(--line); z-index: 1000; }
+  .absolute-nav-wrapper { position: relative; width: 95%; max-width: 1600px; height: 4.5rem; display: flex; align-items: center; justify-content: space-between; margin: 0 auto; }
+  .nav-logo-locked { position: relative; z-index: 1002; flex-shrink: 0; }
+  .nav-logo-locked a { color: var(--ink); white-space: nowrap; }
+  .nav-links-locked { display: flex; gap: 3.5rem; }
+  .nav-links-locked a { color: var(--dim); transition: color 0.3s ease; }
+  .nav-links-locked a:hover { color: var(--ink); }
+  .nav-tools-locked { display: flex; align-items: center; gap: 1rem; z-index: 1002; min-width: 0; }
+  .nav-tools-locked button, .nav-tools-locked span { color: var(--dim); transition: color 0.3s ease; }
+  
+  .hamburger { display: none; background: transparent; border: none; color: var(--dim); cursor: pointer; font-size: 1.5rem; z-index: 1002; }
+  
+  /* Hide heavy widgets and links on mobile & tablet, leave only hamburger, audio, and theme toggle */
+  @media (max-width: 1024px) { 
+    .nav-links-locked, #dispatch-time, #spotify-widget, .desktop-tips-btn { display: none !important; } 
+    .hamburger { display: block !important; } 
+  }
+</style>
+
 <nav id="topnav" class="transition-colors duration-500">
-  <div class="w-full max-w-[1600px] mx-auto absolute-nav-wrapper px-6 md:px-10 flex-nowrap">
+  <div class="w-full max-w-[1600px] mx-auto absolute-nav-wrapper px-4 md:px-10 flex-nowrap">
     <div class="nav-logo-locked shrink-0">
       <a href="#top" class="label tracking-[0.25em] transition-colors katakana-swap hover-trigger font-gothic-accent" data-jp="N. バワンカル" aria-label="Nabhya Bawankar home"><span class="text-[var(--gold)] mr-2">✠</span>N. BAWANKAR</a>
     </div>
+    
     <div class="nav-links-locked shrink-0">
       <a href="#about" class="label transition-colors hover-trigger">Dossier</a>
       <a href="#work" class="label transition-colors hover-trigger">Exhibits</a>
@@ -431,22 +453,25 @@
       <a href="#notes" class="label transition-colors hover-trigger">Notes</a>
       <a href="#contact" class="label transition-colors hover-trigger">Socials</a>
     </div>
-    <div class="nav-tools-locked min-w-0 shrink-0">
+
+    <div class="nav-tools-locked shrink-0">
       <button class="hamburger hover-trigger shrink-0" id="hamburger-btn" aria-label="Menu" onclick="toggleMobileNav()">☰</button>
       
-      <!-- TIPS button hidden on mobile/tablet, only shows on large desktop screens -->
-      <button type="button" class="btn-ghost hover-trigger modal-trigger hidden lg:inline-flex shrink-0" data-target="modal-tips">TIPS ?</button>
+      <!-- TIPS button given a strict class so it stays hidden on mobile -->
+      <button type="button" class="btn-ghost hover-trigger modal-trigger desktop-tips-btn hidden lg:inline-flex shrink-0" data-target="modal-tips">TIPS ?</button>
       
-      <!-- Spotify Now Playing Widget -->
-      <a id="spotify-widget" href="#" target="_blank" rel="noopener" class="label hidden lg:flex items-center gap-2 opacity-60 hover:opacity-100 transition-opacity hover-trigger max-w-[140px] xl:max-w-[200px]" style="display: none;">
+      <!-- Spotify Widget with absolute inline truncation protection -->
+      <a id="spotify-widget" href="#" target="_blank" rel="noopener" class="label hidden lg:flex items-center gap-2 opacity-60 hover:opacity-100 transition-opacity hover-trigger shrink-0" style="display: none; max-width: 180px; overflow: hidden;" title="Now Playing">
         <span id="spotify-icon" class="text-[var(--gold)] shrink-0">♫</span>
-        <span id="spotify-text" class="tracking-[0.1em] truncate">Loading...</span>
+        <span id="spotify-text" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: inline-block; width: 100%;">Loading...</span>
       </a>
 
       <span id="dispatch-time" class="label hidden lg:block opacity-70 whitespace-nowrap hover-trigger cursor-pointer shrink-0" aria-live="polite">--:--</span>
+      
       <button type="button" id="audio-widget" class="hover-trigger hidden md:flex shrink-0" title="Toggle UI Audio">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
       </button>
+      
       <button type="button" id="moon-widget" class="hover-trigger shrink-0" title="Toggle Light/Dark Theme" aria-label="Toggle Theme"></button>
     </div>
   </div>
@@ -2277,12 +2302,17 @@ print(solution$solution)
       const res = await fetch('/api/now-playing');
       const data = await res.json();
        
-      if (data.isPlaying) {
-        spotifyWidget.style.display = 'flex';
+      if (data.isPlaying && spotifyWidget) {
+        // Only show if screen is large enough (Tailwind 'lg' breakpoint is 1024px)
+        if (window.innerWidth >= 1024) {
+          spotifyWidget.style.display = 'flex';
+        } else {
+          spotifyWidget.style.display = 'none';
+        }
         spotifyText.textContent = `${data.title} — ${data.artist}`;
         spotifyWidget.href = data.url;
         spotifyIcon.classList.add('animate-pulse'); 
-      } else {
+      } else if (spotifyWidget) {
         spotifyWidget.style.display = 'none';
         spotifyIcon.classList.remove('animate-pulse');
       }
