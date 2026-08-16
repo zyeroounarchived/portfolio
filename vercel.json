@@ -1,7 +1,6 @@
 {
-  "functions": {
-    "api/now-playing.js": {
-      "maxDuration": 10
-    }
-  }
+  "routes": [
+    { "src": "/api/now-playing", "destination": "/api/now-playing" },
+    { "src": "/(.*)", "destination": "/index.html" }
+  ]
 }
