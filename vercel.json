@@ -1,6 +1,64 @@
-{
-  "routes": [
-    { "src": "/api/now-playing", "destination": "/api/now-playing" },
-    { "src": "/(.*)", "destination": "/index.html" }
-  ]
+export default async function handler(req, res) {
+    const { SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET, SPOTIFY_REFRESH_TOKEN } = process.env;
+    
+    try {
+        const basic = Buffer.from(`${SPOTIFY_CLIENT_ID}:${SPOTIFY_CLIENT_SECRET}`).toString('base64');
+        const tokenResponse = await fetch('https://accounts.spotify.com/api/token', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Basic ${basic}`,
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: new URLSearchParams({
+                grant_type: 'refresh_token',
+                refresh_token: SPOTIFY_REFRESH_TOKEN,
+            }),
+        });
+        
+        const { access_token } = await tokenResponse.json();
+
+        // 1. Try fetching currently playing
+        const nowPlayingRes = await fetch('https://api.spotify.com/v1/me/player/currently-playing', {
+            headers: { 'Authorization': `Bearer ${access_token}` },
+        });
+
+        let song = null;
+        let isPlaying = false;
+
+        if (nowPlayingRes.status === 200) {
+            const data = await nowPlayingRes.json();
+            if (data && data.item) {
+                song = data.item;
+                isPlaying = data.is_playing;
+            }
+        }
+
+        // 2. Fallback to recently played if currently-playing is empty or offline
+        if (!song) {
+            const recentRes = await fetch('https://api.spotify.com/v1/me/player/recently-played?limit=1', {
+                headers: { 'Authorization': `Bearer ${access_token}` },
+            });
+            if (recentRes.status === 200) {
+                const recentData = await recentRes.json();
+                if (recentData && recentData.items && recentData.items.length > 0) {
+                    song = recentData.items[0].track;
+                    isPlaying = false; // Mark as false so it doesn't force a live pulse if it's a recent track
+                }
+            }
+        }
+
+        if (!song) {
+            return res.status(200).json({ isPlaying: false });
+        }
+
+        return res.status(200).json({
+            isPlaying: isPlaying,
+            title: song.name,
+            artist: song.artists.map(a => a.name).join(', '),
+            url: song.external_urls.spotify
+        });
+
+    } catch (error) {
+        return res.status(500).json({ error: 'Failed to fetch Spotify data' });
+    }
 }
