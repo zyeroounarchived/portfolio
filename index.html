@@ -1342,6 +1342,21 @@ print(solution$solution)
       <div class="rhythm-lane" data-key="k"><div class="rhythm-key-target" id="kt-3">K</div></div>
     </div>
     <div class="rhythm-judgement" id="r-judgement">PRESS START</div>
+    
+    <!-- Score Submit Form (Hidden until game ends) -->
+    <div id="score-submit-form" class="mt-4 flex gap-2 justify-center" style="display: none;">
+        <input type="text" id="player-name" placeholder="Enter Name" maxlength="15" class="px-3 py-1 bg-black border border-[var(--gold)] text-white text-xs rounded">
+        <button onclick="submitScore()" class="btn-ghost text-xs px-4 py-1">Submit Score</button>
+    </div>
+
+    <!-- Leaderboard inside modal -->
+    <div id="konami-leaderboard" class="mt-4 p-4 border border-[var(--gold)] rounded bg-[#0c0a10] text-center font-mono text-xs">
+        <h4 class="text-[var(--gold)] mb-2">🏆 Leaderboard</h4>
+        <ul id="leaderboard-list" class="space-y-1 text-[var(--ink)]">
+            <li>Loading high scores...</li>
+        </ul>
+    </div>
+
     <div class="mt-4 flex justify-between items-center">
       <button class="btn-ghost hover-trigger" id="btn-start-rhythm">START GAME</button>
       <button class="close-modal btn-ghost hover-trigger" onclick="closeAllDrawers()">EXIT</button>
@@ -2277,53 +2292,5 @@ print(solution$solution)
     setInterval(fetchSpotify, 30000);
   }
 
-  // --- LEADERBOARD LOGIC ---
-  window.loadLeaderboard = async function() {
-      try {
-          const res = await fetch('/api/leaderboard');
-          const scores = await res.json();
-          const list = document.getElementById('leaderboard-list');
-          list.innerHTML = scores.length ? '' : '<li>No scores yet. Be the first!</li>';
-          scores.forEach((entry, index) => {
-              list.innerHTML += `<li class="flex justify-between px-4"><span>#${index + 1} ${entry.name}</span> <span class="text-[var(--gold)]">${entry.score} pts</span></li>`;
-          });
-      } catch (e) {
-          console.error('Failed to load leaderboard', e);
-      }
-  }
-
-  window.submitScore = async function() {
-      const name = document.getElementById('player-name').value.trim() || 'Anonymous';
-      const score = window.rhythmScoreValue || 0;
-      try {
-          const res = await fetch('/api/leaderboard', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ name, score })
-          });
-          if (res.ok) {
-              document.getElementById('score-submit-form').style.display = 'none';
-              loadLeaderboard();
-          }
-      } catch (e) {
-          console.error('Failed to submit score', e);
-      }
-  }
-
-})();
-</script>
-
-<!-- Konami Leaderboard UI Container -->
-<div id="konami-leaderboard" class="mt-8 p-6 border border-[var(--gold)] rounded bg-[#0c0a10] text-center font-mono" style="display: none;">
-    <h3 class="text-[var(--gold)] text-lg mb-4">🏆 Rhythm Game Leaderboard</h3>
-    <ul id="leaderboard-list" class="space-y-2 text-sm text-[var(--ink)]">
-        <li>Loading high scores...</li>
-    </ul>
-    
-    <div id="score-submit-form" class="mt-6 flex gap-2 justify-center" style="display: none;">
-        <input type="text" id="player-name" placeholder="Enter Name" maxlength="15" class="px-3 py-1 bg-black border border-[var(--gold)] text-white text-xs rounded">
-        <button onclick="submitScore()" class="btn-ghost text-xs px-4 py-1">Submit Score</button>
-    </div>
-</div>
 </body>
 </html>
