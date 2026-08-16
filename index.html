@@ -2174,11 +2174,21 @@ print(solution$solution)
       if(lane !== -1) { e.preventDefault(); judgeLanePress(lane); const target = keyTargets[lane]; if(target) target.classList.add('pressed'); }
     }
     if(e.key === konami[kIdx]) {
-      kIdx++;
-      if(kIdx === konami.length) { if(rhythmModal) rhythmModal.classList.add('active'); resetRhythmGame(); unlockSecret('konami'); playSecretSound(); kIdx = 0; }
-    } else { kIdx = 0; }
-  });
-
+    kIdx++;
+    if(kIdx === konami.length) { 
+        if(rhythmModal) {
+            rhythmModal.classList.add('active');
+            const lb = document.getElementById('konami-leaderboard');
+            if(lb) { lb.style.display = 'block'; loadLeaderboard(); }
+        }
+        resetRhythmGame(); 
+        unlockSecret('konami'); 
+        playSecretSound(); 
+        kIdx = 0; 
+    }
+} else { 
+    kIdx = 0; 
+}
   window.addEventListener('keyup', e => {
     const lane = laneKeys.indexOf(e.key.toLowerCase());
     if(lane !== -1) { const target = keyTargets[lane]; if(target) target.classList.remove('pressed'); }
@@ -2249,6 +2259,53 @@ print(solution$solution)
     setInterval(fetchSpotify, 30000);
   }
 })();
+</script>
+  <!-- Konami Leaderboard Section -->
+<div id="konami-leaderboard" class="mt-8 p-6 border border-[var(--gold)] rounded bg-[#0c0a10] text-center font-mono" style="display: none;">
+    <h3 class="text-[var(--gold)] text-lg mb-4">🏆 Rhythm Game Leaderboard</h3>
+    <ul id="leaderboard-list" class="space-y-2 text-sm text-[var(--ink)]">
+        <li>Loading high scores...</li>
+    </ul>
+    
+    <div id="score-submit-form" class="mt-6 flex gap-2 justify-center" style="display: none;">
+        <input type="text" id="player-name" placeholder="Enter Name" maxlength="15" class="px-3 py-1 bg-black border border-[var(--gold)] text-white text-xs rounded">
+        <button onclick="submitScore()" class="btn-ghost text-xs px-4 py-1">Submit Score</button>
+    </div>
+</div>
+
+<script>
+async function loadLeaderboard() {
+    try {
+        const res = await fetch('/api/leaderboard');
+        const scores = await res.json();
+        const list = document.getElementById('leaderboard-list');
+        list.innerHTML = scores.length ? '' : '<li>No scores yet. Be the first!</li>';
+        scores.forEach((entry, index) => {
+            list.innerHTML += `<li class="flex justify-between px-4"><span>#${index + 1} ${entry.name}</span> <span class="text-[var(--gold)]">${entry.score} pts</span></li>`;
+        });
+    } catch (e) {
+        console.error('Failed to load leaderboard', e);
+    }
+}
+
+async function submitScore() {
+    const name = document.getElementById('player-name').value.trim() || 'Anonymous';
+    const score = window.rhythmScoreValue || 0;
+    
+    try {
+        const res = await fetch('/api/leaderboard', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name, score })
+        });
+        if (res.ok) {
+            document.getElementById('score-submit-form').style.display = 'none';
+            loadLeaderboard();
+        }
+    } catch (e) {
+        console.error('Failed to submit score', e);
+    }
+}
 </script>
 </body>
 </html>
