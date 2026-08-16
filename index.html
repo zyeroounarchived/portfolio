@@ -4,11 +4,11 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Nabhya Bawankar — Portfolio</title>
-<meta name="description" content="Data analyst & builder. A short, honest dossier of early work." />
+<meta name="description" content="Data analyst & student. A brief dossier of early work." />
 
 <!-- Meta Tags & Open Graph -->
 <meta property="og:title" content="Nabhya Bawankar — Portfolio" />
-<meta property="og:description" content="Data analyst & builder. A short, honest dossier of early work." />
+<meta property="og:description" content="Data analyst & student. A brief dossier of early work." />
 <meta property="og:type" content="website" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="theme-color" content="#0a0908" />
@@ -252,12 +252,14 @@
   .terminal-window, .terminal-window * { font-family: 'Courier New', Courier, monospace !important; font-size: 13px !important; line-height: 1.6 !important; letter-spacing: normal !important; text-transform: none !important; }
   .terminal-window pre { overflow-x: auto; white-space: pre; -webkit-overflow-scrolling: touch; }
 
-  .slide-drawer { position: fixed; top: 0; right: 0; width: 100%; max-width: 650px; height: 100dvh; background: color-mix(in srgb, var(--void) 95%, transparent); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border-left: 1px solid var(--line); z-index: 9999; transform: translateX(100%); transition: transform 0.6s cubic-bezier(0.77, 0, 0.175, 1), box-shadow 0.6s ease; overflow-y: auto; padding: 4rem 3rem; box-shadow: none; }
+  .slide-drawer { position: fixed; top: 0; right: 0; width: 100%; max-width: 650px; height: 100dvh; background: color-mix(in srgb, var(--void) 95%, transparent); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border-left: 1px solid var(--line); z-index: 9999; transform: translateX(100%); transition: transform 0.6s cubic-bezier(0.77, 0, 0.175, 1), box-shadow 0.6s ease; overflow-y: auto; overflow-x: hidden; padding: 4rem 3rem; box-shadow: none; }
   .slide-drawer.active { transform: translateX(0); box-shadow: -20px 0 50px rgba(0,0,0,0.5); }
   .drawer-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); z-index: 9998; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; transform: translateZ(0); }
   .drawer-overlay.active { opacity: 1; pointer-events: auto; }
 
   .ba-container { position: relative; width: 100%; aspect-ratio: 16/9; overflow: hidden; border: 1px solid var(--line); border-radius: 4px; margin-top: 2.5rem; margin-bottom: 2.5rem; }
+  .case-img-frame { width: 100%; max-width: 100%; min-width: 0; overflow: hidden; }
+  .case-img-frame img { display: block; width: 100% !important; max-width: 100% !important; height: auto !important; }
   .ba-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
   .ba-overlay { position: absolute; inset: 0; width: 100%; height: 100%; clip-path: inset(0 50% 0 0); transition: clip-path 0.1s ease-out; }
   .ba-overlay img { width: 100%; height: 100%; object-fit: cover; }
@@ -454,7 +456,7 @@
     </h1>
 
     <p class="mx-auto md:mx-0 max-w-2xl text-[1.15rem] leading-[1.8] text-[var(--dim)] font-serif italic anim-fade mb-12 vn-readable decay-target">
-      "<span class="magnify-text">I clean data,</span> <span class="magnify-text">document it honestly,</span> <span class="magnify-text">and build analytical tools with precision.</span> <span class="magnify-text">No manufactured polish—</span><span class="magnify-text">just reproducible work and seamless hand-offs.</span>"
+      "<span class="magnify-text">I clean data,</span> <span class="magnify-text">document it precisely,</span> <span class="magnify-text">and build analytical tools without any debris.</span> <span class="magnify-text">No manufactured polish—</span><span class="magnify-text">just reproducible work and seamless hand-offs.</span>"
     </p>
 
     <div class="flex flex-wrap items-center justify-center md:justify-start gap-x-8 md:gap-x-24 gap-y-5 anim-fade mt-8">
@@ -622,7 +624,7 @@
       <div class="proj-info-center">
         <h3 class="proj-title">NGO Applicant<br>Records</h3>
         <p class="proj-desc vn-readable">
-          Standardized, validated, and scrubbed 350 applicant records during an intensive operational internship—normalizing formats and resolving encoding corruptions.
+          Standardized, validated, and scrubbed 350 applicant records during an intensive internship—normalizing formats and resolving data corruption.
         </p>
       </div>
       <div class="proj-action-right">
@@ -672,13 +674,12 @@
         <span class="proj-cat">Data Pipeline</span>
       </div>
       <div class="proj-info-center">
-        <h3 class="proj-title">Automated Entity<br>Resolution Engine</h3>
+        <h3 class="proj-title">Data Deduplication<br>Pipeline</h3>
         <p class="proj-desc vn-readable">
           Engineered a Python-based automated data cleansing pipeline. Integrated SQLAlchemy with a live Neon PostgreSQL database to extract dirty CRM records, applying Jarowinkler similarity algorithms to resolve and merge fuzzy duplicates.
         </p>
       </div>
       <div class="proj-action-right">
-        <span class="label !text-[0.65rem] text-[var(--dim)] block mb-4">Python · Pandas · RecordLinkage · PostgreSQL</span>
         <button class="btn-ghost hover-trigger text-[0.8rem]" onclick="openDrawer('drawer-dedup')">View Case Study</button>
       </div>
     </article>
@@ -1111,29 +1112,29 @@ print(f"After SMOTE: {pd.Series(y_train_resampled).value_counts().to_dict()}")
 <div class="slide-drawer" id="drawer-dedup">
   <button class="btn-close-minimal drawer-close hover-trigger" aria-label="Close drawer"></button>
   <p class="label mb-4">Data Pipeline</p>
-  <h2 class="h-display text-4xl text-[var(--ink)] mb-6">Automated Entity Resolution Engine</h2>
+  <h2 class="h-display text-4xl text-[var(--ink)] mb-6">Data Deduplication Pipeline</h2>
 
   <div class="text-[var(--dim)] font-serif text-[1.1rem] leading-[1.8] mb-10 space-y-6">
     <p>The pipeline extracts 1,000 messy customer-lead rows from a live Neon Postgres database, applies fuzzy string-matching across names and emails to surface duplicate entities, then writes a clean, de-duplicated dataset back to production.</p>
   </div>
 
   <h3 class="label text-[var(--gold)] mb-4">Live Execution</h3>
-  <div class="w-full border border-[#333] rounded overflow-hidden">
-    <img src="data-dedup-pipeline/dedup-demo.gif" alt="Terminal capture of the entity resolution pipeline running" class="w-full block">
+  <div class="case-img-frame border border-[#333] rounded">
+    <img src="data-dedup-pipeline/dedup-demo.gif" alt="Terminal capture of the entity resolution pipeline running">
   </div>
   <p class="text-[var(--dim)] text-sm font-serif italic mt-4 mb-10 text-center">Terminal capture of the pipeline connecting to Neon, indexing by state, and resolving duplicates.</p>
 
   <h3 class="label text-[var(--gold)] mb-4">Database State — Before &amp; After</h3>
-  <div class="flex flex-col gap-6 w-full mb-10">
-    <div>
-      <div class="w-full border border-[#333] rounded overflow-hidden">
-        <img src="data-dedup-pipeline/raw_leads.png" alt="Raw leads table in Neon Postgres" class="w-full block">
+  <div class="w-full mb-10">
+    <div class="mb-6">
+      <div class="case-img-frame border border-[#333] rounded">
+        <img src="data-dedup-pipeline/raw_leads.png" alt="Raw leads table in Neon Postgres">
       </div>
       <p class="text-[var(--dim)] text-sm font-serif italic mt-3 text-center">raw_leads — 1,000 rows, fuzzy duplicates intact.</p>
     </div>
     <div>
-      <div class="w-full border border-[#333] rounded overflow-hidden">
-        <img src="data-dedup-pipeline/clean_leads.png" alt="Clean leads table in Neon Postgres" class="w-full block">
+      <div class="case-img-frame border border-[#333] rounded">
+        <img src="data-dedup-pipeline/clean_leads.png" alt="Clean leads table in Neon Postgres">
       </div>
       <p class="text-[var(--dim)] text-sm font-serif italic mt-3 text-center">clean_leads — 800 rows, resolved and merged.</p>
     </div>
