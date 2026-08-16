@@ -257,15 +257,24 @@
   .drawer-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); z-index: 9998; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; transform: translateZ(0); }
   .drawer-overlay.active { opacity: 1; pointer-events: auto; }
 
-  .ba-container { position: relative; width: 100%; aspect-ratio: 16/9; overflow: hidden; border: 1px solid var(--line); border-radius: 4px; margin-top: 2.5rem; margin-bottom: 2.5rem; }
   .case-img-frame { width: 100%; max-width: 100%; min-width: 0; overflow: hidden; }
   .case-img-frame img { display: block; width: 100% !important; max-width: 100% !important; height: auto !important; }
-  .ba-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-  .ba-overlay { position: absolute; inset: 0; width: 100%; height: 100%; clip-path: inset(0 50% 0 0); transition: clip-path 0.1s ease-out; }
-  .ba-overlay img { width: 100%; height: 100%; object-fit: cover; }
-  .ba-slider-line { position: absolute; top: 0; bottom: 0; left: 50%; width: 2px; background: var(--gold); transform: translateX(-50%); pointer-events: none; z-index: 5; box-shadow: 0 0 10px var(--gold); transition: left 0.1s ease-out; }
-  .ba-slider { position: absolute; inset: 0; width: 100%; opacity: 0; cursor: ew-resize; z-index: 10; margin: 0; padding: 0; }
-  .ba-badge { position: absolute; top: 1rem; padding: 0.2rem 0.6rem; background: rgba(0,0,0,0.7); border: 1px solid var(--gold); color: var(--gold); font-family: 'Space Mono', monospace; font-size: 0.7rem; border-radius: 2px; z-index:10; pointer-events: none; }
+
+  .dcs-wrap { margin-top: 2.5rem; margin-bottom: 1.5rem; border: 1px solid var(--line); border-radius: 4px; background: #080808; padding: 1.25rem; }
+  .dcs-toolbar { display:flex; align-items:center; justify-content:space-between; margin-bottom:1rem; flex-wrap:wrap; gap:0.75rem; }
+  .dcs-btn { font-family: 'Space Mono', monospace; font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase; background: transparent; border: 1px solid var(--gold); color: var(--gold); padding: 0.55rem 1.1rem; border-radius: 2px; cursor: pointer; transition: background 0.25s ease, color 0.25s ease; }
+  .dcs-btn:hover:not(:disabled) { background: var(--gold); color: #080808; }
+  .dcs-btn:disabled { opacity: 0.45; cursor: default; }
+  .dcs-status { font-family: 'Space Mono', monospace; font-size: 0.68rem; letter-spacing: 0.08em; color: var(--dim); transition: color 0.3s ease; }
+  .dcs-status.is-dirty { color: #d98a52; }
+  .dcs-table-frame { width: 100%; overflow-x: auto; border-top: 1px solid var(--line); }
+  .dcs-table { width: 100%; min-width: 480px; border-collapse: collapse; font-family: 'Space Mono', monospace; font-size: 0.72rem; }
+  .dcs-table th { text-align: left; padding: 0.6rem 0.75rem; color: var(--gold); font-weight: 400; letter-spacing: 0.06em; text-transform: uppercase; font-size: 0.62rem; border-bottom: 1px solid var(--line); white-space: nowrap; }
+  .dcs-table td { padding: 0.5rem 0.75rem; color: var(--dim); border-bottom: 1px solid rgba(255,255,255,0.06); white-space: pre; }
+  .dcs-table tr:last-child td { border-bottom: none; }
+  .dcs-table td.dcs-flagged { color: #d98a52; }
+  .dcs-table td.dcs-null { color: #555; font-style: italic; }
+  .dcs-caption { color: var(--dim); font-size: 0.85rem; font-family: 'Playfair Display', serif; font-style: italic; margin-top: 1rem; margin-bottom: 2.5rem; text-align: center; }
 
   .toast-container { position: fixed; bottom: 2rem; right: 2rem; z-index: 10000; display: flex; flex-direction: column; gap: 1rem; pointer-events: none; }
   .toast { background: var(--ink); color: var(--void); font-family: 'Space Mono', monospace; font-size: 0.8rem; padding: 1rem 1.5rem; border-radius: 4px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); transform: translateY(20px); opacity: 0; transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1); border: 1px solid var(--gold); pointer-events: auto; }
@@ -1022,19 +1031,26 @@
   <p class="text-[var(--dim)] font-serif text-[1.1rem] leading-[1.8] mb-8">
     During my internship at NASEOH, I handled raw intake forms for 350 applicants. The data suffered from encoding errors, inconsistent date formats, and missing variables. I built a pipeline to sanitize the matrix.
   </p>
-  <h3 class="label text-[var(--gold)] mb-4">Before / After Transformation</h3>
-  
-  <div class="ba-container">
-    <div class="ba-badge left-2 z-10">RAW CSV</div>
-    <img class="ba-img" src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=80" alt="Raw Data" style="filter: grayscale(100%) blur(2px);">
-    <div class="ba-overlay" id="ba-overlay">
-      <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=80" alt="Clean Data" style="filter: contrast(1.2) sepia(0.3);">
+  <h3 class="label text-[var(--gold)] mb-4">Data-Cleaning Sandbox</h3>
+  <p class="text-[var(--dim)] font-serif text-[1rem] leading-[1.8] mb-2">
+    A simplified illustration of the kind of pass my pipelines run — not a replay of the actual NASEOH job, but the same corruption patterns I saw in it: mixed date formats, stray whitespace, encoding artifacts, missing fields.
+  </p>
+
+  <div class="dcs-wrap">
+    <div class="dcs-toolbar">
+      <button class="dcs-btn hover-trigger" id="dcs-btn" onclick="dcsToggle()">Inject Garbage</button>
+      <span class="dcs-status" id="dcs-status">STATE: CLEAN</span>
     </div>
-    <div class="ba-slider-line" id="ba-slider-line"></div>
-    <div class="ba-badge right-2 z-10">CLEANED SQL</div>
-    <input type="range" min="0" max="100" value="50" class="ba-slider" id="ba-slider" oninput="updateSlider(this.value)">
+    <div class="dcs-table-frame">
+      <table class="dcs-table">
+        <thead>
+          <tr><th>ID</th><th>Name</th><th>DOB</th><th>District</th><th>Category</th></tr>
+        </thead>
+        <tbody id="dcs-tbody"></tbody>
+      </table>
+    </div>
   </div>
-  <p class="text-[var(--dim)] text-sm font-serif italic mt-4 mb-10 text-center">Drag slider to compare dataset structure.</p>
+  <p class="dcs-caption">Six rows from the intake sheet, corrupted and restored on demand.</p>
 </div>
 
 <!-- Strategy Drawer -->
@@ -1565,6 +1581,9 @@ print(solution$solution)
     if(id === 'drawer-heatmap') {
         setTimeout(initHeatmap, 300); 
     }
+    if(id === 'drawer-ngo') {
+        setTimeout(initDcsSandbox, 300);
+    }
   };
   
   // 100% ROBUST CLOSE ALL FUNCTION
@@ -1596,11 +1615,6 @@ print(solution$solution)
     });
   });
   
-  window.updateSlider = function(val) { 
-    $('#ba-overlay').style.clipPath = `inset(0 ${100 - val}% 0 0)`; 
-    $('#ba-slider-line').style.left = `${val}%`; 
-  };
-
   window.toggleMobileNav = function() {
     const nav = $('#mobile-nav-overlay');
     nav.classList.toggle('active');
@@ -1997,6 +2011,95 @@ print(solution$solution)
       dropsDrawer[i]++;
     }
   }
+
+  // Data-Cleaning Sandbox (NGO drawer) — fixed clean/dirty pairs, scramble transition between them
+  const dcsCleanRows = [
+    ['A104','Rahul Deshmukh','12/05/1998','Thane','Locomotor'],
+    ['A107','Priya Kulkarni','03/11/2001','Nashik','Visual'],
+    ['A112','Imran Shaikh','27/02/1995','Pune','Hearing'],
+    ['A118','Sunita Waghmare','09/08/2000','Raigad','Locomotor'],
+    ['A123','Aarti Jadhav','14/01/1997','Thane','Intellectual'],
+    ['A129','Vikas Pawar','30/06/1999','Palghar','Visual'],
+  ];
+  const dcsDirtyRows = [
+    ['A104','  Rahul Deshmukh','1998-05-12','Thane','Locomotor'],
+    ['A107','PRIYA   KULKARNI','11/03/01','NashiK','Visual'],
+    ['A112','Imran ShaikÃ¨','27-Feb-95','Pune','Hearing'],
+    ['A118','Sunita Waghmare','09.08.2000','Raigad','NULL'],
+    ['A123','Aarti  Jadhav ','1/14/97','Thane ','Intellectual'],
+    ['A129','Vikas PawÃ¢r','','Palghar','Visual'],
+  ];
+  const dcsScrambleChars = '01#$%&*<>/\\Ã‘Â§xzq_~';
+  let dcsClean = true, dcsAnimating = false, dcsBuilt = false;
+
+  function dcsScrambleTo(td, target, delay) {
+    return new Promise(resolve => {
+      setTimeout(() => {
+        const len = Math.max((target || '').length, 5);
+        let frame = 0; const totalFrames = 7;
+        const iv = setInterval(() => {
+          frame++;
+          if (frame >= totalFrames) {
+            clearInterval(iv);
+            td.textContent = target && target.trim() !== '' ? target : '∅';
+            resolve();
+            return;
+          }
+          let out = '';
+          for (let k = 0; k < len; k++) out += dcsScrambleChars[Math.floor(Math.random() * dcsScrambleChars.length)];
+          td.textContent = out;
+        }, 32);
+      }, delay);
+    });
+  }
+
+  function initDcsSandbox() {
+    const tbody = document.getElementById('dcs-tbody');
+    if (!tbody || dcsBuilt) return;
+    dcsBuilt = true;
+    dcsCleanRows.forEach((row, ri) => {
+      const tr = document.createElement('tr');
+      row.forEach((val, ci) => {
+        const td = document.createElement('td');
+        td.dataset.clean = val;
+        td.dataset.dirty = dcsDirtyRows[ri][ci];
+        td.textContent = val;
+        tr.appendChild(td);
+      });
+      tbody.appendChild(tr);
+    });
+  }
+
+  window.dcsToggle = function() {
+    if (dcsAnimating) return;
+    const tbody = document.getElementById('dcs-tbody');
+    const btn = document.getElementById('dcs-btn');
+    const statusEl = document.getElementById('dcs-status');
+    if (!tbody || !btn || !statusEl) return;
+    dcsAnimating = true; btn.disabled = true;
+    const goingDirty = dcsClean;
+    const cells = Array.from(tbody.querySelectorAll('td'));
+    cells.forEach(td => td.classList.remove('dcs-flagged', 'dcs-null'));
+    const promises = cells.map((td, idx) => {
+      const target = goingDirty ? td.dataset.dirty : td.dataset.clean;
+      const rowIdx = Math.floor(idx / 5), colIdx = idx % 5;
+      return dcsScrambleTo(td, target, rowIdx * 90 + colIdx * 40);
+    });
+    Promise.all(promises).then(() => {
+      if (goingDirty) {
+        cells.forEach(td => {
+          const dirtyVal = td.dataset.dirty, cleanVal = td.dataset.clean;
+          if (!dirtyVal || dirtyVal.trim() === '' || dirtyVal === 'NULL') td.classList.add('dcs-null');
+          else if (dirtyVal !== cleanVal) td.classList.add('dcs-flagged');
+        });
+      }
+      dcsClean = !goingDirty;
+      btn.textContent = goingDirty ? 'Run Cleaning Pipeline' : 'Inject Garbage';
+      statusEl.textContent = goingDirty ? 'STATE: RAW / DIRTY' : 'STATE: CLEAN';
+      statusEl.classList.toggle('is-dirty', goingDirty);
+      dcsAnimating = false; btn.disabled = false;
+    });
+  };
 
   // Safe Explicit Canvas Setup for Heatmap Drawer
   let hmProperties = []; let hmLandmark = { x: 400, y: 200 };
