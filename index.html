@@ -1343,11 +1343,13 @@ print(solution$solution)
     </div>
     <div class="rhythm-judgement" id="r-judgement">PRESS START</div>
     
-    <!-- Score Submit Form (Hidden until game ends) -->
-    <div id="score-submit-form" class="mt-4 flex gap-2 justify-center" style="display: none;">
-        <input type="text" id="player-name" placeholder="Enter Name" maxlength="15" class="px-3 py-1 bg-black border border-[var(--gold)] text-white text-xs rounded">
-        <button onclick="submitScore()" class="btn-ghost text-xs px-4 py-1">Submit Score</button>
-    </div>
+ <!-- Score Submit Form -->
+<div id="score-submit-form" class="mt-4 flex gap-2 justify-center" style="display: none;">
+    <input type="text" id="player-name" placeholder="ENTER NAME" maxlength="15" 
+           style="background: transparent; border: 1px solid var(--gold); color: var(--gold); font-family: 'Space Mono', monospace; outline: none; text-align: center; text-transform: uppercase;" 
+           class="px-3 py-1 text-xs rounded w-32 focus:bg-[rgba(209,183,148,0.1)] transition-colors">
+    <button onclick="submitScore()" class="btn-ghost text-xs px-4 py-1">Submit Score</button>
+</div>
 
     <!-- Leaderboard inside modal -->
     <div id="konami-leaderboard" class="mt-4 p-4 border border-[var(--gold)] rounded bg-[#0c0a10] text-center font-mono text-xs">
