@@ -1320,7 +1320,7 @@ print(solution$solution)</code></pre>
       <li><span class="inline-block w-28 text-[var(--gold)]">Visual Nov</span> Press <kbd class="px-2 py-1 rounded border border-[#333]">V</kbd> to convert the dossier into a Ren'Py interface.</li>
       <li><span class="inline-block w-28 text-[var(--gold)]">Coffee Brk</span> Press <kbd class="px-2 py-1 rounded border border-[#333]">C</kbd> to brew a coffee theme.</li>
       <li><span class="inline-block w-28 text-[var(--gold)]">Candlelight</span> Press <kbd class="px-2 py-1 rounded border border-[#333]">N</kbd> to ignite the dark academia theme.</li>
-      <li><span class="inline-block w-28 text-[var(--gold)]">Terminal</span> Press <kbd class="px-2 py-1 rounded border border-[#333]">Cmd+K</kbd> to view raw JSON system data.</li>
+      <li><span class="inline-block w-28 text-[var(--gold)]">Terminal</span> Press <kbd class="px-2 py-1 rounded border border-[#333]">Cmd+K</kbd> / <kbd class="px-2 py-1 rounded border border-[#333]">Ctrl+K</kbd> to view raw JSON system data.</li>
       <li><span class="inline-block w-28 text-[var(--gold)]">TouchNodes</span> Press <kbd class="px-2 py-1 rounded border border-[#333]">T</kbd> for interactive physics nodes in the background.</li>
       <li><span class="inline-block w-28 text-[var(--gold)]">Matrix O/R</span> Press <kbd class="px-2 py-1 rounded border border-[#333]">M</kbd> to initiate the terminal rain.</li>
       <li><span class="inline-block w-28 text-[var(--gold)]">God Mode</span> Press <kbd class="px-2 py-1 rounded border border-[#333]">G</kbd> for system performance metrics.</li>
@@ -1718,7 +1718,7 @@ print(solution$solution)
       playSecretSound(); unlockSecret('candle');
     }
     if(e.key.toLowerCase() === 'g') { const gm = $('#god-mode'); if(gm) { gm.classList.toggle('active'); playClick(); unlockSecret('godmode'); } }
-    if(e.metaKey && e.key === 'k') { e.preventDefault(); const tMod = $('#modal-terminal'); if(tMod){ tMod.classList.add('active'); playClick(); unlockSecret('terminal'); } }
+    if((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); const tMod = $('#modal-terminal'); if(tMod){ tMod.classList.add('active'); playClick(); unlockSecret('terminal'); } }
     
     // FULLY SEPARATED M KEY MATRIX EASTER EGG
     if(e.key.toLowerCase() === 'm') {
