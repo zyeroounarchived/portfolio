@@ -2105,7 +2105,17 @@ print(solution$solution)
   function setJudge(text, klass) { if(!rhythmJudgement) return; rhythmJudgement.className = 'rhythm-judgement'; rhythmJudgement.textContent = text; if(klass) rhythmJudgement.classList.add(klass); }
   function updateRhythmHud() { if(rhythmScore) rhythmScore.textContent = String(rhythmScoreValue).padStart(4, '0'); if(rhythmCombo) rhythmCombo.textContent = String(rhythmComboValue); }
   function clearRhythmNotes() { rhythmNotes.forEach(note => note.el.remove()); rhythmNotes.length = 0; }
-  function resetRhythmGame() { rhythmScoreValue = 0; rhythmComboValue = 0; rhythmLastSpawn = 0; updateRhythmHud(); clearRhythmNotes(); setJudge('PRESS START', ''); }
+  function resetRhythmGame() { 
+    rhythmScoreValue = 0; 
+    rhythmComboValue = 0; 
+    rhythmLastSpawn = 0; 
+    updateRhythmHud(); 
+    clearRhythmNotes(); 
+    setJudge('PRESS START', ''); 
+    
+    const submitForm = document.getElementById('score-submit-form');
+    if(submitForm) submitForm.style.display = 'none';
+}
 
   function spawnRhythmNote(now) {
     if(!rhythmArea) return;
@@ -2119,8 +2129,14 @@ print(solution$solution)
 
   function endRhythm(showResult = true) {
     rhythmRunning = false; cancelAnimationFrame(rhythmRafId); clearRhythmNotes();
-    if(showResult) setJudge('END • SCORE ' + String(rhythmScoreValue).padStart(4, '0'), 'judg-great');
-  }
+    if(showResult) {
+        setJudge('END • SCORE ' + String(rhythmScoreValue).padStart(4, '0'), 'judg-great');
+        
+        window.rhythmScoreValue = rhythmScoreValue;
+        const submitForm = document.getElementById('score-submit-form');
+        if(submitForm) submitForm.style.display = 'flex';
+    }
+}
   
   window.endRhythmGame = function() {
       if(rhythmRunning) endRhythm(false);
