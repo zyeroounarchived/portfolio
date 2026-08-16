@@ -144,7 +144,7 @@
   #mobile-nav-overlay.active { opacity: 1; pointer-events: auto; }
   #mobile-nav-overlay a { font-family: 'Cormorant Garamond', serif; font-size: 2rem; color: var(--ink); transition: color 0.3s; }
   #mobile-nav-overlay a:hover { color: var(--gold); }
-  @media (max-width: 768px) { .nav-links-locked, #dispatch-time, #audio-widget { display: none; } .hamburger { display: block; } }
+  @media (max-width: 768px) { .nav-links-locked, #dispatch-time, #audio-widget, #spotify-widget { display: none; } .hamburger { display: block; } }
 
   .btn-primary{ font-family:'Space Mono', monospace; font-size:0.8rem; letter-spacing:0.12em; text-transform:uppercase; background:var(--ink); color:var(--void); padding:1.2rem 3rem; border-radius:100px; transition:transform .35s cubic-bezier(.2,.8,.2,1), background .35s ease, box-shadow .35s ease; display:inline-flex; align-items: center; justify-content: center; border:1px solid var(--ink); text-align:center; appearance: none; -webkit-appearance: none; cursor: pointer;}
   .btn-primary:hover{ transform:translateY(-2px); background:var(--gold); border-color:var(--gold); box-shadow:0 12px 35px -8px rgba(209,183,148,0.35); }
@@ -434,6 +434,13 @@
     <div class="nav-tools-locked">
       <button class="hamburger hover-trigger" id="hamburger-btn" aria-label="Menu" onclick="toggleMobileNav()">☰</button>
       <button type="button" class="btn-ghost hover-trigger modal-trigger hidden md:inline-flex" data-target="modal-tips">TIPS ?</button>
+      
+      <!-- Spotify Now Playing Widget -->
+      <a id="spotify-widget" href="#" target="_blank" rel="noopener" class="label hidden lg:flex items-center gap-2 opacity-60 hover:opacity-100 transition-opacity whitespace-nowrap hover-trigger" style="display: none;">
+        <span id="spotify-icon" class="text-[var(--gold)]">♫</span>
+        <span id="spotify-text" class="tracking-[0.1em]">Loading...</span>
+      </a>
+
       <span id="dispatch-time" class="label hidden md:block opacity-70 whitespace-nowrap hover-trigger cursor-pointer" aria-live="polite">--:--</span>
       <button type="button" id="audio-widget" class="hover-trigger" title="Toggle UI Audio">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
@@ -2213,6 +2220,34 @@ print(solution$solution)
     sig.classList.remove('draw'); void sig.offsetWidth; sig.classList.add('draw');
   }
 
+  // --- SPOTIFY INTEGRATION ---
+  const spotifyWidget = $('#spotify-widget');
+  const spotifyText = $('#spotify-text');
+  const spotifyIcon = $('#spotify-icon');
+
+  async function fetchSpotify() {
+    try {
+      const res = await fetch('/api/now-playing');
+      const data = await res.json();
+      
+      if (data.isPlaying) {
+        spotifyWidget.style.display = 'flex';
+        spotifyText.textContent = `${data.title} — ${data.artist}`;
+        spotifyWidget.href = data.url;
+        spotifyIcon.classList.add('animate-pulse'); 
+      } else {
+        spotifyWidget.style.display = 'none';
+        spotifyIcon.classList.remove('animate-pulse');
+      }
+    } catch (err) {
+      console.error('Spotify link offline', err);
+    }
+  }
+
+  if (spotifyWidget) {
+    fetchSpotify();
+    setInterval(fetchSpotify, 30000);
+  }
 })();
 </script>
 </body>
