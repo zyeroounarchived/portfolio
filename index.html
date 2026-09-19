@@ -10,8 +10,17 @@
 <meta property="og:title" content="Nabhya Bawankar — Portfolio" />
 <meta property="og:description" content="Data analyst & student. A brief dossier of early work." />
 <meta property="og:type" content="website" />
+<meta property="og:url" content="https://nabhya52kar.vercel.app/" />
+<meta property="og:image" content="https://nabhya52kar.vercel.app/og-image.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="Nabhya Bawankar — Business Analytics portfolio" />
 <meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="https://nabhya52kar.vercel.app/og-image.png" />
 <meta name="theme-color" content="#0a0908" />
+
+<!-- Canonical URL -->
+<link rel="canonical" href="https://nabhya52kar.vercel.app/" />
 
 <!-- Inline SVG Favicon (cross-pattée, matches site motif) -->
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect x=%2242%22 y=%2242%22 width=%2216%22 height=%2216%22 fill=%22%23d1b794%22/><polygon points=%2242,42 58,42 65,8 35,8%22 fill=%22%23d1b794%22/><polygon points=%2242,58 58,58 65,92 35,92%22 fill=%22%23d1b794%22/><polygon points=%2242,42 42,58 8,65 8,35%22 fill=%22%23d1b794%22/><polygon points=%2258,42 58,58 92,65 92,35%22 fill=%22%23d1b794%22/></svg>">
@@ -196,9 +205,9 @@
   .cert-item { display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 0; border-bottom: 1px solid var(--line); transition: background 0.3s ease, padding-left 0.4s cubic-bezier(.2,.8,.2,1), padding-right 0.4s cubic-bezier(.2,.8,.2,1); }
   .cert-item:hover { background: rgba(209,183,148,0.03); padding-left: 1rem; padding-right: 1rem; border-bottom-color: var(--gold); }
   .cert-title { transition: color 0.3s ease; }
-  .cert-item:hover .cert-title { color: var(--gold); text-shadow: 0 0 10px rgba(209,183,148,0.3); }
+  .cert-item:hover .cert-title { color: var(--gold); }
 
-  .data-preview-table { width: 100%; border-collapse: collapse; font-family: 'Space Mono', monospace; font-size: 0.8rem; margin-top: 0; margin-bottom: 1.5rem; background: color-mix(in srgb, var(--void) 30%, transparent); border: 1px solid var(--line); border-radius: 4px; overflow: hidden; }
+  .data-preview-table { width: 100%; border-collapse: collapse; font-family: 'Space Mono', monospace; font-size: 0.8rem; margin-top: 0; margin-bottom: 1.5rem; background: color-mix(in srgb, var(--void) 30%, transparent); border-radius: 4px; overflow: hidden; }
   .data-preview-table th, .data-preview-table td { padding: 1rem 1.25rem; border-bottom: 1px solid var(--line); text-align: left; color: var(--dim); }
   .data-preview-table th { color: var(--gold); font-weight: normal; background: color-mix(in srgb, var(--gold) 4%, transparent); }
 
@@ -273,7 +282,7 @@
   html.light-mode #moon-widget { background:radial-gradient(circle at 30% 30%, #3a3835 0%, #1a1918 50%, #000000 100%); box-shadow:inset -5px -3px 8px rgba(255,255,255,0.2), 0 0 12px rgba(0,0,0,0.2); border-color: rgba(26,25,24,0.4); }
   
   #audio-widget { color: var(--dim); background: transparent; border: none; transition: color 0.3s ease, transform 0.3s ease; display: flex; align-items: center; justify-content: center; cursor: pointer; padding: 0 0.5rem; outline: none; }
-  #audio-widget:hover { color: var(--gold); transform: scale(1.1) rotate(5deg); text-shadow: 0 0 12px var(--gold); }
+  #audio-widget:hover { color: var(--gold); transform: scale(1.1) rotate(5deg); }
   html.light-mode #audio-widget { color: var(--dim); }
   html.light-mode #audio-widget:hover { color: var(--gold); }
   #nav-search-btn:hover { color: var(--gold); transform: scale(1.1); }
@@ -310,7 +319,7 @@
   .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.92); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); z-index: 9000; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; transform: translateZ(0); }
   .modal-overlay.active { opacity: 1; pointer-events: auto; }
   
-  .terminal-window { width: 90%; max-width: 800px; background: #080808; border: 1px solid #333; border-radius: 6px; color: #4ade80; padding: 2rem; box-shadow: 0 20px 50px rgba(0,0,0,0.8); transform: translateY(20px); transition: transform 0.4s ease; overflow-y: auto; position: relative; overflow: hidden; margin-bottom: 2rem; margin-top: 1rem; }
+  .terminal-window { width: 90%; max-width: 800px; background: #080808; border: 1px solid #333; border-radius: 6px; color: #4ade80; padding: 2rem; box-shadow: 0 20px 25px rgba(0,0,0,0.8); transform: translateY(20px); transition: transform 0.4s ease; overflow-y: auto; position: relative; overflow: hidden; margin-bottom: 2rem; margin-top: 1rem; }
   .modal-overlay.active .terminal-window { transform: translateY(0); }
 
   /* Matrix easter-egg needs a true full-viewport terminal, not the standard
@@ -336,7 +345,7 @@
     background: #0c0a10;
     border: 1px solid var(--gold);
     border-radius: 10px;
-    box-shadow: 0 30px 80px rgba(0,0,0,0.85);
+    box-shadow: 0 30px 40px rgba(0,0,0,0.85);
     overflow: hidden;
     transform: translateY(20px);
     transition: transform 0.4s ease;
@@ -346,13 +355,13 @@
   .search-palette-prompt { color: var(--gold); font-family: 'Space Mono', monospace; font-size: 1rem; }
   .search-palette-input { flex: 1; background: transparent; border: none; outline: none; color: var(--ink); font-family: 'Space Mono', monospace; font-size: 0.95rem; letter-spacing: 0.01em; }
   .search-palette-input::placeholder { color: var(--dim); opacity: 0.6; }
-  .search-palette-esc { font-family: 'Space Mono', monospace; font-size: 0.65rem; color: var(--dim); border: 1px solid var(--line); border-radius: 4px; padding: 0.2rem 0.4rem; opacity: 0.7; }
+  .search-palette-esc { font-family: 'Space Mono', monospace; font-size: 0.7rem; color: var(--dim); border: 1px solid var(--line); border-radius: 4px; padding: 0.2rem 0.4rem; opacity: 0.7; }
   .search-palette-results { max-height: 55vh; overflow-y: auto; padding: 0.5rem; }
   .search-result-item { display: flex; flex-direction: column; gap: 0.2rem; padding: 0.8rem 1rem; border-radius: 6px; cursor: pointer; transition: background 0.15s ease; }
   .search-result-item + .search-result-item { margin-top: 2px; }
   .search-result-item:hover, .search-result-item.is-active { background: color-mix(in srgb, var(--gold) 12%, transparent); }
   .search-result-title { font-family: 'Space Mono', monospace; font-size: 0.85rem; color: var(--ink); display: flex; align-items: center; gap: 0.6rem; }
-  .search-result-type { font-family: 'Space Mono', monospace; font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); border: 1px solid color-mix(in srgb, var(--gold) 40%, transparent); border-radius: 999px; padding: 0.1rem 0.5rem; flex-shrink: 0; }
+  .search-result-type { font-family: 'Space Mono', monospace; font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); border: 1px solid color-mix(in srgb, var(--gold) 40%, transparent); border-radius: 999px; padding: 0.1rem 0.5rem; flex-shrink: 0; }
   .search-result-desc { font-family: 'Space Mono', monospace; font-size: 0.75rem; color: var(--dim); line-height: 1.5; }
   .search-empty { padding: 2rem 1rem; text-align: center; color: var(--dim); font-family: 'Space Mono', monospace; font-size: 0.8rem; }
   mark.search-hit { background: transparent; color: var(--gold); font-weight: bold; }
@@ -363,7 +372,7 @@
   .terminal-window pre { overflow-x: auto; white-space: pre; -webkit-overflow-scrolling: touch; }
 
   .slide-drawer { position: fixed; top: 0; right: 0; width: 100%; max-width: 650px; height: 100dvh; background: color-mix(in srgb, var(--void) 95%, transparent); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border-left: 1px solid var(--line); z-index: 9999; transform: translateX(100%); transition: transform 0.6s cubic-bezier(0.77, 0, 0.175, 1), box-shadow 0.6s ease; overflow-y: auto; overflow-x: hidden; padding: 4rem 3rem; box-shadow: none; }
-  .slide-drawer.active { transform: translateX(0); box-shadow: -20px 0 50px rgba(0,0,0,0.5); }
+  .slide-drawer.active { transform: translateX(0); box-shadow: -20px 0 25px rgba(0,0,0,0.5); }
   .drawer-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); z-index: 9998; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; transform: translateZ(0); }
   .drawer-overlay.active { opacity: 1; pointer-events: auto; }
 
@@ -375,11 +384,11 @@
   .dcs-btn { font-family: 'Space Mono', monospace; font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase; background: transparent; border: 1px solid var(--gold); color: var(--gold); padding: 0.55rem 1.1rem; border-radius: 2px; cursor: pointer; transition: background 0.25s ease, color 0.25s ease; }
   .dcs-btn:hover:not(:disabled) { background: var(--gold); color: #080808; }
   .dcs-btn:disabled { opacity: 0.45; cursor: default; }
-  .dcs-status { font-family: 'Space Mono', monospace; font-size: 0.68rem; letter-spacing: 0.08em; color: var(--dim); transition: color 0.3s ease; }
+  .dcs-status { font-family: 'Space Mono', monospace; font-size: 0.7rem; letter-spacing: 0.08em; color: var(--dim); transition: color 0.3s ease; }
   .dcs-status.is-dirty { color: #d98a52; }
   .dcs-table-frame { width: 100%; overflow-x: auto; border-top: 1px solid var(--line); }
   .dcs-table { width: 100%; min-width: 480px; border-collapse: collapse; font-family: 'Space Mono', monospace; font-size: 0.72rem; }
-  .dcs-table th { text-align: left; padding: 0.6rem 0.75rem; color: var(--gold); font-weight: 400; letter-spacing: 0.06em; text-transform: uppercase; font-size: 0.62rem; border-bottom: 1px solid var(--line); white-space: nowrap; }
+  .dcs-table th { text-align: left; padding: 0.6rem 0.75rem; color: var(--gold); font-weight: 400; letter-spacing: 0.06em; text-transform: uppercase; font-size: 0.7rem; border-bottom: 1px solid var(--line); white-space: nowrap; }
   .dcs-table td { padding: 0.5rem 0.75rem; color: var(--dim); border-bottom: 1px solid rgba(255,255,255,0.06); white-space: pre; }
   .dcs-table tr:last-child td { border-bottom: none; }
   .dcs-table td.dcs-flagged { color: #d98a52; }
@@ -387,7 +396,7 @@
   .dcs-caption { color: var(--dim); font-size: 0.85rem; font-style: italic; margin-top: 1rem; margin-bottom: 2.5rem; text-align: center; }
 
   .toast-container { position: fixed; bottom: 2rem; right: 2rem; z-index: 10000; display: flex; flex-direction: column; gap: 1rem; pointer-events: none; }
-  .toast { background: var(--ink); color: var(--void); font-family: 'Space Mono', monospace; font-size: 0.8rem; padding: 1rem 1.5rem; border-radius: 4px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); transform: translateY(20px); opacity: 0; transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1); border: 1px solid var(--gold); pointer-events: auto; }
+  .toast { background: var(--ink); color: var(--void); font-family: 'Space Mono', monospace; font-size: 0.8rem; padding: 1rem 1.5rem; border-radius: 4px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); transform: translateY(20px); opacity: 0; transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1); border: 1px solid var(--line); pointer-events: auto; }
   .toast.show { transform: translateY(0); opacity: 1; }
   .copy-btn { background: transparent; border: 1px solid var(--gold); color: var(--gold); padding: 0.3rem 0.8rem; font-size: 0.75rem; border-radius: 2px; cursor: pointer; transition: all 0.2s; font-family: 'Space Mono', monospace; z-index: 20; }
   .copy-btn:hover { background: var(--gold); color: #000; }
@@ -424,7 +433,7 @@
   .gh-graph { display: flex; gap: 4px; overflow-x: auto; padding-bottom: 1rem; }
   .gh-col { display: flex; flex-direction: column; gap: 4px; }
   .gh-cell { width: 12px; height: 12px; border-radius: 2px; background: var(--line); transition: background 0.3s, transform 0.25s ease, box-shadow 0.25s ease; }
-  .gh-cell:hover { transform: scale(1.35); box-shadow: 0 0 8px var(--gold); }
+  .gh-cell:hover { transform: scale(1.35); }
   .gh-cell[data-level="1"] { background: color-mix(in srgb, var(--gold) 25%, transparent); }
   .gh-cell[data-level="2"] { background: color-mix(in srgb, var(--gold) 50%, transparent); }
   .gh-cell[data-level="3"] { background: color-mix(in srgb, var(--gold) 75%, transparent); }
@@ -483,7 +492,7 @@
     .mt-24 { margin-top: 3rem; }
     .sort-btn { min-width: auto !important; padding: 0.5rem 1rem !important; font-size: 0.75rem !important; }
     .sort-controls { gap: 0.4rem; }
-    .data-preview-table { font-size: 0.65rem; }
+    .data-preview-table { font-size: 0.7rem; }
     .data-preview-table th, .data-preview-table td { padding: 0.5rem; }
     #btt-btn { bottom: 1rem; right: 1rem; }
     #modal-rhythm .rhythm-stage { width: 95vw !important; max-width: 480px; padding: 1rem; }
@@ -870,7 +879,7 @@
         </p>
       </div>
       <div class="proj-action-right">
-        <span class="label !text-[0.65rem] text-[var(--dim)]">Archived / Post-Mortem Only</span>
+        <span class="label !text-[0.7rem] text-[var(--dim)]">Archived / Post-Mortem Only</span>
       </div>
     </article>
   </div>
@@ -927,119 +936,119 @@
         <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">Google AI Professional Certificate</span>
         <span class="label !text-[0.6rem] text-[var(--dim)] mt-1">Google</span>
       </div>
-      <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">Jul 6, 2026 ↗</span>
+      <span class="label !text-[0.7rem] text-[var(--dim)] shrink-0">Jul 6, 2026 ↗</span>
     </a>
     <a href="https://coursera.org/verify/2OIY80FRZGQN" target="_blank" rel="noopener" class="cert-item hover-trigger">
       <div>
         <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">AI for App Building</span>
         <span class="label !text-[0.6rem] text-[var(--dim)] mt-1">Google</span>
       </div>
-      <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">Jul 6, 2026 ↗</span>
+      <span class="label !text-[0.7rem] text-[var(--dim)] shrink-0">Jul 6, 2026 ↗</span>
     </a>
     <a href="https://coursera.org/verify/62JOVF0ST4YO" target="_blank" rel="noopener" class="cert-item hover-trigger">
       <div>
         <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">AI for Content Creation</span>
         <span class="label !text-[0.6rem] text-[var(--dim)] mt-1">Google</span>
       </div>
-      <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">Jul 6, 2026 ↗</span>
+      <span class="label !text-[0.7rem] text-[var(--dim)] shrink-0">Jul 6, 2026 ↗</span>
     </a>
     <a href="https://coursera.org/verify/6G3P6R907SMA" target="_blank" rel="noopener" class="cert-item hover-trigger">
       <div>
         <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">AI for Data Analysis</span>
         <span class="label !text-[0.6rem] text-[var(--dim)] mt-1">Google</span>
       </div>
-      <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">Jul 6, 2026 ↗</span>
+      <span class="label !text-[0.7rem] text-[var(--dim)] shrink-0">Jul 6, 2026 ↗</span>
     </a>
     <a href="https://coursera.org/verify/C8IDWFQ2B38C" target="_blank" rel="noopener" class="cert-item hover-trigger">
       <div>
         <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">AI for Brainstorming and Planning</span>
         <span class="label !text-[0.6rem] text-[var(--dim)] mt-1">Google</span>
       </div>
-      <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">Jul 5, 2026 ↗</span>
+      <span class="label !text-[0.7rem] text-[var(--dim)] shrink-0">Jul 5, 2026 ↗</span>
     </a>
     <a href="https://coursera.org/verify/YBW2BYO2NGWC" target="_blank" rel="noopener" class="cert-item hover-trigger">
       <div>
         <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">AI for Research and Insights</span>
         <span class="label !text-[0.6rem] text-[var(--dim)] mt-1">Google</span>
       </div>
-      <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">Jul 5, 2026 ↗</span>
+      <span class="label !text-[0.7rem] text-[var(--dim)] shrink-0">Jul 5, 2026 ↗</span>
     </a>
     <a href="https://coursera.org/verify/JUOL0YE3XL3I" target="_blank" rel="noopener" class="cert-item hover-trigger">
       <div>
         <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">AI for Writing and Communicating</span>
         <span class="label !text-[0.6rem] text-[var(--dim)] mt-1">Google</span>
       </div>
-      <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">Jul 5, 2026 ↗</span>
+      <span class="label !text-[0.7rem] text-[var(--dim)] shrink-0">Jul 5, 2026 ↗</span>
     </a>
     <a href="https://coursera.org/verify/816ZSIY7JQ2Y" target="_blank" rel="noopener" class="cert-item hover-trigger">
       <div>
         <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">AI Fundamentals</span>
         <span class="label !text-[0.6rem] text-[var(--dim)] mt-1">Google</span>
       </div>
-      <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">Jul 5, 2026 ↗</span>
+      <span class="label !text-[0.7rem] text-[var(--dim)] shrink-0">Jul 5, 2026 ↗</span>
     </a>
     <a href="https://coursera.org/verify/1EII00ABDTDP" target="_blank" rel="noopener" class="cert-item hover-trigger">
       <div>
         <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">Data Science Methodology</span>
         <span class="label !text-[0.6rem] text-[var(--dim)] mt-1">IBM</span>
       </div>
-      <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">Jul 5, 2026 ↗</span>
+      <span class="label !text-[0.7rem] text-[var(--dim)] shrink-0">Jul 5, 2026 ↗</span>
     </a>
     <a href="https://coursera.org/verify/8LLOVUI8I6GV" target="_blank" rel="noopener" class="cert-item hover-trigger">
       <div>
         <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">What is Data Science?</span>
         <span class="label !text-[0.6rem] text-[var(--dim)] mt-1">IBM</span>
       </div>
-      <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">Jun 3, 2026 ↗</span>
+      <span class="label !text-[0.7rem] text-[var(--dim)] shrink-0">Jun 3, 2026 ↗</span>
     </a>
     <a href="https://coursera.org/verify/2LK3BMDH5L1O" target="_blank" rel="noopener" class="cert-item hover-trigger">
       <div>
         <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">Tools for Data Science</span>
         <span class="label !text-[0.6rem] text-[var(--dim)] mt-1">IBM</span>
       </div>
-      <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">Jun 20, 2026 ↗</span>
+      <span class="label !text-[0.7rem] text-[var(--dim)] shrink-0">Jun 20, 2026 ↗</span>
     </a>
     <a href="https://coursera.org/verify/9FNW7ECSJOOD" target="_blank" rel="noopener" class="cert-item hover-trigger">
       <div>
         <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">Python for Data Science, AI & Dev</span>
         <span class="label !text-[0.6rem] text-[var(--dim)] mt-1">IBM</span>
       </div>
-      <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">May 22, 2026 ↗</span>
+      <span class="label !text-[0.7rem] text-[var(--dim)] shrink-0">May 22, 2026 ↗</span>
     </a>
     <a href="https://coursera.org/verify/4BI76SBS1FUC" target="_blank" rel="noopener" class="cert-item hover-trigger">
       <div>
         <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">Excel Basics for Data Analysis</span>
         <span class="label !text-[0.6rem] text-[var(--dim)] mt-1">IBM</span>
       </div>
-      <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">May 22, 2026 ↗</span>
+      <span class="label !text-[0.7rem] text-[var(--dim)] shrink-0">May 22, 2026 ↗</span>
     </a>
     <a href="https://coursera.org/verify/35BF0N944583" target="_blank" rel="noopener" class="cert-item hover-trigger">
       <div>
         <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">Programming for Everybody (Python)</span>
         <span class="label !text-[0.6rem] text-[var(--dim)] mt-1">Univ. of Michigan</span>
       </div>
-      <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">May 20, 2026 ↗</span>
+      <span class="label !text-[0.7rem] text-[var(--dim)] shrink-0">May 20, 2026 ↗</span>
     </a>
     <a href="https://coursera.org/verify/2IMXO38ZVMVO" target="_blank" rel="noopener" class="cert-item hover-trigger">
       <div>
         <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">Generative AI: Prompt Engineering</span>
         <span class="label !text-[0.6rem] text-[var(--dim)] mt-1">IBM</span>
       </div>
-      <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">May 13, 2026 ↗</span>
+      <span class="label !text-[0.7rem] text-[var(--dim)] shrink-0">May 13, 2026 ↗</span>
     </a>
     <a href="https://coursera.org/verify/Z4F077T14PVG" target="_blank" rel="noopener" class="cert-item hover-trigger">
       <div>
         <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">Leveraging AI for Content Creation</span>
         <span class="label !text-[0.6rem] text-[var(--dim)] mt-1">Coursera</span>
       </div>
-      <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">May 3, 2026 ↗</span>
+      <span class="label !text-[0.7rem] text-[var(--dim)] shrink-0">May 3, 2026 ↗</span>
     </a>
     <a href="https://coursera.org/verify/GPRAZ1HU9HET" target="_blank" rel="noopener" class="cert-item hover-trigger">
       <div>
         <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">How to Get Into AI</span>
         <span class="label !text-[0.6rem] text-[var(--dim)] mt-1">Univ. of Leeds</span>
       </div>
-      <span class="label !text-[0.65rem] text-[var(--dim)] shrink-0">Apr 26, 2026 ↗</span>
+      <span class="label !text-[0.7rem] text-[var(--dim)] shrink-0">Apr 26, 2026 ↗</span>
     </a>
   </div>
 </section>
@@ -1054,24 +1063,24 @@
   
   <div class="grid md:grid-cols-3 gap-8 md:gap-16">
     <div class="border-t border-[var(--gold)] pt-10 anim-section relative">
-      <p class="label !text-[0.65rem] mb-4 text-[var(--gold)] tracking-[0.25em]">CURRENTLY (NOW PAGE)</p>
-      <h4 class="text-2xl text-[var(--ink)] font-serif mb-4">Focus & Directives</h4>
+      <p class="label !text-[0.7rem] mb-4 text-[var(--gold)] tracking-[0.25em]">CURRENTLY (NOW PAGE)</p>
+      <h3 class="text-2xl text-[var(--ink)] font-serif mb-4">Focus & Directives</h3>
       <p class="text-[var(--dim)] text-[1.15rem] leading-[1.8] font-serif vn-readable decay-target">
         Deep-diving into C++ for systems programming, exploring non-Euclidean geometry, and actively avoiding web framework fatigue. Writing scripts for upcoming club theatricals.
       </p>
     </div>
 
     <div class="border-t border-[var(--line)] pt-10 anim-section">
-      <p class="label !text-[0.65rem] mb-4 text-[var(--dim)]">2026-04</p>
-      <h4 class="text-2xl text-[var(--ink)] font-serif mb-4">On Pearson's Skewness</h4>
+      <p class="label !text-[0.7rem] mb-4 text-[var(--dim)]">2026-04</p>
+      <h3 class="text-2xl text-[var(--ink)] font-serif mb-4">On Pearson's Skewness</h3>
       <p class="text-[var(--dim)] text-[1.15rem] leading-[1.8] font-serif vn-readable decay-target">
         Revisiting business statistics for distributions. Calculating medians and compound annual growth rates manually grounds the formulas before ever writing the SQL for them.
       </p>
     </div>
     
     <div class="border-t border-[var(--line)] pt-10 anim-section">
-      <p class="label !text-[0.65rem] mb-4 text-[var(--dim)]">2026-02</p>
-      <h4 class="text-2xl text-[var(--ink)] font-serif mb-4">Linear Optimization in R</h4>
+      <p class="label !text-[0.7rem] mb-4 text-[var(--dim)]">2026-02</p>
+      <h3 class="text-2xl text-[var(--ink)] font-serif mb-4">Linear Optimization in R</h3>
       <p class="text-[var(--dim)] text-[1.15rem] leading-[1.8] font-serif mb-6 vn-readable decay-target">
         Utilizing optimization packages in R to solve linear programming matrices. The setup takes longer than the solve.
       </p>
@@ -1118,18 +1127,18 @@
     </div>
     <div>
       <p class="h-sub font-calligraphy-accent text-4xl text-[var(--ink)] mb-2">Nabhya Bawankar</p>
-      <p class="label !text-[0.65rem] text-[var(--dim)]">Built with Vanilla JS, GSAP, Tailwind <span class="text-[var(--gold)]">✠</span></p>
+      <p class="label !text-[0.7rem] text-[var(--dim)]">Built with Vanilla JS, GSAP, Tailwind <span class="text-[var(--gold)]">✠</span></p>
     </div>
     <div class="w-full flex flex-col items-center mt-6 mb-2">
       <div id="gh-grid"></div>
     </div>
     <div class="flex flex-col items-center gap-3 mt-6">
       <div class="flex gap-6">
-        <a href="#" onclick="openDrawer('drawer-colophon'); return false;" class="label !text-[0.65rem] hover:text-[var(--gold)] transition-colors hover-trigger">View Colophon</a>
-        <a href="#" onclick="openGuestbook(); return false;" class="label !text-[0.65rem] hover:text-[var(--gold)] transition-colors hover-trigger text-[var(--gold)]">~/guestbook.sh</a>
+        <a href="#" onclick="openDrawer('drawer-colophon'); return false;" class="label !text-[0.7rem] hover:text-[var(--gold)] transition-colors hover-trigger">View Colophon</a>
+        <a href="#" onclick="openGuestbook(); return false;" class="label !text-[0.7rem] hover:text-[var(--gold)] transition-colors hover-trigger text-[var(--gold)]">~/guestbook.sh</a>
       </div>
-      <p class="label !text-[0.65rem] text-[var(--dim)] mt-2">VISITORS: <span id="visitor-count" class="text-[var(--gold)] tracking-widest">000000</span></p>
-      <p class="label !text-[0.65rem] text-[var(--dim)]" id="footer-time">✠ © Life isnt always black and white. ✠</p>
+      <p class="label !text-[0.7rem] text-[var(--dim)] mt-2">VISITORS: <span id="visitor-count" class="text-[var(--gold)] tracking-widest">000000</span></p>
+      <p class="label !text-[0.7rem] text-[var(--dim)]" id="footer-time">✠ © Life isnt always black and white. ✠</p>
     </div>
   </div>
 </footer>
@@ -1210,6 +1219,9 @@
   <div class="text-[var(--dim)] font-serif text-[1.05rem] leading-[1.8] space-y-6">
     <p>Step 1. Import the libraries and import the csv file to be used as training data.</p>
     <div class="terminal-window !p-6 !mt-6 !mb-10 w-full !text-[0.8rem] relative">
+      <div class="terminal-header flex justify-between items-center !mb-4 !pb-3">
+        <span>~/fraud/load_data.py</span>
+      </div>
       <button class="copy-btn hover-trigger absolute top-3 right-3" onclick="copyCode(this)">Copy Source</button>
       <pre class="overflow-x-auto"><code>import pandas as pd
 from imblearn.over_sampling import SMOTE
@@ -1220,6 +1232,9 @@ print(df.shape)
     
     <p>Only 492 Frauds in 284k cases. Fraud percentage = 0.1727%. We check for correlations against the 'Class' column, removing self-correlation, and order from most negative to most positive.</p>
     <div class="terminal-window !p-6 !mt-6 !mb-10 w-full !text-[0.8rem] relative">
+      <div class="terminal-header flex justify-between items-center !mb-4 !pb-3">
+        <span>~/fraud/feature_engineering.py</span>
+      </div>
       <button class="copy-btn hover-trigger absolute top-3 right-3" onclick="copyCode(this)">Copy Source</button>
       <pre class="overflow-x-auto"><code>correlations = df.corr()['Class'].drop('Class').sort_values()
 X = df.drop('Class', axis=1) # Full dataset minus label
@@ -1233,6 +1248,9 @@ X['Time'] = scaler.fit_transform(X[['Time']])</code></pre>
     
     <p>Splitting the data: <code>test_size=0.2</code> means 20% of rows go to the test set, 80% to training. <code>stratify=y</code> guarantees the fraud ratio (0.17%) is preserved in both splits proportionally.</p>
     <div class="terminal-window !p-6 !mt-6 !mb-10 w-full !text-[0.8rem] relative">
+      <div class="terminal-header flex justify-between items-center !mb-4 !pb-3">
+        <span>~/fraud/resample_smote.py</span>
+      </div>
       <button class="copy-btn hover-trigger absolute top-3 right-3" onclick="copyCode(this)">Copy Source</button>
       <pre class="overflow-x-auto"><code>smote = SMOTE(random_state=42)
 X_train_resampled, y_train_resampled = smote.fit_resample(X_train, y_train)
@@ -1310,6 +1328,9 @@ print(f"After SMOTE: {pd.Series(y_train_resampled).value_counts().to_dict()}")
 
   <h3 class="label text-[var(--gold)] mb-4">System Architecture</h3>
   <div class="terminal-window !p-6 !mt-6 !mb-10 w-full !text-[0.8rem] relative">
+    <div class="terminal-header flex justify-between items-center !mb-4 !pb-3">
+      <span>~/dedup/pipeline_architecture.txt</span>
+    </div>
     <pre class="overflow-x-auto font-mono text-[#4ade80] leading-relaxed text-center"><code>RAW DATA <span class="text-[#888]">(Neon Postgres)</span>
       │
       ▼
@@ -1323,6 +1344,9 @@ CLEAN DATA <span class="text-[#888]">(Production DB)</span></code></pre>
   <div class="text-[var(--dim)] font-serif text-[1.05rem] leading-[1.8] space-y-6">
     <p>Comparison logic: Jarowinkler similarity on name at an 0.85 threshold, combined with an exact match on email.</p>
     <div class="terminal-window !p-6 !mt-6 !mb-10 w-full !text-[0.8rem] relative">
+      <div class="terminal-header flex justify-between items-center !mb-4 !pb-3">
+        <span>~/dedup/match_records.py</span>
+      </div>
       <button class="copy-btn hover-trigger absolute top-3 right-3" onclick="copyCode(this)">Copy Source</button>
       <pre class="overflow-x-auto"><code>import recordlinkage
 
@@ -1343,6 +1367,9 @@ matches = features[features.sum(axis=1) > 1]</code></pre>
   <div class="text-[var(--dim)] font-serif text-[1.05rem] leading-[1.8] space-y-6">
     <p>Code snippet demonstrating optimization constraint solving in R Studio.</p>
     <div class="terminal-window !p-6 !mt-6 !mb-10 w-full !text-[0.8rem] relative">
+      <div class="terminal-header flex justify-between items-center !mb-4 !pb-3">
+        <span>~/optimization/linear_prog.R</span>
+      </div>
       <button class="copy-btn hover-trigger absolute top-3 right-3 mr-12" onclick="copyCode(this)">Copy Source</button>
       <pre class="overflow-x-auto"><code><span class="text-[#888]"># Objective: Maximize profit given resource constraints</span>
 library(lpSolve)
@@ -1417,7 +1444,7 @@ print(solution$solution)</code></pre>
       <div class="text-[var(--gold)]">Dossier Secrets</div>
     </div>
     
-    <div class="achievement-box mb-8 border border-[var(--gold)] !bg-transparent">
+    <div class="achievement-box mb-8 border-t border-[var(--gold)] !bg-transparent !rounded-none">
       <div class="flex justify-between text-[var(--gold)] mb-2">
         <span>ARCHIVIST PROGRESS</span>
         <span id="ach-text">0/11 SECRETS FOUND</span>
@@ -1546,8 +1573,8 @@ print(solution$solution)
 </div>
 
     <!-- Leaderboard inside modal -->
-    <div id="konami-leaderboard" class="mt-4 p-4 border border-[var(--gold)] rounded bg-[#0c0a10] text-center font-mono text-xs">
-        <h4 class="text-[var(--gold)] mb-2">Leaderboard</h4>
+    <div id="konami-leaderboard" class="mt-4 p-4 border-t border-[var(--gold)] text-center font-mono text-xs">
+        <h3 class="text-xl text-[var(--gold)] mb-2">Leaderboard</h3>
         <ul id="leaderboard-list" class="space-y-1 text-[var(--ink)]">
             <li>Loading high scores...</li>
         </ul>
