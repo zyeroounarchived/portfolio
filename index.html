@@ -931,6 +931,27 @@
   </div>
 
   <div class="cert-grid cert-list anim-section border-t border-[var(--line)] pt-8">
+    <a href="https://coursera.org/verify/X52DNZ9MJXCW" target="_blank" rel="noopener" class="cert-item hover-trigger">
+      <div>
+        <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">Introduction to Data Analytics</span>
+        <span class="label !text-[0.6rem] text-[var(--dim)] mt-1">IBM</span>
+      </div>
+      <span class="label !text-[0.7rem] text-[var(--dim)] shrink-0">Aug 20, 2026 ↗</span>
+    </a>
+    <a href="https://coursera.org/verify/4KADAEJO7GKF" target="_blank" rel="noopener" class="cert-item hover-trigger">
+      <div>
+        <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">Research Methodologies</span>
+        <span class="label !text-[0.6rem] text-[var(--dim)] mt-1">Queen Mary Univ. of London</span>
+      </div>
+      <span class="label !text-[0.7rem] text-[var(--dim)] shrink-0">Aug 17, 2026 ↗</span>
+    </a>
+    <a href="https://coursera.org/verify/CIDPXN6PGVES" target="_blank" rel="noopener" class="cert-item hover-trigger">
+      <div>
+        <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">Understanding Research Methods</span>
+        <span class="label !text-[0.6rem] text-[var(--dim)] mt-1">Univ. of London / SOAS</span>
+      </div>
+      <span class="label !text-[0.7rem] text-[var(--dim)] shrink-0">Aug 17, 2026 ↗</span>
+    </a>
     <a href="https://coursera.org/verify/professional-cert/D20TWDI98382" target="_blank" rel="noopener" class="cert-item hover-trigger">
       <div>
         <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">Google AI Professional Certificate</span>
@@ -1135,6 +1156,7 @@
     <div class="flex flex-col items-center gap-3 mt-6">
       <div class="flex gap-6">
         <a href="#" onclick="openDrawer('drawer-colophon'); return false;" class="label !text-[0.7rem] hover:text-[var(--gold)] transition-colors hover-trigger">View Colophon</a>
+        <a href="#" onclick="openDrawer('drawer-terms'); return false;" class="label !text-[0.7rem] hover:text-[var(--gold)] transition-colors hover-trigger">Terms</a>
         <a href="#" onclick="openGuestbook(); return false;" class="label !text-[0.7rem] hover:text-[var(--gold)] transition-colors hover-trigger text-[var(--gold)]">~/guestbook.sh</a>
       </div>
       <p class="label !text-[0.7rem] text-[var(--dim)] mt-2">VISITORS: <span id="visitor-count" class="text-[var(--gold)] tracking-widest">000000</span></p>
@@ -1436,6 +1458,19 @@ print(solution$solution)</code></pre>
   </div>
 </div>
 
+<div class="slide-drawer" id="drawer-terms">
+  <button class="btn-close-minimal drawer-close hover-trigger" aria-label="Close drawer"></button>
+  <p class="label mb-4">Terms</p>
+  <h2 class="h-display text-4xl text-[var(--ink)] mb-6">Terms &amp; Conditions</h2>
+  <div class="text-[var(--dim)] font-serif text-[1.1rem] leading-[1.9] space-y-6">
+    <p>This is a personal portfolio, not a product. There's no account, no tracking beyond a basic visit counter, and nothing here is sold. Read and use anything on it for the obvious purpose — deciding whether to reach out.</p>
+    <p><strong>Case studies.</strong> Every project described here is real work I did, written up honestly. Where the underlying data involves real people (the NASEOH applicant records, for instance), only aggregate statistics are shown — no names, contact details, or individually identifying information. The interactive data-cleaning sandbox uses a small illustrative dataset built to demonstrate the method, not a live copy of anyone's real records.</p>
+    <p><strong>Certifications.</strong> Each credential listed links out to its official Coursera verification page. I don't control those pages and can't guarantee they'll stay live forever — that's on Coursera, not me.</p>
+    <p><strong>The guestbook and easter eggs.</strong> The guestbook is public and moderated informally; don't post anything you wouldn't want attached to a public page. Everything else — the games, the terminal, the hidden shortcuts — is exactly what it looks like: a portfolio having a bit of fun. None of it collects anything beyond what's needed to make it work in your browser.</p>
+    <p>If something here is broken, wrong, or ought to come down, the fastest way to reach me is the email in the Correspondence section below.</p>
+  </div>
+</div>
+
 <!-- Easter Egg Modals & Terminals -->
 <div class="modal-overlay" id="modal-tips">
   <div class="terminal-window !bg-[var(--void)] !border-[var(--gold)] !text-[var(--ink)] max-w-3xl !mt-[5vh] !mb-0 relative">
@@ -1620,6 +1655,7 @@ print(solution$solution)
     { title: 'An Essay on Constitutional Erosion', type: 'Essay', desc: 'Fundamental Rights, Directive Principles, and the Puttaswamy judgment.', action: () => openDrawer('drawer-constitution') },
     { title: 'Linear Optimization in R', type: 'Note', desc: 'Solving linear programming matrices with R optimization packages.', action: () => openDrawer('drawer-r') },
     { title: 'Colophon', type: 'Meta', desc: 'Typography, fonts, and the tools this site was built with.', action: () => openDrawer('drawer-colophon') },
+    { title: 'Terms & Conditions', type: 'Meta', desc: 'Site usage, case-study data handling, and the guestbook.', keywords: 'terms conditions legal privacy', action: () => openDrawer('drawer-terms') },
     { title: 'guest@bawankar-os', type: 'System', desc: 'cat resume.json — raw system data.', keywords: 'whoami sudo resume json terminal cat', action: () => { const m = $('#modal-terminal'); if(m) m.classList.add('active'); unlockSecret('terminal'); } },
   ];
 
@@ -1867,6 +1903,12 @@ print(solution$solution)
     clearInterval(matrixDrawerInterval);
     matrixMode = false;
     if(window.endRhythmGame) window.endRhythmGame();
+    // Prevent focus staying trapped in a now-hidden input (e.g. search), which would
+    // silently block every keyboard shortcut - including Cmd+K itself - until a manual click.
+    const activeEl = document.activeElement;
+    if (activeEl && (activeEl.tagName === 'INPUT' || activeEl.tagName === 'TEXTAREA') && activeEl.closest('.modal-overlay, .slide-drawer')) {
+      activeEl.blur();
+    }
     playClick();
   };
 
