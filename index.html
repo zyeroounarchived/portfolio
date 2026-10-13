@@ -867,9 +867,25 @@
       </div>
     </article>
 
+    <article class="ui-card spotlight anim-section proj-card hover-trigger magnetic-hover project-item" data-category="ml">
+      <div class="proj-info-left">
+        <span class="proj-num">06</span>
+        <span class="proj-cat">Generative AI</span>
+      </div>
+      <div class="proj-info-center">
+        <h3 class="proj-title">Zero-Bias Resume<br>Parser</h3>
+        <p class="proj-desc vn-readable">
+          Streams native PDF buffers to Gemini to extract a strictly-typed technical skills matrix while automatically scrubbing demographic identifiers from the hiring workflow.
+        </p>
+      </div>
+      <div class="proj-action-right">
+        <button class="btn-ghost hover-trigger text-[0.8rem]" onclick="openDrawer('drawer-zero-bias')">View Case Study</button>
+      </div>
+    </article>
+
     <article class="ui-card spotlight anim-section proj-card hover-trigger magnetic-hover project-item" data-category="ml" style="border-color: color-mix(in srgb, var(--gold) 30%, transparent);">
       <div class="proj-info-left">
-        <span class="proj-num" style="color:var(--dim)">06</span>
+        <span class="proj-num" style="color:var(--dim)">07</span>
         <span class="proj-cat">Failed Experiment</span>
       </div>
       <div class="proj-info-center">
@@ -1341,6 +1357,7 @@ print(f"After SMOTE: {pd.Series(y_train_resampled).value_counts().to_dict()}")
       <p class="text-[var(--dim)] text-sm font-serif italic mt-3 text-center">raw_leads — 1,000 rows, fuzzy duplicates intact.</p>
     </div>
     <div>
+
       <div class="case-img-frame border border-[#333] rounded">
         <img src="data-dedup-pipeline/clean_leads.png" alt="Clean leads table in Neon Postgres">
       </div>
@@ -1380,6 +1397,51 @@ features = compare.compute(candidate_links, df)
 matches = features[features.sum(axis=1) > 1]</code></pre>
     </div>
   </div>
+</div>
+
+<div class="slide-drawer" id="drawer-zero-bias">
+  <button class="btn-close-minimal drawer-close hover-trigger" aria-label="Close drawer"></button>
+  <p class="label mb-4">Generative AI / Hiring Infrastructure</p>
+  <h2 class="h-display text-4xl text-[var(--ink)] mb-6">Zero-Bias Resume Parser</h2>
+
+  <div class="text-[var(--dim)] font-serif text-[1.1rem] leading-[1.8] mb-10 space-y-6">
+    <p>A brutalist archival ledger for technical hiring: the app streams native PDF buffers directly to Gemini 3.8 Flash, then returns a strictly-typed technical skills matrix for consistent downstream review.</p>
+    <p>Before interpretation, demographic identifiers are scrubbed from the resume payload. Names, contact details, photographs, addresses, and other bias-bearing metadata are excluded so the resulting analysis stays focused on evidence of technical ability.</p>
+    <p><strong>Stack:</strong> Next.js App Router, Tailwind CSS v4, and Google Generative AI.</p>
+  </div>
+
+  <h3 class="label text-[var(--gold)] mb-4">Live Demonstration</h3>
+  <div class="case-img-frame border border-[#333] rounded">
+    <img src="zero-bias-parser:zero-bias-demo.gif" alt="Terminal-style demonstration of the Zero-Bias Resume Parser">
+  </div>
+  <p class="text-[var(--dim)] text-sm font-serif italic mt-4 mb-10 text-center">Native PDF ingestion, demographic scrubbing, and typed skills extraction in one pass.</p>
+
+  <h3 class="label text-[var(--gold)] mb-4">Next.js API Route</h3>
+  <div class="terminal-window !p-6 !mt-6 !mb-10 w-full !text-[0.8rem] relative">
+    <div class="terminal-header flex justify-between items-center !mb-4 !pb-3">
+      <span>~/app/api/parse/route.ts</span>
+    </div>
+    <button class="copy-btn hover-trigger absolute top-3 right-3" onclick="copyCode(this)">Copy Source</button>
+    <pre class="overflow-x-auto"><code>import { GoogleGenerativeAI } from '@google/generative-ai';
+
+export async function POST(request: Request) {
+  const formData = await request.formData();
+  const file = formData.get('resume') as File;
+  const buffer = Buffer.from(await file.arrayBuffer());
+
+  const model = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!)
+    .getGenerativeModel({ model: 'gemini-3.8-flash' });
+
+  const result = await model.generateContent([
+    { inlineData: { data: buffer.toString('base64'), mimeType: 'application/pdf' } },
+    'Scrub demographic identifiers. Return only the strictly-typed technical skills matrix.'
+  ]);
+
+  return Response.json(JSON.parse(result.response.text()));
+}</code></pre>
+  </div>
+
+  <a href="https://zero-bias-ui.vercel.app" target="_blank" rel="noopener" class="btn-primary hover-trigger w-full">Open Zero-Bias Parser ↗</a>
 </div>
 
 <div class="slide-drawer" id="drawer-r">
