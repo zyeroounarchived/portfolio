@@ -783,7 +783,7 @@
 
   <div class="flex flex-col gap-16" id="projects-grid">
     
-    <article class="ui-card spotlight anim-section proj-card hover-trigger magnetic-hover project-item" data-category="sql" style="order: 2;">
+    <article class="ui-card spotlight anim-section proj-card hover-trigger magnetic-hover project-item" data-category="sql" data-project-order="2">
       <div class="proj-info-left">
         <span class="proj-num">02</span>
         <span class="proj-cat">Data Cleaning</span>
@@ -803,7 +803,7 @@
       </div>
     </article>
 
-    <article class="ui-card spotlight anim-section proj-card hover-trigger magnetic-hover project-item" data-category="strategy" style="order: 5;">
+    <article class="ui-card spotlight anim-section proj-card hover-trigger magnetic-hover project-item" data-category="strategy" data-project-order="5">
       <div class="proj-info-left">
         <span class="proj-num">05</span>
         <span class="proj-cat">Game Theory</span>
@@ -819,7 +819,7 @@
       </div>
     </article>
 
-    <article class="ui-card spotlight anim-section proj-card hover-trigger magnetic-hover project-item" data-category="ai-ml" style="order: 4;">
+    <article class="ui-card spotlight anim-section proj-card hover-trigger magnetic-hover project-item" data-category="ai-ml" data-project-order="4">
       <div class="proj-info-left">
         <span class="proj-num">04</span>
         <span class="proj-cat">AI / Fraud Detection</span>
@@ -835,7 +835,7 @@
       </div>
     </article>
 
-    <article class="ui-card spotlight anim-section proj-card hover-trigger magnetic-hover project-item" data-category="sql" style="order: 3;">
+    <article class="ui-card spotlight anim-section proj-card hover-trigger magnetic-hover project-item" data-category="sql" data-project-order="3">
       <div class="proj-info-left">
         <span class="proj-num">03</span>
         <span class="proj-cat">Data Pipeline</span>
@@ -851,7 +851,7 @@
       </div>
     </article>
 
-    <article class="ui-card spotlight anim-section proj-card hover-trigger magnetic-hover project-item" data-category="viz" style="order: 6;">
+    <article class="ui-card spotlight anim-section proj-card hover-trigger magnetic-hover project-item" data-category="viz" data-project-order="6">
       <div class="proj-info-left">
         <span class="proj-num">06</span>
         <span class="proj-cat">Interactive Analytics</span>
@@ -867,7 +867,7 @@
       </div>
     </article>
 
-    <article class="ui-card spotlight anim-section proj-card hover-trigger magnetic-hover project-item" data-category="ai-ml" style="order: 1;">
+    <article class="ui-card spotlight anim-section proj-card hover-trigger magnetic-hover project-item" data-category="ai-ml" data-project-order="1">
       <div class="proj-info-left">
         <span class="proj-num">01</span>
         <span class="proj-cat">Generative AI</span>
@@ -883,7 +883,7 @@
       </div>
     </article>
 
-    <article class="ui-card spotlight anim-section proj-card hover-trigger magnetic-hover project-item" data-category="ai-ml" style="order: 7; border-color: color-mix(in srgb, var(--gold) 30%, transparent);">
+    <article class="ui-card spotlight anim-section proj-card hover-trigger magnetic-hover project-item" data-category="ai-ml" data-project-order="7" style="border-color: color-mix(in srgb, var(--gold) 30%, transparent);">
       <div class="proj-info-left">
         <span class="proj-num" style="color:var(--dim)">07</span>
         <span class="proj-cat">Failed Experiment</span>
@@ -2016,6 +2016,13 @@ print(solution$solution)
   });
 
   // Filterable Grid Logic
+  const projectsGrid = $('#projects-grid');
+  if(projectsGrid) {
+    $$('.project-item', projectsGrid)
+      .sort((a, b) => parseInt(a.dataset.projectOrder, 10) - parseInt(b.dataset.projectOrder, 10))
+      .forEach(card => projectsGrid.appendChild(card));
+  }
+
   $$('.filter-btn').forEach(btn => {
     btn.addEventListener('click', (e) => {
       $$('.filter-btn').forEach(b => b.classList.remove('active', '!bg-[var(--gold)]', '!text-[var(--void)]'));
