@@ -775,7 +775,7 @@
     <div class="flex flex-wrap justify-center gap-4 w-full max-w-4xl mx-auto mt-8 mb-16 md:mb-28">
       <button class="filter-btn sort-btn active !bg-[var(--gold)] !text-[var(--void)] hover-trigger" data-filter="all">All</button>
       <button class="filter-btn sort-btn hover-trigger" data-filter="sql">Data / SQL</button>
-      <button class="filter-btn sort-btn hover-trigger" data-filter="ml">Machine Learning</button>
+      <button class="filter-btn sort-btn hover-trigger" data-filter="ai-ml">AI/ML</button>
       <button class="filter-btn sort-btn hover-trigger" data-filter="viz">Visualization</button>
       <button class="filter-btn sort-btn hover-trigger" data-filter="strategy">Strategy</button>
     </div>
@@ -783,9 +783,9 @@
 
   <div class="flex flex-col gap-16" id="projects-grid">
     
-    <article class="ui-card spotlight anim-section proj-card hover-trigger magnetic-hover project-item" data-category="sql">
+    <article class="ui-card spotlight anim-section proj-card hover-trigger magnetic-hover project-item" data-category="sql" style="order: 2;">
       <div class="proj-info-left">
-        <span class="proj-num">01</span>
+        <span class="proj-num">02</span>
         <span class="proj-cat">Data Cleaning</span>
       </div>
       <div class="proj-info-center">
@@ -803,9 +803,9 @@
       </div>
     </article>
 
-    <article class="ui-card spotlight anim-section proj-card hover-trigger magnetic-hover project-item" data-category="strategy">
+    <article class="ui-card spotlight anim-section proj-card hover-trigger magnetic-hover project-item" data-category="strategy" style="order: 5;">
       <div class="proj-info-left">
-        <span class="proj-num">02</span>
+        <span class="proj-num">05</span>
         <span class="proj-cat">Game Theory</span>
       </div>
       <div class="proj-info-center">
@@ -819,10 +819,10 @@
       </div>
     </article>
 
-    <article class="ui-card spotlight anim-section proj-card hover-trigger magnetic-hover project-item" data-category="ml">
+    <article class="ui-card spotlight anim-section proj-card hover-trigger magnetic-hover project-item" data-category="ai-ml" style="order: 4;">
       <div class="proj-info-left">
-        <span class="proj-num">03</span>
-        <span class="proj-cat">Machine Learning</span>
+        <span class="proj-num">04</span>
+        <span class="proj-cat">AI / Fraud Detection</span>
       </div>
       <div class="proj-info-center">
         <h3 class="proj-title">Credit Card<br>Fraud Detection</h3>
@@ -835,9 +835,9 @@
       </div>
     </article>
 
-    <article class="ui-card spotlight anim-section proj-card hover-trigger magnetic-hover project-item" data-category="sql">
+    <article class="ui-card spotlight anim-section proj-card hover-trigger magnetic-hover project-item" data-category="sql" style="order: 3;">
       <div class="proj-info-left">
-        <span class="proj-num">04</span>
+        <span class="proj-num">03</span>
         <span class="proj-cat">Data Pipeline</span>
       </div>
       <div class="proj-info-center">
@@ -851,9 +851,9 @@
       </div>
     </article>
 
-    <article class="ui-card spotlight anim-section proj-card hover-trigger magnetic-hover project-item" data-category="viz">
+    <article class="ui-card spotlight anim-section proj-card hover-trigger magnetic-hover project-item" data-category="viz" style="order: 6;">
       <div class="proj-info-left">
-        <span class="proj-num">05</span>
+        <span class="proj-num">06</span>
         <span class="proj-cat">Interactive Analytics</span>
       </div>
       <div class="proj-info-center">
@@ -867,15 +867,15 @@
       </div>
     </article>
 
-    <article class="ui-card spotlight anim-section proj-card hover-trigger magnetic-hover project-item" data-category="ml">
+    <article class="ui-card spotlight anim-section proj-card hover-trigger magnetic-hover project-item" data-category="ai-ml" style="order: 1;">
       <div class="proj-info-left">
-        <span class="proj-num">06</span>
+        <span class="proj-num">01</span>
         <span class="proj-cat">Generative AI</span>
       </div>
       <div class="proj-info-center">
         <h3 class="proj-title">Zero-Bias Resume<br>Parser</h3>
         <p class="proj-desc vn-readable">
-          Streams native PDF buffers to Gemini to extract a strictly-typed technical skills matrix while automatically scrubbing demographic identifiers from the hiring workflow.
+          Reads PDF resumes, removes demographic details, and returns a clear technical skills matrix for more consistent hiring review.
         </p>
       </div>
       <div class="proj-action-right">
@@ -883,7 +883,7 @@
       </div>
     </article>
 
-    <article class="ui-card spotlight anim-section proj-card hover-trigger magnetic-hover project-item" data-category="ml" style="border-color: color-mix(in srgb, var(--gold) 30%, transparent);">
+    <article class="ui-card spotlight anim-section proj-card hover-trigger magnetic-hover project-item" data-category="ai-ml" style="order: 7; border-color: color-mix(in srgb, var(--gold) 30%, transparent);">
       <div class="proj-info-left">
         <span class="proj-num" style="color:var(--dim)">07</span>
         <span class="proj-cat">Failed Experiment</span>
@@ -1403,16 +1403,17 @@ matches = features[features.sum(axis=1) > 1]</code></pre>
   <button class="btn-close-minimal drawer-close hover-trigger" aria-label="Close drawer"></button>
   <p class="label mb-4">Generative AI / Hiring Infrastructure</p>
   <h2 class="h-display text-4xl text-[var(--ink)] mb-6">Zero-Bias Resume Parser</h2>
+  <a href="https://zero-bias-ui.vercel.app" target="_blank" rel="noopener" class="btn-primary hover-trigger w-full mb-10">Open Parser ↗</a>
 
   <div class="text-[var(--dim)] font-serif text-[1.1rem] leading-[1.8] mb-10 space-y-6">
-    <p>A brutalist archival ledger for technical hiring: the app streams native PDF buffers directly to Gemini 3.8 Flash, then returns a strictly-typed technical skills matrix for consistent downstream review.</p>
-    <p>Before interpretation, demographic identifiers are scrubbed from the resume payload. Names, contact details, photographs, addresses, and other bias-bearing metadata are excluded so the resulting analysis stays focused on evidence of technical ability.</p>
+    <p>This app reads a resume PDF and sends it directly to Gemini 3.8 Flash. It returns a typed list of technical skills for faster, clearer review.</p>
+    <p>It removes names, contact details, photos, addresses, and other demographic details before analysis, helping reduce bias in hiring.</p>
     <p><strong>Stack:</strong> Next.js App Router, Tailwind CSS v4, and Google Generative AI.</p>
   </div>
 
   <h3 class="label text-[var(--gold)] mb-4">Live Demonstration</h3>
   <div class="case-img-frame border border-[#333] rounded">
-    <img src="zero-bias-parser:zero-bias-demo.gif" alt="Terminal-style demonstration of the Zero-Bias Resume Parser">
+    <img src="zero-bias-parser%3Azero-bias-demo.gif" alt="Terminal-style demonstration of the Zero-Bias Resume Parser">
   </div>
   <p class="text-[var(--dim)] text-sm font-serif italic mt-4 mb-10 text-center">Native PDF ingestion, demographic scrubbing, and typed skills extraction in one pass.</p>
 
@@ -1441,7 +1442,6 @@ export async function POST(request: Request) {
 }</code></pre>
   </div>
 
-  <a href="https://zero-bias-ui.vercel.app" target="_blank" rel="noopener" class="btn-primary hover-trigger w-full">Open Zero-Bias Parser ↗</a>
 </div>
 
 <div class="slide-drawer" id="drawer-r">
