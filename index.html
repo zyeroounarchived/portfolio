@@ -182,12 +182,12 @@
   .hero-initial{ font-family:'Pinyon Script',cursive; font-size:1.65em; font-weight:400; letter-spacing:0; color:var(--gold) !important; -webkit-text-fill-color:var(--gold) !important; display:inline-block; padding:0.32em 0.48em; margin:-0.32em -0.32em -0.32em -0.48em; vertical-align:bottom; line-height:0.8; }
   #typewriter-rest{ display:inline-block; letter-spacing:-0.055em; }
   
-  .hero-title{ padding-right:0.12em; }
-  .hero-cross{ font-size:0.24em; vertical-align:-0.02em; margin-left:-0.22em; margin-right:0.12em; display:inline-block; }
+  .hero-title{ padding-right:0.28em; white-space:nowrap; overflow:visible; }
+  .hero-cross{ font-size:0.22em; vertical-align:baseline; margin-left:-0.3em; margin-right:0.08em; display:inline-block; position:relative; top:-0.02em; }
   
   .type-cursor::after {
       content: ''; display:inline-block; width: 3px; height: 0.8em; background-color: var(--gold);
-      vertical-align: middle; margin-left: 6px; animation: blinkCursor 1s step-end infinite; box-shadow: 0 0 8px var(--gold);
+      vertical-align: baseline; margin-left: 4px; position:relative; top:-0.08em; animation: blinkCursor 1s step-end infinite; box-shadow: 0 0 8px var(--gold);
   }
   @keyframes blinkCursor { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
@@ -576,8 +576,8 @@
     .slide-drawer { padding:3.5rem 1.25rem 4rem !important; }
     .terminal-window { padding: 1rem !important; width: 95vw !important; max-width: 95vw !important; }
     .terminal-window pre { font-size: 0.7rem !important; }
-    .hero-title { font-size:clamp(2.8rem,10.5vw,4.1rem) !important; line-height:1 !important; letter-spacing:-0.07em; padding-right:0.08em; }
-    .hero-cross { font-size:0.22em; margin-left:-0.24em; margin-right:0.16em; }
+    .hero-title { font-size:clamp(2.6rem,9.5vw,3.8rem) !important; line-height:1 !important; letter-spacing:-0.07em; padding-right:0.24em; }
+    .hero-cross { font-size:0.2em; margin-left:-0.32em; margin-right:0.1em; }
     .hero-initial { font-size:1.45em; padding:0.12em 0.2em; margin:-0.12em -0.1em -0.12em -0.2em; }
     .h-sub { font-size: clamp(1.8rem, 8vw, 2.6rem) !important; }
     .hero-intro, .certificates-intro, .contact-intro { font-size:0.98rem !important; line-height:1.7 !important; }
