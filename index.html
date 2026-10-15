@@ -166,6 +166,17 @@
   .h-display{ font-family:'Cormorant Garamond',Georgia,serif; font-weight:400; letter-spacing:-0.035em; }
   
   .hero-title{ font-family:'Cormorant Garamond',Georgia,serif; font-weight:400; font-style:italic; letter-spacing:-0.045em; line-height:1.05 !important; font-size:clamp(3.6rem,7.5vw,7.5rem); }
+  .hero-window{ position:relative; isolation:isolate; overflow:hidden; }
+  .hero-window::before{ content:''; position:absolute; inset:0; z-index:1; pointer-events:none; background:
+    radial-gradient(ellipse at 18% 35%, color-mix(in srgb,var(--gold) 13%,transparent), transparent 46%),
+    radial-gradient(ellipse at 82% 70%, color-mix(in srgb,var(--ink) 9%,transparent), transparent 52%);
+    opacity:0.72; filter:blur(18px); transform:scale(1.08); animation:heroFogLift 2.8s cubic-bezier(.2,.8,.2,1) forwards; }
+  .hero-window > .container-w{ position:relative; z-index:2; }
+  @keyframes heroFogLift{ 0%{ opacity:0.72; transform:scale(1.08); } 100%{ opacity:0; transform:scale(1); } }
+  @media (hover:none) and (pointer:coarse){
+    .hero-window::after{ content:''; position:absolute; inset:0; z-index:1; pointer-events:none; background:radial-gradient(circle at var(--fog-x,50%) var(--fog-y,50%), transparent 0 4.5rem, color-mix(in srgb,var(--void) 16%,transparent) 12rem); opacity:0; transition:opacity .7s ease; }
+    .hero-window.fog-touched::after{ opacity:1; }
+  }
   .hero-initial{ font-family:'Pinyon Script',cursive; font-size:1.65em; font-weight:400; letter-spacing:0; color:var(--gold) !important; -webkit-text-fill-color:var(--gold) !important; display:inline-block; padding:0.32em 0.48em; margin:-0.32em -0.32em -0.32em -0.48em; vertical-align:bottom; line-height:0.8; }
   #typewriter-rest{ display:inline-block; letter-spacing:-0.055em; }
   
@@ -180,7 +191,7 @@
   .text-mask-fluid { background: linear-gradient(120deg, var(--ink), var(--gold), var(--ink), var(--dim)); background-size: 300% 300%; background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; color: transparent; animation: fluidMask 12s ease infinite; text-shadow: none !important; }
   @keyframes fluidMask { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
   
-  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; } }
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; } .hero-window::before{ opacity:0 !important; } .hero-window::after{ display:none !important; } }
   a:focus-visible, button:focus-visible, [role="button"]:focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; border-radius: 4px; }
   .h-sub{ font-family:'Cormorant Garamond',Georgia,serif; font-weight:400; font-style:italic; letter-spacing:-0.04em; text-wrap:balance; }
   .contact-title{ font-family:'Cormorant Garamond',Georgia,serif; font-style:italic; font-weight:400; letter-spacing:-0.045em; text-wrap:balance; }
@@ -712,7 +723,7 @@
 </nav>
 <div id="scroll-progress" aria-hidden="true"><span></span></div>
   
-<header class="relative min-h-[75vh] flex flex-col justify-center items-start pt-48 pb-20">
+<header class="hero-window relative min-h-[75vh] flex flex-col justify-center items-start pt-48 pb-20">
   <div class="container-w w-full relative z-10 text-left max-w-5xl mx-0 ml-4 lg:ml-12">
 
     <h1 class="h-display hero-title mb-8">
@@ -1856,7 +1867,11 @@ print(solution$solution)
   updateScrollProgress();
 
   if('serviceWorker' in navigator) {
-    window.addEventListener('load', () => navigator.serviceWorker.register('/sw.js').catch(() => {}));
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/sw.js')
+        .then(registration => registration.update())
+        .catch(() => {});
+    });
   }
 
   $$('#main-content > section[id]').forEach(section => {
@@ -2437,6 +2452,16 @@ print(solution$solution)
   }
 
   gsap.from('.anim-fade', { y:40, opacity:0, duration:1.4, ease:'power3.out', stagger:0.15, delay:0.4 });
+
+  const heroWindow = document.querySelector('.hero-window');
+  if(heroWindow && window.matchMedia('(hover:none) and (pointer:coarse)').matches) {
+    heroWindow.addEventListener('pointerup', event => {
+      const bounds = heroWindow.getBoundingClientRect();
+      heroWindow.style.setProperty('--fog-x', `${((event.clientX - bounds.left) / bounds.width) * 100}%`);
+      heroWindow.style.setProperty('--fog-y', `${((event.clientY - bounds.top) / bounds.height) * 100}%`);
+      heroWindow.classList.add('fog-touched');
+    }, { passive:true });
+  }
   
   const twEl = $('#typewriter-rest');
   if(twEl) {
