@@ -123,13 +123,15 @@
   .tool-icon.tooltip-active::after { opacity: 1; transform: translate(-50%, 0); }
   #scroll-progress { position: fixed; top: 0; left: 0; width: 100%; height: 2px; z-index: 1100; pointer-events: none; background: transparent; }
   #scroll-progress span { display: block; width: 0; height: 100%; background: var(--gold); opacity: 0.7; transform-origin: left; }
-  body.reading-mode .dossier-copy, body.reading-mode .drawer-reading-content { max-width: 54rem; }
-  body.reading-mode .dossier-copy p, body.reading-mode .drawer-reading-content { font-size: 1.08rem; line-height: 1.9; }
-  .reading-toggle { color: var(--dim); background: transparent; border: 0; cursor: pointer; font-family: 'Space Mono', monospace; font-size: 0.65rem; letter-spacing: 0.12em; padding: 0.35rem; }
-  .reading-toggle[aria-pressed="true"] { color: var(--gold); }
+  .dossier-copy .vn-readable { font-size:0.96rem !important; line-height:1.75 !important; }
+  .drawer-reading-content { font-size:0.96rem !important; line-height:1.75 !important; }
+  .certificates-intro, .contact-intro { font-size:0.98rem !important; line-height:1.7; }
+  .proj-desc { font-size:0.94rem; line-height:1.65; }
+  .cert-title { font-size:0.98rem !important; }
+  #contact .font-serif { font-size:0.95rem !important; line-height:1.7 !important; }
   .section-link, .drawer-reading-time { color: var(--dim); font-family: 'Space Mono', monospace; font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; }
-  .section-link { display: block; margin: -1.4rem 0 2.2rem; padding: 0; border: 0; background: transparent; cursor: pointer; opacity: 0; transition: opacity 0.2s ease, color 0.2s ease; }
-  h2:hover + .section-link, .section-link:focus-visible { opacity: 1; color: var(--gold); }
+  .section-link { display:inline-flex; align-items:center; margin:-0.35rem 0 1.8rem; padding:0.25rem 0; border:0; background:transparent; cursor:pointer; opacity:0.55; transition:opacity 0.2s ease, color 0.2s ease, transform 0.2s ease; }
+  h2:hover + .section-link, .section-link:hover, .section-link:focus-visible { opacity:1; color:var(--gold); transform:translateX(0.2rem); }
   .drawer-tools { display: flex; align-items: center; gap: 1rem; margin: -1rem 0 1.5rem; }
   .drawer-toc { display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; margin-bottom: 1.5rem; }
   .drawer-toc a { color: var(--dim); font-family: 'Space Mono', monospace; font-size: 0.62rem; letter-spacing: 0.08em; text-transform: uppercase; }
@@ -148,8 +150,7 @@
   #ink-cursor-trail.cursor-heading { width: 34px; height: 34px; opacity: 0.24; }
   @media (max-width: 768px) {
     #scroll-progress { height: 1px; }
-    .reading-toggle { display: none; }
-    .section-link { opacity: 1; margin-top: -1.1rem; }
+    .section-link { opacity:1; margin:-0.2rem 0 1.5rem; }
   }
 
   .ink-bleed { transition: color 0.4s ease, filter 0.4s ease, text-shadow 0.4s ease; cursor: default; }
@@ -533,9 +534,10 @@
     .terminal-window { padding: 1rem !important; width: 95vw !important; max-width: 95vw !important; }
     .terminal-window pre { font-size: 0.7rem !important; }
     .hero-title { font-size: clamp(2.5rem, 10vw, 4rem) !important; }
-    .hero-initial { font-size: 1.25em; padding: 0.1em 0.2em 0.1em 0.2em; margin: -0.1em -0.1em -0.1em -0.2em; }
+    .hero-initial { font-size:1em; padding:0; margin:0; }
     .h-sub { font-size: clamp(1.8rem, 8vw, 2.6rem) !important; }
     .hero-intro, .certificates-intro, .contact-intro { font-size:0.98rem !important; line-height:1.7 !important; }
+    .dossier-copy .vn-readable, .drawer-reading-content { font-size:0.92rem !important; line-height:1.7 !important; }
     .proj-title { font-size: 1.8rem; }
     .cert-grid { gap: 1rem; }
     .cert-title { font-size: 1rem; }
@@ -560,8 +562,8 @@
   .slide-drawer .terminal-window pre { overflow-x: auto; max-width: 100%; }
   .slide-drawer h2 { padding-right: 3.5rem; }
   .slide-drawer h2 { font-size: 2.25rem !important; }
-  .slide-drawer > [class*="text-[var(--dim)]"] { font-size: 1rem !important; line-height: 1.75 !important; }
-  .cert-title { font-size: 1.05rem !important; }
+  .slide-drawer > [class*="text-[var(--dim)]"] { font-size:0.96rem !important; line-height:1.75 !important; }
+  .cert-title { font-size:0.98rem !important; }
   .slide-drawer { overflow-x: hidden; }
 </style>
 </head>
@@ -656,7 +658,6 @@
       <button type="button" id="nav-search-btn" class="hover-trigger shrink-0" aria-label="Search" title="Search (⌘K)" style="color: var(--dim); background: transparent; border: none; display: flex; align-items: center; justify-content: center; padding: 0 0.5rem; cursor: pointer; transition: color 0.3s ease;">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
       </button>
-      <button type="button" id="reading-mode-toggle" class="reading-toggle hover-trigger" aria-pressed="false" title="Toggle reading mode">READ</button>
       
       <!-- Spotify Widget with absolute inline truncation protection -->
       <a id="spotify-widget" href="#" target="_blank" rel="noopener" class="label hidden lg:flex items-center gap-2 opacity-60 hover:opacity-100 transition-opacity hover-trigger shrink-0" style="display: none; max-width: 180px; overflow: hidden;" title="Now Playing">
@@ -2591,18 +2592,6 @@ print(solution$solution)
   }
 
   const moonWidget = $('#moon-widget');
-  const readingToggle = $('#reading-mode-toggle');
-  function setReadingMode(enabled) {
-    document.body.classList.toggle('reading-mode', enabled);
-    readingToggle?.setAttribute('aria-pressed', String(enabled));
-    try { localStorage.setItem('nabhya_reading_mode', enabled ? '1' : '0'); } catch {}
-  }
-  if(readingToggle) {
-    let readingEnabled = false;
-    try { readingEnabled = localStorage.getItem('nabhya_reading_mode') === '1'; } catch {}
-    setReadingMode(readingEnabled);
-    readingToggle.addEventListener('click', () => setReadingMode(!document.body.classList.contains('reading-mode')));
-  }
   $$('.tool-icon').forEach(tool => {
     tool.addEventListener('click', event => {
       if(!matchMedia('(hover: hover)').matches) {
