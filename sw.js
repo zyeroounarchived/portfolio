@@ -1,4 +1,4 @@
-const CACHE_NAME = 'nabhya-portfolio-v1';
+const CACHE_NAME = 'nabhya-portfolio-v2';
 const CORE_ASSETS = [
   '/',
   '/index.html',

@@ -108,6 +108,15 @@
   html.light-mode #vignette{ opacity:0.08; }
 
   .container-w{ max-width:1280px; margin:0 auto; padding-left:2.5rem; padding-right:2.5rem; }
+  #main-content > section { padding-top:8rem; padding-bottom:8rem; }
+  #main-content > section#about { padding-top:7rem; padding-bottom:9rem; }
+  #main-content > section#contact { padding-top:9rem; padding-bottom:10rem; }
+  #main-content > section > .anim-section { margin-bottom:4rem; }
+  #main-content > section > .grid,
+  #main-content > section > .cert-grid { row-gap:4rem; }
+  #main-content > section > .ui-card { margin-top:2rem; }
+  .proj-card { padding:3.25rem 3.5rem; }
+  .cert-item { padding-top:1.25rem; padding-bottom:1.25rem; }
   .label{ font-family:'Space Mono', monospace; letter-spacing:0.18em; text-transform:uppercase; font-size:0.75rem; color:var(--gold); }
   .rule{ height:1px; background:var(--line); transform-origin:left; margin: 5rem 0; }
   .dossier-heading-wrap { position: relative; }
@@ -130,7 +139,8 @@
   .cert-title { font-size:0.98rem !important; }
   #contact .font-serif { font-size:0.95rem !important; line-height:1.7 !important; }
   .section-link, .drawer-reading-time { color: var(--dim); font-family: 'Space Mono', monospace; font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; }
-  .section-link { display:inline-flex; align-items:center; margin:-0.35rem 0 1.8rem; padding:0.25rem 0; border:0; background:transparent; cursor:pointer; opacity:0.55; transition:opacity 0.2s ease, color 0.2s ease, transform 0.2s ease; }
+  .section-link { display:flex; align-items:center; width:max-content; margin:-0.35rem 0 1.8rem; padding:0.25rem 0; border:0; background:transparent; cursor:pointer; opacity:0.55; transition:opacity 0.2s ease, color 0.2s ease, transform 0.2s ease; }
+  .text-center > .section-link { margin-left:auto; margin-right:auto; }
   h2:hover + .section-link, .section-link:hover, .section-link:focus-visible { opacity:1; color:var(--gold); transform:translateX(0.2rem); }
   .drawer-tools { display: flex; align-items: center; gap: 1rem; margin: -1rem 0 1.5rem; }
   .drawer-toc { display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; margin-bottom: 1.5rem; }
@@ -141,9 +151,6 @@
   .provenance-label[data-provenance="real"] { color: #8bbf9f; }
   .provenance-label[data-provenance="anonymized"] { color: #c6aa72; }
   .provenance-label[data-provenance="demo"] { color: #9d9bb8; }
-  .mobile-nav-context { position: absolute; top: calc(env(safe-area-inset-top) + 1.2rem); left: 1.5rem; color: var(--dim); font-family: 'Space Mono', monospace; font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; }
-  .mobile-nav-return { position: absolute; bottom: calc(env(safe-area-inset-bottom) + 1.4rem); left: 50%; transform: translateX(-50%); color: var(--gold); background: transparent; border: 0; font-family: 'Space Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; }
-  .mobile-nav-return[hidden] { display: none; }
   .toast { min-width: 15rem; }
   .toast-action { display: block; margin-top: 0.35rem; color: var(--gold); font-size: 0.65rem; letter-spacing: 0.08em; }
   #ink-cursor.cursor-heading { color: var(--gold); }
@@ -359,7 +366,7 @@
 
   .no-stroke { -webkit-text-stroke: 0px !important; }
 
-  .marquee-container { width: 100%; overflow: hidden; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 0.4rem 0; background: color-mix(in srgb, var(--void) 95%, var(--gold)); cursor: crosshair; display: flex; white-space: nowrap; align-items: center; margin-top: 3rem; margin-bottom: 4rem; user-select: none; -webkit-user-select: none;}
+  .marquee-container { width:100%; overflow:hidden; border-top:1px solid var(--line); border-bottom:1px solid var(--line); padding:0.55rem 0; background:color-mix(in srgb, var(--void) 95%, var(--gold)); cursor:crosshair; display:flex; white-space:nowrap; align-items:center; margin-top:4rem; margin-bottom:6rem; user-select:none; -webkit-user-select:none;}
   .marquee-track { display: flex; gap: 3rem; font-family: 'Space Mono', monospace; text-transform: uppercase; font-size: 0.85rem; color: transparent; -webkit-text-stroke: 1px var(--gold); opacity: 0.6; }
 
   .tool-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: 1rem; perspective: 800px; }
@@ -424,7 +431,7 @@
   .terminal-window, .terminal-window * { font-family: 'Courier New', Courier, monospace !important; font-size: 13px !important; line-height: 1.6 !important; letter-spacing: normal !important; text-transform: none !important; }
   .terminal-window pre { overflow-x: auto; white-space: pre; -webkit-overflow-scrolling: touch; }
 
-  .slide-drawer { position: fixed; top: 0; right: 0; width: 100%; max-width: 650px; height: 100vh; height: 100dvh; background: color-mix(in srgb, var(--void) 95%, transparent); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border-left: 1px solid var(--line); z-index: 9999; transform: translateX(100%); transition: transform 0.6s cubic-bezier(0.77, 0, 0.175, 1), box-shadow 0.6s ease; overflow-y: auto; overflow-x: hidden; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; padding: 4rem 3rem; box-shadow: none; }
+  .slide-drawer { position: fixed; top: 0; right: 0; width: 100%; max-width: 650px; height: 100vh; height: 100dvh; background: color-mix(in srgb, var(--void) 95%, transparent); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border-left: 1px solid var(--line); z-index: 9999; transform: translateX(100%); transition: transform 0.6s cubic-bezier(0.77, 0, 0.175, 1), box-shadow 0.6s ease; overflow-y: auto; overflow-x: hidden; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; padding:5rem 3.5rem 6rem; box-shadow: none; }
   .slide-drawer.active { transform: translateX(0); box-shadow: -20px 0 25px rgba(0,0,0,0.5); }
   .drawer-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); z-index: 9998; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; transform: translateZ(0); }
   .drawer-overlay.active { opacity: 1; pointer-events: auto; }
@@ -528,9 +535,15 @@
     html.candle-mode body { animation: none !important; text-shadow: 0 0 10px color-mix(in srgb, var(--gold) 20%, transparent) !important; }
     #vignette { display: none !important; } /* Kill heavy layer on mobile */
 
-    .container-w { padding-left: 1.25rem; padding-right: 1.25rem; }
+    .container-w { padding-left:1.25rem; padding-right:1.25rem; }
+    #main-content > section,
+    #main-content > section#about,
+    #main-content > section#contact { padding-top:5.5rem; padding-bottom:6rem; }
+    #main-content > section > .anim-section { margin-bottom:2.5rem; }
+    #main-content > section > .grid,
+    #main-content > section > .cert-grid { row-gap:2.5rem; }
     .ui-card { padding: 1.5rem !important; }
-    .slide-drawer { padding: 2rem 1.25rem !important; }
+    .slide-drawer { padding:3.5rem 1.25rem 4rem !important; }
     .terminal-window { padding: 1rem !important; width: 95vw !important; max-width: 95vw !important; }
     .terminal-window pre { font-size: 0.7rem !important; }
     .hero-title { font-size: clamp(2.5rem, 10vw, 4rem) !important; }
@@ -541,8 +554,8 @@
     .proj-title { font-size: 1.8rem; }
     .cert-grid { gap: 1rem; }
     .cert-title { font-size: 1rem; }
-    .grid.gap-24 { gap: 4rem; }
-    .grid.gap-16 { gap: 3rem; }
+    .grid.gap-24 { gap:4.5rem; }
+    .grid.gap-16 { gap:3.5rem; }
     .mb-28 { margin-bottom: 3rem; }
     .mt-24 { margin-top: 3rem; }
     .sort-btn { min-width: auto !important; padding: 0.5rem 1rem !important; font-size: 0.75rem !important; }
@@ -563,6 +576,11 @@
   .slide-drawer h2 { padding-right: 3.5rem; }
   .slide-drawer h2 { font-size: 2.25rem !important; }
   .slide-drawer > [class*="text-[var(--dim)]"] { font-size:0.96rem !important; line-height:1.75 !important; }
+  #contact .contact-card-copy { text-align:left; }
+  #contact .contact-card-copy .contact-intro { max-width:34rem; margin-left:0; margin-right:0; font-size:0.94rem !important; line-height:1.75 !important; }
+  #contact .contact-card-copy .contact-actions { justify-content:flex-start; }
+  #contact .contact-portals { text-align:left; }
+  #contact .contact-portals ul { font-size:0.94rem; line-height:1.7; }
   .cert-title { font-size:0.98rem !important; }
   .slide-drawer { overflow-x: hidden; }
 </style>
@@ -597,7 +615,6 @@
 </div>
 
 <div id="mobile-nav-overlay">
-  <span class="mobile-nav-context" id="mobile-nav-context">CURRENTLY READING: TOP</span>
   <!-- Precision Styled Mobile Close Button -->
   <button class="btn-close-minimal" onclick="closeMobileNav()" aria-label="Close menu"></button>
   <a href="#about" class="hover-trigger mobile-link">Dossier</a>
@@ -610,7 +627,6 @@
   <button type="button" id="nav-search-btn-mobile" class="hover-trigger mobile-link" style="background:none; border:none;">Search</button>
   <span id="dispatch-time-mobile" class="label mt-8 opacity-70 hover-trigger cursor-pointer text-center block">--:--</span>
   <p class="label !text-[0.5rem] opacity-50 text-center">Tap clock for JP Time</p>
-  <button type="button" class="mobile-nav-return" id="mobile-nav-return" hidden>Return to reading</button>
 </div>
 
 <style>
@@ -1195,17 +1211,17 @@
 
 <section id="contact" class="container-w py-32 md:py-48">
   <div class="ui-card spotlight p-14 md:p-24 grid md:grid-cols-[1.3fr,0.7fr] gap-10 md:gap-20 items-center anim-section">
-    <div class="text-center">
+    <div class="contact-card-copy">
       <p class="label mb-6">Section V — Contact <span class="text-[var(--gold)] opacity-50 ml-2">✠</span></p>
       <h2 class="h-sub mb-8 ink-bleed" style="font-size:clamp(2.5rem,4.5vw,3.4rem);">Get in touch.</h2>
       <p class="contact-intro text-[var(--dim)] leading-[1.85] text-[1.1rem] mb-14 vn-readable decay-target max-w-2xl mx-auto">
         Open for internships, data analysis work, and data-cleaning projects, especially ones with messy raw data and clear goals.
       </p>
-      <div class="flex flex-wrap gap-x-10 gap-y-6 items-center justify-center">
+      <div class="contact-actions flex flex-wrap gap-x-10 gap-y-6 items-center">
         <a href="mailto:nabhya52kar@gmail.com" class="btn-primary mag-btn hover-trigger">nabhya52kar@gmail.com</a>
       </div>
     </div>
-    <div class="border-t md:border-t-0 md:border-l border-[var(--line)] pt-14 md:pt-0 md:pl-20 text-center">
+    <div class="contact-portals border-t md:border-t-0 md:border-l border-[var(--line)] pt-14 md:pt-0 md:pl-20">
       <p class="label mb-10">External Portals</p>
       <ul class="space-y-8 font-serif text-[1.1rem]">
         <li><a class="hover:text-[var(--gold)] transition-colors hover-trigger" href="https://www.linkedin.com/in/nabhya52kar/" target="_blank" rel="noopener">LinkedIn Profile ↗</a></li>
@@ -2126,14 +2142,11 @@ print(solution$solution)
     }
   }
 
-  let lastReadingTarget = null;
-
   // Safe Drawers & Canvas Launching
   window.openDrawer = function(id) {
     $('#drawer-overlay').classList.add('active');
     const drawer = $('#' + id);
     if(drawer) drawer.classList.add('active');
-    lastReadingTarget = drawer;
     enhanceDrawer(drawer);
     playClick();
     
@@ -2168,8 +2181,6 @@ print(solution$solution)
     if (activeEl && (activeEl.tagName === 'INPUT' || activeEl.tagName === 'TEXTAREA') && activeEl.closest('.modal-overlay, .slide-drawer')) {
       activeEl.blur();
     }
-    const mobileReturn = $('#mobile-nav-return');
-    if(mobileReturn && lastReadingTarget) mobileReturn.hidden = false;
     playClick();
   };
 
@@ -2192,7 +2203,6 @@ print(solution$solution)
   
   window.toggleMobileNav = function() {
     const nav = $('#mobile-nav-overlay');
-    if(mobileNavContext) mobileNavContext.textContent = `CURRENTLY READING: ${currentSectionName}`;
     nav.classList.toggle('active');
     playClick();
   };
@@ -2201,30 +2211,6 @@ print(solution$solution)
     playClick();
   }
 
-  const mobileNavContext = $('#mobile-nav-context');
-  const mobileNavReturn = $('#mobile-nav-return');
-  let currentSectionName = 'TOP';
-  const sectionNames = { about: 'DOSSIER', work: 'EXHIBITS', certifications: 'CREDENTIALS', creative: 'CREATIVE', notes: 'NOTES', contact: 'SOCIALS' };
-  if('IntersectionObserver' in window) {
-    const sectionObserver = new IntersectionObserver(entries => {
-      entries.filter(entry => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio).forEach(entry => {
-        currentSectionName = sectionNames[entry.target.id] || 'TOP';
-        if(mobileNavContext) mobileNavContext.textContent = `CURRENTLY READING: ${currentSectionName}`;
-      });
-    }, { threshold: [0.2, 0.5, 0.8] });
-    Object.keys(sectionNames).forEach(id => { const section = document.getElementById(id); if(section) sectionObserver.observe(section); });
-  }
-  mobileNavReturn?.addEventListener('click', () => {
-    if(lastReadingTarget) {
-      lastReadingTarget.classList.add('active');
-      $('#drawer-overlay').classList.add('active');
-      mobileNavReturn.hidden = true;
-    } else {
-      window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' });
-    }
-    closeMobileNav();
-  });
-  
   // Bind mobile links to close the nav automatically
   $$('.mobile-link').forEach(link => {
       link.addEventListener('click', (e) => {
