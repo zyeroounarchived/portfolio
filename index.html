@@ -123,6 +123,16 @@
   .drawer-toc { display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; margin-bottom: 1.5rem; }
   .drawer-toc a { color: var(--dim); font-family: 'Space Mono', monospace; font-size: 0.62rem; letter-spacing: 0.08em; text-transform: uppercase; }
   .drawer-toc a:hover, .drawer-toc a:focus-visible { color: var(--gold); }
+  .provenance-label { display: inline-flex; align-items: center; gap: 0.45rem; margin-top: 0.8rem; color: var(--dim); font-family: 'Space Mono', monospace; font-size: 0.62rem; letter-spacing: 0.09em; text-transform: uppercase; }
+  .provenance-label::before { content: ''; width: 0.42rem; height: 0.42rem; border-radius: 50%; background: currentColor; box-shadow: 0 0 0 3px color-mix(in srgb, currentColor 12%, transparent); }
+  .provenance-label[data-provenance="real"] { color: #8bbf9f; }
+  .provenance-label[data-provenance="anonymized"] { color: #c6aa72; }
+  .provenance-label[data-provenance="demo"] { color: #9d9bb8; }
+  .mobile-nav-context { position: absolute; top: calc(env(safe-area-inset-top) + 1.2rem); left: 1.5rem; color: var(--dim); font-family: 'Space Mono', monospace; font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; }
+  .mobile-nav-return { position: absolute; bottom: calc(env(safe-area-inset-bottom) + 1.4rem); left: 50%; transform: translateX(-50%); color: var(--gold); background: transparent; border: 0; font-family: 'Space Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; }
+  .mobile-nav-return[hidden] { display: none; }
+  .toast { min-width: 15rem; }
+  .toast-action { display: block; margin-top: 0.35rem; color: var(--gold); font-size: 0.65rem; letter-spacing: 0.08em; }
   #ink-cursor.cursor-heading { color: var(--gold); }
   #ink-cursor-trail.cursor-heading { width: 34px; height: 34px; opacity: 0.24; }
   @media (max-width: 768px) {
@@ -570,6 +580,7 @@
 </div>
 
 <div id="mobile-nav-overlay">
+  <span class="mobile-nav-context" id="mobile-nav-context">CURRENTLY READING: TOP</span>
   <!-- Precision Styled Mobile Close Button -->
   <button class="btn-close-minimal" onclick="closeMobileNav()" aria-label="Close menu"></button>
   <a href="#about" class="hover-trigger mobile-link">Dossier</a>
@@ -582,6 +593,7 @@
   <button type="button" id="nav-search-btn-mobile" class="hover-trigger mobile-link" style="background:none; border:none;">Search</button>
   <span id="dispatch-time-mobile" class="label mt-8 opacity-70 hover-trigger cursor-pointer text-center block">--:--</span>
   <p class="label !text-[0.5rem] opacity-50 text-center">Tap clock for JP Time</p>
+  <button type="button" class="mobile-nav-return" id="mobile-nav-return" hidden>Return to reading</button>
 </div>
 
 <style>
@@ -831,6 +843,7 @@
         <p class="proj-desc vn-readable">
           Cleaned and checked 350 applicant records during my internship: fixed formats and corrupted entries.
         </p>
+        <span class="provenance-label" data-provenance="anonymized">Anonymized real records</span>
       </div>
       <div class="proj-action-right">
         <table class="data-preview-table w-full mb-6">
@@ -851,6 +864,7 @@
         <p class="proj-desc vn-readable">
           Group project: a game theory model of Blinkit vs Zepto in quick commerce, solved in Python to find each company's best mix of strategies.
         </p>
+        <span class="provenance-label" data-provenance="demo">Modelled from public data</span>
       </div>
       <div class="proj-action-right">
         <button class="btn-ghost hover-trigger text-[0.8rem]" onclick="openDrawer('drawer-matrix')">View Matrix Logic</button>
@@ -867,6 +881,7 @@
         <p class="proj-desc vn-readable">
           Only 0.17% of 284,807 card transactions are fraud. I balanced the training data with SMOTE and trained a model judged on recall, precision and PR-AUC.
         </p>
+        <span class="provenance-label" data-provenance="real">Public benchmark dataset</span>
       </div>
       <div class="proj-action-right">
         <button class="btn-ghost hover-trigger text-[0.8rem]" onclick="openDrawer('drawer-fraud')">View Analysis Pipeline</button>
@@ -883,6 +898,7 @@
         <p class="proj-desc vn-readable">
           A Python script that finds duplicate customer leads in a Neon PostgreSQL database using name similarity and exact email match, then merges them.
         </p>
+        <span class="provenance-label" data-provenance="demo">Synthetic lead records</span>
       </div>
       <div class="proj-action-right">
         <button class="btn-ghost hover-trigger text-[0.8rem]" onclick="openDrawer('drawer-dedup')">View Case Study</button>
@@ -899,6 +915,7 @@
         <p class="proj-desc vn-readable">
           Interactive map of Navi Mumbai property listings. Pick a radius around Vashi to see how many listings fall inside, their average price per sq ft, and how much distance from Vashi explains price (R²).
         </p>
+        <span class="provenance-label" data-provenance="demo">Demo map with sample listings</span>
       </div>
       <div class="proj-action-right">
         <button class="btn-ghost hover-trigger text-[0.8rem]" onclick="openDrawer('drawer-heatmap')">Launch Dashboard</button>
@@ -915,6 +932,7 @@
         <p class="proj-desc vn-readable">
           Reads a resume PDF and returns a list of technical skills. The AI is told to leave out names and other personal details.
         </p>
+        <span class="provenance-label" data-provenance="anonymized">Personal data excluded</span>
       </div>
       <div class="proj-action-right">
         <button class="btn-ghost hover-trigger text-[0.8rem]" onclick="openDrawer('drawer-zero-bias')">View Case Study</button>
@@ -1224,6 +1242,7 @@
   <p class="text-[var(--dim)] font-serif text-[1.1rem] leading-[1.8] mb-8">
     During my internship at NASEOH, I handled raw intake forms for 350 applicants. The data suffered from encoding errors, inconsistent date formats, and missing variables. I built a pipeline to sanitize the matrix.
   </p>
+  <span class="provenance-label" data-provenance="anonymized">Source: real intake work · identities removed</span>
   <h3 class="label text-[var(--gold)] mb-4">Data-Cleaning Sandbox</h3>
   <p class="text-[var(--dim)] font-serif text-[1rem] leading-[1.8] mb-2">
     A simplified illustration of the kind of pass my pipelines run — not a replay of the actual NASEOH job, but the same corruption patterns I saw in it: mixed date formats, stray whitespace, encoding artifacts, missing fields.
@@ -1255,6 +1274,7 @@
     <p>Group project for Optimization Techniques (5 students). We studied quick commerce in India, where Blinkit, Zepto and Swiggy Instamart compete, and modeled Blinkit vs Zepto as a 3x3 game. Each company picks one of three strategies: Aggressive Expansion, Margin Optimisation or Premium Focus.</p>
     <p>Payoffs are in ₹ crore per quarter and come from public data (order value, fee rates, dark store counts). We treated the game as zero-sum, which is an approximation. Instamart is part of the industry study but not part of the matrix.</p>
   </div>
+  <span class="provenance-label" data-provenance="demo">Source: public figures · simplified assumptions</span>
 
   <div class="terminal-window !max-w-full !p-0 !border-none !shadow-none !mb-8 relative rounded-none border-y border-[var(--gold)]">
     <canvas id="matrix-canvas-drawer" style="position:absolute; top:0; left:0; width:100%; height:100%; z-index:1; opacity:0.6;"></canvas>
@@ -1303,6 +1323,7 @@ for blinkit, zepto in game.support_enumeration():
       <div class="terminal-header flex justify-between items-center !mb-4 !pb-3">
         <span>~/fraud/load_data.py</span>
       </div>
+      <span class="provenance-label" data-provenance="real">Source: public benchmark dataset</span>
       <button class="copy-btn hover-trigger absolute top-3 right-3" onclick="copyCode(this)">Copy Source</button>
       <pre class="overflow-x-auto"><code>import pandas as pd
 from sklearn.model_selection import train_test_split
@@ -2026,7 +2047,10 @@ print(solution$solution)
   window.showToast = function(msg) {
     const container = document.getElementById('toast-container');
     const toast = document.createElement('div');
-    toast.className = 'toast'; toast.textContent = msg;
+    toast.className = 'toast';
+    toast.setAttribute('role', 'status');
+    toast.setAttribute('aria-live', 'polite');
+    toast.textContent = msg;
     container.appendChild(toast);
     setTimeout(() => toast.classList.add('show'), 10);
     setTimeout(() => {
@@ -2086,11 +2110,14 @@ print(solution$solution)
     }
   }
 
+  let lastReadingTarget = null;
+
   // Safe Drawers & Canvas Launching
   window.openDrawer = function(id) {
     $('#drawer-overlay').classList.add('active');
     const drawer = $('#' + id);
     if(drawer) drawer.classList.add('active');
+    lastReadingTarget = drawer;
     enhanceDrawer(drawer);
     playClick();
     
@@ -2125,6 +2152,8 @@ print(solution$solution)
     if (activeEl && (activeEl.tagName === 'INPUT' || activeEl.tagName === 'TEXTAREA') && activeEl.closest('.modal-overlay, .slide-drawer')) {
       activeEl.blur();
     }
+    const mobileReturn = $('#mobile-nav-return');
+    if(mobileReturn && lastReadingTarget) mobileReturn.hidden = false;
     playClick();
   };
 
@@ -2147,6 +2176,7 @@ print(solution$solution)
   
   window.toggleMobileNav = function() {
     const nav = $('#mobile-nav-overlay');
+    if(mobileNavContext) mobileNavContext.textContent = `CURRENTLY READING: ${currentSectionName}`;
     nav.classList.toggle('active');
     playClick();
   };
@@ -2154,6 +2184,30 @@ print(solution$solution)
     $('#mobile-nav-overlay').classList.remove('active');
     playClick();
   }
+
+  const mobileNavContext = $('#mobile-nav-context');
+  const mobileNavReturn = $('#mobile-nav-return');
+  let currentSectionName = 'TOP';
+  const sectionNames = { about: 'DOSSIER', work: 'EXHIBITS', certifications: 'CREDENTIALS', creative: 'CREATIVE', notes: 'NOTES', contact: 'SOCIALS' };
+  if('IntersectionObserver' in window) {
+    const sectionObserver = new IntersectionObserver(entries => {
+      entries.filter(entry => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio).forEach(entry => {
+        currentSectionName = sectionNames[entry.target.id] || 'TOP';
+        if(mobileNavContext) mobileNavContext.textContent = `CURRENTLY READING: ${currentSectionName}`;
+      });
+    }, { threshold: [0.2, 0.5, 0.8] });
+    Object.keys(sectionNames).forEach(id => { const section = document.getElementById(id); if(section) sectionObserver.observe(section); });
+  }
+  mobileNavReturn?.addEventListener('click', () => {
+    if(lastReadingTarget) {
+      lastReadingTarget.classList.add('active');
+      $('#drawer-overlay').classList.add('active');
+      mobileNavReturn.hidden = true;
+    } else {
+      window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' });
+    }
+    closeMobileNav();
+  });
   
   // Bind mobile links to close the nav automatically
   $$('.mobile-link').forEach(link => {
