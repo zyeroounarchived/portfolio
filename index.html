@@ -166,7 +166,7 @@
   .h-display{ font-family:'Cormorant Garamond',Georgia,serif; font-weight:400; letter-spacing:-0.035em; }
   
   .hero-title{ font-family:'Cormorant Garamond',Georgia,serif; font-weight:400; font-style:italic; letter-spacing:-0.045em; line-height:1.05 !important; font-size:clamp(3.6rem,7.5vw,7.5rem); }
-  .hero-initial{ font-family:'Pinyon Script',cursive; font-size:1.45em; font-weight:400; letter-spacing:0; display:inline-block; padding:0.4em 0.5em; margin:-0.4em -0.35em -0.4em -0.5em; vertical-align:bottom; line-height:1; }
+  .hero-initial{ font-family:'Pinyon Script',cursive; font-size:1.65em; font-weight:400; letter-spacing:0; color:var(--gold) !important; -webkit-text-fill-color:var(--gold) !important; display:inline-block; padding:0.32em 0.48em; margin:-0.32em -0.32em -0.32em -0.48em; vertical-align:bottom; line-height:0.8; }
   #typewriter-rest{ display:inline-block; letter-spacing:-0.055em; }
   
   .hero-cross{ font-size:0.3em; vertical-align:-0.08em; margin-left:-0.28em; margin-right:0.05em; display:inline-block; }
@@ -182,8 +182,9 @@
   
   @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; } }
   a:focus-visible, button:focus-visible, [role="button"]:focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; border-radius: 4px; }
-  .h-sub{ font-family:'Cormorant Garamond',Georgia,serif; font-weight:400; font-style:italic; letter-spacing:-0.035em; }
-  .contact-title{ font-family:'Cormorant Garamond',Georgia,serif; font-style:italic; font-weight:400; letter-spacing:-0.04em; }
+  .h-sub{ font-family:'Cormorant Garamond',Georgia,serif; font-weight:400; font-style:italic; letter-spacing:-0.04em; text-wrap:balance; }
+  .contact-title{ font-family:'Cormorant Garamond',Georgia,serif; font-style:italic; font-weight:400; letter-spacing:-0.045em; text-wrap:balance; }
+  .h-sub::after{ content:'✦'; display:inline-block; margin-left:0.35em; color:var(--gold); font-family:'Space Mono',monospace; font-size:0.22em; font-style:normal; letter-spacing:0; vertical-align:0.45em; opacity:0.7; }
 
   .font-gothic-accent{ font-family:'Cinzel',Georgia,serif; letter-spacing:0.01em; font-weight:500; }
   .font-calligraphy-accent{ font-family:'Allura',cursive; letter-spacing:0.01em; font-weight:400; }
@@ -562,7 +563,7 @@
     .terminal-window { padding: 1rem !important; width: 95vw !important; max-width: 95vw !important; }
     .terminal-window pre { font-size: 0.7rem !important; }
     .hero-title { font-size:clamp(3rem,12vw,4.6rem) !important; line-height:1 !important; }
-    .hero-initial { font-size:1.25em; padding:0.1em 0.2em; margin:-0.1em -0.1em -0.1em -0.2em; }
+    .hero-initial { font-size:1.45em; padding:0.12em 0.2em; margin:-0.12em -0.1em -0.12em -0.2em; }
     .h-sub { font-size: clamp(1.8rem, 8vw, 2.6rem) !important; }
     .hero-intro, .certificates-intro, .contact-intro { font-size:0.98rem !important; line-height:1.7 !important; }
     .dossier-copy .vn-readable { font-size:0.86rem !important; line-height:1.75 !important; }
@@ -714,8 +715,8 @@
 <header class="relative min-h-[75vh] flex flex-col justify-center items-start pt-48 pb-20">
   <div class="container-w w-full relative z-10 text-left max-w-5xl mx-0 ml-4 lg:ml-12">
 
-    <h1 class="h-display hero-title text-mask-fluid mb-8">
-      <span class="hero-initial">N</span><span id="typewriter-rest"></span><span class="type-cursor" style="height:0.8em; vertical-align:middle; -webkit-text-fill-color: var(--gold);"></span>
+    <h1 class="h-display hero-title mb-8">
+      <span class="hero-initial">N</span><span id="typewriter-rest" class="text-mask-fluid"></span><span class="type-cursor" style="height:0.8em; vertical-align:middle; -webkit-text-fill-color: var(--gold);"></span>
     </h1>
 
     <p class="hero-intro mx-0 max-w-2xl text-[1.05rem] leading-[1.75] text-[var(--dim)] anim-fade mb-12 vn-readable decay-target">
