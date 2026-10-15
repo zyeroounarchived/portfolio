@@ -100,6 +100,36 @@
   .container-w{ max-width:1280px; margin:0 auto; padding-left:2.5rem; padding-right:2.5rem; }
   .label{ font-family:'Space Mono', monospace; letter-spacing:0.18em; text-transform:uppercase; font-size:0.75rem; color:var(--gold); }
   .rule{ height:1px; background:var(--line); transform-origin:left; margin: 5rem 0; }
+  .dossier-heading-wrap { position: relative; }
+  .dossier-index { display: block; margin-bottom: 0.9rem; color: var(--gold); font-family: 'Space Mono', monospace; font-size: 0.68rem; letter-spacing: 0.18em; opacity: 0.8; }
+  .dossier-heading-rule { width: 4.5rem; height: 1px; margin-top: 1.5rem; background: var(--gold); transform: scaleX(0); transform-origin: left; opacity: 0.75; }
+  .dossier-copy p { max-width: 38rem; }
+  .dossier-copy p:first-of-type::first-letter { float: left; margin: 0.08em 0.16em 0 0; color: var(--gold); font-family: 'Pinyon Script', cursive; font-size: 4.2em; line-height: 0.72; }
+  .dossier-reveal { will-change: transform, opacity; }
+  .tool-icon { position: relative; }
+  .tool-icon::after { content: attr(data-tooltip); position: absolute; left: 50%; bottom: calc(100% + 0.7rem); z-index: 20; width: max-content; max-width: 12rem; padding: 0.4rem 0.6rem; border: 1px solid var(--line); border-radius: 2px; background: var(--void); color: var(--ink); font-family: 'Space Mono', monospace; font-size: 0.62rem; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0; pointer-events: none; transform: translate(-50%, 0.35rem); transition: opacity 0.2s ease, transform 0.2s ease; }
+  .tool-icon:hover::after, .tool-icon:focus-visible::after { opacity: 1; transform: translate(-50%, 0); }
+  .tool-icon.tooltip-active::after { opacity: 1; transform: translate(-50%, 0); }
+  #scroll-progress { position: fixed; top: 0; left: 0; width: 100%; height: 2px; z-index: 1100; pointer-events: none; background: transparent; }
+  #scroll-progress span { display: block; width: 0; height: 100%; background: var(--gold); opacity: 0.7; transform-origin: left; }
+  body.reading-mode .dossier-copy, body.reading-mode .drawer-reading-content { max-width: 54rem; }
+  body.reading-mode .dossier-copy p, body.reading-mode .drawer-reading-content { font-size: 1.18rem; line-height: 2; }
+  .reading-toggle { color: var(--dim); background: transparent; border: 0; cursor: pointer; font-family: 'Space Mono', monospace; font-size: 0.65rem; letter-spacing: 0.12em; padding: 0.35rem; }
+  .reading-toggle[aria-pressed="true"] { color: var(--gold); }
+  .section-link, .drawer-reading-time { color: var(--dim); font-family: 'Space Mono', monospace; font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; }
+  .section-link { display: block; margin: -1.4rem 0 2.2rem; padding: 0; border: 0; background: transparent; cursor: pointer; opacity: 0; transition: opacity 0.2s ease, color 0.2s ease; }
+  h2:hover + .section-link, .section-link:focus-visible { opacity: 1; color: var(--gold); }
+  .drawer-tools { display: flex; align-items: center; gap: 1rem; margin: -1rem 0 1.5rem; }
+  .drawer-toc { display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; margin-bottom: 1.5rem; }
+  .drawer-toc a { color: var(--dim); font-family: 'Space Mono', monospace; font-size: 0.62rem; letter-spacing: 0.08em; text-transform: uppercase; }
+  .drawer-toc a:hover, .drawer-toc a:focus-visible { color: var(--gold); }
+  #ink-cursor.cursor-heading { color: var(--gold); }
+  #ink-cursor-trail.cursor-heading { width: 34px; height: 34px; opacity: 0.24; }
+  @media (max-width: 768px) {
+    #scroll-progress { height: 1px; }
+    .reading-toggle { display: none; }
+    .section-link { opacity: 1; margin-top: -1.1rem; }
+  }
 
   .ink-bleed { transition: color 0.4s ease, filter 0.4s ease, text-shadow 0.4s ease; cursor: default; }
   .ink-bleed:hover { color: transparent; text-shadow: 0 0 16px var(--ink); filter: blur(1.5px); }
@@ -599,6 +629,7 @@
       <button type="button" id="nav-search-btn" class="hover-trigger shrink-0" aria-label="Search" title="Search (⌘K)" style="color: var(--dim); background: transparent; border: none; display: flex; align-items: center; justify-content: center; padding: 0 0.5rem; cursor: pointer; transition: color 0.3s ease;">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
       </button>
+      <button type="button" id="reading-mode-toggle" class="reading-toggle hover-trigger" aria-pressed="false" title="Toggle reading mode">READ</button>
       
       <!-- Spotify Widget with absolute inline truncation protection -->
       <a id="spotify-widget" href="#" target="_blank" rel="noopener" class="label hidden lg:flex items-center gap-2 opacity-60 hover:opacity-100 transition-opacity hover-trigger shrink-0" style="display: none; max-width: 180px; overflow: hidden;" title="Now Playing">
@@ -616,6 +647,7 @@
     </div>
   </div>
 </nav>
+<div id="scroll-progress" aria-hidden="true"><span></span></div>
   
 <header class="relative min-h-[75vh] flex flex-col justify-center items-start pt-48 pb-20">
   <div class="container-w w-full relative z-10 text-left max-w-5xl mx-0 ml-4 lg:ml-12">
@@ -664,24 +696,28 @@
 
 <section id="about" class="container-w pb-40">
   <div class="grid md:grid-cols-[1.1fr,0.9fr] gap-16 md:gap-24 items-start">
-    <div class="anim-section text-center">
-      <p class="label mb-6">Section I — The Dossier <span class="text-[var(--gold)] opacity-50 ml-2">✠</span></p>
-      <h2 class="h-sub mb-10 ink-bleed" style="font-size:clamp(3rem,5vw,4rem);">On working with real, unglamorous data.</h2>
-      <p class="text-[var(--dim)] leading-[1.9] text-[1.3rem] mb-8 font-serif vn-readable decay-target">
+    <div class="anim-section text-left dossier-copy">
+      <div class="dossier-heading-wrap">
+        <span class="dossier-index">01 / DOSSIER</span>
+        <p class="label mb-6">Section I — The Dossier <span class="text-[var(--gold)] opacity-50 ml-2">✠</span></p>
+        <h2 class="h-sub mb-10 ink-bleed" style="font-size:clamp(3rem,5vw,4rem);">On working with real, unglamorous data.</h2>
+        <div class="dossier-heading-rule" aria-hidden="true"></div>
+      </div>
+      <p class="dossier-reveal text-[var(--dim)] leading-[1.9] text-[1.3rem] mb-8 font-serif vn-readable decay-target">
         Most of what I've built comes from real assignments: NGO applicant records, cost sheets, and audits. I like the careful parts of the job: checking columns, fixing messy inputs, and turning large tables into clear numbers.
       </p>
-      <p class="text-[var(--dim)] leading-[1.9] text-[1.3rem] font-serif mb-12 vn-readable decay-target">
+      <p class="dossier-reveal text-[var(--dim)] leading-[1.9] text-[1.3rem] font-serif mb-12 vn-readable decay-target">
         Every project has a repeatable process and clear notes, so someone else can pick it up.
       </p>
       
       <p class="label mb-6">Daily Drivers</p>
       <div class="tool-grid mb-24">
-        <a href="https://www.apple.com/macos/" target="_blank" rel="noopener" class="tool-icon hover-trigger magnetic-hover" title="Mac OS">⌘</a>
-        <a href="https://www.python.org/" target="_blank" rel="noopener" class="tool-icon hover-trigger magnetic-hover" title="Python">Py</a>
-        <a href="https://posit.co/products/open-source/rstudio/" target="_blank" rel="noopener" class="tool-icon hover-trigger magnetic-hover" title="R Studio">R</a>
-        <a href="https://www.mysql.com/" target="_blank" rel="noopener" class="tool-icon hover-trigger magnetic-hover" title="SQL">∑</a>
-        <a href="https://www.microsoft.com/en-us/microsoft-365/excel" target="_blank" rel="noopener" class="tool-icon hover-trigger magnetic-hover" title="Spreadsheets">⊞</a>
-        <a href="https://derivative.ca/" target="_blank" rel="noopener" class="tool-icon hover-trigger magnetic-hover" title="TouchDesigner">TD</a>
+        <a href="https://www.apple.com/macos/" target="_blank" rel="noopener" class="tool-icon hover-trigger magnetic-hover" title="Mac OS" data-tooltip="Mac OS" aria-label="Mac OS">⌘</a>
+        <a href="https://www.python.org/" target="_blank" rel="noopener" class="tool-icon hover-trigger magnetic-hover" title="Python" data-tooltip="Python" aria-label="Python">Py</a>
+        <a href="https://posit.co/products/open-source/rstudio/" target="_blank" rel="noopener" class="tool-icon hover-trigger magnetic-hover" title="R Studio" data-tooltip="R Studio" aria-label="R Studio">R</a>
+        <a href="https://www.mysql.com/" target="_blank" rel="noopener" class="tool-icon hover-trigger magnetic-hover" title="SQL" data-tooltip="SQL" aria-label="SQL">∑</a>
+        <a href="https://www.microsoft.com/en-us/microsoft-365/excel" target="_blank" rel="noopener" class="tool-icon hover-trigger magnetic-hover" title="Spreadsheets" data-tooltip="Spreadsheets" aria-label="Spreadsheets">⊞</a>
+        <a href="https://derivative.ca/" target="_blank" rel="noopener" class="tool-icon hover-trigger magnetic-hover" title="TouchDesigner" data-tooltip="TouchDesigner" aria-label="TouchDesigner">TD</a>
       </div>
     </div>
 
@@ -1738,6 +1774,42 @@ print(solution$solution)
   const $$ = (s,c=document)=>[...c.querySelectorAll(s)];
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  const progressBar = $('#scroll-progress span');
+  function updateScrollProgress() {
+    const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+    if(progressBar) progressBar.style.width = `${scrollable > 0 ? (window.scrollY / scrollable) * 100 : 0}%`;
+  }
+  window.addEventListener('scroll', updateScrollProgress, { passive: true });
+  updateScrollProgress();
+
+  if('serviceWorker' in navigator) {
+    window.addEventListener('load', () => navigator.serviceWorker.register('/sw.js').catch(() => {}));
+  }
+
+  $$('#main-content > section[id]').forEach(section => {
+    const heading = section.querySelector('h2');
+    if(!heading || heading.nextElementSibling?.classList.contains('section-link')) return;
+    const linkButton = document.createElement('button');
+    linkButton.type = 'button';
+    linkButton.className = 'section-link';
+    linkButton.textContent = 'COPY SECTION LINK';
+    linkButton.addEventListener('click', async () => {
+      const url = `${window.location.origin}${window.location.pathname}#${section.id}`;
+      try {
+        await navigator.clipboard.writeText(url);
+        showToast('Section link copied.');
+      } catch {
+        window.location.hash = section.id;
+        showToast('Section link ready in the address bar.');
+      }
+    });
+    heading.insertAdjacentElement('afterend', linkButton);
+  });
+
+  $$('p.label span[class*="text-[var(--gold)]"]').forEach(glyph => {
+    glyph.classList.add('section-glyph');
+  });
+
   // ================= GLOBAL COMMAND PALETTE / SEARCH =================
   const searchIndex = [
     { title: 'The Dossier — About', type: 'Section', desc: 'Working philosophy: real, unglamorous data, reproducible pipelines, and structural integrity.', action: () => scrollToTarget('#about') },
@@ -1974,11 +2046,52 @@ print(solution$solution)
     }
   };
 
+  function enhanceDrawer(drawer) {
+    if(!drawer || drawer.dataset.enhanced) return;
+    drawer.dataset.enhanced = 'true';
+    [...drawer.children].forEach(child => {
+      if(child.tagName === 'DIV' && [...child.classList].some(name => name.startsWith('text-'))) child.classList.add('drawer-reading-content');
+    });
+    const body = [...drawer.querySelectorAll('p, li, pre')].map(el => el.textContent.trim()).join(' ');
+    const words = body ? body.split(/\s+/).length : 0;
+    const tools = document.createElement('div');
+    tools.className = 'drawer-tools';
+    tools.innerHTML = `<span class="drawer-reading-time">${Math.max(1, Math.ceil(words / 220))} MIN READ</span><button type="button" class="section-link" style="opacity:1; margin:0;">COPY LINK</button>`;
+    const closeButton = drawer.querySelector('.drawer-close');
+    closeButton?.insertAdjacentElement('afterend', tools);
+    tools.querySelector('button')?.addEventListener('click', async () => {
+      const url = `${window.location.origin}${window.location.pathname}#${drawer.id}`;
+      try {
+        await navigator.clipboard.writeText(url);
+        showToast('Case study link copied.');
+      } catch {
+        window.location.hash = drawer.id;
+        showToast('Case study link ready in the address bar.');
+      }
+    });
+    const headings = [...drawer.querySelectorAll('h3')];
+    if(headings.length > 1) {
+      const toc = document.createElement('nav');
+      toc.className = 'drawer-toc';
+      toc.setAttribute('aria-label', 'Case study sections');
+      headings.forEach((heading, index) => {
+        const id = `${drawer.id}-section-${index + 1}`;
+        heading.id = heading.id || id;
+        const link = document.createElement('a');
+        link.href = `#${heading.id}`;
+        link.textContent = heading.textContent.trim();
+        toc.appendChild(link);
+      });
+      tools.insertAdjacentElement('afterend', toc);
+    }
+  }
+
   // Safe Drawers & Canvas Launching
   window.openDrawer = function(id) {
     $('#drawer-overlay').classList.add('active');
     const drawer = $('#' + id);
     if(drawer) drawer.classList.add('active');
+    enhanceDrawer(drawer);
     playClick();
     
     // Explicit sizing for canvases so they never render as 0x0
@@ -2123,9 +2236,11 @@ print(solution$solution)
       if(coffeeMode) {
         document.documentElement.style.setProperty('--void', '#16110c'); document.documentElement.style.setProperty('--ink', '#d6c8b8'); 
         document.documentElement.style.setProperty('--line', 'rgba(214, 200, 184, 0.1)'); document.documentElement.style.setProperty('--gold', '#c29a6b');
+        try { localStorage.setItem('nabhya_theme', 'coffee'); } catch {}
       } else {
         document.documentElement.style.removeProperty('--void'); document.documentElement.style.removeProperty('--ink');
         document.documentElement.style.removeProperty('--line'); document.documentElement.style.removeProperty('--gold');
+        try { localStorage.setItem('nabhya_theme', 'dark'); } catch {}
       }
       playSecretSound(); unlockSecret('coffee');
     }
@@ -2135,6 +2250,7 @@ print(solution$solution)
       document.documentElement.style.removeProperty('--line'); document.documentElement.style.removeProperty('--gold');
       coffeeMode = false;
       document.documentElement.classList.toggle('candle-mode');
+      try { localStorage.setItem('nabhya_theme', candleMode ? 'candle' : 'dark'); } catch {}
       playSecretSound(); unlockSecret('candle');
     }
     if(e.key.toLowerCase() === 'g') { const gm = $('#god-mode'); if(gm) { gm.classList.toggle('active'); playClick(); unlockSecret('godmode'); } }
@@ -2257,6 +2373,34 @@ print(solution$solution)
 
   if(!reduceMotion){
     $$('.anim-section').forEach(el=>{ gsap.from(el, { y:60, opacity:0, duration:1.2, ease:'power3.out', scrollTrigger:{ trigger:el, start:'top 85%', toggleActions:'play none none reverse' } }); });
+    $$('.section-glyph').forEach(glyph => {
+      gsap.fromTo(glyph, { rotate: -18, opacity: 0.2 }, {
+        rotate: 0,
+        opacity: 0.5,
+        duration: 0.8,
+        ease: 'power2.out',
+        scrollTrigger: { trigger: glyph, start: 'top 88%', toggleActions: 'play none none reverse' }
+      });
+    });
+    $$('.dossier-reveal').forEach((el, index) => {
+      gsap.from(el, {
+        y: 24,
+        opacity: 0,
+        duration: 0.9,
+        delay: index * 0.12,
+        ease: 'power3.out',
+        scrollTrigger: { trigger: el, start: 'top 88%', toggleActions: 'play none none reverse' }
+      });
+    });
+    const dossierRule = $('.dossier-heading-rule');
+    if(dossierRule) {
+      gsap.to(dossierRule, {
+        scaleX: 1,
+        duration: 1,
+        ease: 'power2.out',
+        scrollTrigger: { trigger: dossierRule, start: 'top 88%', toggleActions: 'play none none reverse' }
+      });
+    }
     $$('.rule').forEach(rule=>{ gsap.fromTo(rule, {scaleX:0}, { scaleX:1, duration:1.6, ease:'power4.inOut', scrollTrigger:{ trigger:rule, start:'top 95%' } }); });
   }
 
@@ -2328,8 +2472,11 @@ print(solution$solution)
       requestAnimationFrame(cursorLoop); 
     })();
     document.addEventListener('mouseover', e => { 
-      if(e.target.closest('.hover-trigger, a, button, input, .filter-btn, [role="button"]')) cursor.classList.add('hovering'); 
-      else cursor.classList.remove('hovering'); 
+      const target = e.target.closest('.hover-trigger, a, button, input, .filter-btn, [role="button"]');
+      const heading = e.target.closest('h1, h2, h3, .h-display, .h-sub');
+      cursor.classList.toggle('hovering', Boolean(target));
+      cursor.classList.toggle('cursor-heading', Boolean(heading));
+      trail?.classList.toggle('cursor-heading', Boolean(heading));
     });
     document.addEventListener('mousedown', playClick);
 
@@ -2375,8 +2522,48 @@ print(solution$solution)
   }
 
   const moonWidget = $('#moon-widget');
+  const readingToggle = $('#reading-mode-toggle');
+  function setReadingMode(enabled) {
+    document.body.classList.toggle('reading-mode', enabled);
+    readingToggle?.setAttribute('aria-pressed', String(enabled));
+    try { localStorage.setItem('nabhya_reading_mode', enabled ? '1' : '0'); } catch {}
+  }
+  if(readingToggle) {
+    let readingEnabled = false;
+    try { readingEnabled = localStorage.getItem('nabhya_reading_mode') === '1'; } catch {}
+    setReadingMode(readingEnabled);
+    readingToggle.addEventListener('click', () => setReadingMode(!document.body.classList.contains('reading-mode')));
+  }
+  $$('.tool-icon').forEach(tool => {
+    tool.addEventListener('click', event => {
+      if(!matchMedia('(hover: hover)').matches) {
+        event.preventDefault();
+        $$('.tool-icon').forEach(other => { if(other !== tool) other.classList.remove('tooltip-active'); });
+        tool.classList.toggle('tooltip-active');
+      }
+    });
+  });
   if(moonWidget) {
-    moonWidget.addEventListener('click', ()=>{ document.documentElement.classList.toggle('light-mode'); gsap.fromTo(moonWidget, {rotate:0}, {rotate:360, duration:0.7, ease:'back.out(1.5)'}); playClick(); });
+    let savedTheme = 'dark';
+    try { savedTheme = localStorage.getItem('nabhya_theme') || 'dark'; } catch {}
+    if(savedTheme === 'light') document.documentElement.classList.add('light-mode');
+    if(savedTheme === 'dark' || savedTheme === 'coffee' || savedTheme === 'candle') document.documentElement.classList.remove('light-mode');
+    if(savedTheme === 'candle') {
+      candleMode = true;
+      document.documentElement.classList.add('candle-mode');
+    }
+    if(savedTheme === 'coffee') {
+      coffeeMode = true;
+      document.documentElement.style.setProperty('--void', '#16110c');
+      document.documentElement.style.setProperty('--ink', '#d6c8b8');
+      document.documentElement.style.setProperty('--line', 'rgba(214, 200, 184, 0.1)');
+      document.documentElement.style.setProperty('--gold', '#c29a6b');
+    }
+    moonWidget.addEventListener('click', ()=>{
+      document.documentElement.classList.toggle('light-mode');
+      try { localStorage.setItem('nabhya_theme', document.documentElement.classList.contains('light-mode') ? 'light' : 'dark'); } catch {}
+      gsap.fromTo(moonWidget, {rotate:0}, {rotate:360, duration:0.7, ease:'back.out(1.5)'}); playClick();
+    });
   }
 
   const dispatchTime = $('#dispatch-time'); const dispatchTimeMobile = $('#dispatch-time-mobile'); let isJapaneseTime = false;
