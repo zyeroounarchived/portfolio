@@ -501,6 +501,12 @@
     .gh-cell { width: 8px; height: 8px; }
     #gh-grid { justify-content:flex-start; }
   }
+
+  /* Code windows inside drawers: never wider than the drawer, scroll code sideways instead */
+  .slide-drawer .terminal-window { width: 100% !important; max-width: 100% !important; min-width: 0; }
+  .slide-drawer .terminal-window pre { overflow-x: auto; max-width: 100%; }
+  .slide-drawer h2 { padding-right: 3.5rem; }
+  .slide-drawer { overflow-x: hidden; }
 </style>
 </head>
 
@@ -623,11 +629,11 @@
     </h1>
 
     <p class="mx-auto md:mx-0 max-w-2xl text-[1.15rem] leading-[1.8] text-[var(--dim)] font-serif italic anim-fade mb-12 vn-readable decay-target">
-      "<span class="magnify-text">I clean data,</span> <span class="magnify-text">document it precisely,</span> <span class="magnify-text">and build analytical tools without any debris.</span> <span class="magnify-text">No manufactured polish—</span><span class="magnify-text">just reproducible work and seamless hand-offs.</span>"
+      "<span class="magnify-text">I clean data,</span> <span class="magnify-text">document it clearly,</span> <span class="magnify-text">and build tools to analyze it.</span> <span class="magnify-text">No extra polish—</span><span class="magnify-text">just work you can repeat and hand off.</span>"
     </p>
 
     <div class="flex flex-wrap items-center justify-center md:justify-start gap-x-8 md:gap-x-24 gap-y-5 anim-fade mt-8">
-      <a href="#contact" class="btn-ghost hover-trigger tracking-[0.25em] text-[0.85rem]">ESTABLISH CONTACT</a>
+      <a href="#contact" class="btn-ghost hover-trigger tracking-[0.25em] text-[0.85rem]">CONTACT</a>
       <a href="Resume.pdf" download class="btn-ghost hover-trigger tracking-[0.25em] text-[0.85rem]">RESUME</a>
     </div>
   </div>
@@ -635,26 +641,26 @@
 
 <div class="marquee-container" id="marquee-cont">
   <div class="marquee-track" id="marquee">
-    <span>Data Hygiene</span> <span class="!text-[var(--gold)] no-stroke">✠</span> 
-    <span>Large Language Models</span> <span class="!text-[var(--gold)] no-stroke">✠</span> 
-    <span>Optimization Models</span> <span class="!text-[var(--gold)] no-stroke">✠</span> 
+    <span>Data Cleaning</span> <span class="!text-[var(--gold)] no-stroke">✠</span> 
+    <span>Python</span> <span class="!text-[var(--gold)] no-stroke">✠</span> 
+    <span>Linear Programming</span> <span class="!text-[var(--gold)] no-stroke">✠</span> 
     <span>Machine Learning</span> <span class="!text-[var(--gold)] no-stroke">✠</span> 
     <span>Game Theory</span> <span class="!text-[var(--gold)] no-stroke">✠</span> 
-    <span>SQL Architecture</span> <span class="!text-[var(--gold)] no-stroke">✠</span> 
-    <span>Statistical Inference</span> <span class="!text-[var(--gold)] no-stroke">✠</span> 
-    <span>Predictive Analytics</span> <span class="!text-[var(--gold)] no-stroke">✠</span> 
-    <span>Connectomics</span> <span class="!text-[var(--gold)] no-stroke">✠</span> 
-    <span>Deep Learning</span> <span class="!text-[var(--gold)] no-stroke">✠</span>
-    <span>Data Hygiene</span> <span class="!text-[var(--gold)] no-stroke">✠</span> 
-    <span>Large Language Models</span> <span class="!text-[var(--gold)] no-stroke">✠</span> 
-    <span>Optimization Models</span> <span class="!text-[var(--gold)] no-stroke">✠</span> 
+    <span>SQL</span> <span class="!text-[var(--gold)] no-stroke">✠</span> 
+    <span>Statistics</span> <span class="!text-[var(--gold)] no-stroke">✠</span> 
+    <span>Excel</span> <span class="!text-[var(--gold)] no-stroke">✠</span> 
+    <span>R</span> <span class="!text-[var(--gold)] no-stroke">✠</span> 
+    <span>Research Methods</span> <span class="!text-[var(--gold)] no-stroke">✠</span>
+    <span>Data Cleaning</span> <span class="!text-[var(--gold)] no-stroke">✠</span> 
+    <span>Python</span> <span class="!text-[var(--gold)] no-stroke">✠</span> 
+    <span>Linear Programming</span> <span class="!text-[var(--gold)] no-stroke">✠</span> 
     <span>Machine Learning</span> <span class="!text-[var(--gold)] no-stroke">✠</span> 
     <span>Game Theory</span> <span class="!text-[var(--gold)] no-stroke">✠</span> 
-    <span>SQL Architecture</span> <span class="!text-[var(--gold)] no-stroke">✠</span> 
-    <span>Statistical Inference</span> <span class="!text-[var(--gold)] no-stroke">✠</span> 
-    <span>Predictive Analytics</span> <span class="!text-[var(--gold)] no-stroke">✠</span> 
-    <span>Connectomics</span> <span class="!text-[var(--gold)] no-stroke">✠</span> 
-    <span>Deep Learning</span> <span class="!text-[var(--gold)] no-stroke">✠</span>
+    <span>SQL</span> <span class="!text-[var(--gold)] no-stroke">✠</span> 
+    <span>Statistics</span> <span class="!text-[var(--gold)] no-stroke">✠</span> 
+    <span>Excel</span> <span class="!text-[var(--gold)] no-stroke">✠</span> 
+    <span>R</span> <span class="!text-[var(--gold)] no-stroke">✠</span> 
+    <span>Research Methods</span> <span class="!text-[var(--gold)] no-stroke">✠</span>
   </div>
 </div>
 
@@ -666,10 +672,10 @@
       <p class="label mb-6">Section I — The Dossier <span class="text-[var(--gold)] opacity-50 ml-2">✠</span></p>
       <h2 class="h-sub mb-10 ink-bleed" style="font-size:clamp(3rem,5vw,4rem);">On working with real, unglamorous data.</h2>
       <p class="text-[var(--dim)] leading-[1.9] text-[1.3rem] mb-8 font-serif vn-readable decay-target">
-        Most of what I've built stems from real assignments—NGO applicant records, structured cost sheets, and analytical audits. I prefer the administrative mechanics closer to bookkeeping than storytelling: verifying columns, sanitizing erratic inputs, and distilling complex matrices into clear metrics.
+        Most of what I've built comes from real assignments: NGO applicant records, cost sheets, and audits. I like the careful parts of the job: checking columns, fixing messy inputs, and turning large tables into clear numbers.
       </p>
       <p class="text-[var(--dim)] leading-[1.9] text-[1.3rem] font-serif mb-12 vn-readable decay-target">
-        Every deliverable is built upon a reproducible pipeline, transparent documentation, and absolute structural integrity.
+        Every project has a repeatable process and clear notes, so someone else can pick it up.
       </p>
       
       <p class="label mb-6">Daily Drivers</p>
@@ -769,7 +775,7 @@
     <div class="max-w-3xl mx-auto">
       <p class="label mb-6">Section II — Archives <span class="text-[var(--gold)] opacity-50 ml-2">✠</span></p>
       <h2 class="h-sub mb-6 ink-bleed" style="font-size:clamp(2.8rem,5vw,3.8rem);">Selected Finished Works.</h2>
-      <p class="text-[var(--dim)] max-w-lg mx-auto font-serif text-[1.25rem] decay-target">A curated dossier of deployment-ready deliverables.</p>
+      <p class="text-[var(--dim)] max-w-lg mx-auto font-serif text-[1.25rem] decay-target">Projects I have finished.</p>
     </div>
     
     <div class="flex flex-wrap justify-center gap-4 w-full max-w-4xl mx-auto mt-8 mb-16 md:mb-28">
@@ -791,7 +797,7 @@
       <div class="proj-info-center">
         <h3 class="proj-title">NGO Applicant<br>Records</h3>
         <p class="proj-desc vn-readable">
-          Standardized, validated, and scrubbed 350 applicant records during an intensive internship—normalizing formats and resolving data corruption.
+          Cleaned and checked 350 applicant records during my internship: fixed formats and corrupted entries.
         </p>
       </div>
       <div class="proj-action-right">
@@ -811,7 +817,7 @@
       <div class="proj-info-center">
         <h3 class="proj-title">Quick-Commerce<br>Strategy</h3>
         <p class="proj-desc vn-readable">
-          A comparative presentation applying game theory models to competitive dynamics within the quick-commerce industry, analyzing strategies of Blinkit, Zepto, and Swiggy Instamart.
+          Group project: a game theory model of Blinkit vs Zepto in quick commerce, solved in Python to find each company's best mix of strategies.
         </p>
       </div>
       <div class="proj-action-right">
@@ -827,7 +833,7 @@
       <div class="proj-info-center">
         <h3 class="proj-title">Credit Card<br>Fraud Detection</h3>
         <p class="proj-desc vn-readable">
-          Tackled a heavily imbalanced dataset (0.17% fraud rate across 284k cases) using Python. Applied SMOTE to generate synthetic minority samples, stabilizing model accuracy. Evaluated distributions dynamically via matplotlib.
+          Only 0.17% of 284,807 card transactions are fraud. I balanced the training data with SMOTE and trained a model judged on recall, precision and PR-AUC.
         </p>
       </div>
       <div class="proj-action-right">
@@ -843,7 +849,7 @@
       <div class="proj-info-center">
         <h3 class="proj-title">Data Deduplication<br>Pipeline</h3>
         <p class="proj-desc vn-readable">
-          Engineered a Python-based automated data cleansing pipeline. Integrated SQLAlchemy with a live Neon PostgreSQL database to extract dirty CRM records, applying Jarowinkler similarity algorithms to resolve and merge fuzzy duplicates.
+          A Python script that finds duplicate customer leads in a Neon PostgreSQL database using name similarity and exact email match, then merges them.
         </p>
       </div>
       <div class="proj-action-right">
@@ -859,7 +865,7 @@
       <div class="proj-info-center">
         <h3 class="proj-title">Spatial Real<br>Estate Heatmap</h3>
         <p class="proj-desc vn-readable">
-          Engineered an interactive dashboard for Navi Mumbai evaluating real estate density. Leveraged functional state hooks to construct dynamic radius filtering and a regression matrix tracking price per m² correlations.
+          Interactive map of Navi Mumbai property listings. Pick a radius around Vashi to see how many listings fall inside, their average price per sq ft, and how much distance from Vashi explains price (R²).
         </p>
       </div>
       <div class="proj-action-right">
@@ -875,7 +881,7 @@
       <div class="proj-info-center">
         <h3 class="proj-title">Zero-Bias Resume<br>Parser</h3>
         <p class="proj-desc vn-readable">
-          Reads PDF resumes, removes demographic details, and returns a clear technical skills matrix for more consistent hiring review.
+          Reads a resume PDF and returns a list of technical skills. The AI is told to leave out names and other personal details.
         </p>
       </div>
       <div class="proj-action-right">
@@ -891,7 +897,7 @@
       <div class="proj-info-center">
         <h3 class="proj-title">Predictive<br>Connectomics</h3>
         <p class="proj-desc vn-readable">
-          Attempted to map simulated neural pathways to predict LLM hallucinations. Failed due to compute constraints and dimensionality explosion. Learned the absolute necessity of feature selection over brute-force scaling.
+          Tried to map simulated neural pathways to predict LLM hallucinations. It failed: not enough computing power and too many features. Lesson: choose features carefully before scaling up.
         </p>
       </div>
       <div class="proj-action-right">
@@ -918,13 +924,6 @@
         </p>
       </div>
 
-      <div class="cursor-pointer group hover-trigger" role="button" tabindex="0" onclick="openDrawer('drawer-ouroboros')" onkeydown="if(event.key==='Enter'||event.key===' ') openDrawer('drawer-ouroboros')">
-        <h4 class="text-xl md:text-2xl text-[var(--ink)] font-serif mb-4 group-hover:text-[var(--gold)] transition-colors">The Ouroboros of Ignorance <span class="text-[var(--gold)] opacity-0 group-hover:opacity-100 transition-opacity ml-1">↗</span></h4>
-        <p class="text-[var(--dim)] text-[1.1rem] leading-[1.8] font-serif max-w-4xl">
-          "The constant echoing chamber of knowledge births an ouroboros of ignorance." Analyzing the intersection of late-stage capitalism, AI, and intellectual decline.
-        </p>
-      </div>
-
       <div class="cursor-pointer group hover-trigger" role="button" tabindex="0" onclick="openDrawer('drawer-constitution')" onkeydown="if(event.key==='Enter'||event.key===' ') openDrawer('drawer-constitution')">
         <h4 class="text-xl md:text-2xl text-[var(--ink)] font-serif mb-4 group-hover:text-[var(--gold)] transition-colors">An Essay on Constitutional Erosion <span class="text-[var(--gold)] opacity-0 group-hover:opacity-100 transition-opacity ml-1">↗</span></h4>
         <p class="text-[var(--dim)] text-[1.1rem] leading-[1.8] font-serif max-w-4xl">
@@ -940,9 +939,9 @@
 <section id="certifications" class="container-w py-32 md:py-40">
   <div class="anim-section mb-20 text-center">
     <p class="label mb-6">Section III — Credentials <span class="text-[var(--gold)] opacity-50 ml-2">✠</span></p>
-    <h2 class="h-sub mb-6 ink-bleed" style="font-size:clamp(2.8rem,5vw,3.8rem);">Verified Proficiencies.</h2>
+    <h2 class="h-sub mb-6 ink-bleed" style="font-size:clamp(2.8rem,5vw,3.8rem);">Certificates.</h2>
     <p class="text-[var(--dim)] max-w-3xl mx-auto font-serif text-[1.3rem] mb-12 decay-target">
-      A cryptographic ledger of academic and professional certifications acquired to date. Click to authenticate directly via Coursera.
+      Certificates I have completed, newest first. Click one to verify it on Coursera.
     </p>
   </div>
 
@@ -1031,19 +1030,19 @@
       </div>
       <span class="label !text-[0.7rem] text-[var(--dim)] shrink-0">Jul 5, 2026 ↗</span>
     </a>
-    <a href="https://coursera.org/verify/8LLOVUI8I6GV" target="_blank" rel="noopener" class="cert-item hover-trigger">
-      <div>
-        <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">What is Data Science?</span>
-        <span class="label !text-[0.6rem] text-[var(--dim)] mt-1">IBM</span>
-      </div>
-      <span class="label !text-[0.7rem] text-[var(--dim)] shrink-0">Jun 3, 2026 ↗</span>
-    </a>
     <a href="https://coursera.org/verify/2LK3BMDH5L1O" target="_blank" rel="noopener" class="cert-item hover-trigger">
       <div>
         <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">Tools for Data Science</span>
         <span class="label !text-[0.6rem] text-[var(--dim)] mt-1">IBM</span>
       </div>
       <span class="label !text-[0.7rem] text-[var(--dim)] shrink-0">Jun 20, 2026 ↗</span>
+    </a>
+    <a href="https://coursera.org/verify/8LLOVUI8I6GV" target="_blank" rel="noopener" class="cert-item hover-trigger">
+      <div>
+        <span class="block font-serif text-[1.2rem] text-[var(--ink)] cert-title">What is Data Science?</span>
+        <span class="label !text-[0.6rem] text-[var(--dim)] mt-1">IBM</span>
+      </div>
+      <span class="label !text-[0.7rem] text-[var(--dim)] shrink-0">Jun 3, 2026 ↗</span>
     </a>
     <a href="https://coursera.org/verify/9FNW7ECSJOOD" target="_blank" rel="noopener" class="cert-item hover-trigger">
       <div>
@@ -1094,16 +1093,16 @@
 
 <section id="notes" class="container-w py-32 md:py-40">
   <div class="anim-section mb-20 text-center">
-    <p class="label mb-6">Section V — Field Notes <span class="text-[var(--gold)] opacity-50 ml-2">✠</span></p>
-    <h2 class="h-sub mb-6 ink-bleed" style="font-size:clamp(2.8rem,5vw,3.8rem);">Micro-Blog & Snippets.</h2>
+    <p class="label mb-6">Section IV — Field Notes <span class="text-[var(--gold)] opacity-50 ml-2">✠</span></p>
+    <h2 class="h-sub mb-6 ink-bleed" style="font-size:clamp(2.8rem,5vw,3.8rem);">Short Notes.</h2>
   </div>
   
   <div class="grid md:grid-cols-3 gap-8 md:gap-16">
     <div class="border-t border-[var(--gold)] pt-10 anim-section relative">
       <p class="label !text-[0.7rem] mb-4 text-[var(--gold)] tracking-[0.25em]">CURRENTLY (NOW PAGE)</p>
-      <h3 class="text-2xl text-[var(--ink)] font-serif mb-4">Focus & Directives</h3>
+      <h3 class="text-2xl text-[var(--ink)] font-serif mb-4">What I'm working on</h3>
       <p class="text-[var(--dim)] text-[1.15rem] leading-[1.8] font-serif vn-readable decay-target">
-        Deep-diving into C++ for systems programming, exploring non-Euclidean geometry, and actively avoiding web framework fatigue. Writing scripts for upcoming club theatricals.
+        Learning C++, reading about non-Euclidean geometry, and writing scripts for club plays.
       </p>
     </div>
 
@@ -1111,7 +1110,7 @@
       <p class="label !text-[0.7rem] mb-4 text-[var(--dim)]">2026-04</p>
       <h3 class="text-2xl text-[var(--ink)] font-serif mb-4">On Pearson's Skewness</h3>
       <p class="text-[var(--dim)] text-[1.15rem] leading-[1.8] font-serif vn-readable decay-target">
-        Revisiting business statistics for distributions. Calculating medians and compound annual growth rates manually grounds the formulas before ever writing the SQL for them.
+        Revisiting business statistics. Working out medians and growth rates by hand helps me understand the formulas before I write SQL for them.
       </p>
     </div>
     
@@ -1119,7 +1118,7 @@
       <p class="label !text-[0.7rem] mb-4 text-[var(--dim)]">2026-02</p>
       <h3 class="text-2xl text-[var(--ink)] font-serif mb-4">Linear Optimization in R</h3>
       <p class="text-[var(--dim)] text-[1.15rem] leading-[1.8] font-serif mb-6 vn-readable decay-target">
-        Utilizing optimization packages in R to solve linear programming matrices. The setup takes longer than the solve.
+        Solving linear programming problems with an R package. Setting it up takes longer than solving it.
       </p>
       <button class="btn-ghost hover-trigger" onclick="openDrawer('drawer-r')">View R Snippet</button>
     </div>
@@ -1131,10 +1130,10 @@
 <section id="contact" class="container-w py-32 md:py-48">
   <div class="ui-card spotlight p-14 md:p-24 grid md:grid-cols-[1.3fr,0.7fr] gap-10 md:gap-20 items-center anim-section">
     <div class="text-center">
-      <p class="label mb-6">Section VI — Correspondence <span class="text-[var(--gold)] opacity-50 ml-2">✠</span></p>
-      <h2 class="h-sub mb-8 ink-bleed" style="font-size:clamp(2.8rem,5vw,3.8rem);">Initiate Communication.</h2>
+      <p class="label mb-6">Section V — Contact <span class="text-[var(--gold)] opacity-50 ml-2">✠</span></p>
+      <h2 class="h-sub mb-8 ink-bleed" style="font-size:clamp(2.8rem,5vw,3.8rem);">Get in touch.</h2>
       <p class="text-[var(--dim)] leading-[1.9] text-[1.25rem] font-serif mb-14 vn-readable decay-target max-w-2xl mx-auto">
-        Open for internships, analytical consults, and structured data-processing contracts—specifically those featuring complex raw inputs and clear objectives.
+        Open for internships, data analysis work, and data-cleaning projects, especially ones with messy raw data and clear goals.
       </p>
       <div class="flex flex-wrap gap-x-10 gap-y-6 items-center justify-center">
         <a href="mailto:nabhya52kar@gmail.com" class="btn-primary mag-btn hover-trigger">nabhya52kar@gmail.com</a>
@@ -1176,7 +1175,7 @@
         <a href="#" onclick="openGuestbook(); return false;" class="label !text-[0.7rem] hover:text-[var(--gold)] transition-colors hover-trigger text-[var(--gold)]">~/guestbook.sh</a>
       </div>
       <p class="label !text-[0.7rem] text-[var(--dim)] mt-2">VISITORS: <span id="visitor-count" class="text-[var(--gold)] tracking-widest">000000</span></p>
-      <p class="label !text-[0.7rem] text-[var(--dim)]" id="footer-time">✠ © Life isnt always black and white. ✠</p>
+      <p class="label !text-[0.7rem] text-[var(--dim)]" id="footer-time">✠ © Life isn't always black and white. ✠</p>
     </div>
   </div>
 </footer>
@@ -1219,33 +1218,45 @@
 <div class="slide-drawer" id="drawer-matrix">
   <button class="btn-close-minimal drawer-close hover-trigger" aria-label="Close drawer"></button>
   <p class="label mb-4">Case Study 02</p>
-  <h2 class="h-display text-4xl text-[var(--ink)] mb-6">Game Theory & Commerce</h2>
-  <p class="text-[var(--dim)] font-serif text-[1.1rem] leading-[1.8] mb-8">
-    A comparative presentation applying game theory models to competitive dynamics within the quick-commerce industry. We analyzed Nash Equilibriums mapping out the aggressive market strategies of Blinkit, Zepto, and Swiggy Instamart.
-  </p>
-  
-  <div class="terminal-window !max-w-full !p-0 !border-none !shadow-none !h-[300px] !mb-8 relative rounded-none border-y border-[var(--gold)]">
-    <!-- Inner Matrix Canvas (just for the drawer) -->
+  <h2 class="h-display text-4xl text-[var(--ink)] mb-6">Game Theory: Blinkit vs Zepto</h2>
+  <div class="text-[var(--dim)] font-serif text-[1.1rem] leading-[1.8] mb-8 space-y-6">
+    <p>Group project for Optimization Techniques (5 students). We studied quick commerce in India, where Blinkit, Zepto and Swiggy Instamart compete, and modeled Blinkit vs Zepto as a 3x3 game. Each company picks one of three strategies: Aggressive Expansion, Margin Optimisation or Premium Focus.</p>
+    <p>Payoffs are in ₹ crore per quarter and come from public data (order value, fee rates, dark store counts). We treated the game as zero-sum, which is an approximation. Instamart is part of the industry study but not part of the matrix.</p>
+  </div>
+
+  <div class="terminal-window !max-w-full !p-0 !border-none !shadow-none !mb-8 relative rounded-none border-y border-[var(--gold)]">
     <canvas id="matrix-canvas-drawer" style="position:absolute; top:0; left:0; width:100%; height:100%; z-index:1; opacity:0.6;"></canvas>
-    
     <div class="relative z-10 p-6 bg-gradient-to-b from-[rgba(0,0,0,0.85)] to-[rgba(0,0,0,0.95)] h-full w-full">
       <div class="flex justify-between items-center border-b border-[#333] pb-2 mb-4">
-        <span class="text-[#888] font-mono text-sm">~/sql/strategy_extraction.sql</span>
+        <span class="text-[#888] font-mono text-sm">~/game_theory/nash_solver.py</span>
       </div>
-<pre class="font-mono text-[#4ade80] text-sm leading-relaxed"><code><span class="text-[#888]">-- Extracting Optimization Matrix Data</span>
-<span class="text-[#d1b794]">SELECT</span> 
-    strategy_id, 
-    <span class="text-[#d1b794]">SUM</span>(payoff_value) <span class="text-[#d1b794]">AS</span> total_utility,
-    <span class="text-[#d1b794]">MAX</span>(market_share) <span class="text-[#d1b794]">AS</span> equilibrium_point
-<span class="text-[#d1b794]">FROM</span> 
-    game_theory_simulations
-<span class="text-[#d1b794]">WHERE</span> 
-    competitor = <span class="text-[#ff6a00]">'Zepto'</span> 
-    <span class="text-[#d1b794]">AND</span> model_type = <span class="text-[#ff6a00]">'Nash'</span>
-<span class="text-[#d1b794]">GROUP BY</span> 
-    strategy_id;
-<span class="text-white mt-4 block">Execution Time: 0.04s <span class="animate-pulse">_</span></span></code></pre>
+<pre class="font-mono text-[#4ade80] text-sm leading-relaxed overflow-x-auto"><code>import nashpy as nash
+import numpy as np
+
+# Rows = Blinkit, columns = Zepto: [Expand, Margin, Premium]
+A = np.array([
+    [ 0.8,  3.9,  6.5],
+    [ 3.2,  2.4,  4.7],
+    [-1.8,  1.4,  2.9],
+])
+game = nash.Game(A, -A)   # zero-sum
+
+for blinkit, zepto in game.support_enumeration():
+    print("Blinkit:", np.round(blinkit, 3))
+    print("Zepto:  ", np.round(zepto, 3))
+    print("Value:  ", round(float(blinkit @ A @ zepto), 3))
+
+# Output:
+# Blinkit: [0.205 0.795 0.   ]
+# Zepto:   [0.385 0.615 0.   ]
+# Value:   2.708</code></pre>
     </div>
+  </div>
+
+  <h3 class="label text-[var(--gold)] mb-4">Result</h3>
+  <div class="text-[var(--dim)] font-serif text-[1.1rem] leading-[1.8] mb-10 space-y-6">
+    <p>The game has one equilibrium. Blinkit plays Aggressive Expansion about 20% of the time and Margin Optimisation about 80%. Zepto plays Aggressive Expansion about 38% and Margin Optimisation about 62%. Neither company gains by changing its mix alone.</p>
+    <p>Premium Focus is never used by either side, because another strategy pays at least as much against every choice the opponent can make. The value of the game is about ₹2.7 crore per quarter in Blinkit's favor.</p>
   </div>
 </div>
 
@@ -1255,36 +1266,47 @@
   <h2 class="h-display text-4xl text-[var(--ink)] mb-6">Credit Card Fraud Detection</h2>
   
   <div class="text-[var(--dim)] font-serif text-[1.05rem] leading-[1.8] space-y-6">
-    <p>Step 1. Import the libraries and import the csv file to be used as training data.</p>
+    <p>Step 1. Load the data. Only 492 of 284,807 transactions are fraud (0.1727%), so the classes are very unbalanced.</p>
     <div class="terminal-window !p-6 !mt-6 !mb-10 w-full !text-[0.8rem] relative">
       <div class="terminal-header flex justify-between items-center !mb-4 !pb-3">
         <span>~/fraud/load_data.py</span>
       </div>
       <button class="copy-btn hover-trigger absolute top-3 right-3" onclick="copyCode(this)">Copy Source</button>
       <pre class="overflow-x-auto"><code>import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import classification_report, average_precision_score
 from imblearn.over_sampling import SMOTE
-df = pd.read_csv("/Users/nabhya/Downloads/creditcard.csv")
+
+df = pd.read_csv("creditcard.csv")
 print(df.shape)
 # Output: (284807, 31)</code></pre>
     </div>
-    
-    <p>Only 492 Frauds in 284k cases. Fraud percentage = 0.1727%. We check for correlations against the 'Class' column, removing self-correlation, and order from most negative to most positive.</p>
+
+    <p>Step 2. Split first, then scale. <code>test_size=0.2</code> sends 20% of rows to the test set. <code>stratify=y</code> keeps the 0.17% fraud rate in both parts. The scaler learns its mean and spread from the training rows only, so no information from the test set leaks into training. Correlations with the 'Class' column are also checked on the training rows only.</p>
     <div class="terminal-window !p-6 !mt-6 !mb-10 w-full !text-[0.8rem] relative">
       <div class="terminal-header flex justify-between items-center !mb-4 !pb-3">
-        <span>~/fraud/feature_engineering.py</span>
+        <span>~/fraud/split_and_scale.py</span>
       </div>
       <button class="copy-btn hover-trigger absolute top-3 right-3" onclick="copyCode(this)">Copy Source</button>
-      <pre class="overflow-x-auto"><code>correlations = df.corr()['Class'].drop('Class').sort_values()
-X = df.drop('Class', axis=1) # Full dataset minus label
+      <pre class="overflow-x-auto"><code>X = df.drop('Class', axis=1)
 y = df['Class']
 
-# Rescale using z-score
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, stratify=y, random_state=42)
+X_train, X_test = X_train.copy(), X_test.copy()
+
+# Fit on training rows, then apply the same scaling to the test rows
 scaler = StandardScaler()
-X['Amount'] = scaler.fit_transform(X[['Amount']])
-X['Time'] = scaler.fit_transform(X[['Time']])</code></pre>
+cols = ['Amount', 'Time']
+X_train[cols] = scaler.fit_transform(X_train[cols])
+X_test[cols] = scaler.transform(X_test[cols])
+
+correlations = pd.concat([X_train, y_train], axis=1).corr()['Class'].drop('Class').sort_values()</code></pre>
     </div>
-    
-    <p>Splitting the data: <code>test_size=0.2</code> means 20% of rows go to the test set, 80% to training. <code>stratify=y</code> guarantees the fraud ratio (0.17%) is preserved in both splits proportionally.</p>
+
+    <p>Step 3. Balance the training data with SMOTE. For each fraud example, SMOTE finds its nearest fraud neighbors and creates new, similar fraud rows. The test set is never touched.</p>
     <div class="terminal-window !p-6 !mt-6 !mb-10 w-full !text-[0.8rem] relative">
       <div class="terminal-header flex justify-between items-center !mb-4 !pb-3">
         <span>~/fraud/resample_smote.py</span>
@@ -1299,8 +1321,23 @@ print(f"Before SMOTE: {y_train.value_counts().to_dict()}")
 print(f"After SMOTE: {pd.Series(y_train_resampled).value_counts().to_dict()}")
 # Output: {0: 227451, 1: 227451}</code></pre>
     </div>
-    
-    <p>SMOTE looks at each fraud example in your training set, finds its nearest neighbors among other fraud examples, and generates new synthetic fraud rows. They're realistic but not exact duplicates.</p>
+
+    <p>Step 4. Train a logistic regression and test it on the untouched test set. Accuracy is not used here: a model that never flags fraud would still be 99.8% accurate. Instead we look at recall (how many frauds are caught), precision (how many alerts are real fraud) and PR-AUC.</p>
+    <div class="terminal-window !p-6 !mt-6 !mb-10 w-full !text-[0.8rem] relative">
+      <div class="terminal-header flex justify-between items-center !mb-4 !pb-3">
+        <span>~/fraud/evaluate.py</span>
+      </div>
+      <button class="copy-btn hover-trigger absolute top-3 right-3" onclick="copyCode(this)">Copy Source</button>
+      <pre class="overflow-x-auto"><code>model = LogisticRegression(max_iter=1000)
+model.fit(X_train_resampled, y_train_resampled)
+
+pred = model.predict(X_test)
+scores = model.predict_proba(X_test)[:, 1]
+
+print(classification_report(y_test, pred, digits=3))
+print("PR-AUC:", round(average_precision_score(y_test, scores), 3))</code></pre>
+    </div>
+    <!-- TODO: run evaluate.py and add the real recall, precision and PR-AUC numbers here -->
   </div>
 </div>
 
@@ -1309,7 +1346,7 @@ print(f"After SMOTE: {pd.Series(y_train_resampled).value_counts().to_dict()}")
   <p class="label mb-4">Case Study 04</p>
   <h2 class="h-display text-4xl text-[var(--ink)] mb-4">Spatial Real Estate Heatmap</h2>
   <p class="text-[var(--dim)] font-serif text-[1.1rem] leading-[1.8] mb-8">
-    Engineered an interactive dashboard for Navi Mumbai evaluating real estate density. Leveraged functional state hooks to construct dynamic radius filtering and a regression matrix tracking price per m² correlations.
+    Interactive map of Navi Mumbai property listings. Pick a radius around Vashi to see how many listings fall inside, their average price per sq ft, and how much distance from Vashi explains price (R²).
   </p>
   <h3 class="label text-[var(--gold)] mb-4">Interactive Canvas</h3>
   <div class="flex flex-col items-center justify-center gap-6 w-full mt-6">
@@ -1325,8 +1362,9 @@ print(f"After SMOTE: {pd.Series(y_train_resampled).value_counts().to_dict()}")
             <div class="mb-2 border-b border-[#333] pb-2 text-[var(--gold)]">Market Statistics</div>
             <div class="grid grid-cols-2 gap-2 mt-2">
                 <div class="flex flex-col"><span>Properties</span><span id="hm-count">0</span></div>
-                <div class="flex flex-col"><span>Avg Price/m²</span><span id="hm-avg">₹0</span></div>
-                <div class="flex flex-col mt-2"><span>R² Value</span><span id="hm-r2">0.00</span></div>
+                <div class="flex flex-col"><span id="hm-unit">Avg Price</span><span id="hm-avg">₹0</span></div>
+                <div class="flex flex-col mt-2"><span>R² (price ~ distance)</span><span id="hm-r2">0.00</span></div>
+                <div class="flex flex-col mt-2 col-span-2 text-[var(--gold)]"><span id="hm-source">Loading data...</span></div>
             </div>
         </div>
     </div>
@@ -1339,7 +1377,8 @@ print(f"After SMOTE: {pd.Series(y_train_resampled).value_counts().to_dict()}")
   <h2 class="h-display text-4xl text-[var(--ink)] mb-6">Data Deduplication Pipeline</h2>
 
   <div class="text-[var(--dim)] font-serif text-[1.1rem] leading-[1.8] mb-10 space-y-6">
-    <p>The pipeline extracts 1,000 messy customer-lead rows from a live Neon Postgres database, applies fuzzy string-matching across names and emails to surface duplicate entities, then writes a clean, de-duplicated dataset back to production.</p>
+    <p>The script reads 1,000 messy customer-lead rows from a Neon Postgres database, finds duplicate records by comparing names and emails, then writes the cleaned table back. The result is 800 rows.</p>
+    <p>Limit: a pair counts as a duplicate only when the names are similar and the emails match exactly. Duplicates where the email also changed are not caught.</p>
   </div>
 
   <h3 class="label text-[var(--gold)] mb-4">Live Execution</h3>
@@ -1381,7 +1420,7 @@ CLEAN DATA <span class="text-[#888]">(Production DB)</span></code></pre>
 
   <h3 class="label text-[var(--gold)] mb-4">Code Snippet</h3>
   <div class="text-[var(--dim)] font-serif text-[1.05rem] leading-[1.8] space-y-6">
-    <p>Comparison logic: Jarowinkler similarity on name at an 0.85 threshold, combined with an exact match on email.</p>
+    <p>Matching rule: names must score at least 0.85 on Jaro-Winkler similarity, and the emails must match exactly.</p>
     <div class="terminal-window !p-6 !mt-6 !mb-10 w-full !text-[0.8rem] relative">
       <div class="terminal-header flex justify-between items-center !mb-4 !pb-3">
         <span>~/dedup/match_records.py</span>
@@ -1406,8 +1445,8 @@ matches = features[features.sum(axis=1) > 1]</code></pre>
   <a href="https://zero-bias-ui.vercel.app" target="_blank" rel="noopener" class="btn-primary hover-trigger w-full mb-10">Open Parser ↗</a>
 
   <div class="text-[var(--dim)] font-serif text-[1.1rem] leading-[1.8] mb-10 space-y-6">
-    <p>This app reads a resume PDF and sends it directly to Gemini 3.8 Flash. It returns a typed list of technical skills for faster, clearer review.</p>
-    <p>It removes names, contact details, photos, addresses, and other demographic details before analysis, helping reduce bias in hiring.</p>
+    <p>This app reads a resume PDF and sends it to Gemini 3.8 Flash. It returns a list of technical skills in a fixed format, so reviewers can compare candidates quickly.</p>
+    <p>The model is told to leave out names, contact details, photos, addresses and other personal details, so the output shows skills only. The full PDF is still sent to Gemini, so this limits what the reviewer sees, not what the model reads.</p>
     <p><strong>Stack:</strong> Next.js App Router, Tailwind CSS v4, and Google Generative AI.</p>
   </div>
 
@@ -1415,7 +1454,7 @@ matches = features[features.sum(axis=1) > 1]</code></pre>
   <div class="case-img-frame border border-[#333] rounded">
     <img src="zero-bias-parser%3Azero-bias-demo.gif" alt="Terminal-style demonstration of the Zero-Bias Resume Parser">
   </div>
-  <p class="text-[var(--dim)] text-sm font-serif italic mt-4 mb-10 text-center">Native PDF ingestion, demographic scrubbing, and typed skills extraction in one pass.</p>
+  <p class="text-[var(--dim)] text-sm font-serif italic mt-4 mb-10 text-center">PDF in, list of skills out, with personal details left out of the result.</p>
 
   <h3 class="label text-[var(--gold)] mb-4">Next.js API Route</h3>
   <div class="terminal-window !p-6 !mt-6 !mb-10 w-full !text-[0.8rem] relative">
@@ -1423,22 +1462,39 @@ matches = features[features.sum(axis=1) > 1]</code></pre>
       <span>~/app/api/parse/route.ts</span>
     </div>
     <button class="copy-btn hover-trigger absolute top-3 right-3" onclick="copyCode(this)">Copy Source</button>
-    <pre class="overflow-x-auto"><code>import { GoogleGenerativeAI } from '@google/generative-ai';
+    <pre class="overflow-x-auto"><code>import { GoogleGenerativeAI, SchemaType } from '@google/generative-ai';
 
 export async function POST(request: Request) {
-  const formData = await request.formData();
-  const file = formData.get('resume') as File;
-  const buffer = Buffer.from(await file.arrayBuffer());
+  try {
+    const formData = await request.formData();
+    const file = formData.get('resume') as File;
+    const buffer = Buffer.from(await file.arrayBuffer());
 
-  const model = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!)
-    .getGenerativeModel({ model: 'gemini-3.8-flash' });
+    const model = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!)
+      .getGenerativeModel({
+        model: 'gemini-3.8-flash',
+        generationConfig: {
+          responseMimeType: 'application/json',
+          // The reply must match this shape: { "skills": ["Python", ...] }
+          responseSchema: {
+            type: SchemaType.OBJECT,
+            properties: {
+              skills: { type: SchemaType.ARRAY, items: { type: SchemaType.STRING } },
+            },
+            required: ['skills'],
+          },
+        },
+      });
 
-  const result = await model.generateContent([
-    { inlineData: { data: buffer.toString('base64'), mimeType: 'application/pdf' } },
-    'Scrub demographic identifiers. Return only the strictly-typed technical skills matrix.'
-  ]);
+    const result = await model.generateContent([
+      { inlineData: { data: buffer.toString('base64'), mimeType: 'application/pdf' } },
+      'List the technical skills in this resume. Do not include names, contact details, addresses or other personal details.',
+    ]);
 
-  return Response.json(JSON.parse(result.response.text()));
+    return Response.json(JSON.parse(result.response.text()));
+  } catch (err) {
+    return Response.json({ error: 'Could not read this resume.' }, { status: 500 });
+  }
 }</code></pre>
   </div>
 
@@ -1479,18 +1535,6 @@ print(solution$solution)</code></pre>
     <p>To persist without hope is not tenacity—it's inertia. Thus, giving up is not always surrender. It can be a higher form of courage: the ability to stop, to relinquish, to make space for something unimagined.</p>
     <p>The sunk cost fallacy. The more time, money, or energy we've invested in something, the harder it feels to walk away... But the past cannot be recovered. The only choice we truly control is the present moment, and the direction we step into next.</p>
     <p>To give up is not to stop living, it's to start living differently. And sometimes, thats just the art of giving up.</p>
-  </div>
-</div>
-
-<div class="slide-drawer" id="drawer-ouroboros">
-  <button class="btn-close-minimal drawer-close hover-trigger" aria-label="Close drawer"></button>
-  <p class="label mb-4">Philosophical Snippet</p>
-  <h2 class="h-display text-4xl text-[var(--ink)] mb-6">The Ouroboros of Ignorance</h2>
-  <div class="text-[var(--dim)] font-serif text-[1.1rem] leading-[1.9] space-y-6">
-    <p>The constant echoing chamber of knowledge births an ouroboros of ignorance, having real-life effects like the declining rate of average intelligence every year and the mis-knowledge of to-be common sense.</p>
-    <p>The absurd rate of declining human intelligence is worrying, not only because it ignores the previous generations and subjectivity of intelligence, but also because of the future it holds for humanity. Research has shown absolute levels of decline in mental capacity- not only in mathematics, language and social awareness, but in abstract behaviours like kindness and happiness.</p>
-    <p>Why are billionaires taxed almost the same as normal people? To fix this, let us ask the same billionaires to donate to a camouflaged charity which recycles the money back to the billionaires. How flawed a democracy was talked about by Plato, approximately 2475 years ago, still it leads to an echo chamber of freedom of choice and how every vote is equal, either it be the senile old man with dementia or the convicted criminal.</p>
-    <p>The rise of AI and the impact of silicone being able to think for us is well documented yet obsolete within a few days... How can corporations and governments promote privacy and human free will but allow personalised and stolen data, only to be used against us, in forms of advertisement and the misuse of human creativity?</p>
   </div>
 </div>
 
@@ -1701,19 +1745,18 @@ print(solution$solution)
   // ================= GLOBAL COMMAND PALETTE / SEARCH =================
   const searchIndex = [
     { title: 'The Dossier — About', type: 'Section', desc: 'Working philosophy: real, unglamorous data, reproducible pipelines, and structural integrity.', action: () => scrollToTarget('#about') },
-    { title: 'Selected Finished Works', type: 'Section', desc: 'The curated dossier of deployment-ready deliverables.', action: () => scrollToTarget('#work') },
+    { title: 'Selected Finished Works', type: 'Section', desc: 'Projects I have finished.', action: () => scrollToTarget('#work') },
     { title: 'Creative Engineering', type: 'Section', desc: 'Essays spanning philosophy, technology, and constitutional law.', action: () => scrollToTarget('#creative') },
     { title: 'Verified Proficiencies', type: 'Section', desc: 'Certifications acquired to date, verifiable via Coursera.', action: () => scrollToTarget('#certifications') },
     { title: 'Field Notes & Snippets', type: 'Section', desc: 'Micro-blog: current focus, statistics notes, and R optimization snippets.', action: () => scrollToTarget('#notes') },
     { title: 'Contact / Socials', type: 'Section', desc: 'Get in touch or find social links.', action: () => scrollToTarget('#contact') },
 
     { title: 'NGO Applicant Records', type: 'Case Study', desc: 'Standardized and scrubbed 350 applicant records, resolving data corruption.', action: () => openDrawer('drawer-ngo') },
-    { title: 'Quick-Commerce Strategy', type: 'Case Study', desc: 'Game theory applied to Blinkit, Zepto, and Swiggy Instamart competitive dynamics.', action: () => openDrawer('drawer-matrix') },
-    { title: 'Credit Card Fraud Detection', type: 'Case Study', desc: 'SMOTE on a 0.17% fraud rate across 284k cases to stabilize model accuracy.', action: () => openDrawer('drawer-fraud') },
-    { title: 'Data Deduplication Pipeline', type: 'Case Study', desc: 'SQLAlchemy + Neon Postgres with Jaro-Winkler similarity to merge fuzzy duplicates.', action: () => openDrawer('drawer-dedup') },
-    { title: 'Spatial Real Estate Heatmap', type: 'Case Study', desc: 'Interactive Navi Mumbai density dashboard with dynamic radius filtering.', action: () => openDrawer('drawer-heatmap') },
+    { title: 'Quick-Commerce Strategy', type: 'Case Study', desc: 'Game theory model of Blinkit vs Zepto, solved in Python.', action: () => openDrawer('drawer-matrix') },
+    { title: 'Credit Card Fraud Detection', type: 'Case Study', desc: 'SMOTE and logistic regression on 284k transactions, 0.17% fraud.', action: () => openDrawer('drawer-fraud') },
+    { title: 'Data Deduplication Pipeline', type: 'Case Study', desc: 'Finds and merges duplicate leads in Neon Postgres.', action: () => openDrawer('drawer-dedup') },
+    { title: 'Spatial Real Estate Heatmap', type: 'Case Study', desc: 'Navi Mumbai listings map with a radius filter, average price and an R² of price against distance.', action: () => openDrawer('drawer-heatmap') },
     { title: "The Art of Giving Up", type: 'Essay', desc: 'Quitting as an act of authentic alignment rather than defeat.', action: () => openDrawer('drawer-giving-up') },
-    { title: 'The Ouroboros of Ignorance', type: 'Essay', desc: 'Late-stage capitalism, AI, and intellectual decline.', action: () => openDrawer('drawer-ouroboros') },
     { title: 'An Essay on Constitutional Erosion', type: 'Essay', desc: 'Fundamental Rights, Directive Principles, and the Puttaswamy judgment.', action: () => openDrawer('drawer-constitution') },
     { title: 'Linear Optimization in R', type: 'Note', desc: 'Solving linear programming matrices with R optimization packages.', action: () => openDrawer('drawer-r') },
     { title: 'Colophon', type: 'Meta', desc: 'Typography, fonts, and the tools this site was built with.', action: () => openDrawer('drawer-colophon') },
@@ -2348,7 +2391,7 @@ print(solution$solution)
   
   const fTime = $('#footer-time');
   if(fTime) {
-      fTime.innerHTML = `✠ © ${new Date().getFullYear()} · Life isnt always black and white. ✠`;
+      fTime.innerHTML = `✠ © ${new Date().getFullYear()} · Life isn't always black and white. ✠`;
   }
 
   // Safe Explicit Canvas Setup for Easter Egg Matrix Modal
@@ -2486,17 +2529,56 @@ print(solution$solution)
   };
 
   // Safe Explicit Canvas Setup for Heatmap Drawer
-  let hmProperties = []; let hmLandmark = { x: 400, y: 200 };
+  let hmProperties = []; let hmLandmark = { x: 400, y: 200 }; let hmSource = 'simulated';
+  // Real-data mode: put heatmap-data.csv next to index.html with header: lat,lon,price
+  // (price in HM_UNIT). Without it the dashboard runs on clearly-labelled simulated points.
+  const HM_UNIT = '₹/sq ft';
+  const HM_CENTER = { lat: 19.0771, lon: 72.9986 }; // Vashi, Navi Mumbai (verify / change)
+  const HM_PX_PER_KM = 12; // 180px = 15km, matches the radius slider max
+  function hmSimulate() {
+    const pts = [];
+    for(let i=0; i<150; i++) {
+        const angle = Math.random() * Math.PI * 2; const dist = Math.random() * 180;
+        const price = Math.round(10000 - (dist * 10) + (Math.random() * 2000));
+        pts.push({ xOffset: Math.cos(angle) * dist, yOffset: Math.sin(angle) * dist, kmDist: (dist / 180) * 15, price: Math.max(price, 4000) });
+    }
+    return pts;
+  }
+  function hmParseCsv(text) {
+    const lines = text.trim().split(/\r?\n/);
+    const head = lines.shift().split(',').map(h => h.trim().toLowerCase());
+    const iLat = head.indexOf('lat'), iLon = head.indexOf('lon'), iP = head.indexOf('price');
+    if(iLat < 0 || iLon < 0 || iP < 0) return [];
+    const kx = 111.32 * Math.cos(HM_CENTER.lat * Math.PI / 180), ky = 110.57;
+    const pts = [];
+    lines.forEach(l => {
+      const c = l.split(',');
+      const lat = parseFloat(c[iLat]), lon = parseFloat(c[iLon]), price = parseFloat(c[iP]);
+      if(!isFinite(lat) || !isFinite(lon) || !isFinite(price) || price <= 0) return;
+      const dxKm = (lon - HM_CENTER.lon) * kx, dyKm = (lat - HM_CENTER.lat) * ky;
+      pts.push({ xOffset: dxKm * HM_PX_PER_KM, yOffset: -dyKm * HM_PX_PER_KM, kmDist: Math.hypot(dxKm, dyKm), price });
+    });
+    return pts;
+  }
   function initHeatmap() {
     const hmCanvas = document.getElementById('hm-canvas');
     if(!hmCanvas) return;
-    hmCanvas.width = 800; hmCanvas.height = 400; hmLandmark = { x: 400, y: 200 }; hmProperties = [];
-    for(let i=0; i<150; i++) {
-        const angle = Math.random() * Math.PI * 2; const dist = Math.random() * 180; 
-        const price = Math.round(10000 - (dist * 10) + (Math.random() * 2000));
-        hmProperties.push({ xOffset: Math.cos(angle) * dist, yOffset: Math.sin(angle) * dist, kmDist: (dist / 180) * 15, price: Math.max(price, 4000) });
-    }
+    hmCanvas.width = 800; hmCanvas.height = 400; hmLandmark = { x: 400, y: 200 };
+    hmProperties = hmSimulate(); hmSource = 'simulated';
     drawHeatmap();
+    fetch('heatmap-data.csv', { cache: 'no-store' })
+      .then(r => r.ok ? r.text() : Promise.reject())
+      .then(t => { const pts = hmParseCsv(t); if(pts.length >= 10) { hmProperties = pts; hmSource = 'csv'; drawHeatmap(); } })
+      .catch(() => {});
+  }
+  // Ordinary least squares of price on distance; returns R² or null if undefined
+  function hmR2Of(pts) {
+    const n = pts.length; if(n < 5) return null;
+    let sx=0, sy=0; pts.forEach(p => { sx += p.kmDist; sy += p.price; });
+    const mx = sx/n, my = sy/n; let sxx=0, syy=0, sxy=0;
+    pts.forEach(p => { const dx = p.kmDist-mx, dy = p.price-my; sxx += dx*dx; syy += dy*dy; sxy += dx*dy; });
+    if(sxx === 0 || syy === 0) return null;
+    return (sxy*sxy)/(sxx*syy);
   }
   function drawHeatmap() {
     const hmCanvas = document.getElementById('hm-canvas');
@@ -2521,19 +2603,24 @@ print(solution$solution)
     ctx.beginPath(); ctx.arc(hmLandmark.x, hmLandmark.y, radiusPx, 0, Math.PI*2); ctx.stroke(); ctx.setLineDash([]);
     ctx.fillStyle = '#ef4444'; ctx.beginPath(); ctx.arc(hmLandmark.x, hmLandmark.y, 6, 0, Math.PI*2); ctx.fill();
 
-    let activeCount = 0; let sumPrice = 0;
+    let activeCount = 0; let sumPrice = 0; const active = [];
     hmProperties.forEach(p => {
         const pX = hmLandmark.x + p.xOffset; const pY = hmLandmark.y + p.yOffset;
         const isNearby = p.kmDist <= radiusKm;
-        ctx.beginPath(); ctx.arc(pX, pY, 4, 0, Math.PI*2);
-        if(isNearby) { ctx.fillStyle = 'rgba(209, 183, 148, 0.8)'; activeCount++; sumPrice += p.price; } 
+        if(pX < -4 || pX > 804 || pY < -4 || pY > 404) { if(isNearby) { activeCount++; sumPrice += p.price; active.push(p); } return; }
+        ctx.beginPath(); ctx.arc(pX, pY, hmSource === 'csv' ? 2.2 : 4, 0, Math.PI*2);
+        if(isNearby) { ctx.fillStyle = 'rgba(209, 183, 148, 0.8)'; activeCount++; sumPrice += p.price; active.push(p); }
         else { ctx.fillStyle = 'rgba(100, 100, 100, 0.3)'; }
         ctx.fill();
     });
 
     hmRadiusVal.textContent = radiusKm; hmCount.textContent = activeCount;
     hmAvg.textContent = activeCount > 0 ? '₹' + Math.round(sumPrice/activeCount).toLocaleString() : '₹0';
-    hmR2.textContent = activeCount > 5 ? (0.6 + Math.random()*0.3).toFixed(2) : '0.00'; 
+    const r2 = hmR2Of(active);
+    hmR2.textContent = r2 === null ? 'n/a' : r2.toFixed(2);
+    const src = document.getElementById('hm-source');
+    if(src) src.textContent = hmSource === 'csv' ? ('Data: Mumbai property listings dataset, Navi Mumbai sample of ' + hmProperties.length + ' listings') : ('Demo data only, ' + hmProperties.length + ' made-up points (data file not found)');
+    const unit = document.getElementById('hm-unit'); if(unit) unit.textContent = 'Avg Price (' + HM_UNIT + ')';
   }
   const mainSlider = document.getElementById('hm-radius');
   if(mainSlider) { mainSlider.addEventListener('input', drawHeatmap); }
@@ -2849,10 +2936,17 @@ print(solution$solution)
           const scores = await res.json();
           const list = document.getElementById('leaderboard-list');
           if(list) {
-              list.innerHTML = scores.length ? '' : '<li>No scores yet. Be the first!</li>';
-              scores.forEach((entry, index) => {
-                  list.innerHTML += `<li class="flex justify-between px-4"><span>#${index + 1} ${entry.name}</span> <span class="text-[var(--gold)]">${entry.score} pts</span></li>`;
-              });
+              list.textContent = '';
+              if(!Array.isArray(scores) || !scores.length) {
+                  const empty = document.createElement('li'); empty.textContent = 'No scores yet. Be the first!'; list.appendChild(empty);
+              } else {
+                  scores.forEach((entry, index) => {
+                      const li = document.createElement('li'); li.className = 'flex justify-between px-4';
+                      const left = document.createElement('span'); left.textContent = '#' + (index + 1) + ' ' + String(entry.name).slice(0, 24);
+                      const right = document.createElement('span'); right.className = 'text-[var(--gold)]'; right.textContent = (Number(entry.score) || 0) + ' pts';
+                      li.append(left, right); list.appendChild(li);
+                  });
+              }
           }
       } catch (e) {
           console.error('Failed to load leaderboard', e);
@@ -2861,7 +2955,7 @@ print(solution$solution)
 
   window.submitScore = async function() {
       const nameInput = document.getElementById('player-name');
-      const name = nameInput ? nameInput.value.trim() || 'Anonymous' : 'Anonymous';
+      const name = (nameInput ? nameInput.value.trim() || 'Anonymous' : 'Anonymous').slice(0, 24);
       const score = window.rhythmScoreValue || 0;
       try {
           const res = await fetch('/api/leaderboard', {
@@ -2895,10 +2989,10 @@ print(solution$solution)
       try {
           const res = await fetch('/api/guestbook');
           const entries = await res.json();
-          list.innerHTML = '';
+          list.textContent = '';
           
-          if(entries.length === 0) {
-              list.innerHTML = '<div class="opacity-50">No traces found. Be the first.</div>';
+          if(!Array.isArray(entries) || entries.length === 0) {
+              const none = document.createElement('div'); none.className = 'opacity-50'; none.textContent = 'No traces found. Be the first.'; list.appendChild(none);
               return;
           }
 
@@ -2908,12 +3002,16 @@ print(solution$solution)
               const loc = entry.loc !== '??' ? ` [${entry.loc}]` : '';
               
               const row = document.createElement('div');
-              row.innerHTML = `<span class="text-[#888]">${timestamp}${loc}</span> <span class="text-[#4ade80] ml-2">"<span class="text-[var(--ink)]">${entry.text}</span>"</span>`;
+              const meta = document.createElement('span'); meta.className = 'text-[#888]'; meta.textContent = timestamp + String(loc);
+              const quote = document.createElement('span'); quote.className = 'text-[#4ade80] ml-2';
+              const body = document.createElement('span'); body.className = 'text-[var(--ink)]'; body.textContent = String(entry.text);
+              quote.append('"', body, '"');
+              row.append(meta, ' ', quote);
               list.appendChild(row);
           });
           list.scrollTop = 0;
       } catch(e) {
-          list.innerHTML = '<div class="text-[#ff0055]">Failed to connect to relay.</div>';
+          list.textContent = ''; const err = document.createElement('div'); err.className = 'text-[#ff0055]'; err.textContent = 'Failed to connect to relay.'; list.appendChild(err);
       }
   }
 
@@ -2921,7 +3019,7 @@ print(solution$solution)
       if(gbLoading) return;
       const input = document.getElementById('gb-input');
       if(!input) return;
-      const text = input.value.trim();
+      const text = input.value.trim().slice(0, 280);
       if(!text) return;
       
       gbLoading = true;
