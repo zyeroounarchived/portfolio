@@ -167,12 +167,13 @@
   
   .hero-title{ font-family:'Cormorant Garamond',Georgia,serif; font-weight:400; font-style:italic; letter-spacing:-0.045em; line-height:1.05 !important; font-size:clamp(3.6rem,7.5vw,7.5rem); }
   .hero-window{ position:relative; isolation:isolate; overflow:hidden; }
-  .hero-window::before{ content:''; position:absolute; inset:0; z-index:1; pointer-events:none; background:
-    radial-gradient(ellipse at 18% 35%, color-mix(in srgb,var(--gold) 13%,transparent), transparent 46%),
-    radial-gradient(ellipse at 82% 70%, color-mix(in srgb,var(--ink) 9%,transparent), transparent 52%);
-    opacity:0.72; filter:blur(18px); transform:scale(1.08); animation:heroFogLift 2.8s cubic-bezier(.2,.8,.2,1) forwards; }
+  .hero-window::before{ content:''; position:absolute; inset:-4%; z-index:1; pointer-events:none; background:
+    linear-gradient(115deg, color-mix(in srgb,var(--gold) 11%,transparent), transparent 38%, color-mix(in srgb,var(--ink) 13%,transparent) 78%, transparent),
+    radial-gradient(ellipse at 18% 35%, color-mix(in srgb,var(--gold) 24%,transparent), transparent 48%),
+    radial-gradient(ellipse at 82% 70%, color-mix(in srgb,var(--ink) 18%,transparent), transparent 54%);
+    opacity:0.92; filter:blur(22px); transform:scale(1.08); animation:heroFogLift 4.2s cubic-bezier(.2,.8,.2,1) forwards; }
   .hero-window > .container-w{ position:relative; z-index:2; }
-  @keyframes heroFogLift{ 0%{ opacity:0.72; transform:scale(1.08); } 100%{ opacity:0; transform:scale(1); } }
+  @keyframes heroFogLift{ 0%{ opacity:0.92; transform:scale(1.08); } 100%{ opacity:0; transform:scale(1); } }
   @media (hover:none) and (pointer:coarse){
     .hero-window::after{ content:''; position:absolute; inset:0; z-index:1; pointer-events:none; background:radial-gradient(circle at var(--fog-x,50%) var(--fog-y,50%), transparent 0 4.5rem, color-mix(in srgb,var(--void) 16%,transparent) 12rem); opacity:0; transition:opacity .7s ease; }
     .hero-window.fog-touched::after{ opacity:1; }
@@ -180,7 +181,8 @@
   .hero-initial{ font-family:'Pinyon Script',cursive; font-size:1.65em; font-weight:400; letter-spacing:0; color:var(--gold) !important; -webkit-text-fill-color:var(--gold) !important; display:inline-block; padding:0.32em 0.48em; margin:-0.32em -0.32em -0.32em -0.48em; vertical-align:bottom; line-height:0.8; }
   #typewriter-rest{ display:inline-block; letter-spacing:-0.055em; }
   
-  .hero-cross{ font-size:0.3em; vertical-align:-0.08em; margin-left:-0.28em; margin-right:0.05em; display:inline-block; }
+  .hero-title{ padding-right:0.22em; }
+  .hero-cross{ font-size:0.24em; vertical-align:-0.02em; margin-left:-0.04em; margin-right:0.16em; display:inline-block; }
   
   .type-cursor::after {
       content: ''; display: inline-block; width: 3px; height: 0.8em; background-color: var(--gold);
@@ -573,7 +575,8 @@
     .slide-drawer { padding:3.5rem 1.25rem 4rem !important; }
     .terminal-window { padding: 1rem !important; width: 95vw !important; max-width: 95vw !important; }
     .terminal-window pre { font-size: 0.7rem !important; }
-    .hero-title { font-size:clamp(3rem,12vw,4.6rem) !important; line-height:1 !important; }
+    .hero-title { font-size:clamp(3rem,12vw,4.6rem) !important; line-height:1 !important; padding-right:0.12em; }
+    .hero-cross { font-size:0.22em; margin-right:0.2em; }
     .hero-initial { font-size:1.45em; padding:0.12em 0.2em; margin:-0.12em -0.1em -0.12em -0.2em; }
     .h-sub { font-size: clamp(1.8rem, 8vw, 2.6rem) !important; }
     .hero-intro, .certificates-intro, .contact-intro { font-size:0.98rem !important; line-height:1.7 !important; }
