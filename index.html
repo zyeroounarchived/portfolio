@@ -31,7 +31,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Allura&family=Pinyon+Script&family=Cinzel:wght@500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Newsreader:ital,wght@0,300;0,400;1,400&family=Space+Mono:wght@400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Allura&family=Manrope:wght@300;400;500;600;700&family=Pinyon+Script&family=Cinzel:wght@500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Space+Mono:wght@400&display=swap" rel="stylesheet">
 
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
@@ -66,12 +66,14 @@
   ::-webkit-scrollbar { display: none; width: 0; height: 0; }
 
   body{
-    background:var(--void); color:var(--ink); font-family:'Newsreader', serif; font-weight:300;
+    background:var(--void); color:var(--ink); font-family:'Avenir Next','Avenir','Manrope',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; font-weight:400;
     -webkit-font-smoothing:antialiased; transition:background-color .4s ease, color .4s ease; overflow-x: hidden;
     text-shadow: 0 0 1px color-mix(in srgb, currentColor 15%, transparent);
   }
   
   h1, h2, h3, h4, .h-display, .h-sub { text-shadow: 0 0 16px color-mix(in srgb, currentColor 25%, transparent); }
+  body .font-serif { font-family:'Avenir Next','Avenir','Manrope',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif !important; }
+  body .font-mono { font-family:'Space Mono',monospace !important; }
   ::selection{ background:var(--ink); color:var(--void); }
   a{ color:inherit; text-decoration:none; }
 
@@ -104,7 +106,8 @@
   .dossier-index { display: block; margin-bottom: 0.9rem; color: var(--gold); font-family: 'Space Mono', monospace; font-size: 0.68rem; letter-spacing: 0.18em; opacity: 0.8; }
   .dossier-heading-rule { width: 4.5rem; height: 1px; margin-top: 1.5rem; background: var(--gold); transform: scaleX(0); transform-origin: left; opacity: 0.75; }
   .dossier-copy p { max-width: 38rem; }
-  .dossier-copy p:first-of-type::first-letter { float: left; margin: 0.08em 0.16em 0 0; color: var(--gold); font-family: 'Pinyon Script', cursive; font-size: 4.2em; line-height: 0.72; }
+  .dossier-copy > .dossier-opening::first-letter { float: left; margin: 0.12em 0.2em 0 0; color: var(--gold); font-family: 'Pinyon Script', cursive; font-size: 3.5em; line-height: 0.78; }
+  .editorial-opening::first-letter { float: left; margin: 0.1em 0.16em 0 0; color: var(--gold); font-family: 'Pinyon Script', cursive; font-size: 2.7em; line-height: 0.78; }
   .dossier-reveal { will-change: transform, opacity; }
   .tool-icon { position: relative; }
   .tool-icon::after { content: attr(data-tooltip); position: absolute; left: 50%; bottom: calc(100% + 0.7rem); z-index: 20; width: max-content; max-width: 12rem; padding: 0.4rem 0.6rem; border: 1px solid var(--line); border-radius: 2px; background: var(--void); color: var(--ink); font-family: 'Space Mono', monospace; font-size: 0.62rem; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0; pointer-events: none; transform: translate(-50%, 0.35rem); transition: opacity 0.2s ease, transform 0.2s ease; }
@@ -113,7 +116,7 @@
   #scroll-progress { position: fixed; top: 0; left: 0; width: 100%; height: 2px; z-index: 1100; pointer-events: none; background: transparent; }
   #scroll-progress span { display: block; width: 0; height: 100%; background: var(--gold); opacity: 0.7; transform-origin: left; }
   body.reading-mode .dossier-copy, body.reading-mode .drawer-reading-content { max-width: 54rem; }
-  body.reading-mode .dossier-copy p, body.reading-mode .drawer-reading-content { font-size: 1.18rem; line-height: 2; }
+  body.reading-mode .dossier-copy p, body.reading-mode .drawer-reading-content { font-size: 1.08rem; line-height: 1.9; }
   .reading-toggle { color: var(--dim); background: transparent; border: 0; cursor: pointer; font-family: 'Space Mono', monospace; font-size: 0.65rem; letter-spacing: 0.12em; padding: 0.35rem; }
   .reading-toggle[aria-pressed="true"] { color: var(--gold); }
   .section-link, .drawer-reading-time { color: var(--dim); font-family: 'Space Mono', monospace; font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; }
@@ -146,7 +149,7 @@
 
   .h-display{ font-family:'Cormorant Garamond', serif; font-weight:300; letter-spacing:-0.03em; }
   
-  .hero-title{ font-family:'Avenir Next','Avenir',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Helvetica,Arial,sans-serif; font-weight:500; letter-spacing:-0.045em; line-height: 1.2 !important; font-size: clamp(3.2rem, 7vw, 7rem); }
+  .hero-title{ font-family:'Avenir Next','Avenir','Manrope',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Helvetica,Arial,sans-serif; font-weight:500; letter-spacing:-0.045em; line-height: 1.2 !important; font-size: clamp(3.2rem, 7vw, 7rem); }
   .hero-initial{ font-family:'Pinyon Script', cursive; font-size:1.45em; letter-spacing:0; display: inline-block; padding: 0.4em 0.5em 0.4em 0.5em; margin: -0.4em -0.35em -0.4em -0.5em; vertical-align:bottom; line-height: 1; }
   #typewriter-rest{ display:inline-block; letter-spacing:-0.055em; }
   
@@ -225,8 +228,8 @@
   .proj-num { font-family:'Space Mono',monospace; color:var(--gold); font-size:1.15rem; line-height:1.2; opacity: 0.9; margin-bottom: 0.35rem;}
   .proj-cat { font-family:'Space Mono',monospace; color:var(--gold); font-size:0.75rem; text-transform: uppercase; letter-spacing: 0.15em; line-height:1.5; opacity: 0.7;}
   .proj-info-center { display: flex; flex-direction: column; width: 55%; flex-grow: 1; padding-right: 2rem;}
-  .proj-title { font-family:'Cormorant Garamond', serif; font-size: 2.3rem; color:var(--ink); margin-bottom: 0.75rem; line-height: 1.1; font-weight: 400;}
-  .proj-desc { font-family:'Newsreader', serif; color:var(--dim); font-size:1.05rem; line-height: 1.6; }
+  .proj-title { font-family:'Cormorant Garamond', serif; font-size: 2rem; color:var(--ink); margin-bottom: 0.75rem; line-height: 1.1; font-weight: 400;}
+  .proj-desc { font-family:'Avenir Next','Avenir','Manrope',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; color:var(--dim); font-size:0.98rem; line-height: 1.6; }
   .proj-action-right { width: 25%; display: flex; flex-direction: column; align-items: flex-end; justify-content: center; flex-shrink: 0;}
   
   @media (max-width: 1024px) {
@@ -467,7 +470,7 @@
   #vn-overlay.active { opacity: 1; pointer-events: auto; }
   #vn-dialogue-box { position: absolute; bottom: 3rem; left: 50%; transform: translateX(-50%); width: 90%; max-width: 900px; background: rgba(15,13,18,0.85); border: 2px solid var(--gold); border-radius: 8px; padding: 2.5rem; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); box-shadow: 0 20px 50px rgba(0,0,0,0.8); cursor: pointer; }
   #vn-name { font-family: 'Space Mono', monospace; color: var(--gold); font-size: 1.2rem; margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.1em; }
-  #vn-text { font-family: 'Newsreader', serif; font-size: 1.5rem; color: #fff; line-height: 1.6; min-height: 4.8rem; }
+  #vn-text { font-family:'Avenir Next','Avenir','Manrope',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; font-size: 1.15rem; color: #fff; line-height: 1.7; min-height: 4.8rem; }
   #vn-next { position: absolute; bottom: 1.5rem; right: 2rem; color: var(--gold); font-family: 'Space Mono'; animation: bounceX 1s infinite; }
   @keyframes bounceX { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(5px); } }
 
@@ -547,6 +550,9 @@
   .slide-drawer .terminal-window { width: 100% !important; max-width: 100% !important; min-width: 0; }
   .slide-drawer .terminal-window pre { overflow-x: auto; max-width: 100%; }
   .slide-drawer h2 { padding-right: 3.5rem; }
+  .slide-drawer h2 { font-size: 2.25rem !important; }
+  .slide-drawer > [class*="text-[var(--dim)]"] { font-size: 1rem !important; line-height: 1.75 !important; }
+  .cert-title { font-size: 1.05rem !important; }
   .slide-drawer { overflow-x: hidden; }
 </style>
 </head>
@@ -668,7 +674,7 @@
       <span class="hero-initial">N</span><span id="typewriter-rest"></span><span class="type-cursor" style="height:0.8em; vertical-align:middle; -webkit-text-fill-color: var(--gold);"></span>
     </h1>
 
-    <p class="mx-0 max-w-2xl text-[1.15rem] leading-[1.8] text-[var(--dim)] font-serif italic anim-fade mb-12 vn-readable decay-target">
+    <p class="mx-0 max-w-2xl text-[1.05rem] leading-[1.75] text-[var(--dim)] font-serif italic anim-fade mb-12 vn-readable decay-target">
       "<span class="magnify-text">I clean data,</span> <span class="magnify-text">document it clearly,</span> <span class="magnify-text">and build tools to analyze it.</span> <span class="magnify-text">No extra polish—</span><span class="magnify-text">just work you can repeat and hand off.</span>"
     </p>
 
@@ -712,13 +718,13 @@
       <div class="dossier-heading-wrap">
         <span class="dossier-index">01 / DOSSIER</span>
         <p class="label mb-6">Section I — The Dossier <span class="text-[var(--gold)] opacity-50 ml-2">✠</span></p>
-        <h2 class="h-sub mb-10 ink-bleed" style="font-size:clamp(3rem,5vw,4rem);">On working with real, unglamorous data.</h2>
+        <h2 class="h-sub mb-10 ink-bleed" style="font-size:clamp(2.6rem,4.5vw,3.5rem);">On working with real, unglamorous data.</h2>
         <div class="dossier-heading-rule" aria-hidden="true"></div>
       </div>
-      <p class="dossier-reveal text-[var(--dim)] leading-[1.9] text-[1.3rem] mb-8 font-serif vn-readable decay-target">
+      <p class="dossier-reveal dossier-opening text-[var(--dim)] leading-[1.85] text-[1.1rem] mb-8 font-serif vn-readable decay-target">
         Most of what I've built comes from real assignments: NGO applicant records, cost sheets, and audits. I like the careful parts of the job: checking columns, fixing messy inputs, and turning large tables into clear numbers.
       </p>
-      <p class="dossier-reveal text-[var(--dim)] leading-[1.9] text-[1.3rem] font-serif mb-12 vn-readable decay-target">
+      <p class="dossier-reveal text-[var(--dim)] leading-[1.85] text-[1.1rem] font-serif mb-12 vn-readable decay-target">
         Every project has a repeatable process and clear notes, so someone else can pick it up.
       </p>
       
@@ -745,63 +751,63 @@
       
       <div class="skills-list" id="skills-container">
         <div class="skill-row" data-prof="75" data-freq="90">
-          <div class="flex w-full justify-between items-center font-serif text-[1.3rem] text-[var(--ink)] mb-4">
+          <div class="flex w-full justify-between items-center font-serif text-[1.05rem] text-[var(--ink)] mb-4">
             <span class="pr-4">Python Environment</span>
             <span class="label text-[var(--gold)] shrink-0 !text-[0.7rem]">Active</span>
           </div>
           <div class="skill-track"><div class="skill-fill"></div></div>
         </div>
         <div class="skill-row" data-prof="65" data-freq="80">
-          <div class="flex w-full justify-between items-center font-serif text-[1.3rem] text-[var(--ink)] mb-4">
+          <div class="flex w-full justify-between items-center font-serif text-[1.05rem] text-[var(--ink)] mb-4">
             <span class="pr-4">SQL Queries & Architecture</span>
             <span class="label text-[var(--gold)] shrink-0 !text-[0.7rem]">Operational</span>
           </div>
           <div class="skill-track"><div class="skill-fill"></div></div>
         </div>
         <div class="skill-row" data-prof="50" data-freq="40">
-          <div class="flex w-full justify-between items-center font-serif text-[1.3rem] text-[var(--ink)] mb-4">
+          <div class="flex w-full justify-between items-center font-serif text-[1.05rem] text-[var(--ink)] mb-4">
             <span class="pr-4">R Modeling & Stats</span>
             <span class="label text-[var(--gold)] shrink-0 !text-[0.7rem]">Developing</span>
           </div>
           <div class="skill-track"><div class="skill-fill"></div></div>
         </div>
         <div class="skill-row" data-prof="88" data-freq="95">
-          <div class="flex w-full justify-between items-center font-serif text-[1.3rem] text-[var(--ink)] mb-4">
+          <div class="flex w-full justify-between items-center font-serif text-[1.05rem] text-[var(--ink)] mb-4">
             <span class="pr-4">Spreadsheet Architecture</span>
             <span class="label text-[var(--gold)] shrink-0 !text-[0.7rem]">Advanced</span>
           </div>
           <div class="skill-track"><div class="skill-fill"></div></div>
         </div>
         <div class="skill-row" data-prof="60" data-freq="70">
-          <div class="flex w-full justify-between items-center font-serif text-[1.3rem] text-[var(--ink)] mb-4">
+          <div class="flex w-full justify-between items-center font-serif text-[1.05rem] text-[var(--ink)] mb-4">
             <span class="pr-4">Japanese</span>
             <span class="label text-[var(--gold)] shrink-0 !text-[0.7rem]">Intermediate</span>
           </div>
           <div class="skill-track"><div class="skill-fill"></div></div>
         </div>
         <div class="skill-row" data-prof="45" data-freq="50">
-          <div class="flex w-full justify-between items-center font-serif text-[1.3rem] text-[var(--ink)] mb-4">
+          <div class="flex w-full justify-between items-center font-serif text-[1.05rem] text-[var(--ink)] mb-4">
             <span class="pr-4">Machine Learning</span>
             <span class="label text-[var(--gold)] shrink-0 !text-[0.7rem]">Developing</span>
           </div>
           <div class="skill-track"><div class="skill-fill"></div></div>
         </div>
         <div class="skill-row" data-prof="40" data-freq="35">
-          <div class="flex w-full justify-between items-center font-serif text-[1.3rem] text-[var(--ink)] mb-4">
+          <div class="flex w-full justify-between items-center font-serif text-[1.05rem] text-[var(--ink)] mb-4">
             <span class="pr-4">Tableau / Visualization</span>
             <span class="label text-[var(--gold)] shrink-0 !text-[0.7rem]">Learning</span>
           </div>
           <div class="skill-track"><div class="skill-fill"></div></div>
         </div>
         <div class="skill-row" data-prof="40" data-freq="20">
-          <div class="flex w-full justify-between items-center font-serif text-[1.3rem] text-[var(--ink)] mb-4">
+          <div class="flex w-full justify-between items-center font-serif text-[1.05rem] text-[var(--ink)] mb-4">
             <span class="pr-4">French</span>
             <span class="label text-[var(--gold)] shrink-0 !text-[0.7rem]">Novice</span>
           </div>
           <div class="skill-track"><div class="skill-fill"></div></div>
         </div>
         <div class="skill-row" data-prof="30" data-freq="15">
-          <div class="flex w-full justify-between items-center font-serif text-[1.3rem] text-[var(--ink)] mb-4">
+          <div class="flex w-full justify-between items-center font-serif text-[1.05rem] text-[var(--ink)] mb-4">
             <span class="pr-4">German</span>
             <span class="label text-[var(--gold)] shrink-0 !text-[0.7rem]">Novice</span>
           </div>
@@ -818,8 +824,8 @@
   <div class="anim-section flex flex-col justify-center items-center text-center">
     <div class="max-w-3xl mx-auto">
       <p class="label mb-6">Section II — Archives <span class="text-[var(--gold)] opacity-50 ml-2">✠</span></p>
-      <h2 class="h-sub mb-6 ink-bleed" style="font-size:clamp(2.8rem,5vw,3.8rem);">Selected Finished Works.</h2>
-      <p class="text-[var(--dim)] max-w-lg mx-auto font-serif text-[1.25rem] decay-target">Projects I have finished.</p>
+      <h2 class="h-sub mb-6 ink-bleed" style="font-size:clamp(2.5rem,4.5vw,3.4rem);">Selected Finished Works.</h2>
+      <p class="text-[var(--dim)] max-w-lg mx-auto font-serif text-[1.05rem] decay-target">Projects I have finished.</p>
     </div>
     
     <div class="flex flex-wrap justify-center gap-4 w-full max-w-4xl mx-auto mt-8 mb-16 md:mb-28">
@@ -989,8 +995,8 @@
 <section id="certifications" class="container-w py-32 md:py-40">
   <div class="anim-section mb-20 text-center">
     <p class="label mb-6">Section III — Credentials <span class="text-[var(--gold)] opacity-50 ml-2">✠</span></p>
-    <h2 class="h-sub mb-6 ink-bleed" style="font-size:clamp(2.8rem,5vw,3.8rem);">Certificates.</h2>
-    <p class="text-[var(--dim)] max-w-3xl mx-auto font-serif text-[1.3rem] mb-12 decay-target">
+    <h2 class="h-sub mb-6 ink-bleed" style="font-size:clamp(2.5rem,4.5vw,3.4rem);">Certificates.</h2>
+    <p class="text-[var(--dim)] max-w-3xl mx-auto font-serif text-[1.1rem] mb-12 decay-target">
       Certificates I have completed, newest first. Click one to verify it on Coursera.
     </p>
   </div>
@@ -1144,14 +1150,14 @@
 <section id="notes" class="container-w py-32 md:py-40">
   <div class="anim-section mb-20 text-center">
     <p class="label mb-6">Section IV — Field Notes <span class="text-[var(--gold)] opacity-50 ml-2">✠</span></p>
-    <h2 class="h-sub mb-6 ink-bleed" style="font-size:clamp(2.8rem,5vw,3.8rem);">Short Notes.</h2>
+    <h2 class="h-sub mb-6 ink-bleed" style="font-size:clamp(2.5rem,4.5vw,3.4rem);">Short Notes.</h2>
   </div>
   
   <div class="grid md:grid-cols-3 gap-8 md:gap-16">
     <div class="border-t border-[var(--gold)] pt-10 anim-section relative">
       <p class="label !text-[0.7rem] mb-4 text-[var(--gold)] tracking-[0.25em]">CURRENTLY (NOW PAGE)</p>
       <h3 class="text-2xl text-[var(--ink)] font-serif mb-4">What I'm working on</h3>
-      <p class="text-[var(--dim)] text-[1.15rem] leading-[1.8] font-serif vn-readable decay-target">
+      <p class="editorial-opening text-[var(--dim)] text-[1.05rem] leading-[1.75] font-serif vn-readable decay-target">
         Building a B2B lead-generation scraper for Navi Mumbai hotels, fixing my AI resume parser, and studying for the GMAT and JLPT N4.
       </p>
     </div>
@@ -1159,7 +1165,7 @@
     <div class="border-t border-[var(--line)] pt-10 anim-section">
       <p class="label !text-[0.7rem] mb-4 text-[var(--dim)]">2026-04</p>
       <h3 class="text-2xl text-[var(--ink)] font-serif mb-4">On Pearson's Skewness</h3>
-      <p class="text-[var(--dim)] text-[1.15rem] leading-[1.8] font-serif vn-readable decay-target">
+      <p class="editorial-opening text-[var(--dim)] text-[1.05rem] leading-[1.75] font-serif vn-readable decay-target">
         Revisiting business statistics. Working out medians and growth rates by hand helps me understand the formulas before I write SQL for them.
       </p>
     </div>
@@ -1167,7 +1173,7 @@
     <div class="border-t border-[var(--line)] pt-10 anim-section">
       <p class="label !text-[0.7rem] mb-4 text-[var(--dim)]">2026-02</p>
       <h3 class="text-2xl text-[var(--ink)] font-serif mb-4">Linear Optimization in R</h3>
-      <p class="text-[var(--dim)] text-[1.15rem] leading-[1.8] font-serif mb-6 vn-readable decay-target">
+      <p class="text-[var(--dim)] text-[1.05rem] leading-[1.75] font-serif mb-6 vn-readable decay-target">
         Solving linear programming problems with an R package. Setting it up takes longer than solving it.
       </p>
       <button class="btn-ghost hover-trigger" onclick="openDrawer('drawer-r')">View R Snippet</button>
@@ -1181,8 +1187,8 @@
   <div class="ui-card spotlight p-14 md:p-24 grid md:grid-cols-[1.3fr,0.7fr] gap-10 md:gap-20 items-center anim-section">
     <div class="text-center">
       <p class="label mb-6">Section V — Contact <span class="text-[var(--gold)] opacity-50 ml-2">✠</span></p>
-      <h2 class="h-sub mb-8 ink-bleed" style="font-size:clamp(2.8rem,5vw,3.8rem);">Get in touch.</h2>
-      <p class="text-[var(--dim)] leading-[1.9] text-[1.25rem] font-serif mb-14 vn-readable decay-target max-w-2xl mx-auto">
+      <h2 class="h-sub mb-8 ink-bleed" style="font-size:clamp(2.5rem,4.5vw,3.4rem);">Get in touch.</h2>
+      <p class="text-[var(--dim)] leading-[1.85] text-[1.1rem] font-serif mb-14 vn-readable decay-target max-w-2xl mx-auto">
         Open for internships, data analysis work, and data-cleaning projects, especially ones with messy raw data and clear goals.
       </p>
       <div class="flex flex-wrap gap-x-10 gap-y-6 items-center justify-center">
@@ -1191,7 +1197,7 @@
     </div>
     <div class="border-t md:border-t-0 md:border-l border-[var(--line)] pt-14 md:pt-0 md:pl-20 text-center">
       <p class="label mb-10">External Portals</p>
-      <ul class="space-y-8 font-serif text-[1.25rem]">
+      <ul class="space-y-8 font-serif text-[1.1rem]">
         <li><a class="hover:text-[var(--gold)] transition-colors hover-trigger" href="https://www.linkedin.com/in/nabhya52kar/" target="_blank" rel="noopener">LinkedIn Profile ↗</a></li>
         <li><a class="hover:text-[var(--gold)] transition-colors hover-trigger" href="https://github.com/zyeroounarchived" target="_blank" rel="noopener">GitHub Repositories ↗</a></li>
         <li><a class="hover:text-[var(--gold)] transition-colors hover-trigger" href="https://instagram.com/zyeroo.unarchived" target="_blank" rel="noopener">Instagram: zyeroo.unarchived ↗</a></li>
@@ -1612,7 +1618,7 @@ print(solution$solution)</code></pre>
     <p>This portfolio was architected to be heavily interactive while avoiding modern framework fatigue. It is built entirely in a single HTML file without React, Next.js, or heavy bundlers.</p>
     <p><strong>Stack:</strong> Vanilla JavaScript, HTML5, Tailwind CSS via CDN.<br>
        <strong>Motion:</strong> GSAP (GreenSock) for layout animations, custom WebGL/Canvas for the matrix and heatmaps.<br>
-       <strong>Typography:</strong> Newsreader for editorial reading, Cormorant Garamond for display headers, and Space Mono for technical UI elements.</p>
+       <strong>Typography:</strong> Avenir Next or Manrope for interface text, Cormorant Garamond for display headers, and Space Mono for technical UI elements.</p>
     <p>It contains multiple themes (Dark, Light, Coffee, Candle) and over 10 hidden keyboard shortcuts/secrets intended to reward exploration. The design language is an intersection of vintage editorial dark-academia and rigorous software engineering.</p>
   </div>
 </div>
