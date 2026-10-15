@@ -31,7 +31,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Manrope:wght@300;400;500;600;700&family=Space+Mono:wght@400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Allura&family=Cinzel:wght@500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Manrope:wght@300;400;500;600;700&family=Pinyon+Script&family=Space+Mono:wght@400&display=swap" rel="stylesheet">
 
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
@@ -123,8 +123,8 @@
   .dossier-index { display: block; margin-bottom: 0.9rem; color: var(--gold); font-family: 'Space Mono', monospace; font-size: 0.68rem; letter-spacing: 0.18em; opacity: 0.8; }
   .dossier-heading-rule { width: 4.5rem; height: 1px; margin-top: 1.5rem; background: var(--gold); transform: scaleX(0); transform-origin: left; opacity: 0.75; }
   .dossier-copy p { max-width: 38rem; }
-  .dossier-copy > .dossier-opening::first-letter { float: left; margin: 0.12em 0.2em 0 0; color: var(--gold); font-family:'Manrope',sans-serif; font-size: 2.8em; font-weight:600; line-height: 0.85; }
-  .editorial-opening::first-letter { float: left; margin: 0.1em 0.16em 0 0; color: var(--gold); font-family:'Manrope',sans-serif; font-size: 2.2em; font-weight:600; line-height: 0.85; }
+  .dossier-copy > .dossier-opening::first-letter { float:left; margin:0.12em 0.2em 0 0; color:var(--gold); font-family:'Pinyon Script',cursive; font-size:3.5em; line-height:0.78; }
+  .editorial-opening::first-letter { float:left; margin:0.1em 0.16em 0 0; color:var(--gold); font-family:'Pinyon Script',cursive; font-size:2.7em; line-height:0.78; }
   .dossier-reveal { will-change: transform, opacity; }
   .tool-icon { position: relative; }
   .tool-icon::after { content: attr(data-tooltip); position: absolute; left: 50%; bottom: calc(100% + 0.7rem); z-index: 20; width: max-content; max-width: 12rem; padding: 0.4rem 0.6rem; border: 1px solid var(--line); border-radius: 2px; background: var(--void); color: var(--ink); font-family: 'Space Mono', monospace; font-size: 0.62rem; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0; pointer-events: none; transform: translate(-50%, 0.35rem); transition: opacity 0.2s ease, transform 0.2s ease; }
@@ -163,10 +163,10 @@
   .ink-bleed { transition: color 0.4s ease, filter 0.4s ease, text-shadow 0.4s ease; cursor: default; }
   .ink-bleed:hover { color: transparent; text-shadow: 0 0 16px var(--ink); filter: blur(1.5px); }
 
-  .h-display{ font-family:'Avenir Next','Avenir','Manrope',sans-serif; font-weight:500; letter-spacing:-0.045em; }
+  .h-display{ font-family:'Cormorant Garamond',Georgia,serif; font-weight:400; letter-spacing:-0.035em; }
   
-  .hero-title{ font-family:'Avenir Next','Avenir','Manrope',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Helvetica,Arial,sans-serif; font-weight:500; letter-spacing:-0.045em; line-height: 1.2 !important; font-size: clamp(3.2rem, 7vw, 7rem); }
-  .hero-initial{ font-family:'Avenir Next','Avenir','Manrope',sans-serif; font-size:1em; font-weight:600; letter-spacing:-0.045em; display:inline-block; padding:0; margin:0; vertical-align:baseline; line-height:1; }
+  .hero-title{ font-family:'Cormorant Garamond',Georgia,serif; font-weight:400; font-style:italic; letter-spacing:-0.045em; line-height:1.05 !important; font-size:clamp(3.6rem,7.5vw,7.5rem); }
+  .hero-initial{ font-family:'Pinyon Script',cursive; font-size:1.45em; font-weight:400; letter-spacing:0; display:inline-block; padding:0.4em 0.5em; margin:-0.4em -0.35em -0.4em -0.5em; vertical-align:bottom; line-height:1; }
   #typewriter-rest{ display:inline-block; letter-spacing:-0.055em; }
   
   .hero-cross{ font-size:0.3em; vertical-align:-0.08em; margin-left:-0.28em; margin-right:0.05em; display:inline-block; }
@@ -182,10 +182,12 @@
   
   @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; } }
   a:focus-visible, button:focus-visible, [role="button"]:focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; border-radius: 4px; }
-  .h-sub{ font-family:'Avenir Next','Avenir','Manrope',sans-serif; font-weight:500; font-style:normal; letter-spacing:-0.04em; }
+  .h-sub{ font-family:'Cormorant Garamond',Georgia,serif; font-weight:400; font-style:italic; letter-spacing:-0.035em; }
+  .contact-title{ font-family:'Cormorant Garamond',Georgia,serif; font-style:italic; font-weight:400; letter-spacing:-0.04em; }
 
-  .font-gothic-accent{ font-family:'Avenir Next','Avenir','Manrope',sans-serif; letter-spacing:0.01em; font-weight:600; }
-  .font-calligraphy-accent{ font-family:'Avenir Next','Avenir','Manrope',sans-serif; letter-spacing:0.01em; font-weight:500; }
+  .font-gothic-accent{ font-family:'Cinzel',Georgia,serif; letter-spacing:0.01em; font-weight:500; }
+  .font-calligraphy-accent{ font-family:'Allura',cursive; letter-spacing:0.01em; font-weight:400; }
+  .footer-signature{ font-family:'Pinyon Script',cursive; font-size:3.4rem; line-height:0.9; letter-spacing:0.01em; }
 
   .katakana-swap { display: inline-block; position: relative; }
   .katakana-swap::after { content: attr(data-jp); position: absolute; left: 0; top: 0; opacity: 0; transition: opacity 0.3s ease; color: var(--gold); }
@@ -224,12 +226,14 @@
   .btn-ghost{ font-family:'Space Mono', monospace; font-size:0.8rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--dim); background: transparent; appearance: none; -webkit-appearance: none; border: none; border-bottom: 1px solid var(--line); padding-bottom:6px; transition:color .3s ease, border-color .3s ease, transform .3s ease; display:inline-flex; align-items: center; justify-content: center; cursor: pointer; }
   .btn-ghost:hover{ color:var(--ink); border-bottom-color:var(--gold); }
 
-  .sort-btn{ font-family:'Avenir Next','Avenir','Manrope',sans-serif; font-size:0.75rem; font-weight:600; letter-spacing:0.08em; text-transform:uppercase; color:var(--dim); border:1px solid var(--line); background:transparent; padding:0.65rem 0.95rem; min-width:9.25rem; border-radius:999px; cursor:pointer; text-align:center; transition:color .25s ease, border-color .25s ease, background-color .25s ease, transform .2s ease; appearance: none; -webkit-appearance: none; }
+  .sort-btn{ font-family:'Avenir Next','Avenir','Manrope',sans-serif; font-size:0.7rem; font-weight:600; letter-spacing:0.08em; text-transform:uppercase; color:var(--dim); border:1px solid var(--line); background:transparent; padding:0.65rem 1rem; min-width:8.5rem; border-radius:999px; cursor:pointer; text-align:center; transition:color .25s ease, border-color .25s ease, background-color .25s ease, transform .2s ease; appearance:none; -webkit-appearance:none; }
   .sort-btn:hover{ color:var(--ink); border-color:var(--gold); transform:translateY(-1px); }
   .sort-btn.active{ color:var(--void); background:var(--gold); border-color:var(--gold); }
-  .sort-meta{ font-family:'Avenir Next','Avenir','Manrope',sans-serif; font-size:0.72rem; font-weight:600; letter-spacing:0.08em; text-transform:uppercase; color:var(--gold); line-height:1; opacity:0.9; }
-  .sort-controls{ display:flex; align-items:center; justify-content:center; flex-wrap:wrap; gap:0.6rem; }
-  .sort-controls .sort-meta{ margin-right:0.2rem; transform:translateY(1px); }
+  .sort-meta{ font-family:'Space Mono',monospace; font-size:0.62rem; font-weight:400; letter-spacing:0.14em; text-transform:uppercase; color:var(--gold); line-height:1; opacity:0.9; }
+  .sort-controls{ display:flex; align-items:center; justify-content:center; flex-wrap:wrap; gap:0.55rem; padding:0.4rem; border:1px solid var(--line); border-radius:999px; }
+  .sort-controls .sort-meta{ margin:0 0.3rem 0 0.45rem; transform:translateY(1px); }
+  .filter-controls{ display:flex; flex-wrap:wrap; justify-content:center; gap:0.5rem; padding:0.5rem; border:1px solid var(--line); border-radius:0.5rem; background:color-mix(in srgb, var(--ink) 2%, transparent); }
+  .filter-controls .sort-btn{ min-width:auto; }
 
   .ui-card{ position:relative; border:1px solid var(--line); padding:4rem; background:var(--card-bg); border-radius: 4px; transition:border-color .5s ease, box-shadow .5s ease; overflow: hidden; }
   .spotlight::before { content:''; position:absolute; inset:0; pointer-events:none; background:radial-gradient(800px circle at var(--mouse-x) var(--mouse-y), rgba(209,183,148,0.06), transparent 40%); opacity:0; transition:opacity 0.5s ease; z-index: 0; }
@@ -244,7 +248,7 @@
   .proj-num { font-family:'Space Mono',monospace; color:var(--gold); font-size:1.15rem; line-height:1.2; opacity: 0.9; margin-bottom: 0.35rem;}
   .proj-cat { font-family:'Space Mono',monospace; color:var(--gold); font-size:0.75rem; text-transform: uppercase; letter-spacing: 0.15em; line-height:1.5; opacity: 0.7;}
   .proj-info-center { display: flex; flex-direction: column; width: 55%; flex-grow: 1; padding-right: 2rem;}
-  .proj-title { font-family:'Avenir Next','Avenir','Manrope',sans-serif; font-size:1.7rem; color:var(--ink); margin-bottom:0.75rem; line-height:1.2; font-weight:600; letter-spacing:-0.03em;}
+  .proj-title { font-family:'Cormorant Garamond',Georgia,serif; font-size:2rem; color:var(--ink); margin-bottom:0.75rem; line-height:1.05; font-weight:400; letter-spacing:-0.025em;}
   .proj-desc { font-family:'Avenir Next','Avenir','Manrope',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; color:var(--dim); font-size:0.98rem; line-height: 1.6; }
   .proj-action-right { width: 25%; display: flex; flex-direction: column; align-items: flex-end; justify-content: center; flex-shrink: 0;}
   
@@ -557,8 +561,8 @@
     .slide-drawer { padding:3.5rem 1.25rem 4rem !important; }
     .terminal-window { padding: 1rem !important; width: 95vw !important; max-width: 95vw !important; }
     .terminal-window pre { font-size: 0.7rem !important; }
-    .hero-title { font-size: clamp(2.5rem, 10vw, 4rem) !important; }
-    .hero-initial { font-size:1em; padding:0; margin:0; }
+    .hero-title { font-size:clamp(3rem,12vw,4.6rem) !important; line-height:1 !important; }
+    .hero-initial { font-size:1.25em; padding:0.1em 0.2em; margin:-0.1em -0.1em -0.1em -0.2em; }
     .h-sub { font-size: clamp(1.8rem, 8vw, 2.6rem) !important; }
     .hero-intro, .certificates-intro, .contact-intro { font-size:0.98rem !important; line-height:1.7 !important; }
     .dossier-copy .vn-readable { font-size:0.86rem !important; line-height:1.75 !important; }
@@ -570,8 +574,10 @@
     .grid.gap-16 { gap:3.5rem; }
     .mb-28 { margin-bottom: 3rem; }
     .mt-24 { margin-top: 3rem; }
-    .sort-btn { min-width: auto !important; padding: 0.5rem 1rem !important; font-size: 0.75rem !important; }
+    .sort-btn { min-width:auto !important; padding:0.5rem 0.8rem !important; font-size:0.68rem !important; }
     .sort-controls { gap: 0.4rem; }
+    .sort-controls .sort-meta { flex-basis:100%; margin:0.2rem 0 0.15rem; text-align:center; }
+    .filter-controls { width:100%; gap:0.35rem; }
     .data-preview-table { font-size: 0.7rem; }
     .data-preview-table th, .data-preview-table td { padding: 0.5rem; }
     #btt-btn { bottom: 1rem; right: 1rem; }
@@ -866,7 +872,7 @@
       <p class="text-[var(--dim)] max-w-lg mx-auto font-serif text-[1.05rem] decay-target">Projects I have finished.</p>
     </div>
     
-    <div class="flex flex-wrap justify-center gap-4 w-full max-w-4xl mx-auto mt-8 mb-16 md:mb-28">
+    <div class="filter-controls w-full max-w-4xl mx-auto mt-8 mb-16 md:mb-28">
       <button class="filter-btn sort-btn active !bg-[var(--gold)] !text-[var(--void)] hover-trigger" data-filter="all">All</button>
       <button class="filter-btn sort-btn hover-trigger" data-filter="sql">Data / SQL</button>
       <button class="filter-btn sort-btn hover-trigger" data-filter="ai-ml">AI/ML</button>
@@ -1225,7 +1231,7 @@
   <div class="ui-card spotlight p-14 md:p-24 grid md:grid-cols-[1.3fr,0.7fr] gap-10 md:gap-20 items-center anim-section">
     <div class="contact-card-copy">
       <p class="label mb-6">Section V — Contact <span class="text-[var(--gold)] opacity-50 ml-2">✠</span></p>
-      <h2 class="h-sub mb-8 ink-bleed" style="font-size:clamp(2.5rem,4.5vw,3.4rem);">Get in touch.</h2>
+      <h2 class="h-sub contact-title mb-8 ink-bleed" style="font-size:clamp(2.5rem,4.5vw,3.4rem);">Get in touch.</h2>
       <p class="contact-intro text-[var(--dim)] leading-[1.85] text-[1.1rem] mb-14 vn-readable decay-target max-w-2xl mx-auto">
         Open for internships, data analysis work, and data-cleaning projects, especially ones with messy raw data and clear goals.
       </p>
@@ -1256,7 +1262,7 @@
       </svg>
     </div>
     <div>
-      <p class="h-sub font-calligraphy-accent text-4xl text-[var(--ink)] mb-2">Nabhya Bawankar</p>
+      <p class="footer-signature text-[var(--ink)] mb-2">Nabhya Bawankar</p>
       <p class="label !text-[0.7rem] text-[var(--dim)]">Built with Vanilla JS, GSAP, Tailwind <span class="text-[var(--gold)]">✠</span></p>
     </div>
     <div class="w-full flex flex-col items-center mt-6 mb-2">
