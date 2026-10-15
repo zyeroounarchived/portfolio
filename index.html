@@ -1102,7 +1102,7 @@
       <p class="label !text-[0.7rem] mb-4 text-[var(--gold)] tracking-[0.25em]">CURRENTLY (NOW PAGE)</p>
       <h3 class="text-2xl text-[var(--ink)] font-serif mb-4">What I'm working on</h3>
       <p class="text-[var(--dim)] text-[1.15rem] leading-[1.8] font-serif vn-readable decay-target">
-        Learning C++, reading about non-Euclidean geometry, and writing scripts for club plays.
+        Deep-diving into C++ for systems programming, exploring non-Euclidean geometry, and actively avoiding web framework fatigue. Writing scripts for upcoming club theatricals.
       </p>
     </div>
 
@@ -1752,10 +1752,10 @@ print(solution$solution)
     { title: 'Contact / Socials', type: 'Section', desc: 'Get in touch or find social links.', action: () => scrollToTarget('#contact') },
 
     { title: 'NGO Applicant Records', type: 'Case Study', desc: 'Standardized and scrubbed 350 applicant records, resolving data corruption.', action: () => openDrawer('drawer-ngo') },
-    { title: 'Quick-Commerce Strategy', type: 'Case Study', desc: 'Game theory model of Blinkit vs Zepto, solved in Python.', action: () => openDrawer('drawer-matrix') },
-    { title: 'Credit Card Fraud Detection', type: 'Case Study', desc: 'SMOTE and logistic regression on 284k transactions, 0.17% fraud.', action: () => openDrawer('drawer-fraud') },
-    { title: 'Data Deduplication Pipeline', type: 'Case Study', desc: 'Finds and merges duplicate leads in Neon Postgres.', action: () => openDrawer('drawer-dedup') },
-    { title: 'Spatial Real Estate Heatmap', type: 'Case Study', desc: 'Navi Mumbai listings map with a radius filter, average price and an R² of price against distance.', action: () => openDrawer('drawer-heatmap') },
+    { title: 'Quick-Commerce Strategy', type: 'Case Study', desc: 'Game theory applied to Blinkit, Zepto, and Swiggy Instamart competitive dynamics.', action: () => openDrawer('drawer-matrix') },
+    { title: 'Credit Card Fraud Detection', type: 'Case Study', desc: 'SMOTE on a 0.17% fraud rate across 284k cases to stabilize model accuracy.', action: () => openDrawer('drawer-fraud') },
+    { title: 'Data Deduplication Pipeline', type: 'Case Study', desc: 'SQLAlchemy + Neon Postgres with Jaro-Winkler similarity to merge fuzzy duplicates.', action: () => openDrawer('drawer-dedup') },
+    { title: 'Spatial Real Estate Heatmap', type: 'Case Study', desc: 'Interactive Navi Mumbai density dashboard with dynamic radius filtering.', action: () => openDrawer('drawer-heatmap') },
     { title: "The Art of Giving Up", type: 'Essay', desc: 'Quitting as an act of authentic alignment rather than defeat.', action: () => openDrawer('drawer-giving-up') },
     { title: 'An Essay on Constitutional Erosion', type: 'Essay', desc: 'Fundamental Rights, Directive Principles, and the Puttaswamy judgment.', action: () => openDrawer('drawer-constitution') },
     { title: 'Linear Optimization in R', type: 'Note', desc: 'Solving linear programming matrices with R optimization packages.', action: () => openDrawer('drawer-r') },
@@ -1972,7 +1972,9 @@ print(solution$solution)
     const container = btn.closest('.terminal-window');
     const pre = container ? container.querySelector('pre') : null;
     if(pre) {
-      navigator.clipboard.writeText(pre.innerText).then(() => showToast('Source code copied to clipboard.'));
+      navigator.clipboard.writeText(pre.innerText)
+        .then(() => showToast('Source code copied to clipboard.'))
+        .catch(() => showToast('Clipboard access unavailable.'));
     }
   };
 
@@ -2936,17 +2938,10 @@ print(solution$solution)
           const scores = await res.json();
           const list = document.getElementById('leaderboard-list');
           if(list) {
-              list.textContent = '';
-              if(!Array.isArray(scores) || !scores.length) {
-                  const empty = document.createElement('li'); empty.textContent = 'No scores yet. Be the first!'; list.appendChild(empty);
-              } else {
-                  scores.forEach((entry, index) => {
-                      const li = document.createElement('li'); li.className = 'flex justify-between px-4';
-                      const left = document.createElement('span'); left.textContent = '#' + (index + 1) + ' ' + String(entry.name).slice(0, 24);
-                      const right = document.createElement('span'); right.className = 'text-[var(--gold)]'; right.textContent = (Number(entry.score) || 0) + ' pts';
-                      li.append(left, right); list.appendChild(li);
-                  });
-              }
+              list.innerHTML = scores.length ? '' : '<li>No scores yet. Be the first!</li>';
+              scores.forEach((entry, index) => {
+                  list.innerHTML += `<li class="flex justify-between px-4"><span>#${index + 1} ${entry.name}</span> <span class="text-[var(--gold)]">${entry.score} pts</span></li>`;
+              });
           }
       } catch (e) {
           console.error('Failed to load leaderboard', e);
@@ -3002,11 +2997,7 @@ print(solution$solution)
               const loc = entry.loc !== '??' ? ` [${entry.loc}]` : '';
               
               const row = document.createElement('div');
-              const meta = document.createElement('span'); meta.className = 'text-[#888]'; meta.textContent = timestamp + String(loc);
-              const quote = document.createElement('span'); quote.className = 'text-[#4ade80] ml-2';
-              const body = document.createElement('span'); body.className = 'text-[var(--ink)]'; body.textContent = String(entry.text);
-              quote.append('"', body, '"');
-              row.append(meta, ' ', quote);
+              row.innerHTML = `<span class="text-[#888]">${timestamp}${loc}</span> <span class="text-[#4ade80] ml-2">"<span class="text-[var(--ink)]">${entry.text}</span>"</span>`;
               list.appendChild(row);
           });
           list.scrollTop = 0;
