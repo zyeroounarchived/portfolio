@@ -132,7 +132,7 @@
   .tool-icon.tooltip-active::after { opacity: 1; transform: translate(-50%, 0); }
   #scroll-progress { position: fixed; top: 0; left: 0; width: 100%; height: 2px; z-index: 1100; pointer-events: none; background: transparent; }
   #scroll-progress span { display: block; width: 0; height: 100%; background: var(--gold); opacity: 0.7; transform-origin: left; }
-  .dossier-copy .vn-readable { font-size:0.96rem !important; line-height:1.75 !important; }
+  .dossier-copy .vn-readable { font-size:0.9rem !important; line-height:1.8 !important; letter-spacing:-0.005em; }
   .drawer-reading-content { font-size:0.96rem !important; line-height:1.75 !important; }
   .certificates-intro, .contact-intro { font-size:0.98rem !important; line-height:1.7; }
   .proj-desc { font-size:0.94rem; line-height:1.65; }
@@ -440,6 +440,17 @@
   .case-img-frame img { display: block; width: 100% !important; max-width: 100% !important; height: auto !important; }
 
   .dcs-wrap { margin-top: 2.5rem; margin-bottom: 1.5rem; border: 1px solid var(--line); border-radius: 4px; background: #080808; padding: 1.25rem; }
+  .interactive-panel { width:100%; border:1px solid var(--line); border-radius:0.5rem; background:color-mix(in srgb, var(--card-bg) 80%, var(--void)); padding:1.5rem; }
+  .interactive-panel canvas { border:1px solid var(--line); border-radius:0.35rem; background:var(--void) !important; }
+  .interactive-panel .interactive-control,
+  .interactive-panel .interactive-stats { border:1px solid var(--line); border-radius:0.35rem; background:color-mix(in srgb, var(--ink) 3%, transparent); color:var(--dim); padding:1rem 1.1rem; }
+  .interactive-panel .interactive-control label,
+  .interactive-panel .interactive-stats > div:first-child { color:var(--ink); font-family:'Avenir Next','Avenir','Manrope',sans-serif; font-size:0.82rem; font-weight:600; letter-spacing:0.02em; }
+  .interactive-panel .interactive-stats { font-family:'Space Mono',monospace; font-size:0.7rem; line-height:1.6; }
+  .interactive-panel .interactive-stats span[id] { color:var(--gold); font-size:0.9rem; }
+  .interactive-panel .interactive-label { color:var(--dim); font-family:'Space Mono',monospace; font-size:0.62rem; letter-spacing:0.1em; text-transform:uppercase; }
+  .interactive-panel .terminal-header { color:var(--dim); border-color:var(--line); }
+  .interactive-panel pre { color:var(--ink); }
   .dcs-toolbar { display:flex; align-items:center; justify-content:space-between; margin-bottom:1rem; flex-wrap:wrap; gap:0.75rem; }
   .dcs-btn { font-family: 'Space Mono', monospace; font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase; background: transparent; border: 1px solid var(--gold); color: var(--gold); padding: 0.55rem 1.1rem; border-radius: 2px; cursor: pointer; transition: background 0.25s ease, color 0.25s ease; }
   .dcs-btn:hover:not(:disabled) { background: var(--gold); color: #080808; }
@@ -550,7 +561,8 @@
     .hero-initial { font-size:1em; padding:0; margin:0; }
     .h-sub { font-size: clamp(1.8rem, 8vw, 2.6rem) !important; }
     .hero-intro, .certificates-intro, .contact-intro { font-size:0.98rem !important; line-height:1.7 !important; }
-    .dossier-copy .vn-readable, .drawer-reading-content { font-size:0.92rem !important; line-height:1.7 !important; }
+    .dossier-copy .vn-readable { font-size:0.86rem !important; line-height:1.75 !important; }
+    .drawer-reading-content { font-size:0.9rem !important; line-height:1.7 !important; }
     .proj-title { font-size: 1.8rem; }
     .cert-grid { gap: 1rem; }
     .cert-title { font-size: 1rem; }
@@ -1308,11 +1320,11 @@
   </div>
   <span class="provenance-label" data-provenance="demo">Source: public figures · simplified assumptions</span>
 
-  <div class="terminal-window !max-w-full !p-0 !border-none !shadow-none !mb-8 relative rounded-none border-y border-[var(--gold)]">
+  <div class="interactive-panel !p-0 !mb-8 relative overflow-hidden">
     <canvas id="matrix-canvas-drawer" style="position:absolute; top:0; left:0; width:100%; height:100%; z-index:1; opacity:0.6;"></canvas>
-    <div class="relative z-10 p-6 bg-gradient-to-b from-[rgba(0,0,0,0.85)] to-[rgba(0,0,0,0.95)] h-full w-full">
-      <div class="flex justify-between items-center border-b border-[#333] pb-2 mb-4">
-        <span class="text-[#888] font-mono text-sm">~/game_theory/nash_solver.py</span>
+    <div class="relative z-10 p-6 bg-[color-mix(in_srgb,var(--void)_88%,transparent)] h-full w-full">
+      <div class="flex justify-between items-center border-b border-[var(--line)] pb-2 mb-4">
+        <span class="interactive-label">Strategy model · Nash equilibrium</span>
       </div>
 <pre class="font-mono text-[#4ade80] text-sm leading-relaxed overflow-x-auto"><code>import nashpy as nash
 import numpy as np
@@ -1434,17 +1446,18 @@ print("PR-AUC:", round(average_precision_score(y_test, scores), 3))</code></pre>
     Interactive map of Navi Mumbai property listings. Pick a radius around Vashi to see how many listings fall inside, their average price per sq ft, and how much distance from Vashi explains price (R²).
   </p>
   <h3 class="label text-[var(--gold)] mb-4">Interactive Canvas</h3>
-  <div class="flex flex-col items-center justify-center gap-6 w-full mt-6">
+  <div class="interactive-panel flex flex-col items-center justify-center gap-6 w-full mt-6">
     <div class="relative w-full max-w-[800px] border border-[#333] rounded overflow-hidden">
         <canvas id="hm-canvas" style="width:100%; height:auto; background:#080808; display:block;"></canvas>
     </div>
-    <div class="grid grid-cols-2 gap-4 w-full max-w-[800px] max-md:grid-cols-1 text-[#4ade80] font-mono text-sm">
-        <div class="border border-[#333] bg-[#080808] p-4 rounded flex flex-col justify-center">
-            <label class="block mb-4">Analysis Radius (<span id="hm-radius-val">5</span> km)</label>
+    <div class="grid grid-cols-2 gap-4 w-full max-w-[800px] max-md:grid-cols-1">
+        <div class="interactive-control flex flex-col justify-center">
+            <span class="interactive-label mb-3">Filter control</span>
+            <label class="block mb-4">Analysis radius · <span id="hm-radius-val">5</span> km</label>
             <input type="range" id="hm-radius" min="1" max="15" value="5" class="w-full hm-slider">
         </div>
-        <div class="border border-[#333] bg-[#080808] p-4 rounded flex flex-col justify-center">
-            <div class="mb-2 border-b border-[#333] pb-2 text-[var(--gold)]">Market Statistics</div>
+        <div class="interactive-stats flex flex-col justify-center">
+            <div class="mb-2 border-b border-[var(--line)] pb-2 text-[var(--gold)]">Market statistics</div>
             <div class="grid grid-cols-2 gap-2 mt-2">
                 <div class="flex flex-col"><span>Properties</span><span id="hm-count">0</span></div>
                 <div class="flex flex-col"><span id="hm-unit">Avg Price</span><span id="hm-avg">₹0</span></div>
