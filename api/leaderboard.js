@@ -28,12 +28,12 @@ export default async function handler(req, res) {
 
         if (req.method === 'POST') {
             const { name, score } = req.body;
-            if (!name || typeof score !== 'number') {
+            if (typeof name !== 'string' || !name.trim() || typeof score !== 'number' || !Number.isFinite(score) || score < 0) {
                 return res.status(400).json({ error: 'Invalid data' });
             }
 
             // Save the score using standard Redis syntax
-            await redis.zadd('leaderboard', score, name.slice(0, 15));
+            await redis.zadd('leaderboard', Math.floor(score), name.trim().slice(0, 15));
             return res.status(200).json({ success: true });
         }
 
