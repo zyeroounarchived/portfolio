@@ -372,7 +372,7 @@
   .terminal-window, .terminal-window * { font-family: 'Courier New', Courier, monospace !important; font-size: 13px !important; line-height: 1.6 !important; letter-spacing: normal !important; text-transform: none !important; }
   .terminal-window pre { overflow-x: auto; white-space: pre; -webkit-overflow-scrolling: touch; }
 
-  .slide-drawer { position: fixed; top: 0; right: 0; width: 100%; max-width: 650px; height: 100vh; height: 100dvh; background: color-mix(in srgb, var(--void) 95%, transparent); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border-left: 1px solid var(--line); z-index: 9999; transform: translateX(100%); transition: transform 0.6s cubic-bezier(0.77, 0, 0.175, 1), box-shadow 0.6s ease; overflow-y: auto; overflow-x: hidden; padding: 4rem 3rem; box-shadow: none; }
+  .slide-drawer { position: fixed; top: 0; right: 0; width: 100%; max-width: 650px; height: 100vh; height: 100dvh; background: color-mix(in srgb, var(--void) 95%, transparent); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border-left: 1px solid var(--line); z-index: 9999; transform: translateX(100%); transition: transform 0.6s cubic-bezier(0.77, 0, 0.175, 1), box-shadow 0.6s ease; overflow-y: auto; overflow-x: hidden; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; padding: 4rem 3rem; box-shadow: none; }
   .slide-drawer.active { transform: translateX(0); box-shadow: -20px 0 25px rgba(0,0,0,0.5); }
   .drawer-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); z-index: 9998; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; transform: translateZ(0); }
   .drawer-overlay.active { opacity: 1; pointer-events: auto; }
@@ -617,23 +617,18 @@
   </div>
 </nav>
   
-<header class="relative min-h-[75vh] flex flex-col justify-center items-center md:items-start pt-48 pb-20">
-  <div class="container-w w-full relative z-10 text-center md:text-left max-w-5xl md:mx-0 md:ml-4 lg:ml-12">
-    
-    <div class="inline-flex items-center gap-3 border border-[var(--line)] rounded-full px-5 py-2 mb-10 bg-[color-mix(in_srgb,var(--void)_50%,transparent)] anim-fade">
-      <div class="text-[var(--gold)] text-xs">✠</div>
-      <p class="label !text-[0.68rem]">ITM Skills University — Business Analytics</p>
-    </div>
-    
+<header class="relative min-h-[75vh] flex flex-col justify-center items-start pt-48 pb-20">
+  <div class="container-w w-full relative z-10 text-left max-w-5xl mx-0 ml-4 lg:ml-12">
+
     <h1 class="h-display hero-title text-mask-fluid mb-8">
       <span class="hero-initial">N</span><span id="typewriter-rest"></span><span class="type-cursor" style="height:0.8em; vertical-align:middle; -webkit-text-fill-color: var(--gold);"></span>
     </h1>
 
-    <p class="mx-auto md:mx-0 max-w-2xl text-[1.15rem] leading-[1.8] text-[var(--dim)] font-serif italic anim-fade mb-12 vn-readable decay-target">
+    <p class="mx-0 max-w-2xl text-[1.15rem] leading-[1.8] text-[var(--dim)] font-serif italic anim-fade mb-12 vn-readable decay-target">
       "<span class="magnify-text">I clean data,</span> <span class="magnify-text">document it clearly,</span> <span class="magnify-text">and build tools to analyze it.</span> <span class="magnify-text">No extra polish—</span><span class="magnify-text">just work you can repeat and hand off.</span>"
     </p>
 
-    <div class="flex flex-wrap items-center justify-center md:justify-start gap-x-8 md:gap-x-24 gap-y-5 anim-fade mt-8">
+    <div class="flex flex-wrap items-center justify-start gap-x-8 md:gap-x-24 gap-y-5 anim-fade mt-8">
       <a href="#contact" class="btn-ghost hover-trigger tracking-[0.25em] text-[0.85rem]">CONTACT</a>
       <a href="Resume.pdf" download class="btn-ghost hover-trigger tracking-[0.25em] text-[0.85rem]">RESUME</a>
     </div>
@@ -1186,7 +1181,7 @@
 <!-- OVERLAYS & SLIDE DRAWERS -->
 <div class="drawer-overlay" id="drawer-overlay" onclick="closeAllDrawers()"></div>
 
-<div class="slide-drawer" id="drawer-ngo">
+<div class="slide-drawer" id="drawer-ngo" data-lenis-prevent>
   <button class="btn-close-minimal drawer-close hover-trigger" aria-label="Close drawer"></button>
   <p class="label mb-4">Case Study 01</p>
   <h2 class="h-display text-4xl text-[var(--ink)] mb-4">Data Cleaning Protocol</h2>
@@ -1216,7 +1211,7 @@
 </div>
 
 <!-- Strategy Drawer -->
-<div class="slide-drawer" id="drawer-matrix">
+<div class="slide-drawer" id="drawer-matrix" data-lenis-prevent>
   <button class="btn-close-minimal drawer-close hover-trigger" aria-label="Close drawer"></button>
   <p class="label mb-4">Case Study 02</p>
   <h2 class="h-display text-4xl text-[var(--ink)] mb-6">Game Theory: Blinkit vs Zepto</h2>
@@ -1261,7 +1256,7 @@ for blinkit, zepto in game.support_enumeration():
   </div>
 </div>
 
-<div class="slide-drawer" id="drawer-fraud">
+<div class="slide-drawer" id="drawer-fraud" data-lenis-prevent>
   <button class="btn-close-minimal drawer-close hover-trigger" aria-label="Close drawer"></button>
   <p class="label mb-4">Machine Learning Pipeline</p>
   <h2 class="h-display text-4xl text-[var(--ink)] mb-6">Credit Card Fraud Detection</h2>
@@ -1342,7 +1337,7 @@ print("PR-AUC:", round(average_precision_score(y_test, scores), 3))</code></pre>
   </div>
 </div>
 
-<div class="slide-drawer" id="drawer-heatmap">
+<div class="slide-drawer" id="drawer-heatmap" data-lenis-prevent>
   <button class="btn-close-minimal drawer-close hover-trigger" aria-label="Close drawer"></button>
   <p class="label mb-4">Case Study 04</p>
   <h2 class="h-display text-4xl text-[var(--ink)] mb-4">Spatial Real Estate Heatmap</h2>
@@ -1372,7 +1367,7 @@ print("PR-AUC:", round(average_precision_score(y_test, scores), 3))</code></pre>
   </div>
 </div>
 
-<div class="slide-drawer" id="drawer-dedup">
+<div class="slide-drawer" id="drawer-dedup" data-lenis-prevent>
   <button class="btn-close-minimal drawer-close hover-trigger" aria-label="Close drawer"></button>
   <p class="label mb-4">Data Pipeline</p>
   <h2 class="h-display text-4xl text-[var(--ink)] mb-6">Data Deduplication Pipeline</h2>
@@ -1439,7 +1434,7 @@ matches = features[features.sum(axis=1) > 1]</code></pre>
   </div>
 </div>
 
-<div class="slide-drawer" id="drawer-zero-bias">
+<div class="slide-drawer" id="drawer-zero-bias" data-lenis-prevent>
   <button class="btn-close-minimal drawer-close hover-trigger" aria-label="Close drawer"></button>
   <p class="label mb-4">Generative AI / Hiring Infrastructure</p>
   <h2 class="h-display text-4xl text-[var(--ink)] mb-6">Zero-Bias Resume Parser</h2>
@@ -1501,7 +1496,7 @@ export async function POST(request: Request) {
 
 </div>
 
-<div class="slide-drawer" id="drawer-r">
+<div class="slide-drawer" id="drawer-r" data-lenis-prevent>
   <button class="btn-close-minimal drawer-close hover-trigger" aria-label="Close drawer"></button>
   <p class="label mb-4">R Optimization Code</p>
   <h2 class="h-display text-4xl text-[var(--ink)] mb-6">Linear Programming</h2>
@@ -1526,7 +1521,7 @@ print(solution$solution)</code></pre>
   </div>
 </div>
 
-<div class="slide-drawer" id="drawer-giving-up">
+<div class="slide-drawer" id="drawer-giving-up" data-lenis-prevent>
   <button class="btn-close-minimal drawer-close hover-trigger" aria-label="Close drawer"></button>
   <p class="label mb-4">Creative Essay</p>
   <h2 class="h-display text-4xl text-[var(--ink)] mb-6">The art of giving up.</h2>
@@ -1539,7 +1534,7 @@ print(solution$solution)</code></pre>
   </div>
 </div>
 
-<div class="slide-drawer" id="drawer-constitution">
+<div class="slide-drawer" id="drawer-constitution" data-lenis-prevent>
   <button class="btn-close-minimal drawer-close hover-trigger" aria-label="Close drawer"></button>
   <p class="label mb-4">Analytical Documentation</p>
   <h2 class="h-display text-4xl text-[var(--ink)] mb-6">Constitutional Erosion</h2>
@@ -1552,7 +1547,7 @@ print(solution$solution)</code></pre>
   </div>
 </div>
 
-<div class="slide-drawer" id="drawer-colophon">
+<div class="slide-drawer" id="drawer-colophon" data-lenis-prevent>
   <button class="btn-close-minimal drawer-close hover-trigger" aria-label="Close drawer"></button>
   <p class="label mb-4">Colophon</p>
   <h2 class="h-display text-4xl text-[var(--ink)] mb-6">About this Site</h2>
@@ -1565,7 +1560,7 @@ print(solution$solution)</code></pre>
   </div>
 </div>
 
-<div class="slide-drawer" id="drawer-terms">
+<div class="slide-drawer" id="drawer-terms" data-lenis-prevent>
   <button class="btn-close-minimal drawer-close hover-trigger" aria-label="Close drawer"></button>
   <p class="label mb-4">Terms</p>
   <h2 class="h-display text-4xl text-[var(--ink)] mb-6">Terms &amp; Conditions</h2>
@@ -2212,7 +2207,12 @@ print(solution$solution)
 
   let lenis;
   if(!reduceMotion && window.Lenis){
-    lenis = new Lenis({ duration:1.2, easing:t=>Math.min(1, 1.001 - Math.pow(2, -10 * t)), smoothWheel:true });
+    lenis = new Lenis({
+      duration: 1.2,
+      easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true,
+      prevent: node => Boolean(node.closest('[data-lenis-prevent]'))
+    });
     window.lenis = lenis; // Expose to global for buttons
     function raf(t){ lenis.raf(t); requestAnimationFrame(raf); }
     requestAnimationFrame(raf);
